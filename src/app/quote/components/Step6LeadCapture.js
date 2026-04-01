@@ -13,20 +13,32 @@ export default function Step6LeadCapture({ data, onChange, onSubmit, onBack }) {
   const [errors, setErrors] = useState({});
   const [submitting, setSubmitting] = useState(false);
   const captureTimeout = useRef(null);
+  const hasCaptured = useRef(false);
 
   // Auto-capture abandoned lead when user types contact info
+  // Use primitive deps to avoid infinite re-render from object reference changes
+  const phone = data.phone || "";
+  const email = data.email || "";
+  const fullName = data.fullName || "";
+
   useEffect(() => {
-    const hasContact = (data.phone && data.phone.length >= 8) || (data.email && data.email.includes("@"));
-    if (hasContact && !submitting) {
+    const hasContact = (phone.length >= 8) || (email.includes("@"));
+    if (hasContact && !submitting && !hasCaptured.current) {
       if (captureTimeout.current) clearTimeout(captureTimeout.current);
-      captureTimeout.current = setTimeout(() => {
-        captureAbandonedLead(data);
+      captureTimeout.current = setTimeout(async () => {
+        try {
+          await captureAbandonedLead(data);
+          hasCaptured.current = true;
+          console.log("[Abandoned Lead Captured]");
+        } catch (e) {
+          console.error("Failed to capture abandoned lead:", e);
+        }
       }, 3000); // 3 seconds after they stop typing
     }
     return () => {
       if (captureTimeout.current) clearTimeout(captureTimeout.current);
     };
-  }, [data, submitting]);
+  }, [phone, email, fullName, submitting]);
 
   const formattedDate = data.moveDate
     ? new Date(data.moveDate).toLocaleDateString("en-GB", {

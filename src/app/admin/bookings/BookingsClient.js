@@ -214,7 +214,7 @@ export default function BookingsClient({ initialBookings }) {
 
       <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-visible">
         {/* Filters and Search */}
-        <div className="p-4 sm:p-6 border-b border-gray-100 flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-t-0 rounded-t-2xl bg-white overflow-hidden">
+        <div className="p-4 sm:p-6 border-b border-gray-100 flex flex-col sm:flex-row sm:items-center justify-between gap-4 rounded-t-2xl bg-white">
           <div className="relative max-w-md w-full">
             <Search className="w-5 h-5 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2" />
             <input
@@ -225,13 +225,13 @@ export default function BookingsClient({ initialBookings }) {
               className="w-full pl-10 pr-4 py-2 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all text-sm"
             />
           </div>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 overflow-x-auto">
             <div className="bg-gray-50 p-1 rounded-lg border border-gray-200 flex text-sm font-medium">
-              {["All", "New", "Upcoming", "Completed"].map((status) => (
+              {["All", "New", "Upcoming", "Completed", "Abandoned"].map((status) => (
                 <button
                   key={status}
                   onClick={() => setStatusFilter(status)}
-                  className={`px-3 py-1.5 rounded-md transition-colors ${statusFilter === status
+                  className={`px-3 py-1.5 rounded-md transition-colors whitespace-nowrap ${statusFilter === status
                       ? "bg-white text-gray-900 shadow-sm"
                       : "text-muted hover:text-gray-900"
                     }`}
@@ -243,8 +243,8 @@ export default function BookingsClient({ initialBookings }) {
           </div>
         </div>
 
-        {/* Floating Card List */}
-        <div className="space-y-4 pb-32">
+        {/* Responsive Card List */}
+        <div className="p-4 space-y-3 pb-4">
           {filteredBookings.length > 0 ? (
             filteredBookings.map((booking) => {
               const firstLetter = booking.customer?.fullName?.[0]?.toUpperCase() || "?";
@@ -257,82 +257,97 @@ export default function BookingsClient({ initialBookings }) {
                 <div
                   key={booking.id}
                   onClick={() => setSelectedBooking(booking)}
-                  className="group flex flex-col xl:flex-row xl:items-center justify-between gap-6 p-4 sm:p-5 bg-white rounded-2xl border border-gray-100 shadow-[0_2px_10px_-4px_rgba(0,0,0,0.05)] hover:border-primary/40 hover:shadow-[0_8px_30px_-4px_rgba(227,30,36,0.12)] transition-all duration-300 cursor-pointer"
+                  className="group bg-white rounded-xl border border-gray-100 shadow-[0_1px_4px_-1px_rgba(0,0,0,0.04)] hover:border-primary/30 hover:shadow-[0_4px_20px_-4px_rgba(227,30,36,0.1)] transition-all duration-300 cursor-pointer overflow-hidden"
                 >
-                  {/* Left: Avatar & Name */}
-                  <div className="flex items-center gap-4 xl:w-[280px] shrink-0">
-                    <div className="w-12 h-12 rounded-full bg-gradient-to-br from-primary/10 to-accent/10 border border-primary/20 flex items-center justify-center text-primary font-bold text-lg shadow-sm">
-                      {firstLetter}
+                  {/* Mobile: stacked | Desktop: single row */}
+                  <div className="flex flex-col lg:flex-row lg:items-center gap-0 lg:gap-6 p-4">
+                    
+                    {/* Row 1: Avatar + Name + Status (always visible) */}
+                    <div className="flex items-center justify-between lg:justify-start gap-3 lg:w-[220px] shrink-0">
+                      <div className="flex items-center gap-3">
+                        <div className="w-10 h-10 rounded-full bg-gradient-to-br from-primary/10 to-accent/10 border border-primary/20 flex items-center justify-center text-primary font-bold text-sm shrink-0">
+                          {firstLetter}
+                        </div>
+                        <div>
+                          <div className="font-semibold text-gray-900 text-sm">{booking.customer?.fullName || "Unknown"}</div>
+                          <div className="text-[11px] text-gray-400 font-mono tracking-wider">#{shortId}</div>
+                        </div>
+                      </div>
+                      {/* Status badge - visible on mobile next to name, hidden on lg */}
+                      <div className="flex items-center gap-2 lg:hidden">
+                        <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider ${
+                          booking.status === "Completed" ? "bg-emerald-50 text-emerald-700 border border-emerald-200" :
+                          booking.status === "Upcoming" ? "bg-blue-50 text-blue-700 border border-blue-200" :
+                          booking.status === "Abandoned" ? "bg-gray-100 text-gray-500 border border-gray-200" :
+                          "bg-amber-50 text-amber-700 border border-amber-200"
+                        }`}>
+                          {(booking.status === "New" || booking.status === "Abandoned") && <span className={`w-1.5 h-1.5 rounded-full ${booking.status === "New" ? "bg-amber-500 animate-pulse" : "bg-gray-400"}`} />}
+                          {booking.status}
+                        </span>
+                      </div>
                     </div>
-                    <div>
-                      <div className="font-bold text-gray-900 text-base">{booking.customer?.fullName || "Unknown"}</div>
-                      <div className="text-xs text-muted font-mono mt-0.5 tracking-wider uppercase text-gray-400">ID: {shortId}</div>
+
+                    {/* Row 2 (mobile) / inline (desktop): Details grid */}
+                    <div className="flex-1 grid grid-cols-2 sm:grid-cols-3 gap-3 mt-3 lg:mt-0 pt-3 lg:pt-0 border-t lg:border-t-0 lg:border-l border-gray-100 lg:pl-6">
+                      <div>
+                        <div className="text-[10px] text-gray-400 font-semibold uppercase tracking-wider mb-1">Route</div>
+                        <div className="text-sm font-medium text-gray-900 truncate">
+                          {booking.fromPostcode} <span className="text-gray-300">→</span> {booking.toPostcode}
+                        </div>
+                        <div className="text-[11px] text-gray-400 mt-0.5 capitalize">
+                          {booking.moveType?.replace(/-/g, ' ')}{booking.bedrooms > 0 ? ` • ${booking.bedrooms} Bed` : ''}
+                        </div>
+                      </div>
+
+                      <div>
+                        <div className="text-[10px] text-gray-400 font-semibold uppercase tracking-wider mb-1">Date</div>
+                        <div className="text-sm font-medium text-gray-900">{formattedDate}</div>
+                      </div>
+
+                      <div className="col-span-2 sm:col-span-1">
+                        <div className="text-[10px] text-gray-400 font-semibold uppercase tracking-wider mb-1">Contact</div>
+                        <div className="text-sm font-medium text-gray-900">{booking.customer?.phone || "—"}</div>
+                        <div className="text-[11px] text-gray-400 mt-0.5 truncate">{booking.customer?.email || "—"}</div>
+                      </div>
+                    </div>
+
+                    {/* Status + Actions (desktop only) */}
+                    <div className="hidden lg:flex items-center gap-4 shrink-0">
+                      <span className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[11px] font-bold uppercase tracking-wider ${
+                        booking.status === "Completed" ? "bg-emerald-50 text-emerald-700 border border-emerald-200" :
+                        booking.status === "Upcoming" ? "bg-blue-50 text-blue-700 border border-blue-200" :
+                        booking.status === "Abandoned" ? "bg-gray-100 text-gray-500 border border-gray-200" :
+                        "bg-amber-50 text-amber-700 border border-amber-200"
+                      }`}>
+                        {(booking.status === "New" || booking.status === "Abandoned") && <span className={`w-1.5 h-1.5 rounded-full ${booking.status === "New" ? "bg-amber-500 animate-pulse" : "bg-gray-400"}`} />}
+                        {booking.status}
+                      </span>
+                      <div className="opacity-0 group-hover:opacity-100 transition-opacity">
+                        <ActionButton bookingId={booking.id} currentStatus={booking.status} />
+                      </div>
                     </div>
                   </div>
 
-                  {/* Middle: Grid Details */}
-                  <div className="flex-1 grid grid-cols-1 sm:grid-cols-3 gap-4 border-y xl:border-y-0 xl:border-l border-gray-100 py-4 xl:py-0 xl:pl-6">
-                    <div>
-                      <div className="text-[11px] text-muted font-semibold uppercase tracking-wider mb-1.5 flex items-center gap-1.5">
-                        <span className="w-4 h-4 rounded bg-gray-100 flex items-center justify-center">🚚</span> Move Route
-                      </div>
-                      <div className="text-sm font-semibold text-gray-900 whitespace-nowrap">
-                        {booking.fromPostcode} <span className="opacity-40 px-1">→</span> {booking.toPostcode}
-                      </div>
-                      <div className="text-xs text-gray-500 mt-1 capitalize">
-                        {booking.moveType?.replace(/-/g, ' ')} {booking.bedrooms > 0 && `• ${booking.bedrooms} Bed`}
-                      </div>
-                    </div>
-
-                    <div>
-                      <div className="text-[11px] text-muted font-semibold uppercase tracking-wider mb-1.5 flex items-center gap-1.5">
-                        <CalendarDays className="w-3.5 h-3.5" /> Date
-                      </div>
-                      <div className="text-sm font-semibold text-gray-900">{formattedDate}</div>
-                    </div>
-
-                    <div>
-                      <div className="text-[11px] text-muted font-semibold uppercase tracking-wider mb-1.5 flex items-center gap-1.5">
-                        <span className="w-3.5 h-3.5 rounded-full border border-gray-300 flex items-center justify-center overflow-hidden">
-                          <span className="w-1.5 h-1.5 bg-gray-400 rounded-full" />
-                        </span> Contact
-                      </div>
-                      <div className="text-sm font-semibold text-gray-900">{booking.customer?.phone || "N/A"}</div>
-                      <div className="text-xs text-gray-500 mt-1 truncate max-w-[140px]">{booking.customer?.email || "N/A"}</div>
-                    </div>
-                  </div>
-
-                  {/* Right: Status & Actions */}
-                  <div className="flex items-center justify-between xl:justify-end gap-6 shrink-0">
-                    <span className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider ${
-                      booking.status === "Completed" ? "bg-emerald-50 text-emerald-700 border border-emerald-200" :
-                      booking.status === "Upcoming" ? "bg-blue-50 text-blue-700 border border-blue-200" :
-                      "bg-amber-50 text-amber-700 border border-amber-200 shadow-[0_0_15px_rgba(251,191,36,0.2)]"
-                    }`}>
-                      {booking.status === "New" && <span className="w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse" />}
-                      {booking.status}
-                    </span>
-
-                    <div className="pl-4 border-l border-gray-100 flex items-center justify-center opacity-30 group-hover:opacity-100 transition-opacity">
-                      <ActionButton bookingId={booking.id} currentStatus={booking.status} />
-                    </div>
+                  {/* Mobile bottom bar: actions */}
+                  <div className="flex items-center justify-end px-4 pb-3 lg:hidden">
+                    <ActionButton bookingId={booking.id} currentStatus={booking.status} />
                   </div>
                 </div>
               );
             })
           ) : (
-            <div className="bg-white rounded-2xl border border-gray-100 py-16 text-center text-muted">
-              <div className="w-16 h-16 bg-gray-50 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Search className="w-6 h-6 text-gray-300" />
+            <div className="py-16 text-center">
+              <div className="w-14 h-14 bg-gray-50 rounded-full flex items-center justify-center mx-auto mb-3">
+                <Search className="w-5 h-5 text-gray-300" />
               </div>
-              <p className="text-gray-900 font-semibold text-lg">No bookings found</p>
-              <p className="text-sm mt-1">Try tweaking your search criteria.</p>
+              <p className="text-gray-900 font-semibold">No bookings found</p>
+              <p className="text-sm text-gray-400 mt-1">Try tweaking your search or filters.</p>
             </div>
           )}
         </div>
 
-        {/* Pagination Dummy */}
-        <div className="flex items-center justify-between text-sm text-muted mt-6">
+        {/* Entry count */}
+        <div className="px-4 pb-4 flex items-center justify-between text-sm text-gray-400">
           <span>Showing {filteredBookings.length} entries</span>
         </div>
       </div>
