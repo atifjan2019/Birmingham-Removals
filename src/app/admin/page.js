@@ -30,10 +30,14 @@ export default async function AdminDashboard() {
   });
   const totalRevenue = allTimeFinancials._sum.jobCost || 0;
 
-  // Recent bookings
-  const recentBookingsData = await prisma.booking.findMany({
+  // Upcoming bookings (nearest move date first, exclude completed/abandoned)
+  const upcomingBookings = await prisma.booking.findMany({
+    where: {
+      status: { in: ["New", "Upcoming"] },
+      moveDate: { gte: new Date() }
+    },
     take: 5,
-    orderBy: { createdAt: "desc" },
+    orderBy: { moveDate: "asc" },
     include: { customer: true }
   });
 
@@ -100,7 +104,7 @@ export default async function AdminDashboard() {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         <div className="lg:col-span-2 bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
           <div className="p-6 border-b border-gray-100 flex items-center justify-between">
-            <h2 className="text-lg font-bold text-gray-900 font-[family-name:var(--font-space)]">Recent Bookings</h2>
+            <h2 className="text-lg font-bold text-gray-900 font-[family-name:var(--font-space)]">Upcoming Bookings</h2>
             <Link href="/admin/bookings" className="text-sm font-medium text-primary hover:text-primary/80 flex items-center gap-1">
               View All <ArrowRight className="w-4 h-4" />
             </Link>
@@ -117,7 +121,7 @@ export default async function AdminDashboard() {
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-100">
-                {recentBookingsData.length > 0 ? recentBookingsData.map((booking) => (
+                {upcomingBookings.length > 0 ? upcomingBookings.map((booking) => (
                   <tr key={booking.id} className="hover:bg-gray-50/50 transition-colors">
                     <td className="px-6 py-3 font-medium text-gray-900">{booking.customer?.fullName}</td>
                     <td className="px-6 py-3 text-gray-600 text-xs">{booking.fromPostcode} → {booking.toPostcode}</td>
