@@ -5,7 +5,7 @@ import bcrypt from "bcryptjs";
 import { createSession, deleteSession } from "@/lib/session";
 import { redirect } from "next/navigation";
 
-export async function loginAsAdmin(formData) {
+export async function loginAsAdmin(prevState, formData) {
   const email = formData.get("email");
   const password = formData.get("password");
 
