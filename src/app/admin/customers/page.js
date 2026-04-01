@@ -70,6 +70,9 @@ export default async function CustomersPage() {
                         {new Date(customer.createdAt).toLocaleDateString('en-GB')}
                       </div>
                     </td>
+                    <td className="px-6 py-4 text-right">
+                      <DeleteCustomerButton customerId={customer.id} customerName={customer.fullName} />
+                    </td>
                   </tr>
                 ))
               ) : (
