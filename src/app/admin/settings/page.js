@@ -12,7 +12,7 @@ export default async function SettingsPage() {
   if (sessionUser?.userId) {
     adminDetails = await prisma.adminUser.findUnique({
       where: { id: sessionUser.userId },
-      select: { email: true, createdAt: true }
+      select: { email: true }
     });
   }
 
