@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, Home, Building2, BedDouble, Package } from "lucide-react";
 import { useRouter } from "next/navigation";
@@ -13,9 +14,16 @@ const moveTypes = [
 
 export default function HeroPopup({ open, onClose }) {
   const router = useRouter();
+  const [ripple, setRipple] = useState(null);
 
-  const handleSelect = (type) => {
-    router.push(`/quote?type=${type}`);
+  const handleSelect = (type, e) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    setRipple({ id: type, x, y });
+    setTimeout(() => {
+      router.push(`/quote?type=${type}`);
+    }, 400);
   };
 
   return (
@@ -67,13 +75,33 @@ export default function HeroPopup({ open, onClose }) {
               {moveTypes.map((type) => (
                 <button
                   key={type.id}
-                  onClick={() => handleSelect(type.id)}
-                  className="flex flex-col items-center gap-2 p-5 rounded-xl border-2 border-gray-200 bg-gray-50/50 hover:border-primary hover:bg-primary/5 hover:shadow-md transition-all duration-200 cursor-pointer group"
+                  onClick={(e) => handleSelect(type.id, e)}
+                  className="relative flex flex-col items-center gap-2 p-5 rounded-xl border-2 border-gray-200 bg-gray-50/50 hover:border-primary hover:bg-primary/5 hover:shadow-md transition-all duration-200 cursor-pointer group overflow-hidden"
                 >
-                  <div className="w-12 h-12 rounded-xl bg-gray-100 group-hover:bg-primary/10 flex items-center justify-center transition-colors">
+                  {/* Ripple */}
+                  <AnimatePresence>
+                    {ripple?.id === type.id && (
+                      <motion.span
+                        key={`ripple-${type.id}`}
+                        initial={{ width: 0, height: 0, opacity: 0.5 }}
+                        animate={{ width: 300, height: 300, opacity: 0 }}
+                        exit={{ opacity: 0 }}
+                        transition={{ duration: 0.5, ease: "easeOut" }}
+                        onAnimationComplete={() => setRipple(null)}
+                        className="absolute rounded-full bg-primary/30 pointer-events-none"
+                        style={{
+                          left: ripple.x,
+                          top: ripple.y,
+                          transform: "translate(-50%, -50%)",
+                        }}
+                      />
+                    )}
+                  </AnimatePresence>
+
+                  <div className="w-12 h-12 rounded-xl bg-gray-100 group-hover:bg-primary/10 flex items-center justify-center transition-colors z-[1]">
                     <type.icon className="w-6 h-6 text-gray-600 group-hover:text-primary transition-colors" />
                   </div>
-                  <span className="text-sm font-semibold text-gray-900 group-hover:text-primary transition-colors">
+                  <span className="text-sm font-semibold text-gray-900 group-hover:text-primary transition-colors z-[1]">
                     {type.label}
                   </span>
                 </button>
