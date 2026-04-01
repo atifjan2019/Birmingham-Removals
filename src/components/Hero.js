@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
-import { ArrowRight, Truck, Star, Zap, Clock } from "lucide-react";
+import { ArrowRight, Truck, Star, Zap, Clock, ShieldCheck } from "lucide-react";
 import HeroPopup from "./HeroPopup";
 
 const headline = "Newcastle's Most Trusted Removals Company";
@@ -13,6 +13,7 @@ const stats = [
   { icon: Truck, value: "500+", label: "Moves Completed" },
   { icon: Star, value: "5-Star", label: "Google Rating" },
   { icon: Zap, value: "Same Day", label: "Available" },
+  { icon: ShieldCheck, value: "100%", label: "Fully Insured" },
 ];
 
 export default function Hero() {
@@ -104,21 +105,21 @@ export default function Hero() {
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 1.3 }}
-              className="grid grid-cols-3 gap-2 sm:gap-4 mt-12"
+              className="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-4 mt-12"
             >
               {stats.map((stat, i) => (
                 <div
                   key={i}
-                  className="bg-white/80 backdrop-blur-sm border border-gray-200/60 rounded-xl sm:rounded-2xl px-2.5 py-2 sm:px-5 sm:py-3 flex items-center gap-2 sm:gap-3 shadow-sm"
+                  className="bg-white/80 backdrop-blur-sm border border-gray-200/60 rounded-xl sm:rounded-2xl px-3 py-2.5 sm:px-5 sm:py-3 flex items-center gap-2 sm:gap-3 shadow-sm"
                 >
-                  <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
+                  <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
                     <stat.icon className="w-4 h-4 sm:w-5 sm:h-5 text-primary" />
                   </div>
                   <div className="text-left min-w-0">
-                    <div className="font-[family-name:var(--font-space)] font-bold text-gray-900 text-xs sm:text-base">
+                    <div className="font-[family-name:var(--font-space)] font-bold text-gray-900 text-sm sm:text-base">
                       {stat.value}
                     </div>
-                    <div className="text-[10px] sm:text-xs text-muted leading-tight">{stat.label}</div>
+                    <div className="text-[11px] sm:text-xs text-muted leading-tight">{stat.label}</div>
                   </div>
                 </div>
               ))}
