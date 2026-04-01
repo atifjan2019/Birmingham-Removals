@@ -176,10 +176,13 @@ function BookingDetailsModal({ booking, onClose }) {
   );
 }
 
+import ManualBookingModal from "./ManualBookingModal";
+
 export default function BookingsClient({ initialBookings }) {
   const [searchTerm, setSearchTerm] = useState("");
   const [statusFilter, setStatusFilter] = useState("All");
   const [selectedBooking, setSelectedBooking] = useState(null);
+  const [isAddingManual, setIsAddingManual] = useState(false);
 
   const filteredBookings = initialBookings.filter((booking) => {
     // Map data for easy search
@@ -204,7 +207,7 @@ export default function BookingsClient({ initialBookings }) {
           </h1>
           <p className="text-muted mt-1">Manage and track your customer moving jobs.</p>
         </div>
-        <button className="bg-primary text-white px-5 py-2.5 rounded-xl font-semibold hover:bg-primary/90 transition-colors shadow-lg shadow-primary/20 shrink-0">
+        <button onClick={() => setIsAddingManual(true)} className="bg-primary text-white px-5 py-2.5 rounded-xl font-semibold hover:bg-primary/90 transition-colors shadow-lg shadow-primary/20 shrink-0">
           + Add Booking manually
         </button>
       </div>
@@ -333,6 +336,7 @@ export default function BookingsClient({ initialBookings }) {
       </div>
 
       <BookingDetailsModal booking={selectedBooking} onClose={() => setSelectedBooking(null)} />
+      {isAddingManual && <ManualBookingModal onClose={() => setIsAddingManual(false)} />}
     </div>
   );
 }
