@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { Zap, Lock, User, Phone, ArrowLeft, Loader2 } from "lucide-react";
+import { createBooking } from "@/app/actions/booking";
 
 const UK_MOBILE_REGEX = /^07\d{3}\s?\d{3}\s?\d{3}$/;
 
@@ -33,9 +34,26 @@ export default function Step6LeadCapture({ data, onChange, onSubmit, onBack }) {
   const handleSubmit = async () => {
     if (!validate()) return;
     setSubmitting(true);
-    await new Promise((r) => setTimeout(r, 1500));
-    setSubmitting(false);
-    onSubmit();
+    
+    const submissionData = {
+      ...data,
+      email: data.email || `customer_${data.phone.replace(/\s/g, "")}@pending.com`,
+      extras: data.extras || []
+    };
+
+    try {
+      const result = await createBooking(submissionData);
+      setSubmitting(false);
+      
+      if (result?.success) {
+        onSubmit();
+      } else {
+        alert(result?.error || "System error. Please try again or call us.");
+      }
+    } catch (err) {
+      setSubmitting(false);
+      alert("Network error submitting quote.");
+    }
   };
 
   return (
