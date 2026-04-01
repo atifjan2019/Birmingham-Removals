@@ -29,7 +29,7 @@ const steps = [
 
 export default function HowItWorks() {
   return (
-    <section id="how-it-works" className="py-24 sm:py-32">
+    <section id="how-it-works" className="py-24 sm:py-32 bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <motion.div
@@ -42,7 +42,7 @@ export default function HowItWorks() {
           <span className="text-primary text-sm font-semibold uppercase tracking-wider mb-3 block">
             How It Works
           </span>
-          <h2 className="font-[family-name:var(--font-space)] text-3xl sm:text-4xl md:text-5xl font-bold mb-4">
+          <h2 className="font-[family-name:var(--font-space)] text-3xl sm:text-4xl md:text-5xl font-bold mb-4 text-gray-900">
             Three Steps to a Stress-Free Move
           </h2>
           <p className="text-muted max-w-2xl mx-auto text-lg">
@@ -55,12 +55,12 @@ export default function HowItWorks() {
         <div className="relative">
           {/* Desktop connector line */}
           <div className="hidden md:block absolute top-1/2 left-[15%] right-[15%] h-0.5 -translate-y-1/2">
-            <div className="w-full h-full border-t-2 border-dashed border-primary/30" />
+            <div className="w-full h-full border-t-2 border-dashed border-primary/20" />
           </div>
 
           {/* Mobile connector line */}
           <div className="md:hidden absolute left-8 top-[60px] bottom-[60px] w-0.5">
-            <div className="w-full h-full border-l-2 border-dashed border-primary/30" />
+            <div className="w-full h-full border-l-2 border-dashed border-primary/20" />
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12 relative">
@@ -74,15 +74,15 @@ export default function HowItWorks() {
                 className="relative flex md:flex-col items-start md:items-center md:text-center gap-6 md:gap-0"
               >
                 {/* Step number circle */}
-                <div className="relative z-10 w-16 h-16 rounded-full bg-primary/10 border-2 border-primary/30 flex items-center justify-center shrink-0 md:mb-6">
+                <div className="relative z-10 w-16 h-16 rounded-full bg-primary/10 border-2 border-primary/20 flex items-center justify-center shrink-0 md:mb-6">
                   <step.icon className="w-7 h-7 text-primary" />
                 </div>
 
                 <div>
-                  <span className="text-primary/60 text-xs font-bold uppercase tracking-widest mb-1 block">
+                  <span className="text-primary/50 text-xs font-bold uppercase tracking-widest mb-1 block">
                     Step {step.step}
                   </span>
-                  <h3 className="font-[family-name:var(--font-space)] text-xl font-bold mb-2 text-foreground">
+                  <h3 className="font-[family-name:var(--font-space)] text-xl font-bold mb-2 text-gray-900">
                     {step.title}
                   </h3>
                   <p className="text-muted text-sm leading-relaxed max-w-xs">

@@ -68,8 +68,7 @@ export default function Testimonials() {
   const next = () => goTo((current + 1) % reviews.length);
 
   return (
-    <section id="testimonials" className="py-24 sm:py-32 relative">
-      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-primary/[0.03] to-transparent" />
+    <section id="testimonials" className="py-24 sm:py-32 relative bg-gray-50/50">
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <motion.div
@@ -82,7 +81,7 @@ export default function Testimonials() {
           <span className="text-primary text-sm font-semibold uppercase tracking-wider mb-3 block">
             Testimonials
           </span>
-          <h2 className="font-[family-name:var(--font-space)] text-3xl sm:text-4xl md:text-5xl font-bold mb-4">
+          <h2 className="font-[family-name:var(--font-space)] text-3xl sm:text-4xl md:text-5xl font-bold mb-4 text-gray-900">
             What Newcastle Says About Us
           </h2>
           <p className="text-muted max-w-2xl mx-auto text-lg">
@@ -104,12 +103,12 @@ export default function Testimonials() {
                 className="glass-card p-8 sm:p-10"
               >
                 <Quote className="w-10 h-10 text-primary/20 mb-6" />
-                <p className="text-foreground text-lg leading-relaxed mb-8">
+                <p className="text-gray-900 text-lg leading-relaxed mb-8">
                   &ldquo;{reviews[current].text}&rdquo;
                 </p>
                 <div className="flex items-center justify-between">
                   <div>
-                    <div className="font-[family-name:var(--font-space)] font-bold text-foreground">
+                    <div className="font-[family-name:var(--font-space)] font-bold text-gray-900">
                       {reviews[current].name}
                     </div>
                     <div className="text-sm text-muted">
@@ -135,7 +134,7 @@ export default function Testimonials() {
           <div className="flex items-center justify-center gap-4 mt-8">
             <button
               onClick={prev}
-              className="w-10 h-10 rounded-full glass-card flex items-center justify-center hover:bg-white/10 transition-colors"
+              className="w-10 h-10 rounded-full glass-card flex items-center justify-center hover:bg-gray-100 transition-colors"
               aria-label="Previous review"
             >
               <ChevronLeft className="w-5 h-5 text-muted" />
@@ -148,7 +147,7 @@ export default function Testimonials() {
                   className={`w-2 h-2 rounded-full transition-all ${
                     i === current
                       ? "bg-primary w-6"
-                      : "bg-white/20 hover:bg-white/40"
+                      : "bg-gray-300 hover:bg-gray-400"
                   }`}
                   aria-label={`Go to review ${i + 1}`}
                 />
@@ -156,7 +155,7 @@ export default function Testimonials() {
             </div>
             <button
               onClick={next}
-              className="w-10 h-10 rounded-full glass-card flex items-center justify-center hover:bg-white/10 transition-colors"
+              className="w-10 h-10 rounded-full glass-card flex items-center justify-center hover:bg-gray-100 transition-colors"
               aria-label="Next review"
             >
               <ChevronRight className="w-5 h-5 text-muted" />

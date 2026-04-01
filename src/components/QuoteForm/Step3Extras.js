@@ -44,7 +44,7 @@ export default function Step3Extras({ selected, onChange }) {
 
   return (
     <div>
-      <h3 className="font-[family-name:var(--font-space)] text-2xl font-bold mb-2">
+      <h3 className="font-[family-name:var(--font-space)] text-2xl font-bold mb-2 text-gray-900">
         Need any extras?
       </h3>
       <p className="text-muted text-sm mb-6">
@@ -62,13 +62,13 @@ export default function Step3Extras({ selected, onChange }) {
               onClick={() => toggle(extra.id)}
               className={`flex items-start gap-4 p-5 rounded-2xl border-2 transition-all duration-200 text-left ${
                 isSelected
-                  ? "border-primary bg-primary/10 shadow-lg shadow-primary/10"
-                  : "border-white/10 bg-white/[0.03] hover:border-white/20 hover:bg-white/[0.06]"
+                  ? "border-primary bg-primary/5 shadow-lg shadow-primary/10"
+                  : "border-gray-200 bg-gray-50/50 hover:border-gray-300 hover:bg-gray-50"
               }`}
             >
               <div
                 className={`w-12 h-12 rounded-xl flex items-center justify-center shrink-0 transition-colors ${
-                  isSelected ? "bg-primary/20" : "bg-white/5"
+                  isSelected ? "bg-primary/15" : "bg-gray-100"
                 }`}
               >
                 <extra.icon
@@ -81,12 +81,12 @@ export default function Step3Extras({ selected, onChange }) {
                 <div className="flex items-center justify-between gap-2">
                   <span
                     className={`font-semibold text-sm ${
-                      isSelected ? "text-primary" : "text-foreground"
+                      isSelected ? "text-primary" : "text-gray-900"
                     }`}
                   >
                     {extra.title}
                   </span>
-                  <span className="text-xs font-bold text-accent shrink-0">
+                  <span className="text-xs font-bold text-primary shrink-0">
                     +£{extra.price}
                   </span>
                 </div>
@@ -97,7 +97,7 @@ export default function Step3Extras({ selected, onChange }) {
                 className={`w-5 h-5 rounded-md border-2 flex items-center justify-center shrink-0 mt-0.5 transition-all ${
                   isSelected
                     ? "border-primary bg-primary"
-                    : "border-white/20 bg-transparent"
+                    : "border-gray-300 bg-transparent"
                 }`}
               >
                 {isSelected && (

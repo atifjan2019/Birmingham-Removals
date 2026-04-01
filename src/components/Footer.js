@@ -13,7 +13,7 @@ const quickLinks = [
 
 export default function Footer() {
   return (
-    <footer className="border-t border-white/5 bg-[#060A16]">
+    <footer className="border-t border-gray-200 bg-gray-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
           {/* Brand */}
@@ -22,7 +22,7 @@ export default function Footer() {
               <div className="w-10 h-10 rounded-xl bg-primary/10 border border-primary/20 flex items-center justify-center">
                 <Truck className="w-5 h-5 text-primary" />
               </div>
-              <span className="font-[family-name:var(--font-space)] font-bold text-lg">
+              <span className="font-[family-name:var(--font-space)] font-bold text-lg text-gray-900">
                 Swift Removals
               </span>
             </div>
@@ -34,21 +34,21 @@ export default function Footer() {
             <div className="flex gap-3">
               <a
                 href="#"
-                className="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center hover:bg-primary/20 hover:border-primary/30 transition-all"
+                className="w-10 h-10 rounded-full bg-gray-100 border border-gray-200 flex items-center justify-center hover:bg-primary/10 hover:border-primary/20 transition-all"
                 aria-label="Facebook"
               >
                 <Globe className="w-5 h-5 text-muted" />
               </a>
               <a
                 href="#"
-                className="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center hover:bg-primary/20 hover:border-primary/30 transition-all"
+                className="w-10 h-10 rounded-full bg-gray-100 border border-gray-200 flex items-center justify-center hover:bg-primary/10 hover:border-primary/20 transition-all"
                 aria-label="Instagram"
               >
                 <ExternalLink className="w-5 h-5 text-muted" />
               </a>
               <a
                 href="#"
-                className="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center hover:bg-primary/20 hover:border-primary/30 transition-all"
+                className="w-10 h-10 rounded-full bg-gray-100 border border-gray-200 flex items-center justify-center hover:bg-primary/10 hover:border-primary/20 transition-all"
                 aria-label="Google Reviews"
               >
                 <Star className="w-5 h-5 text-muted" />
@@ -58,7 +58,7 @@ export default function Footer() {
 
           {/* Quick Links */}
           <div>
-            <h3 className="font-[family-name:var(--font-space)] font-bold text-foreground mb-6">
+            <h3 className="font-[family-name:var(--font-space)] font-bold text-gray-900 mb-6">
               Quick Links
             </h3>
             <ul className="space-y-3">
@@ -77,7 +77,7 @@ export default function Footer() {
 
           {/* Contact */}
           <div>
-            <h3 className="font-[family-name:var(--font-space)] font-bold text-foreground mb-6">
+            <h3 className="font-[family-name:var(--font-space)] font-bold text-gray-900 mb-6">
               Get in Touch
             </h3>
             <ul className="space-y-4">
@@ -85,7 +85,7 @@ export default function Footer() {
                 <Phone className="w-5 h-5 text-primary shrink-0" />
                 <a
                   href="tel:01234567890"
-                  className="text-muted text-sm hover:text-foreground transition-colors"
+                  className="text-muted text-sm hover:text-gray-900 transition-colors"
                 >
                   0191 123 4567
                 </a>
@@ -94,7 +94,7 @@ export default function Footer() {
                 <Mail className="w-5 h-5 text-primary shrink-0" />
                 <a
                   href="mailto:info@swiftremovalsnewcastle.co.uk"
-                  className="text-muted text-sm hover:text-foreground transition-colors"
+                  className="text-muted text-sm hover:text-gray-900 transition-colors"
                 >
                   info@swiftremovalsnewcastle.co.uk
                 </a>
@@ -115,7 +115,7 @@ export default function Footer() {
       </div>
 
       {/* Bottom bar */}
-      <div className="border-t border-white/5 py-6">
+      <div className="border-t border-gray-200 py-6">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
           <p className="text-muted text-xs">
             © {new Date().getFullYear()} Swift Removals Newcastle. All rights
