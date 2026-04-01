@@ -100,6 +100,26 @@ function BookingDetailsModal({ booking, onClose }) {
 
   const calculatedProfit = (parseFloat(jobCost) || 0) - (parseFloat(expenses) || 0);
 
+  // Auto-save financials with debounce
+  useEffect(() => {
+    if (status !== "Completed") return;
+    const jc = parseFloat(jobCost);
+    const ex = parseFloat(expenses);
+    if (isNaN(jc) && isNaN(ex)) return;
+
+    setFinancialsSaved(false);
+    if (saveTimeout.current) clearTimeout(saveTimeout.current);
+    saveTimeout.current = setTimeout(async () => {
+      setSavingFinancials(true);
+      await updateBookingFinancials(booking?.id, jobCost, expenses);
+      setSavingFinancials(false);
+      setFinancialsSaved(true);
+      setTimeout(() => setFinancialsSaved(false), 2000);
+    }, 1000);
+
+    return () => { if (saveTimeout.current) clearTimeout(saveTimeout.current); };
+  }, [jobCost, expenses, status]);
+
   if (!booking) return null;
 
   const handleStatusChange = async (newStatus) => {
@@ -117,26 +137,6 @@ function BookingDetailsModal({ booking, onClose }) {
       onClose();
     }
   };
-
-  // Auto-save financials with debounce
-  useEffect(() => {
-    if (status !== "Completed") return;
-    const jc = parseFloat(jobCost);
-    const ex = parseFloat(expenses);
-    if (isNaN(jc) && isNaN(ex)) return;
-
-    setFinancialsSaved(false);
-    if (saveTimeout.current) clearTimeout(saveTimeout.current);
-    saveTimeout.current = setTimeout(async () => {
-      setSavingFinancials(true);
-      await updateBookingFinancials(booking.id, jobCost, expenses);
-      setSavingFinancials(false);
-      setFinancialsSaved(true);
-      setTimeout(() => setFinancialsSaved(false), 2000);
-    }, 1000);
-
-    return () => { if (saveTimeout.current) clearTimeout(saveTimeout.current); };
-  }, [jobCost, expenses, status]);
 
   return (
     <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
