@@ -74,15 +74,15 @@ export default function Step2FromPostcode({ value, onChange, onNext, onBack }) {
 
   return (
     <div>
-      <h2 className="font-[family-name:var(--font-space)] text-2xl font-bold text-[#F8FAFC] mb-1">
+      <h2 className="font-[family-name:var(--font-space)] text-2xl font-bold text-gray-900 mb-1">
         Where are you moving from?
       </h2>
-      <p className="text-[#94A3B8] text-sm mb-6">
+      <p className="text-muted text-sm mb-6">
         Enter the postcode of your current property.
       </p>
 
       <div className="relative">
-        <MapPin className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-[#94A3B8]" />
+        <MapPin className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted" />
         <input
           ref={inputRef}
           type="text"
@@ -92,29 +92,26 @@ export default function Step2FromPostcode({ value, onChange, onNext, onBack }) {
           onFocus={() => {
             if (suggestions.length > 0) setShowDropdown(true);
           }}
-          className="w-full bg-white/[0.03] border border-white/10 rounded-xl py-4 pl-12 pr-4 text-[#F8FAFC] text-lg placeholder:text-[#94A3B8]/50 focus:outline-none focus:border-[#2563EB] focus:ring-1 focus:ring-[#2563EB]/30 transition-all"
+          className="w-full bg-gray-50 border border-gray-200 rounded-xl py-4 pl-12 pr-4 text-gray-900 text-lg placeholder:text-gray-400 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/30 transition-all"
         />
 
-        {/* Dropdown suggestions */}
         {showDropdown && (
           <div
             ref={dropdownRef}
-            className="absolute top-full mt-2 left-0 right-0 bg-[#141B2D] border border-white/10 rounded-xl overflow-hidden z-20 shadow-xl"
+            className="absolute top-full mt-2 left-0 right-0 bg-white border border-gray-200 rounded-xl overflow-hidden z-20 shadow-xl"
           >
             {suggestions.map((s) => (
               <button
                 key={s.code}
                 onClick={() => selectSuggestion(s.code)}
-                className="w-full flex items-center gap-3 px-4 py-3 hover:bg-white/5 transition-colors text-left"
+                className="w-full flex items-center gap-3 px-4 py-3 hover:bg-gray-50 transition-colors text-left"
               >
-                <MapPin className="w-4 h-4 text-[#2563EB] shrink-0" />
+                <MapPin className="w-4 h-4 text-primary shrink-0" />
                 <div>
-                  <span className="text-[#F8FAFC] font-semibold text-sm">
+                  <span className="text-gray-900 font-semibold text-sm">
                     {s.code}
                   </span>
-                  <span className="text-[#94A3B8] text-sm ml-2">
-                    — {s.area}
-                  </span>
+                  <span className="text-muted text-sm ml-2">— {s.area}</span>
                 </div>
               </button>
             ))}
@@ -122,19 +119,19 @@ export default function Step2FromPostcode({ value, onChange, onNext, onBack }) {
         )}
       </div>
 
-      {error && <p className="text-red-400 text-sm mt-2">{error}</p>}
+      {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
 
       <div className="flex items-center justify-between mt-6">
         <button
           onClick={onBack}
-          className="flex items-center gap-1.5 text-[#94A3B8] hover:text-[#F8FAFC] transition-colors text-sm"
+          className="flex items-center gap-1.5 text-muted hover:text-gray-900 transition-colors text-sm"
         >
           <ArrowLeft className="w-4 h-4" />
           Back
         </button>
         <button
           onClick={handleContinue}
-          className="flex items-center gap-2 px-6 py-3 bg-[#2563EB] text-white font-semibold rounded-xl hover:bg-[#2563EB]/90 transition-all"
+          className="flex items-center gap-2 px-6 py-3 bg-primary text-white font-semibold rounded-xl hover:bg-primary/90 transition-all shadow-lg shadow-primary/20"
         >
           Continue
           <ArrowRight className="w-4 h-4" />

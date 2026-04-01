@@ -63,21 +63,21 @@ export default function QuoteFunnel() {
   const progressPercent = step <= 5 ? (Math.min(step, 4) / TOTAL_STEPS) * 100 : step === 6 ? 80 : 100;
 
   return (
-    <div className="min-h-screen bg-[#0A0F1E] flex flex-col">
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-red-50/30 flex flex-col">
       {/* Mini header */}
-      <header className="sticky top-0 z-50 bg-[#0A0F1E]/90 backdrop-blur-xl border-b border-white/5">
+      <header className="sticky top-0 z-50 bg-white/80 backdrop-blur-xl border-b border-gray-200/60 shadow-sm">
         <div className="max-w-lg mx-auto px-4 flex items-center justify-between h-14">
-          <div className="flex items-center gap-2">
-            <div className="w-8 h-8 rounded-lg bg-[#2563EB]/10 border border-[#2563EB]/20 flex items-center justify-center">
-              <Truck className="w-4 h-4 text-[#2563EB]" />
+          <a href="/" className="flex items-center gap-2">
+            <div className="w-8 h-8 rounded-lg bg-primary/10 border border-primary/20 flex items-center justify-center">
+              <Truck className="w-4 h-4 text-primary" />
             </div>
-            <span className="font-[family-name:var(--font-space)] font-bold text-[#F8FAFC] text-sm">
+            <span className="font-[family-name:var(--font-space)] font-bold text-gray-900 text-sm">
               Swift Removals
             </span>
-          </div>
+          </a>
           <a
             href="tel:01911234567"
-            className="flex items-center gap-1.5 text-[#94A3B8] hover:text-[#F8FAFC] transition-colors text-sm"
+            className="flex items-center gap-1.5 text-muted hover:text-gray-900 transition-colors text-sm"
           >
             <Phone className="w-4 h-4" />
             <span className="hidden sm:inline">0191 123 4567</span>
@@ -89,25 +89,25 @@ export default function QuoteFunnel() {
       <main className="flex-1 flex flex-col items-center justify-center px-4 py-8">
         <div className="w-full max-w-lg">
           {/* Card */}
-          <div className="bg-white/[0.05] backdrop-blur-xl border border-white/[0.08] rounded-2xl overflow-hidden">
+          <div className="bg-white rounded-2xl border border-gray-200/60 shadow-xl shadow-gray-200/40 overflow-hidden">
             {/* Progress bar */}
             {step <= 6 && step !== 5 && (
               <div className="px-6 pt-6 pb-0">
                 <div className="flex items-center justify-between mb-2">
-                  <span className="text-xs text-[#94A3B8]">
+                  <span className="text-xs text-muted">
                     {step <= 4
                       ? `Step ${step} of ${TOTAL_STEPS}`
                       : step === 6
                       ? "Almost there"
                       : ""}
                   </span>
-                  <span className="text-xs text-[#2563EB] font-semibold">
+                  <span className="text-xs text-primary font-semibold">
                     {Math.round(progressPercent)}%
                   </span>
                 </div>
-                <div className="h-1.5 bg-white/5 rounded-full overflow-hidden">
+                <div className="h-1.5 bg-gray-100 rounded-full overflow-hidden">
                   <div
-                    className="h-full bg-gradient-to-r from-[#2563EB] to-[#60A5FA] rounded-full transition-all duration-500 ease-out"
+                    className="h-full bg-gradient-to-r from-primary to-accent rounded-full transition-all duration-500 ease-out"
                     style={{ width: `${progressPercent}%` }}
                   />
                 </div>
@@ -185,8 +185,8 @@ export default function QuoteFunnel() {
           <div className="flex items-center justify-center gap-6 mt-6">
             {trustItems.map((item, i) => (
               <div key={i} className="flex items-center gap-1.5">
-                <item.icon className="w-4 h-4 text-[#2563EB]" />
-                <span className="text-xs text-[#94A3B8]">{item.label}</span>
+                <item.icon className="w-4 h-4 text-primary" />
+                <span className="text-xs text-muted">{item.label}</span>
               </div>
             ))}
           </div>

@@ -4,10 +4,10 @@ import { useState } from "react";
 import { Home, Building2, BedDouble, Package, ArrowRight } from "lucide-react";
 
 const moveTypes = [
-  { id: "house", icon: Home, label: "House Move", emoji: "🏠" },
-  { id: "office", icon: Building2, label: "Office Move", emoji: "🏢" },
-  { id: "flat", icon: BedDouble, label: "Studio / Flat", emoji: "🛏" },
-  { id: "items", icon: Package, label: "Single Items", emoji: "📦" },
+  { id: "house", label: "House Move", emoji: "🏠" },
+  { id: "office", label: "Office Move", emoji: "🏢" },
+  { id: "flat", label: "Studio / Flat", emoji: "🛏" },
+  { id: "items", label: "Single Items", emoji: "📦" },
 ];
 
 export default function Step1MoveType({ value, onChange, onNext }) {
@@ -24,10 +24,10 @@ export default function Step1MoveType({ value, onChange, onNext }) {
 
   return (
     <div>
-      <h2 className="font-[family-name:var(--font-space)] text-2xl font-bold text-[#F8FAFC] mb-1">
+      <h2 className="font-[family-name:var(--font-space)] text-2xl font-bold text-gray-900 mb-1">
         What are you moving?
       </h2>
-      <p className="text-[#94A3B8] text-sm mb-6">
+      <p className="text-muted text-sm mb-6">
         Select your move type to get started.
       </p>
 
@@ -40,14 +40,14 @@ export default function Step1MoveType({ value, onChange, onNext }) {
               onClick={() => onChange(type.id)}
               className={`flex flex-col items-center gap-2.5 p-5 rounded-xl border-2 transition-all duration-200 cursor-pointer ${
                 selected
-                  ? "border-[#2563EB] bg-[#2563EB]/10"
-                  : "border-white/10 bg-white/[0.03] hover:border-white/20 hover:bg-white/[0.06]"
+                  ? "border-primary bg-primary/5 shadow-md shadow-primary/10"
+                  : "border-gray-200 bg-gray-50/50 hover:border-gray-300 hover:bg-gray-50"
               }`}
             >
               <span className="text-3xl">{type.emoji}</span>
               <span
                 className={`text-sm font-semibold ${
-                  selected ? "text-[#2563EB]" : "text-[#F8FAFC]"
+                  selected ? "text-primary" : "text-gray-900"
                 }`}
               >
                 {type.label}
@@ -57,11 +57,11 @@ export default function Step1MoveType({ value, onChange, onNext }) {
         })}
       </div>
 
-      {error && <p className="text-red-400 text-sm mt-3">{error}</p>}
+      {error && <p className="text-red-500 text-sm mt-3">{error}</p>}
 
       <button
         onClick={handleContinue}
-        className="mt-6 w-full flex items-center justify-center gap-2 py-3.5 bg-[#2563EB] text-white font-semibold rounded-xl hover:bg-[#2563EB]/90 transition-all"
+        className="mt-6 w-full flex items-center justify-center gap-2 py-3.5 bg-primary text-white font-semibold rounded-xl hover:bg-primary/90 transition-all shadow-lg shadow-primary/20"
       >
         Continue
         <ArrowRight className="w-4 h-4" />
