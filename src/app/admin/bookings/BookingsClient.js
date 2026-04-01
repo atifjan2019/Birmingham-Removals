@@ -88,7 +88,34 @@ function ActionButton({ bookingId, currentStatus }) {
 }
 
 function BookingDetailsModal({ booking, onClose }) {
+  const [status, setStatus] = useState(booking?.status || "New");
+  const [updating, setUpdating] = useState(false);
+  const [deleting, setDeleting] = useState(false);
+
   if (!booking) return null;
+
+  const handleStatusChange = async (newStatus) => {
+    setUpdating(true);
+    setStatus(newStatus);
+    await updateBookingStatus(booking.id, newStatus);
+    setUpdating(false);
+  };
+
+  const handleDelete = async () => {
+    if (confirm("Are you sure you want to permanently delete this booking? This cannot be undone.")) {
+      setDeleting(true);
+      await deleteBooking(booking.id);
+      setDeleting(false);
+      onClose();
+    }
+  };
+
+  const statusColors = {
+    New: "border-amber-300 bg-amber-50 text-amber-800",
+    Upcoming: "border-blue-300 bg-blue-50 text-blue-800",
+    Completed: "border-emerald-300 bg-emerald-50 text-emerald-800",
+    Abandoned: "border-gray-300 bg-gray-50 text-gray-600",
+  };
 
   return (
     <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
@@ -145,6 +172,26 @@ function BookingDetailsModal({ booking, onClose }) {
           </div>
 
           <div>
+            <h3 className="text-lg font-bold text-gray-900 mb-4 border-b border-gray-100 pb-2">Status & Actions</h3>
+            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
+              <div className="flex-1">
+                <div className="text-xs text-muted font-semibold uppercase tracking-wider mb-2">Current Status</div>
+                <select
+                  value={status}
+                  onChange={(e) => handleStatusChange(e.target.value)}
+                  disabled={updating}
+                  className={`w-full px-4 py-2.5 rounded-xl border-2 font-semibold text-sm cursor-pointer outline-none transition-all ${statusColors[status] || statusColors.New} ${updating ? "opacity-50" : ""}`}
+                >
+                  <option value="New">🟡 New</option>
+                  <option value="Upcoming">🔵 Upcoming</option>
+                  <option value="Completed">🟢 Completed</option>
+                  <option value="Abandoned">⚫ Abandoned</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <div>
             <h3 className="text-lg font-bold text-gray-900 mb-4 border-b border-gray-100 pb-2">Additional Details</h3>
             <div className="bg-gray-50 rounded-xl p-4 border border-gray-100">
               <div className="text-xs text-muted mb-1 font-semibold uppercase tracking-wider">Extras Requested</div>
@@ -163,7 +210,15 @@ function BookingDetailsModal({ booking, onClose }) {
           </div>
         </div>
 
-        <div className="p-4 border-t border-gray-100 bg-gray-50/50 text-right">
+        <div className="p-4 border-t border-gray-100 bg-gray-50/50 flex items-center justify-between">
+          <button
+            onClick={handleDelete}
+            disabled={deleting}
+            className="flex items-center gap-2 px-4 py-2.5 text-red-600 bg-red-50 border border-red-200 rounded-xl hover:bg-red-100 transition-colors font-semibold text-sm disabled:opacity-50"
+          >
+            <Trash2 className="w-4 h-4" />
+            {deleting ? "Deleting..." : "Delete Booking"}
+          </button>
           <button
             onClick={onClose}
             className="px-6 py-2.5 bg-gray-900 text-white rounded-xl shadow-lg shadow-gray-900/20 hover:bg-gray-800 transition-colors font-semibold"
