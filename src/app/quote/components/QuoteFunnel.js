@@ -26,27 +26,30 @@ const trustItems = [
   { icon: Award, label: "5-Star Rated" },
 ];
 
+// Dummy data for testing — remove later
+const DUMMY_DATA = {
+  moveType: "house",
+  fromPostcode: "NE1 4XF",
+  toPostcode: "NE3 2PA",
+  moveDate: new Date(Date.now() + 7 * 86400000).toISOString().split("T")[0],
+  flexibleDates: false,
+  fullName: "John Smith",
+  phone: "07123 456 789",
+};
+
 export default function QuoteFunnel() {
   const searchParams = useSearchParams();
   const typeParam = searchParams.get("type");
+  const hasValidType =
+    typeParam && ["house", "office", "flat", "items"].includes(typeParam);
 
-  const [step, setStep] = useState(1);
+  // If type param exists, skip step 1 — start at step 2
+  const [step, setStep] = useState(hasValidType ? 2 : 1);
   const [direction, setDirection] = useState(1);
   const [data, setData] = useState({
-    moveType: "",
-    fromPostcode: "",
-    toPostcode: "",
-    moveDate: "",
-    flexibleDates: false,
-    fullName: "",
-    phone: "",
+    ...DUMMY_DATA,
+    moveType: hasValidType ? typeParam : DUMMY_DATA.moveType,
   });
-
-  useEffect(() => {
-    if (typeParam && ["house", "office", "flat", "items"].includes(typeParam)) {
-      setData((prev) => ({ ...prev, moveType: typeParam }));
-    }
-  }, [typeParam]);
 
   const goNext = () => {
     setDirection(1);
@@ -60,7 +63,12 @@ export default function QuoteFunnel() {
 
   const update = (fields) => setData((prev) => ({ ...prev, ...fields }));
 
-  const progressPercent = step <= 5 ? (Math.min(step, 4) / TOTAL_STEPS) * 100 : step === 6 ? 80 : 100;
+  const progressPercent =
+    step <= 5
+      ? (Math.min(step, 4) / TOTAL_STEPS) * 100
+      : step === 6
+      ? 80
+      : 100;
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-red-50/30 flex flex-col">
