@@ -8,7 +8,6 @@ const navLinks = [
   { label: "Services", href: "#services" },
   { label: "How It Works", href: "#how-it-works" },
   { label: "Reviews", href: "#testimonials" },
-  { label: "Get Quote", href: "#quote" },
 ];
 
 export default function Navbar({ onOpenQuote }) {
