@@ -25,7 +25,6 @@ export default function Step5Loading({ fromPostcode, moveDate, onComplete }) {
   ];
 
   useEffect(() => {
-    // Progress bar: fill to 94% over 5 seconds
     const start = Date.now();
     const duration = 5000;
     const target = 94;
@@ -40,12 +39,10 @@ export default function Step5Loading({ fromPostcode, moveDate, onComplete }) {
     };
     timerRef.current = requestAnimationFrame(tick);
 
-    // Message rotation every 1.2s
     const msgInterval = setInterval(() => {
       setMessageIndex((prev) => Math.min(prev + 1, messages.length - 1));
     }, 1200);
 
-    // Auto advance at 5s
     const timeout = setTimeout(() => {
       onComplete();
     }, 5000);
@@ -60,30 +57,26 @@ export default function Step5Loading({ fromPostcode, moveDate, onComplete }) {
   return (
     <div className="py-8">
       <div className="text-center mb-8">
-        <h2 className="font-[family-name:var(--font-space)] text-2xl font-bold text-[#F8FAFC] mb-2">
+        <h2 className="font-[family-name:var(--font-space)] text-2xl font-bold text-gray-900 mb-2">
           Finding your best price...
         </h2>
-        <p className="text-[#94A3B8] text-sm">
+        <p className="text-muted text-sm">
           Hang tight — this takes a few seconds.
         </p>
       </div>
 
-      {/* Progress bar */}
       <div className="mb-8">
-        <div className="h-2 bg-white/5 rounded-full overflow-hidden">
+        <div className="h-2 bg-gray-100 rounded-full overflow-hidden">
           <div
-            className="h-full bg-gradient-to-r from-[#2563EB] to-[#60A5FA] rounded-full transition-none"
+            className="h-full bg-gradient-to-r from-primary to-accent rounded-full transition-none"
             style={{ width: `${progress}%` }}
           />
         </div>
         <div className="text-right mt-1">
-          <span className="text-xs text-[#94A3B8]">
-            {Math.round(progress)}%
-          </span>
+          <span className="text-xs text-muted">{Math.round(progress)}%</span>
         </div>
       </div>
 
-      {/* Status messages */}
       <div className="space-y-3">
         {messages.map((msg, i) => (
           <div
@@ -97,15 +90,15 @@ export default function Step5Loading({ fromPostcode, moveDate, onComplete }) {
             <CheckCircle
               className={`w-5 h-5 shrink-0 transition-colors duration-300 ${
                 i < messageIndex
-                  ? "text-emerald-400"
+                  ? "text-emerald-500"
                   : i === messageIndex
-                  ? "text-[#2563EB] animate-pulse"
-                  : "text-white/10"
+                  ? "text-primary animate-pulse"
+                  : "text-gray-200"
               }`}
             />
             <span
               className={`text-sm ${
-                i <= messageIndex ? "text-[#F8FAFC]" : "text-[#94A3B8]"
+                i <= messageIndex ? "text-gray-900" : "text-muted"
               }`}
             >
               {msg}
