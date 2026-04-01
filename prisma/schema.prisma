@@ -1,0 +1,35 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Customer {
+  id        String   @id @default(uuid())
+  fullName  String
+  phone     String
+  email     String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  bookings  Booking[]
+}
+
+model Booking {
+  id           String   @id @default(uuid())
+  customerId   String
+  moveType     String
+  fromPostcode String
+  toPostcode   String
+  moveDate     DateTime
+  bedrooms     Int      @default(1)
+  extras       Json?    // Store array of extras like ['packing', 'storage']
+  status       String   @default("New") // "New", "Upcoming", "Completed"
+  price        Float?   // Estimated price
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  
+  customer     Customer @relation(fields: [customerId], references: [id])
+}
