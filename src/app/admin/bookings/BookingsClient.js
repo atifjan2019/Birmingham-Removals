@@ -491,7 +491,7 @@ export default function BookingsClient({ initialBookings }) {
         </div>
       </div>
 
-      <BookingDetailsModal booking={selectedBooking} onClose={() => setSelectedBooking(null)} />
+      <BookingDetailsModal key={selectedBooking?.id} booking={selectedBooking} onClose={() => setSelectedBooking(null)} />
       {isAddingManual && <ManualBookingModal onClose={() => setIsAddingManual(false)} />}
     </div>
   );
