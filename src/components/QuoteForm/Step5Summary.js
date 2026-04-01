@@ -31,6 +31,8 @@ const extraLabels = {
   cleaning: "End of Tenancy Clean",
 };
 
+import { createBooking } from "@/app/actions/booking";
+
 export default function Step5Summary({ formData, onSubmit }) {
   const [submitting, setSubmitting] = useState(false);
 
@@ -45,9 +47,14 @@ export default function Step5Summary({ formData, onSubmit }) {
 
   const handleSubmit = async () => {
     setSubmitting(true);
-    await new Promise((resolve) => setTimeout(resolve, 2000));
+    const result = await createBooking(formData);
     setSubmitting(false);
-    onSubmit();
+    
+    if (result?.success) {
+      onSubmit();
+    } else {
+      alert(result?.error || "Failed to submit quote. Please try again or call us.");
+    }
   };
 
   return (

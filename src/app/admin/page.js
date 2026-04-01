@@ -1,51 +1,34 @@
-"use client";
-
 import { ArrowRight, TrendingUp, Users, Calendar, DollarSign, Package } from "lucide-react";
 import Link from "next/link";
+import prisma from "@/lib/prisma";
 
-const stats = [
-  { name: "Total Revenue", value: "£14,230", icon: DollarSign, trend: "+12.5%" },
-  { name: "Active Bookings", value: "24", icon: Calendar, trend: "+4.2%" },
-  { name: "New Customers", value: "86", icon: Users, trend: "+2.1%" },
-  { name: "Completed Moves", value: "142", icon: Package, trend: "+18.3%" },
-];
+export const dynamic = "force-dynamic";
 
-const recentBookings = [
-  {
-    id: "B-2041",
-    customer: "Alice Johnson",
-    date: "12 Apr, 2026",
-    status: "Upcoming",
-    type: "House Move",
-    price: "£450",
-  },
-  {
-    id: "B-2040",
-    customer: "Mark Smith",
-    date: "14 Apr, 2026",
-    status: "Pending",
-    type: "Office Move",
-    price: "£850",
-  },
-  {
-    id: "B-2039",
-    customer: "Sarah Williams",
-    date: "10 Apr, 2026",
-    status: "Completed",
-    type: "Studio / Flat",
-    price: "£280",
-  },
-  {
-    id: "B-2038",
-    customer: "David Brown",
-    date: "09 Apr, 2026",
-    status: "Completed",
-    type: "House Move",
-    price: "£520",
-  },
-];
+export default async function AdminDashboard() {
+  // Fetch real data
+  const totalBookings = await prisma.booking.count();
+  const totalCustomers = await prisma.customer.count();
+  
+  // Example simplistic revenue calculation (sum all prices)
+  const revenueResult = await prisma.booking.aggregate({
+    _sum: { price: true }
+  });
+  const totalRevenue = revenueResult._sum.price || 0;
 
-export default function AdminDashboard() {
+  // Fetch recent 5 bookings with customer data
+  const recentBookingsData = await prisma.booking.findMany({
+    take: 5,
+    orderBy: { createdAt: "desc" },
+    include: { customer: true }
+  });
+
+  const stats = [
+    { name: "Total Revenue (Est.)", value: `£${totalRevenue}`, icon: DollarSign, trend: "Live" },
+    { name: "Total Bookings", value: totalBookings.toString(), icon: Calendar, trend: "Live" },
+    { name: "Total Customers", value: totalCustomers.toString(), icon: Users, trend: "Live" },
+    { name: "Completed Moves", value: "-", icon: Package, trend: "Live" },
+  ];
+
   return (
     <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
       <div>
@@ -99,12 +82,14 @@ export default function AdminDashboard() {
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-100">
-                {recentBookings.map((booking) => (
+                {recentBookingsData.length > 0 ? recentBookingsData.map((booking) => (
                   <tr key={booking.id} className="hover:bg-gray-50/50 transition-colors">
-                    <td className="px-6 py-4 font-medium text-gray-900">{booking.id}</td>
-                    <td className="px-6 py-4 text-gray-600">{booking.customer}</td>
-                    <td className="px-6 py-4 text-gray-600">{booking.date}</td>
-                    <td className="px-6 py-4 text-gray-600">{booking.type}</td>
+                    <td className="px-6 py-4 font-medium text-gray-900 truncate max-w-[100px]">{booking.id.split('-')[0]}...</td>
+                    <td className="px-6 py-4 text-gray-600">{booking.customer?.fullName}</td>
+                    <td className="px-6 py-4 text-gray-600">
+                      {booking.moveDate ? new Date(booking.moveDate).toLocaleDateString('en-GB') : "N/A"}
+                    </td>
+                    <td className="px-6 py-4 text-gray-600">{booking.moveType}</td>
                     <td className="px-6 py-4">
                       <span className={`px-2.5 py-1 rounded-full text-xs font-medium ${
                         booking.status === "Completed" ? "bg-emerald-50 text-emerald-600" :
@@ -114,9 +99,13 @@ export default function AdminDashboard() {
                         {booking.status}
                       </span>
                     </td>
-                    <td className="px-6 py-4 text-right font-medium text-gray-900">{booking.price}</td>
+                    <td className="px-6 py-4 text-right font-medium text-gray-900">£{booking.price || "0"}</td>
                   </tr>
-                ))}
+                )) : (
+                  <tr>
+                    <td colSpan="6" className="px-6 py-8 text-center text-muted">No recent bookings found.</td>
+                  </tr>
+                )}
               </tbody>
             </table>
           </div>
@@ -137,25 +126,12 @@ export default function AdminDashboard() {
           
           <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
             <h2 className="text-lg font-bold text-gray-900 font-[family-name:var(--font-space)] mb-4">Today's Schedule</h2>
-            <div className="space-y-4 text-sm">
-              <div className="flex items-start gap-4">
-                <div className="w-2 h-2 mt-1.5 rounded-full bg-primary shrink-0"></div>
-                <div>
-                  <p className="font-medium text-gray-900">09:00 AM - House Move</p>
-                  <p className="text-muted text-xs mt-0.5">Newcastle to Gateshead</p>
-                </div>
-              </div>
-              <div className="flex items-start gap-4">
-                <div className="w-2 h-2 mt-1.5 rounded-full bg-accent shrink-0"></div>
-                <div>
-                  <p className="font-medium text-gray-900">14:30 PM - Studio Move</p>
-                  <p className="text-muted text-xs mt-0.5">Sunderland to Durham</p>
-                </div>
-              </div>
+            <div className="space-y-4 text-sm text-muted">
+              Check the bookings page to filter today's active moves.
             </div>
-            <button className="mt-6 w-full py-2.5 rounded-xl border border-gray-200 text-gray-600 text-sm font-medium hover:bg-gray-50 transition-colors">
+            <Link href="/admin/bookings" className="mt-6 w-full py-2.5 rounded-xl border border-gray-200 text-gray-600 text-sm font-medium hover:bg-gray-50 transition-colors flex justify-center items-center">
               View Calendar
-            </button>
+            </Link>
           </div>
         </div>
       </div>
