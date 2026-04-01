@@ -78,8 +78,7 @@ const usps = [
 
 export default function WhyUs() {
   return (
-    <section className="py-24 sm:py-32 relative">
-      <div className="absolute inset-0 bg-gradient-to-b from-primary/[0.03] to-transparent" />
+    <section className="py-24 sm:py-32 relative bg-gray-50/50">
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <motion.div
@@ -92,7 +91,7 @@ export default function WhyUs() {
           <span className="text-primary text-sm font-semibold uppercase tracking-wider mb-3 block">
             Why Choose Us
           </span>
-          <h2 className="font-[family-name:var(--font-space)] text-3xl sm:text-4xl md:text-5xl font-bold mb-4">
+          <h2 className="font-[family-name:var(--font-space)] text-3xl sm:text-4xl md:text-5xl font-bold mb-4 text-gray-900">
             We Don&apos;t Just Move Boxes
           </h2>
           <p className="text-muted max-w-2xl mx-auto text-lg">
@@ -115,7 +114,7 @@ export default function WhyUs() {
               <div className="w-14 h-14 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-4">
                 <stat.icon className="w-7 h-7 text-primary" />
               </div>
-              <div className="font-[family-name:var(--font-space)] text-4xl md:text-5xl font-bold text-foreground mb-2">
+              <div className="font-[family-name:var(--font-space)] text-4xl md:text-5xl font-bold text-gray-900 mb-2">
                 <CountUp target={stat.value} suffix={stat.suffix} />
               </div>
               <div className="text-muted text-sm">{stat.label}</div>
@@ -138,7 +137,7 @@ export default function WhyUs() {
                 <usp.icon className="w-6 h-6 text-primary" />
               </div>
               <div>
-                <h3 className="font-[family-name:var(--font-space)] font-bold text-foreground mb-2">
+                <h3 className="font-[family-name:var(--font-space)] font-bold text-gray-900 mb-2">
                   {usp.title}
                 </h3>
                 <p className="text-muted text-sm leading-relaxed">
