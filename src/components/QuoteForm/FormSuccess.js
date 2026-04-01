@@ -6,31 +6,28 @@ import { CheckCircle, Phone } from "lucide-react";
 
 export default function FormSuccess() {
   useEffect(() => {
-    // Dynamic import confetti to avoid SSR issues
     import("canvas-confetti").then((confetti) => {
       const fire = confetti.default;
-      // Burst from center
       fire({
         particleCount: 100,
         spread: 70,
         origin: { y: 0.6 },
-        colors: ["#2563EB", "#60A5FA", "#10B981", "#F8FAFC"],
+        colors: ["#BC2436", "#E8485A", "#10B981", "#F8FAFC"],
       });
-      // Side bursts
       setTimeout(() => {
         fire({
           particleCount: 50,
           angle: 60,
           spread: 55,
           origin: { x: 0, y: 0.6 },
-          colors: ["#2563EB", "#60A5FA", "#10B981"],
+          colors: ["#BC2436", "#E8485A", "#10B981"],
         });
         fire({
           particleCount: 50,
           angle: 120,
           spread: 55,
           origin: { x: 1, y: 0.6 },
-          colors: ["#2563EB", "#60A5FA", "#10B981"],
+          colors: ["#BC2436", "#E8485A", "#10B981"],
         });
       }, 300);
     });
@@ -56,7 +53,7 @@ export default function FormSuccess() {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.3 }}
-        className="font-[family-name:var(--font-space)] text-3xl font-bold mb-3"
+        className="font-[family-name:var(--font-space)] text-3xl font-bold mb-3 text-gray-900"
       >
         Quote Request Sent!
       </motion.h3>
@@ -68,7 +65,7 @@ export default function FormSuccess() {
         className="text-muted text-lg mb-8 max-w-md mx-auto"
       >
         Thanks for getting in touch. One of our team will call you within{" "}
-        <strong className="text-foreground">2 hours</strong> to confirm your
+        <strong className="text-gray-900">2 hours</strong> to confirm your
         quote and answer any questions.
       </motion.p>
 
@@ -80,7 +77,7 @@ export default function FormSuccess() {
       >
         <div className="flex items-center justify-center gap-3 mb-3">
           <Phone className="w-5 h-5 text-primary" />
-          <span className="font-semibold text-foreground">
+          <span className="font-semibold text-gray-900">
             Need us sooner?
           </span>
         </div>
