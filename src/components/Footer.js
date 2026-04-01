@@ -1,6 +1,6 @@
 "use client";
 
-import { Truck, Phone, Mail, MapPin, Facebook, Instagram, Star } from "lucide-react";
+import { Truck, Phone, Mail, MapPin, Globe, ExternalLink, Star } from "lucide-react";
 
 const quickLinks = [
   { label: "House Removals", href: "#services" },
@@ -37,14 +37,14 @@ export default function Footer() {
                 className="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center hover:bg-primary/20 hover:border-primary/30 transition-all"
                 aria-label="Facebook"
               >
-                <Facebook className="w-5 h-5 text-muted" />
+                <Globe className="w-5 h-5 text-muted" />
               </a>
               <a
                 href="#"
                 className="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center hover:bg-primary/20 hover:border-primary/30 transition-all"
                 aria-label="Instagram"
               >
-                <Instagram className="w-5 h-5 text-muted" />
+                <ExternalLink className="w-5 h-5 text-muted" />
               </a>
               <a
                 href="#"
