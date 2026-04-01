@@ -299,23 +299,18 @@ export default function BookingsClient({ initialBookings }) {
                     </div>
                   </div>
 
-                  {/* Right: Price & Actions */}
-                  <div className="flex items-center justify-between xl:justify-end gap-6 xl:w-[220px] shrink-0">
-                    <div className="flex flex-row xl:flex-col items-center xl:items-end justify-between xl:justify-center w-full gap-2">
-                      <span className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-bold uppercase tracking-wider ${booking.status === "Completed" ? "bg-emerald-50 text-emerald-700 border border-emerald-200" :
-                          booking.status === "Upcoming" ? "bg-blue-50 text-blue-700 border border-blue-200" :
-                            "bg-amber-50 text-amber-700 border border-amber-200 shadow-[0_0_15px_rgba(251,191,36,0.2)]"
-                        }`}>
-                        {booking.status === "New" && <span className="w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse" />}
-                        {booking.status}
-                      </span>
-                      <div className="flex items-baseline gap-1">
-                        <span className="text-xs text-muted font-medium uppercase tracking-wider">Est.</span>
-                        <span className="font-[family-name:var(--font-space)] font-bold text-2xl text-gray-900">£{booking.price || "0"}</span>
-                      </div>
-                    </div>
+                  {/* Right: Status & Actions */}
+                  <div className="flex items-center justify-between xl:justify-end gap-6 shrink-0">
+                    <span className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider ${
+                      booking.status === "Completed" ? "bg-emerald-50 text-emerald-700 border border-emerald-200" :
+                      booking.status === "Upcoming" ? "bg-blue-50 text-blue-700 border border-blue-200" :
+                      "bg-amber-50 text-amber-700 border border-amber-200 shadow-[0_0_15px_rgba(251,191,36,0.2)]"
+                    }`}>
+                      {booking.status === "New" && <span className="w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse" />}
+                      {booking.status}
+                    </span>
 
-                    <div className="pl-2 xl:pl-4 border-l border-gray-100 flex items-center justify-center opacity-30 group-hover:opacity-100 transition-opacity">
+                    <div className="pl-4 border-l border-gray-100 flex items-center justify-center opacity-30 group-hover:opacity-100 transition-opacity">
                       <ActionButton bookingId={booking.id} currentStatus={booking.status} />
                     </div>
                   </div>
