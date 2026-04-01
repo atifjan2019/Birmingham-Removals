@@ -33,7 +33,7 @@ export default function RootLayout({ children }) {
       lang="en"
       className={`${inter.variable} ${spaceGrotesk.variable} antialiased`}
     >
-      <body className="min-h-screen bg-white text-gray-900">
+      <body className="min-h-screen bg-white text-gray-900" suppressHydrationWarning>
         {children}
       </body>
     </html>
