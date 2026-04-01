@@ -96,6 +96,7 @@ function BookingDetailsModal({ booking, onClose }) {
   const [expenses, setExpenses] = useState(booking?.expenses || "");
   const [savingFinancials, setSavingFinancials] = useState(false);
   const [financialsSaved, setFinancialsSaved] = useState(false);
+  const saveTimeout = useRef(null);
 
   const calculatedProfit = (parseFloat(jobCost) || 0) - (parseFloat(expenses) || 0);
 
@@ -117,14 +118,25 @@ function BookingDetailsModal({ booking, onClose }) {
     }
   };
 
-  const handleSaveFinancials = async () => {
-    setSavingFinancials(true);
+  // Auto-save financials with debounce
+  useEffect(() => {
+    if (status !== "Completed") return;
+    const jc = parseFloat(jobCost);
+    const ex = parseFloat(expenses);
+    if (isNaN(jc) && isNaN(ex)) return;
+
     setFinancialsSaved(false);
-    await updateBookingFinancials(booking.id, jobCost, expenses);
-    setSavingFinancials(false);
-    setFinancialsSaved(true);
-    setTimeout(() => setFinancialsSaved(false), 2000);
-  };
+    if (saveTimeout.current) clearTimeout(saveTimeout.current);
+    saveTimeout.current = setTimeout(async () => {
+      setSavingFinancials(true);
+      await updateBookingFinancials(booking.id, jobCost, expenses);
+      setSavingFinancials(false);
+      setFinancialsSaved(true);
+      setTimeout(() => setFinancialsSaved(false), 2000);
+    }, 1000);
+
+    return () => { if (saveTimeout.current) clearTimeout(saveTimeout.current); };
+  }, [jobCost, expenses, status]);
 
   return (
     <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
@@ -249,13 +261,10 @@ function BookingDetailsModal({ booking, onClose }) {
                   </div>
                 </div>
               </div>
-              <button
-                onClick={handleSaveFinancials}
-                disabled={savingFinancials}
-                className={`px-5 py-2 rounded-lg text-sm font-semibold transition-all ${financialsSaved ? "bg-emerald-500 text-white" : "bg-gray-900 text-white hover:bg-gray-800"} disabled:opacity-50`}
-              >
-                {savingFinancials ? "Saving..." : financialsSaved ? "✓ Saved!" : "Save Financials"}
-              </button>
+              <div className="text-xs text-gray-400 h-5 flex items-center">
+                {savingFinancials && <span className="text-amber-500 font-medium animate-pulse">Saving...</span>}
+                {financialsSaved && <span className="text-emerald-500 font-medium">✓ Saved automatically</span>}
+              </div>
             </div>
           )}
 
@@ -436,15 +445,22 @@ export default function BookingsClient({ initialBookings }) {
 
                     {/* Status + Actions (desktop only) */}
                     <div className="hidden lg:flex items-center gap-4 shrink-0">
-                      <span className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[11px] font-bold uppercase tracking-wider ${
-                        booking.status === "Completed" ? "bg-emerald-50 text-emerald-700 border border-emerald-200" :
-                        booking.status === "Upcoming" ? "bg-blue-50 text-blue-700 border border-blue-200" :
-                        booking.status === "Abandoned" ? "bg-gray-100 text-gray-500 border border-gray-200" :
-                        "bg-amber-50 text-amber-700 border border-amber-200"
-                      }`}>
-                        {(booking.status === "New" || booking.status === "Abandoned") && <span className={`w-1.5 h-1.5 rounded-full ${booking.status === "New" ? "bg-amber-500 animate-pulse" : "bg-gray-400"}`} />}
-                        {booking.status}
-                      </span>
+                      <div className="flex flex-col items-end gap-1">
+                        <span className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[11px] font-bold uppercase tracking-wider ${
+                          booking.status === "Completed" ? "bg-emerald-50 text-emerald-700 border border-emerald-200" :
+                          booking.status === "Upcoming" ? "bg-blue-50 text-blue-700 border border-blue-200" :
+                          booking.status === "Abandoned" ? "bg-gray-100 text-gray-500 border border-gray-200" :
+                          "bg-amber-50 text-amber-700 border border-amber-200"
+                        }`}>
+                          {(booking.status === "New" || booking.status === "Abandoned") && <span className={`w-1.5 h-1.5 rounded-full ${booking.status === "New" ? "bg-amber-500 animate-pulse" : "bg-gray-400"}`} />}
+                          {booking.status}
+                        </span>
+                        {booking.status === "Completed" && booking.profit != null && (
+                          <span className={`text-[11px] font-bold ${booking.profit >= 0 ? "text-emerald-600" : "text-red-500"}`}>
+                            £{booking.profit.toFixed(2)} profit
+                          </span>
+                        )}
+                      </div>
                       <div className="opacity-0 group-hover:opacity-100 transition-opacity">
                         <ActionButton bookingId={booking.id} currentStatus={booking.status} />
                       </div>
