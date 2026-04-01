@@ -66,7 +66,7 @@ export default function QuoteFunnel() {
     <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-red-50/30 flex flex-col">
       {/* Mini header */}
       <header className="sticky top-0 z-50 bg-white/80 backdrop-blur-xl border-b border-gray-200/60 shadow-sm">
-        <div className="max-w-lg mx-auto px-4 flex items-center justify-between h-14">
+        <div className="max-w-2xl mx-auto px-4 flex items-center justify-between h-14">
           <a href="/" className="flex items-center gap-2">
             <div className="w-8 h-8 rounded-lg bg-primary/10 border border-primary/20 flex items-center justify-center">
               <Truck className="w-4 h-4 text-primary" />
@@ -87,7 +87,7 @@ export default function QuoteFunnel() {
 
       {/* Main content */}
       <main className="flex-1 flex flex-col items-center justify-center px-4 py-8">
-        <div className="w-full max-w-lg">
+        <div className="w-full max-w-2xl">
           {/* Card */}
           <div className="bg-white rounded-2xl border border-gray-200/60 shadow-xl shadow-gray-200/40 overflow-hidden">
             {/* Progress bar */}
