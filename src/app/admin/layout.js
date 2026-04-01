@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { LayoutDashboard, CalendarDays, Settings, LogOut, Users } from "lucide-react";
+import { LayoutDashboard, CalendarDays, Settings, LogOut, Users, BarChart3 } from "lucide-react";
 import { logoutAdmin } from "@/app/actions/auth";
 
 export default function AdminLayout({ children }) {
@@ -12,6 +12,7 @@ export default function AdminLayout({ children }) {
     { name: "Dashboard", href: "/admin", icon: LayoutDashboard },
     { name: "Bookings", href: "/admin/bookings", icon: CalendarDays },
     { name: "Customers", href: "/admin/customers", icon: Users },
+    { name: "Reports", href: "/admin/reports", icon: BarChart3 },
     { name: "Settings", href: "/admin/settings", icon: Settings },
   ];
 
