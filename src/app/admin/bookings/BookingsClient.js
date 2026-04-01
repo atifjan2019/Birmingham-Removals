@@ -148,7 +148,7 @@ function BookingDetailsModal({ booking, onClose }) {
 
             <div className="bg-gray-50 rounded-xl p-4 border border-gray-100">
               <div className="text-xs text-muted font-semibold uppercase tracking-wider mb-2">Move Details</div>
-              <div className="font-semibold text-gray-900 capitalize">{booking.moveType}</div>
+              <div className="font-semibold text-gray-900 capitalize">{booking.moveType?.replace(/-/g, ' ')}{booking.bedrooms > 0 ? ` • ${booking.bedrooms} Bed` : ''}</div>
               <div className="text-sm text-gray-600 mt-1 flex items-center gap-2">
                 <CalendarDays className="w-4 h-4 text-muted" />
                 {booking.moveDate ? new Date(booking.moveDate).toLocaleDateString('en-GB', { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric' }) : "N/A"}
@@ -172,22 +172,27 @@ function BookingDetailsModal({ booking, onClose }) {
           </div>
 
           <div>
-            <h3 className="text-lg font-bold text-gray-900 mb-4 border-b border-gray-100 pb-2">Status & Actions</h3>
-            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
-              <div className="flex-1">
-                <div className="text-xs text-muted font-semibold uppercase tracking-wider mb-2">Current Status</div>
-                <select
-                  value={status}
-                  onChange={(e) => handleStatusChange(e.target.value)}
-                  disabled={updating}
-                  className={`w-full px-4 py-2.5 rounded-xl border-2 font-semibold text-sm cursor-pointer outline-none transition-all ${statusColors[status] || statusColors.New} ${updating ? "opacity-50" : ""}`}
-                >
-                  <option value="New">🟡 New</option>
-                  <option value="Upcoming">🔵 Upcoming</option>
-                  <option value="Completed">🟢 Completed</option>
-                  <option value="Abandoned">⚫ Abandoned</option>
-                </select>
-              </div>
+            <h3 className="text-lg font-bold text-gray-900 mb-4 border-b border-gray-100 pb-2">Status</h3>
+            <div className="flex flex-wrap gap-2">
+              {["New", "Upcoming", "Completed", "Abandoned"].map((s) => {
+                const active = status === s;
+                const colors = {
+                  New: active ? "bg-amber-500 text-white border-amber-500 shadow-amber-200" : "bg-white text-amber-700 border-amber-200 hover:bg-amber-50",
+                  Upcoming: active ? "bg-blue-500 text-white border-blue-500 shadow-blue-200" : "bg-white text-blue-700 border-blue-200 hover:bg-blue-50",
+                  Completed: active ? "bg-emerald-500 text-white border-emerald-500 shadow-emerald-200" : "bg-white text-emerald-700 border-emerald-200 hover:bg-emerald-50",
+                  Abandoned: active ? "bg-gray-500 text-white border-gray-500 shadow-gray-200" : "bg-white text-gray-500 border-gray-200 hover:bg-gray-50",
+                };
+                return (
+                  <button
+                    key={s}
+                    onClick={() => handleStatusChange(s)}
+                    disabled={updating || active}
+                    className={`px-4 py-2 rounded-lg border-2 text-sm font-semibold transition-all ${colors[s]} ${active ? "shadow-md cursor-default" : "cursor-pointer"} ${updating ? "opacity-50" : ""}`}
+                  >
+                    {s}
+                  </button>
+                );
+              })}
             </div>
           </div>
 
