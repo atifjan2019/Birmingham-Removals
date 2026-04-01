@@ -18,15 +18,22 @@ export default function AreaClient({ areaData }) {
       <Navbar onOpenQuote={() => setPopupOpen(true)} />
       
       {/* Area-Specific Hero */}
-      <section className="relative pt-32 pb-20 lg:pt-48 lg:pb-32 overflow-hidden bg-gradient-to-br from-gray-50 via-white to-red-50/30">
-        <div className="absolute inset-0 z-0 opacity-10 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-primary via-transparent to-transparent" />
+      <section className="relative pt-32 pb-20 lg:pt-48 lg:pb-32 overflow-hidden bg-gray-900">
+        <div className="absolute inset-0 z-0">
+          <img 
+            src={areaData.image} 
+            alt={`Removals in ${areaData.name}`}
+            className="w-full h-full object-cover opacity-30"
+          />
+          <div className="absolute inset-0 bg-gradient-to-br from-gray-900 via-gray-900/80 to-primary/30" />
+        </div>
         
         <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 text-primary text-sm font-medium mb-8"
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 border border-white/20 text-white text-sm font-medium mb-8 backdrop-blur-sm"
           >
             <MapPin className="w-4 h-4" />
             Local Experts in {areaData.name}
@@ -36,7 +43,7 @@ export default function AreaClient({ areaData }) {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.1 }}
-            className="font-[family-name:var(--font-space)] text-4xl sm:text-5xl md:text-6xl font-bold mb-6 text-gray-900"
+            className="font-[family-name:var(--font-space)] text-4xl sm:text-5xl md:text-6xl font-bold mb-6 text-white"
           >
             Removals in <span className="text-primary">{areaData.name}</span>
           </motion.h1>
@@ -45,7 +52,7 @@ export default function AreaClient({ areaData }) {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
-            className="text-lg sm:text-xl text-muted max-w-2xl mx-auto mb-10"
+            className="text-lg sm:text-xl text-gray-300 max-w-2xl mx-auto mb-10"
           >
             {areaData.description}
           </motion.p>
@@ -65,7 +72,7 @@ export default function AreaClient({ areaData }) {
             </button>
             <a
               href="tel:07943480432"
-              className="inline-flex items-center gap-2 px-8 py-4 border-2 border-gray-200 text-gray-900 font-semibold rounded-full hover:border-gray-300 hover:bg-gray-50 transition-all w-full sm:w-auto justify-center"
+              className="inline-flex items-center gap-2 px-8 py-4 border-2 border-white/20 text-white font-semibold rounded-full hover:bg-white/10 transition-all w-full sm:w-auto justify-center backdrop-blur-sm"
             >
               <Phone className="w-5 h-5 text-primary" />
               0794 348 0432
