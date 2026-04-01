@@ -18,6 +18,9 @@ export async function createBooking(formData) {
       email 
     } = formData;
 
+    const fs = require('fs');
+    fs.appendFileSync('booking.log', `[SERVER ACTION CALLED]: ${JSON.stringify(formData)}\n`);
+
     // Retrieve or create the customer based on email
     let customer = await prisma.customer.findFirst({
       where: { email: email.toLowerCase() }
@@ -31,6 +34,7 @@ export async function createBooking(formData) {
           email: email.toLowerCase()
         }
       });
+      fs.appendFileSync('booking.log', `[CUSTOMER CREATED]: ${customer.id}\n`);
     }
 
     // Get calculated estimated price
@@ -52,13 +56,18 @@ export async function createBooking(formData) {
       }
     });
 
+    fs.appendFileSync('booking.log', `[BOOKING RECORDED SUCCESSFULLY]: ${booking.id}\n`);
+
     // Revalidate admin pages to show new data immediately
     revalidatePath("/admin/bookings");
     revalidatePath("/admin");
 
     return { success: true, bookingId: booking.id };
   } catch (error) {
+    const fs = require('fs');
+    fs.appendFileSync('booking.log', `[ERROR]: ${error.message}\n${error.stack}\n`);
     console.error("Failed storing booking:", error);
-    return { success: false, error: "System failed to save booking right now." };
+    return { success: false, error: error.message || "System failed to save booking right now." };
   }
 }
+

@@ -46,14 +46,23 @@ export default function Step5Summary({ formData, onSubmit }) {
   const MoveIcon = moveInfo.icon;
 
   const handleSubmit = async () => {
-    setSubmitting(true);
-    const result = await createBooking(formData);
-    setSubmitting(false);
+    // FORCE ALERT TO PROVE NEW CODE IS RUNNING
+    alert(`Connecting to database... Sending: ${formData.email}`);
     
-    if (result?.success) {
-      onSubmit();
-    } else {
-      alert(result?.error || "Failed to submit quote. Please try again or call us.");
+    setSubmitting(true);
+    try {
+      const result = await createBooking(formData);
+      
+      if (result && result.success) {
+        alert("Server said SUCCESS! Your database now has the booking.");
+        onSubmit();
+      } else {
+        alert("Server returned error: " + (result?.error || "Unknown error"));
+      }
+    } catch(err) {
+      alert("CLIENT CRASH Calling Action: " + err.message);
+    } finally {
+      setSubmitting(false);
     }
   };
 
