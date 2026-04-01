@@ -33,7 +33,7 @@ export default function Hero() {
           <div className="absolute inset-0 bg-gradient-to-r from-white via-white/95 to-white/70" />
         </div>
 
-        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-32">
+        <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-32">
           <div className="max-w-2xl">
             {/* Badge */}
             <motion.div
