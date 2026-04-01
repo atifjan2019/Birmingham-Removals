@@ -33,3 +33,10 @@ model Booking {
   
   customer     Customer @relation(fields: [customerId], references: [id])
 }
+
+
+model AdminUser {
+  id       String @id @default(uuid())
+  email    String @unique
+  password String
+}
