@@ -122,7 +122,6 @@ function BookingDetailsModal({ booking, onClose }) {
             <div className="bg-gray-50 rounded-xl p-4 border border-gray-100">
               <div className="text-xs text-muted font-semibold uppercase tracking-wider mb-2">Move Details</div>
               <div className="font-semibold text-gray-900 capitalize">{booking.moveType}</div>
-              <div className="text-sm text-gray-600 mt-1">{booking.bedrooms} Bedroom(s)</div>
               <div className="text-sm text-gray-600 mt-1 flex items-center gap-2">
                 <CalendarDays className="w-4 h-4 text-muted" />
                 {booking.moveDate ? new Date(booking.moveDate).toLocaleDateString('en-GB', { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric' }) : "N/A"}
@@ -285,7 +284,6 @@ export default function BookingsClient({ initialBookings }) {
                         <CalendarDays className="w-3.5 h-3.5" /> Date
                       </div>
                       <div className="text-sm font-semibold text-gray-900">{formattedDate}</div>
-                      <div className="text-xs text-gray-500 mt-1">{booking.bedrooms} Bedroom(s)</div>
                     </div>
 
                     <div>
