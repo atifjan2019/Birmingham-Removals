@@ -1,3 +1,6 @@
+"use client";
+
+import { useState } from "react";
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
 import TrustBar from "@/components/TrustBar";
@@ -6,18 +9,22 @@ import WhyUs from "@/components/WhyUs";
 import HowItWorks from "@/components/HowItWorks";
 import Testimonials from "@/components/Testimonials";
 import Footer from "@/components/Footer";
+import HeroPopup from "@/components/HeroPopup";
 
 export default function Home() {
+  const [popupOpen, setPopupOpen] = useState(false);
+
   return (
     <>
-      <Navbar />
-      <Hero />
+      <Navbar onOpenQuote={() => setPopupOpen(true)} />
+      <Hero onOpenQuote={() => setPopupOpen(true)} />
       <TrustBar />
       <Services />
       <WhyUs />
       <HowItWorks />
       <Testimonials />
-      <Footer />
+      <Footer onOpenQuote={() => setPopupOpen(true)} />
+      <HeroPopup open={popupOpen} onClose={() => setPopupOpen(false)} />
     </>
   );
 }
