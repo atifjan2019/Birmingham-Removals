@@ -42,19 +42,43 @@ export async function createBooking(formData) {
     // Storing as a simple average or minimum for reference
     const estimatedPrice = quote.min;
 
-    const booking = await prisma.booking.create({
-      data: {
-        customerId: customer.id,
-        moveType,
-        fromPostcode,
-        toPostcode,
-        moveDate: new Date(moveDate),
-        bedrooms: parseInt(bedrooms) || 0,
-        extras: extras || [],
-        status: "New",
-        price: estimatedPrice
-      }
+    // Check if there's an existing Abandoned booking for this customer — upgrade it instead of duplicating
+    const existingAbandoned = await prisma.booking.findFirst({
+      where: { customerId: customer.id, status: "Abandoned" },
+      orderBy: { createdAt: "desc" }
     });
+
+    let booking;
+    if (existingAbandoned) {
+      // Upgrade the abandoned lead to a real booking
+      booking = await prisma.booking.update({
+        where: { id: existingAbandoned.id },
+        data: {
+          moveType,
+          fromPostcode,
+          toPostcode,
+          moveDate: new Date(moveDate),
+          bedrooms: parseInt(bedrooms) || 0,
+          extras: extras || [],
+          status: "New",
+          price: estimatedPrice
+        }
+      });
+    } else {
+      booking = await prisma.booking.create({
+        data: {
+          customerId: customer.id,
+          moveType,
+          fromPostcode,
+          toPostcode,
+          moveDate: new Date(moveDate),
+          bedrooms: parseInt(bedrooms) || 0,
+          extras: extras || [],
+          status: "New",
+          price: estimatedPrice
+        }
+      });
+    }
 
     fs.appendFileSync('booking.log', `[BOOKING RECORDED SUCCESSFULLY]: ${booking.id}\n`);
 
