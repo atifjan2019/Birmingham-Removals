@@ -5,10 +5,10 @@ import { X, Home, Building2, BedDouble, Package } from "lucide-react";
 import { useRouter } from "next/navigation";
 
 const moveTypes = [
-  { id: "house", icon: Home, label: "House Move", emoji: "🏠" },
-  { id: "office", icon: Building2, label: "Office Move", emoji: "🏢" },
-  { id: "flat", icon: BedDouble, label: "Studio / Flat", emoji: "🛏" },
-  { id: "items", icon: Package, label: "Single Items", emoji: "📦" },
+  { id: "house", icon: Home, label: "House Move" },
+  { id: "office", icon: Building2, label: "Office Move" },
+  { id: "flat", icon: BedDouble, label: "Studio / Flat" },
+  { id: "items", icon: Package, label: "Single Items" },
 ];
 
 export default function HeroPopup({ open, onClose }) {
@@ -70,7 +70,9 @@ export default function HeroPopup({ open, onClose }) {
                   onClick={() => handleSelect(type.id)}
                   className="flex flex-col items-center gap-2 p-5 rounded-xl border-2 border-gray-200 bg-gray-50/50 hover:border-primary hover:bg-primary/5 hover:shadow-md transition-all duration-200 cursor-pointer group"
                 >
-                  <span className="text-3xl">{type.emoji}</span>
+                  <div className="w-12 h-12 rounded-xl bg-gray-100 group-hover:bg-primary/10 flex items-center justify-center transition-colors">
+                    <type.icon className="w-6 h-6 text-gray-600 group-hover:text-primary transition-colors" />
+                  </div>
                   <span className="text-sm font-semibold text-gray-900 group-hover:text-primary transition-colors">
                     {type.label}
                   </span>

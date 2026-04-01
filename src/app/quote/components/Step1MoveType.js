@@ -4,10 +4,10 @@ import { useState } from "react";
 import { Home, Building2, BedDouble, Package, ArrowRight } from "lucide-react";
 
 const moveTypes = [
-  { id: "house", label: "House Move", emoji: "🏠" },
-  { id: "office", label: "Office Move", emoji: "🏢" },
-  { id: "flat", label: "Studio / Flat", emoji: "🛏" },
-  { id: "items", label: "Single Items", emoji: "📦" },
+  { id: "house", icon: Home, label: "House Move" },
+  { id: "office", icon: Building2, label: "Office Move" },
+  { id: "flat", icon: BedDouble, label: "Studio / Flat" },
+  { id: "items", icon: Package, label: "Single Items" },
 ];
 
 export default function Step1MoveType({ value, onChange, onNext }) {
@@ -44,7 +44,17 @@ export default function Step1MoveType({ value, onChange, onNext }) {
                   : "border-gray-200 bg-gray-50/50 hover:border-gray-300 hover:bg-gray-50"
               }`}
             >
-              <span className="text-3xl">{type.emoji}</span>
+              <div
+                className={`w-12 h-12 rounded-xl flex items-center justify-center transition-colors ${
+                  selected ? "bg-primary/10" : "bg-gray-100"
+                }`}
+              >
+                <type.icon
+                  className={`w-6 h-6 transition-colors ${
+                    selected ? "text-primary" : "text-gray-500"
+                  }`}
+                />
+              </div>
               <span
                 className={`text-sm font-semibold ${
                   selected ? "text-primary" : "text-gray-900"
