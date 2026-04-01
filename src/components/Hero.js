@@ -14,10 +14,10 @@ const stats = [
 
 export default function Hero() {
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden grain">
+    <section className="relative min-h-screen flex items-center justify-center overflow-hidden grain bg-gradient-to-br from-gray-50 via-white to-red-50/30">
       {/* Gradient orbs */}
-      <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-primary/10 rounded-full blur-3xl" />
-      <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-accent/8 rounded-full blur-3xl" />
+      <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-primary/5 rounded-full blur-3xl" />
+      <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-accent/5 rounded-full blur-3xl" />
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-32 text-center">
         {/* Badge */}
@@ -32,7 +32,7 @@ export default function Hero() {
         </motion.div>
 
         {/* Headline - word by word reveal */}
-        <h1 className="font-[family-name:var(--font-space)] text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold leading-tight mb-6 max-w-5xl mx-auto">
+        <h1 className="font-[family-name:var(--font-space)] text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold leading-tight mb-6 max-w-5xl mx-auto text-gray-900">
           {words.map((word, i) => (
             <motion.span
               key={i}
@@ -78,7 +78,7 @@ export default function Hero() {
           </a>
           <a
             href="#services"
-            className="inline-flex items-center gap-2 px-8 py-4 border border-white/10 text-foreground font-semibold rounded-full hover:bg-white/5 hover:scale-105 transition-all text-lg"
+            className="inline-flex items-center gap-2 px-8 py-4 border border-gray-200 text-gray-900 font-semibold rounded-full hover:bg-gray-50 hover:scale-105 transition-all text-lg"
           >
             View Services
           </a>
@@ -100,7 +100,7 @@ export default function Hero() {
                 <stat.icon className="w-5 h-5 text-primary" />
               </div>
               <div className="text-left">
-                <div className="font-[family-name:var(--font-space)] font-bold text-foreground">
+                <div className="font-[family-name:var(--font-space)] font-bold text-gray-900">
                   {stat.value}
                 </div>
                 <div className="text-xs text-muted">{stat.label}</div>
@@ -111,7 +111,7 @@ export default function Hero() {
       </div>
 
       {/* Animated truck at bottom */}
-      <div className="absolute bottom-8 left-0 right-0 overflow-hidden opacity-20">
+      <div className="absolute bottom-8 left-0 right-0 overflow-hidden opacity-10">
         <div className="animate-truck">
           <Truck className="w-16 h-16 text-primary" />
         </div>

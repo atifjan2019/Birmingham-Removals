@@ -1,15 +1,15 @@
 @import "tailwindcss";
 
 @theme inline {
-  --color-background: #0A0F1E;
-  --color-foreground: #F8FAFC;
-  --color-primary: #2563EB;
-  --color-accent: #60A5FA;
+  --color-background: #FFFFFF;
+  --color-foreground: #111827;
+  --color-primary: #BC2436;
+  --color-accent: #E8485A;
   --color-success: #10B981;
-  --color-muted: #94A3B8;
-  --color-card: rgba(255, 255, 255, 0.05);
-  --color-card-border: rgba(255, 255, 255, 0.08);
-  --color-card-hover: rgba(255, 255, 255, 0.08);
+  --color-muted: #6B7280;
+  --color-card: rgba(0, 0, 0, 0.02);
+  --color-card-border: rgba(0, 0, 0, 0.08);
+  --color-card-hover: rgba(0, 0, 0, 0.04);
 }
 
 /* Smooth scroll */
@@ -19,14 +19,14 @@ html {
 
 /* Selection */
 ::selection {
-  background: #2563EB;
-  color: #F8FAFC;
+  background: #BC2436;
+  color: #FFFFFF;
 }
 
 /* Body */
 body {
-  background: #0A0F1E;
-  color: #F8FAFC;
+  background: #FFFFFF;
+  color: #111827;
   font-family: var(--font-inter), system-ui, sans-serif;
 }
 
@@ -35,14 +35,14 @@ body {
   width: 8px;
 }
 ::-webkit-scrollbar-track {
-  background: #0A0F1E;
+  background: #F3F4F6;
 }
 ::-webkit-scrollbar-thumb {
-  background: #2563EB;
+  background: #BC2436;
   border-radius: 4px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #60A5FA;
+  background: #E8485A;
 }
 
 /* Grain texture overlay */
@@ -55,7 +55,7 @@ body {
   inset: 0;
   z-index: 1;
   pointer-events: none;
-  opacity: 0.04;
+  opacity: 0.03;
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
   background-repeat: repeat;
   background-size: 128px 128px;
@@ -79,15 +79,8 @@ body {
   animation: drive 12s linear infinite;
 }
 
-/* Count-up pulse */
-@keyframes pulse-glow {
-  0%, 100% { box-shadow: 0 0 0 0 rgba(37, 99, 235, 0); }
-  50% { box-shadow: 0 0 20px 4px rgba(37, 99, 235, 0.2); }
-}
-
 /* Date input styling */
 input[type="date"]::-webkit-calendar-picker-indicator {
-  filter: invert(1);
   cursor: pointer;
 }
 
@@ -101,11 +94,12 @@ input[type="number"] {
   -moz-appearance: textfield;
 }
 
-/* Glassmorphism card utility */
+/* Glassmorphism card utility — light mode */
 .glass-card {
-  background: rgba(255, 255, 255, 0.05);
+  background: rgba(255, 255, 255, 0.7);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(0, 0, 0, 0.06);
   border-radius: 16px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04), 0 4px 16px rgba(0, 0, 0, 0.03);
 }

@@ -25,7 +25,7 @@ export default function Navbar() {
     <nav
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         scrolled
-          ? "bg-[#0A0F1E]/80 backdrop-blur-xl border-b border-white/5 shadow-lg shadow-black/20"
+          ? "bg-white/80 backdrop-blur-xl border-b border-gray-200/60 shadow-sm"
           : "bg-transparent"
       }`}
     >
@@ -37,7 +37,7 @@ export default function Navbar() {
               <Truck className="w-5 h-5 text-primary" />
             </div>
             <div>
-              <span className="font-[family-name:var(--font-space)] font-bold text-lg text-foreground">
+              <span className="font-[family-name:var(--font-space)] font-bold text-lg text-gray-900">
                 Swift Removals
               </span>
               <span className="hidden sm:block text-xs text-muted -mt-1">
@@ -52,7 +52,7 @@ export default function Navbar() {
               <a
                 key={link.href}
                 href={link.href}
-                className="text-sm text-muted hover:text-foreground transition-colors relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-primary after:transition-all hover:after:w-full"
+                className="text-sm text-muted hover:text-gray-900 transition-colors relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-primary after:transition-all hover:after:w-full"
               >
                 {link.label}
               </a>
@@ -69,7 +69,7 @@ export default function Navbar() {
           {/* Mobile Hamburger */}
           <button
             onClick={() => setMobileOpen(!mobileOpen)}
-            className="md:hidden p-2 text-muted hover:text-foreground transition-colors"
+            className="md:hidden p-2 text-muted hover:text-gray-900 transition-colors"
             aria-label="Toggle menu"
           >
             {mobileOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
@@ -85,7 +85,7 @@ export default function Navbar() {
             animate={{ height: "auto", opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
             transition={{ duration: 0.3 }}
-            className="md:hidden overflow-hidden bg-[#0A0F1E]/95 backdrop-blur-xl border-b border-white/5"
+            className="md:hidden overflow-hidden bg-white/95 backdrop-blur-xl border-b border-gray-200/60"
           >
             <div className="px-4 py-6 space-y-4">
               {navLinks.map((link) => (
@@ -93,7 +93,7 @@ export default function Navbar() {
                   key={link.href}
                   href={link.href}
                   onClick={() => setMobileOpen(false)}
-                  className="block text-lg text-muted hover:text-foreground transition-colors py-2"
+                  className="block text-lg text-muted hover:text-gray-900 transition-colors py-2"
                 >
                   {link.label}
                 </a>

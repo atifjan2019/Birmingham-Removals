@@ -32,7 +32,7 @@ export default function RootLayout({ children }) {
       lang="en"
       className={`${inter.variable} ${spaceGrotesk.variable} antialiased`}
     >
-      <body className="min-h-screen bg-[#0A0F1E] text-[#F8FAFC]">
+      <body className="min-h-screen bg-white text-gray-900">
         {children}
       </body>
     </html>

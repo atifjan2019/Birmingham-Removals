@@ -13,12 +13,12 @@ export default function TrustBar() {
   const repeated = [...items, ...items, ...items, ...items];
 
   return (
-    <section className="relative py-5 border-y border-white/5 bg-white/[0.02] overflow-hidden">
+    <section className="relative py-5 border-y border-gray-100 bg-gray-50/50 overflow-hidden">
       <div className="animate-marquee flex items-center whitespace-nowrap">
         {repeated.map((item, i) => (
           <span key={i} className="flex items-center text-sm text-muted mx-4">
-            <span className="font-semibold text-foreground">{item}</span>
-            <span className="ml-8 text-primary/40">●</span>
+            <span className="font-semibold text-gray-900">{item}</span>
+            <span className="ml-8 text-primary/30">●</span>
           </span>
         ))}
       </div>
