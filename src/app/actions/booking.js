@@ -110,6 +110,26 @@ export async function updateBookingStatus(id, status) {
   }
 }
 
+export async function updateBookingFinancials(id, jobCost, expenses) {
+  try {
+    const profit = (jobCost || 0) - (expenses || 0);
+    await prisma.booking.update({
+      where: { id },
+      data: {
+        jobCost: parseFloat(jobCost) || 0,
+        expenses: parseFloat(expenses) || 0,
+        profit: parseFloat(profit) || 0
+      }
+    });
+    revalidatePath("/admin");
+    revalidatePath("/admin/bookings");
+    return { success: true };
+  } catch (error) {
+    console.error("Failed updating financials:", error);
+    return { success: false, error: "Failed to update financials." };
+  }
+}
+
 export async function deleteBooking(id) {
   try {
     await prisma.booking.delete({

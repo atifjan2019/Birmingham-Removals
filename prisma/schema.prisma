@@ -26,8 +26,11 @@ model Booking {
   moveDate     DateTime
   bedrooms     Int      @default(1)
   extras       Json?    // Store array of extras like ['packing', 'storage']
-  status       String   @default("New") // "New", "Upcoming", "Completed"
+  status       String   @default("New") // "New", "Upcoming", "Completed", "Abandoned"
   price        Float?   // Estimated price
+  jobCost      Float?   // Total amount charged to customer
+  expenses     Float?   // Costs incurred (fuel, labour, etc.)
+  profit       Float?   // jobCost - expenses
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
   
