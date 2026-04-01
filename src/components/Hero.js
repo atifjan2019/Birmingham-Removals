@@ -13,7 +13,6 @@ const stats = [
   { icon: Truck, value: "500+", label: "Moves Completed" },
   { icon: Star, value: "5-Star", label: "Google Rating" },
   { icon: Zap, value: "Same Day", label: "Available" },
-  { icon: ShieldCheck, value: "100%", label: "Fully Insured" },
 ];
 
 export default function Hero({ onOpenQuote }) {
@@ -103,12 +102,12 @@ export default function Hero({ onOpenQuote }) {
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 1.3 }}
-              className="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-4 mt-12"
+              className="grid grid-cols-2 sm:grid-cols-3 gap-2 sm:gap-4 mt-12"
             >
               {stats.map((stat, i) => (
                 <div
                   key={i}
-                  className="bg-white/80 backdrop-blur-sm border border-gray-200/60 rounded-xl sm:rounded-2xl px-3 py-2.5 sm:px-5 sm:py-3 flex items-center gap-2 sm:gap-3 shadow-sm"
+                  className={`bg-white/80 backdrop-blur-sm border border-gray-200/60 rounded-xl sm:rounded-2xl px-3 py-2.5 sm:px-5 sm:py-3 flex items-center gap-2 sm:gap-3 shadow-sm ${i === stats.length - 1 ? "col-span-2 sm:col-span-1" : ""}`}
                 >
                   <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
                     <stat.icon className="w-4 h-4 sm:w-5 sm:h-5 text-primary" />

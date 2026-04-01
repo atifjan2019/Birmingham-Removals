@@ -12,6 +12,7 @@ const spaceGrotesk = Space_Grotesk({
 });
 
 export const metadata = {
+  metadataBase: new URL("https://www.newcastleremovals.uk"),
   title: "Swift Removals Newcastle | Trusted House & Office Removals",
   description:
     "Newcastle's most trusted removals company. House moves, office relocations, man & van, and packing services across Newcastle, Gateshead & Tyneside. Free quotes, same day available.",
