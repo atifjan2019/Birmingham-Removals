@@ -8,15 +8,7 @@ export const metadata = {
   description: "Browse the major areas and postcodes covered by Swift Removals across Newcastle, Gateshead, and North Tyneside.",
 };
 
-// We will expand this to 20 areas upon your approval!
-export const areas = [
-  { id: "gosforth", name: "Gosforth", tag: "Premium Coverage" },
-  { id: "jesmond", name: "Jesmond", tag: "Student & Family" },
-  { id: "heaton", name: "Heaton", tag: "Fast Response" },
-  { id: "gateshead", name: "Gateshead", tag: "River South" },
-  { id: "tynemouth", name: "Tynemouth", tag: "Coastal Moves" },
-  { id: "whitley-bay", name: "Whitley Bay", tag: "Coastal Moves" },
-];
+import { areasList as areas } from "./data";
 
 export default function AreasIndexPage() {
   return (
