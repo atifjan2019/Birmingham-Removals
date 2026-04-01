@@ -1,0 +1,114 @@
+"use client";
+
+import { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Truck, Menu, X, Phone } from "lucide-react";
+
+const navLinks = [
+  { label: "Services", href: "#services" },
+  { label: "How It Works", href: "#how-it-works" },
+  { label: "Reviews", href: "#testimonials" },
+  { label: "Get Quote", href: "#quote" },
+];
+
+export default function Navbar() {
+  const [scrolled, setScrolled] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => setScrolled(window.scrollY > 50);
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  return (
+    <nav
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+        scrolled
+          ? "bg-[#0A0F1E]/80 backdrop-blur-xl border-b border-white/5 shadow-lg shadow-black/20"
+          : "bg-transparent"
+      }`}
+    >
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex items-center justify-between h-16 md:h-20">
+          {/* Logo */}
+          <a href="#" className="flex items-center gap-2 group">
+            <div className="w-10 h-10 rounded-xl bg-primary/10 border border-primary/20 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
+              <Truck className="w-5 h-5 text-primary" />
+            </div>
+            <div>
+              <span className="font-[family-name:var(--font-space)] font-bold text-lg text-foreground">
+                Swift Removals
+              </span>
+              <span className="hidden sm:block text-xs text-muted -mt-1">
+                Newcastle upon Tyne
+              </span>
+            </div>
+          </a>
+
+          {/* Desktop Nav */}
+          <div className="hidden md:flex items-center gap-8">
+            {navLinks.map((link) => (
+              <a
+                key={link.href}
+                href={link.href}
+                className="text-sm text-muted hover:text-foreground transition-colors relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-primary after:transition-all hover:after:w-full"
+              >
+                {link.label}
+              </a>
+            ))}
+            <a
+              href="#quote"
+              className="inline-flex items-center gap-2 px-5 py-2.5 bg-primary text-white text-sm font-semibold rounded-full hover:bg-primary/90 hover:scale-105 transition-all shadow-lg shadow-primary/25"
+            >
+              <Phone className="w-4 h-4" />
+              Get Free Quote
+            </a>
+          </div>
+
+          {/* Mobile Hamburger */}
+          <button
+            onClick={() => setMobileOpen(!mobileOpen)}
+            className="md:hidden p-2 text-muted hover:text-foreground transition-colors"
+            aria-label="Toggle menu"
+          >
+            {mobileOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+          </button>
+        </div>
+      </div>
+
+      {/* Mobile Drawer */}
+      <AnimatePresence>
+        {mobileOpen && (
+          <motion.div
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: "auto", opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.3 }}
+            className="md:hidden overflow-hidden bg-[#0A0F1E]/95 backdrop-blur-xl border-b border-white/5"
+          >
+            <div className="px-4 py-6 space-y-4">
+              {navLinks.map((link) => (
+                <a
+                  key={link.href}
+                  href={link.href}
+                  onClick={() => setMobileOpen(false)}
+                  className="block text-lg text-muted hover:text-foreground transition-colors py-2"
+                >
+                  {link.label}
+                </a>
+              ))}
+              <a
+                href="#quote"
+                onClick={() => setMobileOpen(false)}
+                className="block w-full text-center px-5 py-3 bg-primary text-white font-semibold rounded-full hover:bg-primary/90 transition-all"
+              >
+                Get Free Quote
+              </a>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </nav>
+  );
+}
