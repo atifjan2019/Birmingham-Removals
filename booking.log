@@ -1,0 +1,3 @@
+[SERVER ACTION CALLED]: {"moveType":"flat","fromPostcode":"NE1 4XF","toPostcode":"NE3 2PA","moveDate":"2026-04-08","flexibleDates":true,"fullName":"John Smith","phone":"07123 456 789","email":"customer_07123456789@pending.com","extras":[]}
+[CUSTOMER CREATED]: 7534539f-a842-4c4c-8846-17c7419c70b6
+[BOOKING RECORDED SUCCESSFULLY]: 4afb3376-6de3-4b4c-a219-dbcb49e03277
