@@ -9,12 +9,12 @@ export async function generateMetadata({ params }) {
 
   if (!data) {
     return {
-      title: "Area Not Found | Swift Removals",
+      title: "Area Not Found | Newcastle Removals",
     };
   }
 
   return {
-    title: `Removals in ${data.name} | Swift Removals Newcastle`,
+    title: `Removals in ${data.name} | Newcastle Removals`,
     description: data.description,
     openGraph: {
       title: `Expert Removals in ${data.name}`,

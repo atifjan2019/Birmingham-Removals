@@ -37,7 +37,7 @@ export default function Navbar({ onOpenQuote }) {
             </div>
             <div>
               <span className="font-[family-name:var(--font-space)] font-bold text-lg text-gray-900">
-                Swift Removals
+                Newcastle Removals
               </span>
               <span className="hidden sm:block text-xs text-muted -mt-1">
                 Newcastle upon Tyne

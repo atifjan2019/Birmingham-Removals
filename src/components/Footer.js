@@ -26,7 +26,7 @@ export default function Footer() {
                 <Truck className="w-5 h-5 text-primary" />
               </div>
               <span className="font-[family-name:var(--font-space)] font-bold text-lg text-gray-900">
-                Swift Removals
+                Newcastle Removals
               </span>
             </div>
             <p className="text-muted text-sm leading-relaxed mb-6">
@@ -83,7 +83,7 @@ export default function Footer() {
               <li className="flex items-start gap-3">
                 <MapPin className="w-5 h-5 text-primary shrink-0 mt-0.5" />
                 <span className="text-muted text-sm">
-                  Swift Removals<br />
+                  Newcastle Removals<br />
                   Newcastle upon Tyne<br />
                   NE1 4XF
                 </span>
@@ -97,7 +97,7 @@ export default function Footer() {
       <div className="border-t border-gray-200 py-6">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
           <p className="text-muted text-xs">
-            &copy; {new Date().getFullYear()} Swift Removals Newcastle. All rights
+            &copy; {new Date().getFullYear()} Newcastle Removals. All rights
             reserved.
           </p>
           <p className="text-muted text-xs">

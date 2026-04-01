@@ -80,7 +80,7 @@ export default function QuoteFunnel() {
               <Truck className="w-4 h-4 text-primary" />
             </div>
             <span className="font-[family-name:var(--font-space)] font-bold text-gray-900 text-sm">
-              Swift Removals
+              Newcastle Removals
             </span>
           </a>
           <a

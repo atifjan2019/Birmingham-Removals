@@ -4,8 +4,8 @@ import Footer from "@/components/Footer";
 import { MapPin, ArrowRight } from "lucide-react";
 
 export const metadata = {
-  title: "Areas We Cover | Swift Removals Newcastle",
-  description: "Browse the major areas and postcodes covered by Swift Removals across Newcastle, Gateshead, and North Tyneside.",
+  title: "Areas We Cover | Newcastle Removals",
+  description: "Browse the major areas and postcodes covered by Newcastle Removals across Newcastle, Gateshead, and North Tyneside.",
 };
 
 import { areasList as areas } from "./data";

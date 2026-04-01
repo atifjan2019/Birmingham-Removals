@@ -5,8 +5,8 @@ import { areasList } from "../areas/data";
 import { Map, MapPin, Search, Navigation } from "lucide-react";
 
 export const metadata = {
-  title: "HTML Sitemap | Swift Removals Newcastle",
-  description: "Navigate all pages on the Swift Removals Newcastle website.",
+  title: "HTML Sitemap | Newcastle Removals",
+  description: "Navigate all pages on the Newcastle Removals website.",
 };
 
 export default function SitemapPage() {

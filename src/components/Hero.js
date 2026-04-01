@@ -23,7 +23,7 @@ export default function Hero({ onOpenQuote }) {
         <div className="absolute inset-0 z-0">
           <Image
             src="/images/hero-removals.png"
-            alt="Swift Removals team loading a van in Newcastle"
+            alt="Newcastle Removals team loading a van in Newcastle"
             fill
             className="object-cover"
             priority

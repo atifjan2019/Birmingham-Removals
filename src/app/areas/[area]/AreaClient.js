@@ -92,7 +92,7 @@ export default function AreaClient({ areaData }) {
                 Why Choose Our {areaData.name} Removal Services?
               </h2>
               <p className="text-muted mb-6 text-lg">
-                Moving can be stressful, but with Swift Removals operating directly in {areaData.name}, you are guaranteed a seamless, professional experience from start to finish. We know the local roads, parking restrictions, and best routes.
+                Moving can be stressful, but with Newcastle Removals operating directly in {areaData.name}, you are guaranteed a seamless, professional experience from start to finish. We know the local roads, parking restrictions, and best routes.
               </p>
               <ul className="space-y-4">
                 {[
