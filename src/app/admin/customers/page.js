@@ -1,5 +1,6 @@
 import prisma from "@/lib/prisma";
 import { Users, Mail, Phone, CalendarDays } from "lucide-react";
+import DeleteCustomerButton from "./DeleteCustomerButton";
 
 export const dynamic = "force-dynamic";
 
@@ -31,6 +32,7 @@ export default async function CustomersPage() {
                 <th className="px-6 py-4 whitespace-nowrap">Contact Details</th>
                 <th className="px-6 py-4 whitespace-nowrap text-center">Total Bookings</th>
                 <th className="px-6 py-4 whitespace-nowrap">Date Added</th>
+                <th className="px-6 py-4 whitespace-nowrap text-right">Actions</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-100">
