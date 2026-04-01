@@ -132,8 +132,7 @@ export default function QuoteForm() {
   }
 
   return (
-    <section id="quote" className="py-24 sm:py-32 relative">
-      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-primary/[0.03] to-transparent" />
+    <section id="quote" className="py-24 sm:py-32 relative bg-gray-50/50">
       <div className="relative max-w-2xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <motion.div
@@ -146,7 +145,7 @@ export default function QuoteForm() {
           <span className="text-primary text-sm font-semibold uppercase tracking-wider mb-3 block">
             Free Quote
           </span>
-          <h2 className="font-[family-name:var(--font-space)] text-3xl sm:text-4xl md:text-5xl font-bold mb-4">
+          <h2 className="font-[family-name:var(--font-space)] text-3xl sm:text-4xl md:text-5xl font-bold mb-4 text-gray-900">
             Get Your Instant Quote
           </h2>
           <p className="text-muted max-w-lg mx-auto">
@@ -213,12 +212,12 @@ export default function QuoteForm() {
 
           {/* Navigation Buttons */}
           {step < 5 && (
-            <div className="flex items-center justify-between mt-8 pt-6 border-t border-white/5">
+            <div className="flex items-center justify-between mt-8 pt-6 border-t border-gray-100">
               {step > 1 ? (
                 <button
                   type="button"
                   onClick={goBack}
-                  className="inline-flex items-center gap-2 px-5 py-2.5 text-muted hover:text-foreground transition-colors text-sm font-medium"
+                  className="inline-flex items-center gap-2 px-5 py-2.5 text-muted hover:text-gray-900 transition-colors text-sm font-medium"
                 >
                   <ArrowLeft className="w-4 h-4" />
                   Back
@@ -238,11 +237,11 @@ export default function QuoteForm() {
           )}
 
           {step === 5 && (
-            <div className="mt-6 pt-6 border-t border-white/5">
+            <div className="mt-6 pt-6 border-t border-gray-100">
               <button
                 type="button"
                 onClick={goBack}
-                className="inline-flex items-center gap-2 px-5 py-2.5 text-muted hover:text-foreground transition-colors text-sm font-medium"
+                className="inline-flex items-center gap-2 px-5 py-2.5 text-muted hover:text-gray-900 transition-colors text-sm font-medium"
               >
                 <ArrowLeft className="w-4 h-4" />
                 Go Back & Edit

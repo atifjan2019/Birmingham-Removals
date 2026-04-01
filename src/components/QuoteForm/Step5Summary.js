@@ -45,7 +45,6 @@ export default function Step5Summary({ formData, onSubmit }) {
 
   const handleSubmit = async () => {
     setSubmitting(true);
-    // Simulate API call
     await new Promise((resolve) => setTimeout(resolve, 2000));
     setSubmitting(false);
     onSubmit();
@@ -53,7 +52,7 @@ export default function Step5Summary({ formData, onSubmit }) {
 
   return (
     <div>
-      <h3 className="font-[family-name:var(--font-space)] text-2xl font-bold mb-2">
+      <h3 className="font-[family-name:var(--font-space)] text-2xl font-bold mb-2 text-gray-900">
         Review Your Quote
       </h3>
       <p className="text-muted text-sm mb-6">
@@ -69,7 +68,7 @@ export default function Step5Summary({ formData, onSubmit }) {
           </div>
           <div>
             <div className="text-xs text-muted">Move Type</div>
-            <div className="font-semibold text-foreground text-sm">
+            <div className="font-semibold text-gray-900 text-sm">
               {moveInfo.label}
             </div>
           </div>
@@ -81,7 +80,7 @@ export default function Step5Summary({ formData, onSubmit }) {
             <MapPin className="w-5 h-5 text-primary shrink-0" />
             <div>
               <div className="text-xs text-muted">From</div>
-              <div className="font-semibold text-foreground text-sm">
+              <div className="font-semibold text-gray-900 text-sm">
                 {formData.fromPostcode || "—"}
               </div>
             </div>
@@ -90,7 +89,7 @@ export default function Step5Summary({ formData, onSubmit }) {
             <MapPin className="w-5 h-5 text-accent shrink-0" />
             <div>
               <div className="text-xs text-muted">To</div>
-              <div className="font-semibold text-foreground text-sm">
+              <div className="font-semibold text-gray-900 text-sm">
                 {formData.toPostcode || "—"}
               </div>
             </div>
@@ -102,7 +101,7 @@ export default function Step5Summary({ formData, onSubmit }) {
             <Calendar className="w-5 h-5 text-primary shrink-0" />
             <div>
               <div className="text-xs text-muted">Move Date</div>
-              <div className="font-semibold text-foreground text-sm">
+              <div className="font-semibold text-gray-900 text-sm">
                 {formData.moveDate
                   ? new Date(formData.moveDate).toLocaleDateString("en-GB", {
                       weekday: "short",
@@ -118,7 +117,7 @@ export default function Step5Summary({ formData, onSubmit }) {
             <BedDouble className="w-5 h-5 text-primary shrink-0" />
             <div>
               <div className="text-xs text-muted">Bedrooms</div>
-              <div className="font-semibold text-foreground text-sm">
+              <div className="font-semibold text-gray-900 text-sm">
                 {formData.bedrooms === 0
                   ? "Studio"
                   : formData.bedrooms >= 6
@@ -151,15 +150,15 @@ export default function Step5Summary({ formData, onSubmit }) {
           <div className="text-xs text-muted mb-2">Contact Details</div>
           <div className="flex items-center gap-2 text-sm">
             <User className="w-4 h-4 text-muted" />
-            <span className="text-foreground">{formData.fullName}</span>
+            <span className="text-gray-900">{formData.fullName}</span>
           </div>
           <div className="flex items-center gap-2 text-sm">
             <Phone className="w-4 h-4 text-muted" />
-            <span className="text-foreground">{formData.phone}</span>
+            <span className="text-gray-900">{formData.phone}</span>
           </div>
           <div className="flex items-center gap-2 text-sm">
             <Mail className="w-4 h-4 text-muted" />
-            <span className="text-foreground">{formData.email}</span>
+            <span className="text-gray-900">{formData.email}</span>
           </div>
         </div>
 
