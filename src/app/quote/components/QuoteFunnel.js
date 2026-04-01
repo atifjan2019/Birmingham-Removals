@@ -84,11 +84,11 @@ export default function QuoteFunnel() {
             </span>
           </a>
           <a
-            href="tel:01911234567"
+            href="tel:07943480432"
             className="flex items-center gap-1.5 text-muted hover:text-gray-900 transition-colors text-sm"
           >
             <Phone className="w-4 h-4" />
-            <span className="hidden sm:inline">0191 123 4567</span>
+            <span className="hidden sm:inline">0794 348 0432</span>
           </a>
         </div>
       </header>

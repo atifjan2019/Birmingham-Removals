@@ -9,6 +9,7 @@ const quickLinks = [
   { label: "Packing Service", href: "#services" },
   { label: "Storage Solutions", href: "#services" },
   { label: "Get a Quote", href: "/quote" },
+  { label: "Sitemap", href: "/sitemap" },
 ];
 
 
@@ -64,10 +65,10 @@ export default function Footer() {
               <li className="flex items-center gap-3">
                 <Phone className="w-5 h-5 text-primary shrink-0" />
                 <a
-                  href="tel:01234567890"
+                  href="tel:07943480432"
                   className="text-muted text-sm hover:text-gray-900 transition-colors"
                 >
-                  0191 123 4567
+                  0794 348 0432
                 </a>
               </li>
               <li className="flex items-center gap-3">

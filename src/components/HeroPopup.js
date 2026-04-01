@@ -98,8 +98,8 @@ export default function HeroPopup({ open, onClose }) {
                     )}
                   </AnimatePresence>
 
-                  <div className="w-12 h-12 rounded-xl bg-gray-100 group-hover:bg-primary/10 flex items-center justify-center transition-colors z-[1]">
-                    <type.icon className="w-6 h-6 text-gray-600 group-hover:text-primary transition-colors" />
+                  <div className="w-12 h-12 rounded-xl bg-primary/10 group-hover:bg-primary/20 flex items-center justify-center transition-colors z-[1]">
+                    <type.icon className="w-6 h-6 text-primary transition-colors" />
                   </div>
                   <span className="text-sm font-semibold text-gray-900 group-hover:text-primary transition-colors z-[1]">
                     {type.label}

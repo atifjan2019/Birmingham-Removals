@@ -55,12 +55,12 @@ export default function Step1MoveType({ value, onChange, error }) {
             >
               <div
                 className={`w-14 h-14 rounded-xl flex items-center justify-center transition-colors ${
-                  selected ? "bg-primary/15" : "bg-gray-100"
+                  selected ? "bg-primary/20" : "bg-primary/10"
                 }`}
               >
                 <type.icon
                   className={`w-7 h-7 transition-colors ${
-                    selected ? "text-primary" : "text-muted"
+                    selected ? "text-primary" : "text-primary/70"
                   }`}
                 />
               </div>

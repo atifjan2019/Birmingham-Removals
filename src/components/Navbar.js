@@ -57,19 +57,29 @@ export default function Navbar({ onOpenQuote }) {
                 {link.label}
               </a>
             ))}
-            <button
-              onClick={onOpenQuote}
-              className="inline-flex items-center gap-2 px-5 py-2.5 bg-primary text-white text-sm font-semibold rounded-full hover:bg-primary/90 hover:scale-105 transition-all shadow-lg shadow-primary/25 cursor-pointer"
-            >
-              <Phone className="w-4 h-4" />
-              Get Free Quote
-            </button>
+            {onOpenQuote ? (
+              <button
+                onClick={onOpenQuote}
+                className="inline-flex items-center gap-2 px-5 py-2.5 bg-primary text-white text-sm font-semibold rounded-full hover:bg-primary/90 hover:scale-105 transition-all shadow-lg shadow-primary/25 cursor-pointer"
+              >
+                <Phone className="w-4 h-4" />
+                Get Free Quote
+              </button>
+            ) : (
+              <a
+                href="/quote"
+                className="inline-flex items-center gap-2 px-5 py-2.5 bg-primary text-white text-sm font-semibold rounded-full hover:bg-primary/90 hover:scale-105 transition-all shadow-lg shadow-primary/25 cursor-pointer"
+              >
+                <Phone className="w-4 h-4" />
+                Get Free Quote
+              </a>
+            )}
           </div>
 
           {/* Mobile actions */}
           <div className="flex items-center gap-2 md:hidden">
             <a
-              href="tel:01911234567"
+              href="tel:07943480432"
               className="w-10 h-10 rounded-full bg-primary/10 border border-primary/20 flex items-center justify-center hover:bg-primary/20 transition-colors"
               aria-label="Call us"
             >
@@ -107,12 +117,21 @@ export default function Navbar({ onOpenQuote }) {
                   {link.label}
                 </a>
               ))}
-              <button
-                onClick={() => { setMobileOpen(false); onOpenQuote?.(); }}
-                className="block w-full text-center px-5 py-3 bg-primary text-white font-semibold rounded-full hover:bg-primary/90 transition-all cursor-pointer"
-              >
-                Get Free Quote
-              </button>
+              {onOpenQuote ? (
+                <button
+                  onClick={() => { setMobileOpen(false); onOpenQuote(); }}
+                  className="block w-full text-center px-5 py-3 bg-primary text-white font-semibold rounded-full hover:bg-primary/90 transition-all cursor-pointer"
+                >
+                  Get Free Quote
+                </button>
+              ) : (
+                <a
+                  href="/quote"
+                  className="block w-full text-center px-5 py-3 bg-primary text-white font-semibold rounded-full hover:bg-primary/90 transition-all cursor-pointer"
+                >
+                  Get Free Quote
+                </a>
+              )}
             </div>
           </motion.div>
         )}
