@@ -82,18 +82,18 @@ export default function Hero() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 1 }}
-              className="flex flex-col sm:flex-row items-start gap-4"
+              className="flex flex-row items-start gap-2 sm:gap-4"
             >
               <button
                 onClick={() => setPopupOpen(true)}
-                className="inline-flex items-center gap-2 px-8 py-4 bg-primary text-white font-semibold rounded-full hover:bg-primary/90 hover:scale-105 transition-all shadow-lg shadow-primary/25 text-lg cursor-pointer"
+                className="inline-flex items-center gap-1.5 sm:gap-2 px-5 py-3 sm:px-8 sm:py-4 bg-primary text-white font-semibold rounded-full hover:bg-primary/90 hover:scale-105 transition-all shadow-lg shadow-primary/25 text-sm sm:text-lg cursor-pointer"
               >
                 Get Free Quote
-                <ArrowRight className="w-5 h-5" />
+                <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5" />
               </button>
               <a
                 href="#services"
-                className="inline-flex items-center gap-2 px-8 py-4 border border-gray-200 text-gray-900 font-semibold rounded-full hover:bg-gray-50 hover:scale-105 transition-all text-lg bg-white/80 backdrop-blur-sm"
+                className="inline-flex items-center gap-1.5 sm:gap-2 px-5 py-3 sm:px-8 sm:py-4 border border-gray-200 text-gray-900 font-semibold rounded-full hover:bg-gray-50 hover:scale-105 transition-all text-sm sm:text-lg bg-white/80 backdrop-blur-sm"
               >
                 View Services
               </a>
@@ -104,21 +104,21 @@ export default function Hero() {
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 1.3 }}
-              className="flex flex-wrap items-center gap-4 mt-12"
+              className="grid grid-cols-3 gap-2 sm:gap-4 mt-12"
             >
               {stats.map((stat, i) => (
                 <div
                   key={i}
-                  className="bg-white/80 backdrop-blur-sm border border-gray-200/60 rounded-2xl px-5 py-3 flex items-center gap-3 shadow-sm"
+                  className="bg-white/80 backdrop-blur-sm border border-gray-200/60 rounded-xl sm:rounded-2xl px-2.5 py-2 sm:px-5 sm:py-3 flex items-center gap-2 sm:gap-3 shadow-sm"
                 >
-                  <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
-                    <stat.icon className="w-5 h-5 text-primary" />
+                  <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
+                    <stat.icon className="w-4 h-4 sm:w-5 sm:h-5 text-primary" />
                   </div>
-                  <div className="text-left">
-                    <div className="font-[family-name:var(--font-space)] font-bold text-gray-900">
+                  <div className="text-left min-w-0">
+                    <div className="font-[family-name:var(--font-space)] font-bold text-gray-900 text-xs sm:text-base">
                       {stat.value}
                     </div>
-                    <div className="text-xs text-muted">{stat.label}</div>
+                    <div className="text-[10px] sm:text-xs text-muted leading-tight">{stat.label}</div>
                   </div>
                 </div>
               ))}
