@@ -2,7 +2,8 @@
 
 import { useState, useRef, useEffect } from "react";
 import { Search, Filter, MoreVertical, CheckCircle2, Clock, CalendarDays, Trash2, ChevronRight } from "lucide-react";
-import { updateBookingStatus, deleteBooking } from "@/app/actions/booking";
+import { updateBookingStatus, deleteBooking, updateBookingFinancials } from "@/app/actions/booking";
+import { PoundSterling } from "lucide-react";
 
 function ActionButton({ bookingId, currentStatus }) {
   const [open, setOpen] = useState(false);
@@ -91,6 +92,12 @@ function BookingDetailsModal({ booking, onClose }) {
   const [status, setStatus] = useState(booking?.status || "New");
   const [updating, setUpdating] = useState(false);
   const [deleting, setDeleting] = useState(false);
+  const [jobCost, setJobCost] = useState(booking?.jobCost || "");
+  const [expenses, setExpenses] = useState(booking?.expenses || "");
+  const [savingFinancials, setSavingFinancials] = useState(false);
+  const [financialsSaved, setFinancialsSaved] = useState(false);
+
+  const calculatedProfit = (parseFloat(jobCost) || 0) - (parseFloat(expenses) || 0);
 
   if (!booking) return null;
 
@@ -110,11 +117,13 @@ function BookingDetailsModal({ booking, onClose }) {
     }
   };
 
-  const statusColors = {
-    New: "border-amber-300 bg-amber-50 text-amber-800",
-    Upcoming: "border-blue-300 bg-blue-50 text-blue-800",
-    Completed: "border-emerald-300 bg-emerald-50 text-emerald-800",
-    Abandoned: "border-gray-300 bg-gray-50 text-gray-600",
+  const handleSaveFinancials = async () => {
+    setSavingFinancials(true);
+    setFinancialsSaved(false);
+    await updateBookingFinancials(booking.id, jobCost, expenses);
+    setSavingFinancials(false);
+    setFinancialsSaved(true);
+    setTimeout(() => setFinancialsSaved(false), 2000);
   };
 
   return (
@@ -195,6 +204,60 @@ function BookingDetailsModal({ booking, onClose }) {
               })}
             </div>
           </div>
+
+          {/* Financial Section - shown when Completed */}
+          {status === "Completed" && (
+            <div className="animate-in fade-in slide-in-from-top-2 duration-300">
+              <h3 className="text-lg font-bold text-gray-900 mb-4 border-b border-gray-100 pb-2 flex items-center gap-2">
+                <PoundSterling className="w-5 h-5 text-emerald-500" /> Job Financials
+              </h3>
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-4">
+                <div>
+                  <label className="block text-xs text-gray-500 font-semibold uppercase tracking-wider mb-1.5">Total Job Cost</label>
+                  <div className="relative">
+                    <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 font-semibold">£</span>
+                    <input
+                      type="number"
+                      step="0.01"
+                      min="0"
+                      value={jobCost}
+                      onChange={(e) => setJobCost(e.target.value)}
+                      placeholder="0.00"
+                      className="w-full pl-8 pr-3 py-2.5 border-2 border-gray-200 rounded-xl focus:border-emerald-400 focus:ring-1 focus:ring-emerald-200 outline-none text-sm font-semibold text-gray-900 transition-all"
+                    />
+                  </div>
+                </div>
+                <div>
+                  <label className="block text-xs text-gray-500 font-semibold uppercase tracking-wider mb-1.5">Expenses</label>
+                  <div className="relative">
+                    <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 font-semibold">£</span>
+                    <input
+                      type="number"
+                      step="0.01"
+                      min="0"
+                      value={expenses}
+                      onChange={(e) => setExpenses(e.target.value)}
+                      placeholder="0.00"
+                      className="w-full pl-8 pr-3 py-2.5 border-2 border-gray-200 rounded-xl focus:border-amber-400 focus:ring-1 focus:ring-amber-200 outline-none text-sm font-semibold text-gray-900 transition-all"
+                    />
+                  </div>
+                </div>
+                <div>
+                  <label className="block text-xs text-gray-500 font-semibold uppercase tracking-wider mb-1.5">Profit</label>
+                  <div className={`flex items-center gap-1 px-4 py-2.5 rounded-xl border-2 font-bold text-lg ${calculatedProfit >= 0 ? "bg-emerald-50 border-emerald-200 text-emerald-700" : "bg-red-50 border-red-200 text-red-700"}`}>
+                    £{calculatedProfit.toFixed(2)}
+                  </div>
+                </div>
+              </div>
+              <button
+                onClick={handleSaveFinancials}
+                disabled={savingFinancials}
+                className={`px-5 py-2 rounded-lg text-sm font-semibold transition-all ${financialsSaved ? "bg-emerald-500 text-white" : "bg-gray-900 text-white hover:bg-gray-800"} disabled:opacity-50`}
+              >
+                {savingFinancials ? "Saving..." : financialsSaved ? "✓ Saved!" : "Save Financials"}
+              </button>
+            </div>
+          )}
 
           <div>
             <h3 className="text-lg font-bold text-gray-900 mb-4 border-b border-gray-100 pb-2">Additional Details</h3>
