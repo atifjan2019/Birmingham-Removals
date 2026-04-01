@@ -71,3 +71,32 @@ export async function createBooking(formData) {
   }
 }
 
+export async function updateBookingStatus(id, status) {
+  try {
+    await prisma.booking.update({
+      where: { id },
+      data: { status }
+    });
+    revalidatePath("/admin");
+    revalidatePath("/admin/bookings");
+    return { success: true };
+  } catch (error) {
+    console.error("Failed updating booking:", error);
+    return { success: false, error: "Failed to update booking status." };
+  }
+}
+
+export async function deleteBooking(id) {
+  try {
+    await prisma.booking.delete({
+      where: { id }
+    });
+    revalidatePath("/admin");
+    revalidatePath("/admin/bookings");
+    return { success: true };
+  } catch (error) {
+    console.error("Failed deleting booking:", error);
+    return { success: false, error: "Failed to delete booking." };
+  }
+}
+
