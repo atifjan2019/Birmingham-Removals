@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { LayoutDashboard, CalendarDays, Settings, LogOut, Users } from "lucide-react";
+import { logoutAdmin } from "@/app/actions/auth";
 
 export default function AdminLayout({ children }) {
   const pathname = usePathname();
@@ -13,6 +14,10 @@ export default function AdminLayout({ children }) {
     { name: "Customers", href: "/admin/customers", icon: Users },
     { name: "Settings", href: "/admin/settings", icon: Settings },
   ];
+
+  if (pathname === "/admin/login") {
+    return <div className="min-h-screen">{children}</div>;
+  }
 
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col md:flex-row">
@@ -48,14 +53,20 @@ export default function AdminLayout({ children }) {
           })}
         </nav>
 
-        <div className="p-4 border-t border-gray-100">
+        <div className="p-4 border-t border-gray-100 space-y-2">
           <Link
             href="/"
-            className="flex items-center gap-3 px-4 py-3 rounded-xl text-muted hover:bg-red-50 hover:text-red-600 transition-all font-medium"
+            className="flex w-full items-center gap-3 px-4 py-3 rounded-xl text-muted hover:bg-gray-50 transition-all font-medium"
           >
-            <LogOut className="w-5 h-5" />
             Back to Site
           </Link>
+          <button
+            onClick={() => logoutAdmin()}
+            className="flex w-full items-center gap-3 px-4 py-3 rounded-xl text-red-600 hover:bg-red-50 transition-all font-medium"
+          >
+            <LogOut className="w-5 h-5" />
+            Sign Out
+          </button>
         </div>
       </aside>
 
