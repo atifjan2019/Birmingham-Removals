@@ -11,7 +11,7 @@ const navLinks = [
   { label: "Get Quote", href: "#quote" },
 ];
 
-export default function Navbar() {
+export default function Navbar({ onOpenQuote }) {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
 
@@ -57,13 +57,13 @@ export default function Navbar() {
                 {link.label}
               </a>
             ))}
-            <a
-              href="#quote"
-              className="inline-flex items-center gap-2 px-5 py-2.5 bg-primary text-white text-sm font-semibold rounded-full hover:bg-primary/90 hover:scale-105 transition-all shadow-lg shadow-primary/25"
+            <button
+              onClick={onOpenQuote}
+              className="inline-flex items-center gap-2 px-5 py-2.5 bg-primary text-white text-sm font-semibold rounded-full hover:bg-primary/90 hover:scale-105 transition-all shadow-lg shadow-primary/25 cursor-pointer"
             >
               <Phone className="w-4 h-4" />
               Get Free Quote
-            </a>
+            </button>
           </div>
 
           {/* Mobile actions */}
@@ -107,13 +107,12 @@ export default function Navbar() {
                   {link.label}
                 </a>
               ))}
-              <a
-                href="#quote"
-                onClick={() => setMobileOpen(false)}
-                className="block w-full text-center px-5 py-3 bg-primary text-white font-semibold rounded-full hover:bg-primary/90 transition-all"
+              <button
+                onClick={() => { setMobileOpen(false); onOpenQuote?.(); }}
+                className="block w-full text-center px-5 py-3 bg-primary text-white font-semibold rounded-full hover:bg-primary/90 transition-all cursor-pointer"
               >
                 Get Free Quote
-              </a>
+              </button>
             </div>
           </motion.div>
         )}

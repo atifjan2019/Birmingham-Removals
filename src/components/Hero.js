@@ -1,10 +1,10 @@
 "use client";
 
-import { useState } from "react";
+
 import { motion } from "framer-motion";
 import Image from "next/image";
 import { ArrowRight, Truck, Star, Zap, Clock, ShieldCheck } from "lucide-react";
-import HeroPopup from "./HeroPopup";
+
 
 const headline = "Newcastle's Most Trusted Removals Company";
 const words = headline.split(" ");
@@ -16,11 +16,9 @@ const stats = [
   { icon: ShieldCheck, value: "100%", label: "Fully Insured" },
 ];
 
-export default function Hero() {
-  const [popupOpen, setPopupOpen] = useState(false);
+export default function Hero({ onOpenQuote }) {
 
   return (
-    <>
       <section className="relative min-h-screen flex items-center overflow-hidden bg-gradient-to-br from-gray-50 via-white to-red-50/30">
         {/* Background image with overlay */}
         <div className="absolute inset-0 z-0">
@@ -86,7 +84,7 @@ export default function Hero() {
               className="flex flex-row items-start gap-2 sm:gap-4"
             >
               <button
-                onClick={() => setPopupOpen(true)}
+                onClick={onOpenQuote}
                 className="inline-flex items-center gap-1.5 sm:gap-2 px-6 py-3.5 sm:px-8 sm:py-4 bg-primary text-white font-semibold rounded-full hover:bg-primary/90 hover:scale-105 transition-all shadow-lg shadow-primary/25 text-base sm:text-lg cursor-pointer"
               >
                 Get Free Quote
@@ -126,9 +124,6 @@ export default function Hero() {
             </motion.div>
           </div>
         </div>
-      </section>
-
-      <HeroPopup open={popupOpen} onClose={() => setPopupOpen(false)} />
-    </>
+    </section>
   );
 }
