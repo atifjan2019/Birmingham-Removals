@@ -101,7 +101,7 @@ export default function WhyUs() {
         </motion.div>
 
         {/* Stats */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-20">
+        <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-6 mb-20">
           {stats.map((stat, i) => (
             <motion.div
               key={i}
@@ -109,15 +109,15 @@ export default function WhyUs() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: i * 0.15 }}
-              className="glass-card p-8 text-center"
+              className={`glass-card p-4 sm:p-8 text-center ${i === stats.length - 1 ? "col-span-2 sm:col-span-1" : ""}`}
             >
-              <div className="w-14 h-14 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-4">
-                <stat.icon className="w-7 h-7 text-primary" />
+              <div className="w-10 h-10 sm:w-14 sm:h-14 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-2 sm:mb-4">
+                <stat.icon className="w-5 h-5 sm:w-7 sm:h-7 text-primary" />
               </div>
-              <div className="font-[family-name:var(--font-space)] text-4xl md:text-5xl font-bold text-gray-900 mb-2">
+              <div className="font-[family-name:var(--font-space)] text-2xl sm:text-4xl md:text-5xl font-bold text-gray-900 mb-1 sm:mb-2">
                 <CountUp target={stat.value} suffix={stat.suffix} />
               </div>
-              <div className="text-muted text-sm">{stat.label}</div>
+              <div className="text-muted text-xs sm:text-sm">{stat.label}</div>
             </motion.div>
           ))}
         </div>

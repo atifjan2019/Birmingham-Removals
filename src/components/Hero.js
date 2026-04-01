@@ -86,14 +86,14 @@ export default function Hero() {
             >
               <button
                 onClick={() => setPopupOpen(true)}
-                className="inline-flex items-center gap-1.5 sm:gap-2 px-5 py-3 sm:px-8 sm:py-4 bg-primary text-white font-semibold rounded-full hover:bg-primary/90 hover:scale-105 transition-all shadow-lg shadow-primary/25 text-sm sm:text-lg cursor-pointer"
+                className="inline-flex items-center gap-1.5 sm:gap-2 px-6 py-3.5 sm:px-8 sm:py-4 bg-primary text-white font-semibold rounded-full hover:bg-primary/90 hover:scale-105 transition-all shadow-lg shadow-primary/25 text-base sm:text-lg cursor-pointer"
               >
                 Get Free Quote
                 <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5" />
               </button>
               <a
                 href="#services"
-                className="inline-flex items-center gap-1.5 sm:gap-2 px-5 py-3 sm:px-8 sm:py-4 border border-gray-200 text-gray-900 font-semibold rounded-full hover:bg-gray-50 hover:scale-105 transition-all text-sm sm:text-lg bg-white/80 backdrop-blur-sm"
+                className="inline-flex items-center gap-1.5 sm:gap-2 px-6 py-3.5 sm:px-8 sm:py-4 border border-gray-200 text-gray-900 font-semibold rounded-full hover:bg-gray-50 hover:scale-105 transition-all text-base sm:text-lg bg-white/80 backdrop-blur-sm"
               >
                 View Services
               </a>
