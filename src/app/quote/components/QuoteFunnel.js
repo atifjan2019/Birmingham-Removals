@@ -29,6 +29,7 @@ const trustItems = [
 // Dummy data for testing — remove later
 const DUMMY_DATA = {
   moveType: "house",
+  bedrooms: 2,
   fromPostcode: "NE1 4XF",
   toPostcode: "NE3 2PA",
   moveDate: new Date(Date.now() + 7 * 86400000).toISOString().split("T")[0],
@@ -137,7 +138,9 @@ export default function QuoteFunnel() {
                   {step === 1 && (
                     <Step1MoveType
                       value={data.moveType}
+                      bedrooms={data.bedrooms}
                       onChange={(v) => update({ moveType: v })}
+                      onChangeBedrooms={(v) => update({ bedrooms: v })}
                       onNext={goNext}
                     />
                   )}

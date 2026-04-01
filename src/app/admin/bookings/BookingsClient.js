@@ -279,7 +279,9 @@ export default function BookingsClient({ initialBookings }) {
                       <div className="text-sm font-semibold text-gray-900 whitespace-nowrap">
                         {booking.fromPostcode} <span className="opacity-40 px-1">→</span> {booking.toPostcode}
                       </div>
-                      <div className="text-xs text-gray-500 mt-1 capitalize">{booking.moveType}</div>
+                      <div className="text-xs text-gray-500 mt-1 capitalize">
+                        {booking.moveType?.replace(/-/g, ' ')} {booking.bedrooms > 0 && `• ${booking.bedrooms} Bed`}
+                      </div>
                     </div>
 
                     <div>

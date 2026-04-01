@@ -2,14 +2,31 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { Zap, Lock, User, Phone, ArrowLeft, Loader2 } from "lucide-react";
-import { createBooking } from "@/app/actions/booking";
+import { Zap, Lock, User, Phone, ArrowLeft, Loader2, Mail } from "lucide-react";
+import { createBooking, captureAbandonedLead } from "@/app/actions/booking";
+import { useEffect, useRef } from "react";
 
 const UK_MOBILE_REGEX = /^07\d{3}\s?\d{3}\s?\d{3}$/;
+const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 export default function Step6LeadCapture({ data, onChange, onSubmit, onBack }) {
   const [errors, setErrors] = useState({});
   const [submitting, setSubmitting] = useState(false);
+  const captureTimeout = useRef(null);
+
+  // Auto-capture abandoned lead when user types contact info
+  useEffect(() => {
+    const hasContact = (data.phone && data.phone.length >= 8) || (data.email && data.email.includes("@"));
+    if (hasContact && !submitting) {
+      if (captureTimeout.current) clearTimeout(captureTimeout.current);
+      captureTimeout.current = setTimeout(() => {
+        captureAbandonedLead(data);
+      }, 3000); // 3 seconds after they stop typing
+    }
+    return () => {
+      if (captureTimeout.current) clearTimeout(captureTimeout.current);
+    };
+  }, [data, submitting]);
 
   const formattedDate = data.moveDate
     ? new Date(data.moveDate).toLocaleDateString("en-GB", {
@@ -24,6 +41,9 @@ export default function Step6LeadCapture({ data, onChange, onSubmit, onBack }) {
     if (!data.fullName || data.fullName.trim().length < 2) {
       errs.fullName = "Please enter your name";
     }
+    if (!data.email || !EMAIL_REGEX.test(data.email.trim())) {
+      errs.email = "Please enter a valid email address";
+    }
     if (!data.phone || !UK_MOBILE_REGEX.test(data.phone.trim())) {
       errs.phone = "Enter a valid UK mobile (07xxx xxx xxx)";
     }
@@ -37,7 +57,6 @@ export default function Step6LeadCapture({ data, onChange, onSubmit, onBack }) {
     
     const submissionData = {
       ...data,
-      email: data.email || `customer_${data.phone.replace(/\s/g, "")}@pending.com`,
       extras: data.extras || []
     };
 
@@ -115,6 +134,22 @@ export default function Step6LeadCapture({ data, onChange, onSubmit, onBack }) {
           </div>
           {errors.fullName && (
             <p className="text-red-500 text-xs mt-1">{errors.fullName}</p>
+          )}
+        </div>
+
+        <div>
+          <div className="relative">
+            <Mail className="absolute left-3.5 top-1/2 -translate-y-1/2 w-5 h-5 text-muted" />
+            <input
+              type="email"
+              placeholder="Email address"
+              value={data.email || ""}
+              onChange={(e) => onChange({ email: e.target.value })}
+              className="w-full bg-gray-50 border border-gray-200 rounded-xl py-3.5 pl-12 pr-4 text-gray-900 placeholder:text-gray-400 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/30 transition-all"
+            />
+          </div>
+          {errors.email && (
+            <p className="text-red-500 text-xs mt-1">{errors.email}</p>
           )}
         </div>
 

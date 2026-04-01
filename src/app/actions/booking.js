@@ -100,3 +100,72 @@ export async function deleteBooking(id) {
   }
 }
 
+export async function captureAbandonedLead(formData) {
+  try {
+    const { moveType, fromPostcode, toPostcode, moveDate, bedrooms, extras, fullName, phone, email } = formData;
+    
+    if (!email && !phone) return { success: false }; // Need at least some contact info
+
+    // Find or create customer
+    let customer = null;
+    if (email) {
+      customer = await prisma.customer.findFirst({ where: { email: email.toLowerCase() } });
+    }
+    if (!customer && phone) {
+      customer = await prisma.customer.findFirst({ where: { phone } });
+    }
+
+    if (!customer) {
+      customer = await prisma.customer.create({
+        data: {
+          fullName: fullName || "Partial Lead",
+          phone: phone || "",
+          email: email ? email.toLowerCase() : `abandoned_${Date.now()}@pending.com`
+        }
+      });
+    }
+
+    const estimatedPrice = calculateQuote(moveType || "house", bedrooms || 1, extras || []).min || 0;
+
+    // Check if an abandoned booking already exists for this exact trip today to prevent spam
+    const existing = await prisma.booking.findFirst({
+      where: { customerId: customer.id, status: "Abandoned" },
+      orderBy: { createdAt: "desc" }
+    });
+
+    if (existing) {
+      // Just update it
+      await prisma.booking.update({
+        where: { id: existing.id },
+        data: {
+          moveType, fromPostcode, toPostcode, 
+          moveDate: moveDate ? new Date(moveDate) : new Date(),
+          bedrooms: parseInt(bedrooms) || 0,
+          price: estimatedPrice
+        }
+      });
+      return { success: true, bookingId: existing.id };
+    }
+
+    const booking = await prisma.booking.create({
+      data: {
+        customerId: customer.id,
+        moveType: moveType || "Unknown",
+        fromPostcode: fromPostcode || "Unknown",
+        toPostcode: toPostcode || "Unknown",
+        moveDate: moveDate ? new Date(moveDate) : new Date(),
+        bedrooms: parseInt(bedrooms) || 0,
+        extras: extras || [],
+        status: "Abandoned",
+        price: estimatedPrice
+      }
+    });
+
+    revalidatePath("/admin/bookings");
+    return { success: true, bookingId: booking.id };
+  } catch (error) {
+    console.error("Failed capturing abandoned lead:", error);
+    return { success: false };
+  }
+}
+
