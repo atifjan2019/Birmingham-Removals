@@ -61,7 +61,7 @@ export default function Step5Loading({ fromPostcode, moveDate, onComplete }) {
           Finding your best price...
         </h2>
         <p className="text-muted text-sm">
-          Hang tight — this takes a few seconds.
+          Hang tight, this takes a few seconds.
         </p>
       </div>
 

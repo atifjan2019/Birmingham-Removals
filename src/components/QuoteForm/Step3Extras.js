@@ -48,7 +48,7 @@ export default function Step3Extras({ selected, onChange }) {
         Need any extras?
       </h3>
       <p className="text-muted text-sm mb-6">
-        Select any additional services. These are optional — skip if you
+        Select any additional services. These are optional, skip if you
         don&apos;t need them.
       </p>
 

@@ -117,7 +117,7 @@ export default function Step4MoveDate({
           {flexible && <Check className="w-3 h-3 text-white" />}
         </div>
         <span className="text-gray-900 text-sm">
-          Flexible on dates — show me all options
+          Flexible on dates, show me all options
         </span>
       </button>
 

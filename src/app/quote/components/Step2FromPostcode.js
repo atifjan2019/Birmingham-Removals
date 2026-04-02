@@ -111,7 +111,7 @@ export default function Step2FromPostcode({ value, onChange, onNext, onBack }) {
                   <span className="text-gray-900 font-semibold text-sm">
                     {s.code}
                   </span>
-                  <span className="text-muted text-sm ml-2">— {s.area}</span>
+                  <span className="text-muted text-sm ml-2">- {s.area}</span>
                 </div>
               </button>
             ))}
