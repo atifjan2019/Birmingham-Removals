@@ -43,3 +43,15 @@ model AdminUser {
   email    String @unique
   password String
 }
+
+model ActivityLog {
+  id        String   @id @default(uuid())
+  action    String   // e.g. "booking.created", "booking.status_updated", "booking.deleted"
+  details   String?  @db.Text // JSON or free-text description
+  entityId  String?  // Related booking/customer ID
+  actor     String?  // "system", admin email, or "customer"
+  createdAt DateTime @default(now())
+
+  @@index([createdAt])
+  @@index([action])
+}
