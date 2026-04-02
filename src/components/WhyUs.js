@@ -52,7 +52,7 @@ const stats = [
 const usps = [
   {
     icon: ThumbsUp,
-    title: "No Hidden Fees — Ever",
+    title: "No Hidden Fees",
     description:
       "The price we quote is the price you pay. No fuel surcharges, no staircase fees, no nasty surprises on moving day.",
   },

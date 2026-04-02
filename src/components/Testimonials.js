@@ -33,7 +33,7 @@ const reviews = [
     name: "Rachel Evans",
     area: "Tynemouth",
     rating: 5,
-    text: "They moved my mum's piano without a single scratch — I was genuinely impressed. The specialist team clearly knew exactly what they were doing. Worth every penny.",
+    text: "They moved my mum's piano without a single scratch. I was genuinely impressed. The specialist team clearly knew exactly what they were doing. Worth every penny.",
   },
   {
     name: "Mark Henderson",
@@ -51,7 +51,7 @@ const reviews = [
     name: "Tom Gallagher",
     area: "Wallsend",
     rating: 5,
-    text: "Booked same-day for an emergency flat move and they still showed up within 2 hours. Absolute lifesavers. Reasonable price too — no hidden charges. Top lads.",
+    text: "Booked same-day for an emergency flat move and they still showed up within 2 hours. Absolute lifesavers. Reasonable price too, no hidden charges. Top lads.",
   },
 ];
 
@@ -150,7 +150,7 @@ export default function Testimonials() {
             What Newcastle Says About Us
           </h2>
           <p className="text-muted max-w-2xl mx-auto text-lg">
-            Don&apos;t just take our word for it — hear from the families and
+            Don&apos;t just take our word for it. Hear from the families and
             businesses we&apos;ve helped move across Tyneside.
           </p>
         </motion.div>

@@ -101,18 +101,7 @@ export default function Step6LeadCapture({ data, onChange, onSubmit, onBack }) {
         </span>
       </div>
 
-      {/* Blurred price card */}
-      <div className="relative rounded-xl bg-gray-50 border border-gray-200 p-6 text-center mb-6 overflow-hidden">
-        <div className="flex items-center justify-center gap-2 mb-2">
-          <Lock className="w-4 h-4 text-muted" />
-          <span className="text-muted text-xs uppercase tracking-wide font-medium">
-            Your price is ready to unlock
-          </span>
-        </div>
-        <div className="font-[family-name:var(--font-space)] text-4xl font-bold text-gray-900/15 blur-md select-none">
-          £285 — £420
-        </div>
-      </div>
+
 
       {/* Scarcity text */}
       <p className="text-muted text-sm mb-4 leading-relaxed">

@@ -27,7 +27,7 @@ const services = [
     icon: Truck,
     title: "Man & Van",
     description:
-      "Need a quick move or a few items shifting? Our man and van service covers Newcastle, Gateshead, and beyond — same day available.",
+      "Need a quick move or a few items shifting? Our man and van service covers Newcastle, Gateshead, and beyond. Same day available.",
   },
   {
     icon: Package,
@@ -68,7 +68,7 @@ export default function Services() {
             Removals Services in Newcastle
           </h2>
           <p className="text-muted max-w-2xl mx-auto text-lg">
-            Whatever you need moving, wherever you need it — we&apos;ve got the
+            Whatever you need moving, wherever you need it, we&apos;ve got the
             team, the vans, and the experience to make it happen.
           </p>
         </motion.div>

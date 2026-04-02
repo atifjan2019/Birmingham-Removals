@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { calculateQuote, EXTRA_PRICES } from "@/lib/quoteCalculator";
 import {
   Home,
   Building2,
@@ -36,31 +35,21 @@ import { createBooking } from "@/app/actions/booking";
 export default function Step5Summary({ formData, onSubmit }) {
   const [submitting, setSubmitting] = useState(false);
 
-  const quote = calculateQuote(
-    formData.moveType,
-    formData.bedrooms || 1,
-    formData.extras || []
-  );
-
   const moveInfo = moveTypeLabels[formData.moveType] || moveTypeLabels.house;
   const MoveIcon = moveInfo.icon;
 
   const handleSubmit = async () => {
-    // FORCE ALERT TO PROVE NEW CODE IS RUNNING
-    alert(`Connecting to database... Sending: ${formData.email}`);
-    
     setSubmitting(true);
     try {
       const result = await createBooking(formData);
       
       if (result && result.success) {
-        alert("Server said SUCCESS! Your database now has the booking.");
         onSubmit();
       } else {
-        alert("Server returned error: " + (result?.error || "Unknown error"));
+        alert(result?.error || "System error. Please try again or call us.");
       }
     } catch(err) {
-      alert("CLIENT CRASH Calling Action: " + err.message);
+      alert("Network error. Please try again or call us.");
     } finally {
       setSubmitting(false);
     }
@@ -154,7 +143,7 @@ export default function Step5Summary({ formData, onSubmit }) {
                   key={extra}
                   className="inline-flex items-center px-3 py-1 rounded-full bg-primary/10 text-primary text-xs font-medium"
                 >
-                  {extraLabels[extra]} (+£{EXTRA_PRICES[extra]})
+                  {extraLabels[extra]}
                 </span>
               ))}
             </div>
@@ -175,19 +164,6 @@ export default function Step5Summary({ formData, onSubmit }) {
           <div className="flex items-center gap-2 text-sm">
             <Mail className="w-4 h-4 text-muted" />
             <span className="text-gray-900">{formData.email}</span>
-          </div>
-        </div>
-
-        {/* Price Estimate */}
-        <div className="glass-card p-6 text-center border-primary/20">
-          <div className="text-sm text-muted mb-2">Estimated Quote</div>
-          <div className="font-[family-name:var(--font-space)] text-4xl font-bold">
-            <span className="text-primary">£{quote.min}</span>
-            <span className="text-muted mx-2">—</span>
-            <span className="text-primary">£{quote.max}</span>
-          </div>
-          <div className="text-xs text-muted mt-2">
-            Final price confirmed after our team reviews your details
           </div>
         </div>
 
