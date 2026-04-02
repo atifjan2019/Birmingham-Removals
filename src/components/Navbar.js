@@ -6,9 +6,10 @@ import { Menu, X, Phone } from "lucide-react";
 import Image from "next/image";
 
 const navLinks = [
-  { label: "Services", href: "#services" },
-  { label: "How It Works", href: "#how-it-works" },
-  { label: "Reviews", href: "#testimonials" },
+  { label: "Services", href: "/#services" },
+  { label: "Areas", href: "/areas" },
+  { label: "How It Works", href: "/#how-it-works" },
+  { label: "Reviews", href: "/#testimonials" },
 ];
 
 export default function Navbar({ onOpenQuote }) {
