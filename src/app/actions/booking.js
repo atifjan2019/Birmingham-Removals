@@ -3,6 +3,7 @@
 import prisma from "@/lib/prisma";
 import { calculateQuote } from "@/lib/quoteCalculator";
 import { revalidatePath } from "next/cache";
+import { logActivity } from "./activityLog";
 
 export async function createBooking(formData) {
   try {
@@ -82,6 +83,23 @@ export async function createBooking(formData) {
 
     fs.appendFileSync('booking.log', `[BOOKING RECORDED SUCCESSFULLY]: ${booking.id}\n`);
 
+    await logActivity({
+      action: "booking.created",
+      details: JSON.stringify({
+        summary: `New booking from ${fullName}`,
+        customer: { fullName, phone, email },
+        moveType,
+        bedrooms: parseInt(bedrooms) || 0,
+        fromPostcode,
+        toPostcode,
+        moveDate,
+        extras: extras || [],
+        estimatedPrice,
+      }),
+      entityId: booking.id,
+      actor: "customer",
+    });
+
     // Revalidate admin pages to show new data immediately
     revalidatePath("/admin/bookings");
     revalidatePath("/admin");
@@ -97,10 +115,30 @@ export async function createBooking(formData) {
 
 export async function updateBookingStatus(id, status) {
   try {
+    const booking = await prisma.booking.findUnique({
+      where: { id },
+      include: { customer: true },
+    });
+
     await prisma.booking.update({
       where: { id },
       data: { status }
     });
+
+    await logActivity({
+      action: "booking.status_updated",
+      details: JSON.stringify({
+        summary: `Status changed to "${status}"`,
+        previousStatus: booking?.status,
+        newStatus: status,
+        customer: booking?.customer?.fullName || "Unknown",
+        route: `${booking?.fromPostcode} → ${booking?.toPostcode}`,
+        moveType: booking?.moveType,
+      }),
+      entityId: id,
+      actor: "admin",
+    });
+
     revalidatePath("/admin");
     revalidatePath("/admin/bookings");
     return { success: true };
@@ -132,9 +170,28 @@ export async function updateBookingFinancials(id, jobCost, expenses) {
 
 export async function deleteBooking(id) {
   try {
+    const booking = await prisma.booking.findUnique({
+      where: { id },
+      include: { customer: true },
+    });
+
     await prisma.booking.delete({
       where: { id }
     });
+
+    await logActivity({
+      action: "booking.deleted",
+      details: JSON.stringify({
+        summary: `Booking permanently deleted`,
+        customer: booking?.customer?.fullName || "Unknown",
+        route: `${booking?.fromPostcode} → ${booking?.toPostcode}`,
+        moveType: booking?.moveType,
+        moveDate: booking?.moveDate,
+      }),
+      entityId: id,
+      actor: "admin",
+    });
+
     revalidatePath("/admin");
     revalidatePath("/admin/bookings");
     return { success: true };
@@ -203,6 +260,13 @@ export async function captureAbandonedLead(formData) {
         status: "Abandoned",
         price: estimatedPrice
       }
+    });
+
+    await logActivity({
+      action: "lead.abandoned_captured",
+      details: `Abandoned lead captured — ${moveType || "unknown"} move`,
+      entityId: booking.id,
+      actor: "system",
     });
 
     revalidatePath("/admin/bookings");
