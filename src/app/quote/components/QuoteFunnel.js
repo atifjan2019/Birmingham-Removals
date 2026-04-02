@@ -1,11 +1,12 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { useSearchParams } from "next/navigation";
+import { useState } from "react";
+import { useSearchParams, useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { Phone, Shield, Star, Award } from "lucide-react";
 import Image from "next/image";
 import Step1MoveType from "./Step1MoveType";
+import Step2Bedrooms from "./Step2Bedrooms";
 import Step2FromPostcode from "./Step2FromPostcode";
 import Step3ToPostcode from "./Step3ToPostcode";
 import Step4MoveDate from "./Step4MoveDate";
@@ -13,7 +14,8 @@ import Step5Loading from "./Step5Loading";
 import Step6LeadCapture from "./Step6LeadCapture";
 import Step7Success from "./Step7Success";
 
-const TOTAL_STEPS = 6;
+// Steps: 1=MoveType, 2=Bedrooms(conditional), 3=FromPostcode, 4=ToPostcode, 5=MoveDate, 6=Loading, 7=LeadCapture, 8=Success
+const TOTAL_VISIBLE_STEPS = 7; // excluding loading & success
 
 const slideVariants = {
   enter: (dir) => ({ x: dir > 0 ? 300 : -300, opacity: 0 }),
@@ -29,12 +31,19 @@ const trustItems = [
 
 export default function QuoteFunnel() {
   const searchParams = useSearchParams();
+  const router = useRouter();
   const typeParam = searchParams.get("type");
   const hasValidType =
     typeParam && ["house", "office", "flat", "items"].includes(typeParam);
 
-  // If type param exists, skip step 1 — start at step 2
-  const [step, setStep] = useState(hasValidType ? 2 : 1);
+  // For house/flat with type param, start at bedrooms (step 2). For office/items, skip to step 3.
+  const getInitialStep = () => {
+    if (!hasValidType) return 1;
+    if (typeParam === "house" || typeParam === "flat") return 2;
+    return 3; // office/items skip bedrooms
+  };
+
+  const [step, setStep] = useState(getInitialStep());
   const [direction, setDirection] = useState(1);
   const [data, setData] = useState({
     moveType: hasValidType ? typeParam : "",
@@ -47,24 +56,58 @@ export default function QuoteFunnel() {
     phone: "",
   });
 
+  const needsBedrooms = data.moveType === "house" || data.moveType === "flat";
+
   const goNext = () => {
     setDirection(1);
-    setStep((s) => s + 1);
+    // Clean up URL param when leaving step 1 — update to reflect actual selection
+    if (step === 1 && data.moveType) {
+      router.replace(`/quote?type=${data.moveType}`, { scroll: false });
+    }
+    setStep((s) => {
+      let next = s + 1;
+      // Skip bedrooms step if not needed
+      if (next === 2 && !needsBedrooms) next = 3;
+      return next;
+    });
   };
 
   const goBack = () => {
     setDirection(-1);
-    setStep((s) => Math.max(1, s - 1));
+    // When going back to step 1, clear the URL param
+    if (step === 2 || (step === 3 && !needsBedrooms)) {
+      router.replace("/quote", { scroll: false });
+    }
+    setStep((s) => {
+      let prev = s - 1;
+      // Skip bedrooms step going back if not needed
+      if (prev === 2 && !needsBedrooms) prev = 1;
+      return Math.max(1, prev);
+    });
   };
 
   const update = (fields) => setData((prev) => ({ ...prev, ...fields }));
 
-  const progressPercent =
-    step <= 5
-      ? (Math.min(step, 4) / TOTAL_STEPS) * 100
-      : step === 6
-      ? 80
-      : 100;
+  // Calculate progress (exclude loading step from count)
+  const getProgressPercent = () => {
+    const totalSteps = needsBedrooms ? 7 : 6;
+    let currentStep = step;
+    if (!needsBedrooms && step >= 3) currentStep = step - 1;
+    if (step >= 6) currentStep = Math.min(currentStep, totalSteps); // loading doesn't count extra
+    return Math.min(Math.round((currentStep / totalSteps) * 100), 100);
+  };
+
+  const getStepLabel = () => {
+    const totalSteps = needsBedrooms ? 7 : 6;
+    let currentStep = step;
+    if (!needsBedrooms && step >= 3) currentStep = step - 1;
+    if (step === 6) return ""; // loading step
+    if (step === 7) return "Almost there";
+    if (step === 8) return "";
+    return `Step ${currentStep} of ${totalSteps}`;
+  };
+
+  const progressPercent = getProgressPercent();
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-red-50/30 flex flex-col">
@@ -97,15 +140,11 @@ export default function QuoteFunnel() {
           {/* Card */}
           <div className="bg-white rounded-2xl border border-gray-200/60 shadow-xl shadow-gray-200/40 overflow-hidden">
             {/* Progress bar */}
-            {step <= 6 && step !== 5 && (
+            {step <= 7 && step !== 6 && (
               <div className="px-6 pt-6 pb-0">
                 <div className="flex items-center justify-between mb-2">
                   <span className="text-xs text-muted">
-                    {step <= 4
-                      ? `Step ${step} of ${TOTAL_STEPS}`
-                      : step === 6
-                      ? "Almost there"
-                      : ""}
+                    {getStepLabel()}
                   </span>
                   <span className="text-xs text-primary font-semibold">
                     {Math.round(progressPercent)}%
@@ -135,13 +174,19 @@ export default function QuoteFunnel() {
                   {step === 1 && (
                     <Step1MoveType
                       value={data.moveType}
-                      bedrooms={data.bedrooms}
                       onChange={(v) => update({ moveType: v })}
-                      onChangeBedrooms={(v) => update({ bedrooms: v })}
                       onNext={goNext}
                     />
                   )}
                   {step === 2 && (
+                    <Step2Bedrooms
+                      bedrooms={data.bedrooms}
+                      onChange={(v) => update({ bedrooms: v })}
+                      onNext={goNext}
+                      onBack={goBack}
+                    />
+                  )}
+                  {step === 3 && (
                     <Step2FromPostcode
                       value={data.fromPostcode}
                       onChange={(v) => update({ fromPostcode: v })}
@@ -149,7 +194,7 @@ export default function QuoteFunnel() {
                       onBack={goBack}
                     />
                   )}
-                  {step === 3 && (
+                  {step === 4 && (
                     <Step3ToPostcode
                       value={data.toPostcode}
                       fromPostcode={data.fromPostcode}
@@ -158,7 +203,7 @@ export default function QuoteFunnel() {
                       onBack={goBack}
                     />
                   )}
-                  {step === 4 && (
+                  {step === 5 && (
                     <Step4MoveDate
                       date={data.moveDate}
                       flexible={data.flexibleDates}
@@ -168,14 +213,14 @@ export default function QuoteFunnel() {
                       onBack={goBack}
                     />
                   )}
-                  {step === 5 && (
+                  {step === 6 && (
                     <Step5Loading
                       fromPostcode={data.fromPostcode}
                       moveDate={data.moveDate}
                       onComplete={goNext}
                     />
                   )}
-                  {step === 6 && (
+                  {step === 7 && (
                     <Step6LeadCapture
                       data={data}
                       onChange={update}
@@ -183,7 +228,7 @@ export default function QuoteFunnel() {
                       onBack={goBack}
                     />
                   )}
-                  {step === 7 && <Step7Success data={data} />}
+                  {step === 8 && <Step7Success data={data} />}
                 </motion.div>
               </AnimatePresence>
             </div>

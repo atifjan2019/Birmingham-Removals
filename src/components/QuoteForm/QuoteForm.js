@@ -6,19 +6,19 @@ import { ArrowLeft, ArrowRight } from "lucide-react";
 import {
   step1Schema,
   step2Schema,
-  step3Schema,
   step4Schema,
 } from "@/lib/formSchema";
 
 import ProgressBar from "./ProgressBar";
 import Step1MoveType from "./Step1MoveType";
+import Step2Bedrooms from "./Step2Bedrooms";
 import Step2Details from "./Step2Details";
 import Step3Extras from "./Step3Extras";
 import Step4Contact from "./Step4Contact";
 import Step5Summary from "./Step5Summary";
 import FormSuccess from "./FormSuccess";
 
-const TOTAL_STEPS = 5;
+const TOTAL_STEPS = 6;
 
 const slideVariants = {
   enter: (direction) => ({
@@ -54,6 +54,9 @@ export default function QuoteForm() {
     referral: "",
   });
 
+  // Bedrooms step only applies to house/studio moves
+  const needsBedrooms = formData.moveType === "house" || formData.moveType === "studio";
+
   const validateStep = (stepNum) => {
     let schema;
     let data;
@@ -64,19 +67,21 @@ export default function QuoteForm() {
         data = { moveType: formData.moveType };
         break;
       case 2:
+        // Bedrooms step — no schema needed, always valid
+        return true;
+      case 3:
         schema = step2Schema;
         data = {
           fromPostcode: formData.fromPostcode,
           toPostcode: formData.toPostcode,
-          moveDate: formData.moveDate,
+          moveDate: formData.moveDate || new Date().toISOString().split("T")[0],
           bedrooms: formData.bedrooms,
         };
         break;
-      case 3:
-        schema = step3Schema;
-        data = { extras: formData.extras };
-        break;
       case 4:
+        // Extras — always valid
+        return true;
+      case 5:
         schema = step4Schema;
         data = {
           fullName: formData.fullName,
@@ -106,17 +111,37 @@ export default function QuoteForm() {
   const goNext = () => {
     if (!validateStep(step)) return;
     setDirection(1);
-    setStep((prev) => Math.min(prev + 1, TOTAL_STEPS));
+    // Skip bedrooms step if not needed (office/single items)
+    if (step === 1 && !needsBedrooms) {
+      setStep(3);
+    } else {
+      setStep((prev) => Math.min(prev + 1, TOTAL_STEPS));
+    }
   };
 
   const goBack = () => {
     setDirection(-1);
     setErrors({});
-    setStep((prev) => Math.max(prev - 1, 1));
+    // Skip bedrooms step going back if not needed
+    if (step === 3 && !needsBedrooms) {
+      setStep(1);
+    } else {
+      setStep((prev) => Math.max(prev - 1, 1));
+    }
   };
 
   const handleSubmit = () => {
     setSubmitted(true);
+  };
+
+  // Calculate progress accounting for conditional step
+  const getProgress = () => {
+    const effectiveSteps = needsBedrooms ? TOTAL_STEPS : TOTAL_STEPS - 1;
+    let effectiveStep = step;
+    if (!needsBedrooms && step >= 3) {
+      effectiveStep = step - 1;
+    }
+    return Math.min(effectiveStep, effectiveSteps);
   };
 
   if (submitted) {
@@ -130,6 +155,8 @@ export default function QuoteForm() {
       </section>
     );
   }
+
+  const effectiveSteps = needsBedrooms ? TOTAL_STEPS : TOTAL_STEPS - 1;
 
   return (
     <section id="quote" className="py-24 sm:py-32 relative bg-gray-50/50">
@@ -156,7 +183,7 @@ export default function QuoteForm() {
 
         {/* Form Card */}
         <div className="glass-card p-6 sm:p-8 md:p-10">
-          <ProgressBar currentStep={step} totalSteps={TOTAL_STEPS} />
+          <ProgressBar currentStep={getProgress()} totalSteps={effectiveSteps} />
 
           <div className="overflow-hidden relative min-h-[380px]">
             <AnimatePresence mode="wait" custom={direction}>
@@ -172,24 +199,28 @@ export default function QuoteForm() {
                 {step === 1 && (
                   <Step1MoveType
                     value={formData.moveType}
-                    bedrooms={formData.bedrooms}
                     onChange={(val) =>
                       setFormData({ ...formData, moveType: val })
-                    }
-                    onChangeBedrooms={(val) =>
-                      setFormData({ ...formData, bedrooms: val })
                     }
                     error={errors.moveType}
                   />
                 )}
                 {step === 2 && (
+                  <Step2Bedrooms
+                    bedrooms={formData.bedrooms}
+                    onChange={(val) =>
+                      setFormData({ ...formData, bedrooms: val })
+                    }
+                  />
+                )}
+                {step === 3 && (
                   <Step2Details
                     data={formData}
                     onChange={(data) => setFormData({ ...formData, ...data })}
                     errors={errors}
                   />
                 )}
-                {step === 3 && (
+                {step === 4 && (
                   <Step3Extras
                     selected={formData.extras}
                     onChange={(extras) =>
@@ -197,14 +228,14 @@ export default function QuoteForm() {
                     }
                   />
                 )}
-                {step === 4 && (
+                {step === 5 && (
                   <Step4Contact
                     data={formData}
                     onChange={(data) => setFormData({ ...formData, ...data })}
                     errors={errors}
                   />
                 )}
-                {step === 5 && (
+                {step === 6 && (
                   <Step5Summary
                     formData={formData}
                     onSubmit={handleSubmit}
@@ -215,13 +246,13 @@ export default function QuoteForm() {
           </div>
 
           {/* Navigation Buttons */}
-          {step < 5 && (
+          {step < 6 && (
             <div className="flex items-center justify-between mt-8 pt-6 border-t border-gray-100">
               {step > 1 ? (
                 <button
                   type="button"
                   onClick={goBack}
-                  className="inline-flex items-center gap-2 px-5 py-2.5 text-muted hover:text-gray-900 transition-colors text-sm font-medium"
+                  className="inline-flex items-center gap-2 px-5 py-2.5 text-muted hover:text-gray-900 transition-colors text-sm font-medium cursor-pointer"
                 >
                   <ArrowLeft className="w-4 h-4" />
                   Back
@@ -232,20 +263,20 @@ export default function QuoteForm() {
               <button
                 type="button"
                 onClick={goNext}
-                className="inline-flex items-center gap-2 px-6 py-3 bg-primary text-white font-semibold rounded-xl hover:bg-primary/90 hover:scale-105 transition-all shadow-lg shadow-primary/25"
+                className="inline-flex items-center gap-2 px-6 py-3 bg-primary text-white font-semibold rounded-xl hover:bg-primary/90 hover:scale-105 transition-all shadow-lg shadow-primary/25 cursor-pointer"
               >
-                {step === 4 ? "Review Quote" : "Continue"}
+                {step === 5 ? "Review Quote" : "Continue"}
                 <ArrowRight className="w-4 h-4" />
               </button>
             </div>
           )}
 
-          {step === 5 && (
+          {step === 6 && (
             <div className="mt-6 pt-6 border-t border-gray-100">
               <button
                 type="button"
                 onClick={goBack}
-                className="inline-flex items-center gap-2 px-5 py-2.5 text-muted hover:text-gray-900 transition-colors text-sm font-medium"
+                className="inline-flex items-center gap-2 px-5 py-2.5 text-muted hover:text-gray-900 transition-colors text-sm font-medium cursor-pointer"
               >
                 <ArrowLeft className="w-4 h-4" />
                 Go Back & Edit

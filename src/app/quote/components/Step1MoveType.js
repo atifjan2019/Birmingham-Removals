@@ -10,7 +10,7 @@ const moveTypes = [
   { id: "items", icon: Package, label: "Single Items" },
 ];
 
-export default function Step1MoveType({ value, bedrooms, onChange, onChangeBedrooms, onNext }) {
+export default function Step1MoveType({ value, onChange, onNext }) {
   const [error, setError] = useState("");
 
   const handleContinue = () => {
@@ -67,32 +67,11 @@ export default function Step1MoveType({ value, bedrooms, onChange, onChangeBedro
         })}
       </div>
 
-      {(value === "house" || value === "flat") && (
-        <div className="animate-in fade-in slide-in-from-top-2 duration-300">
-           <h3 className="text-sm font-bold text-gray-900 mb-2">How many bedrooms?</h3>
-           <div className="flex items-center gap-3">
-              {[1, 2, 3, 4, 5].map((num) => (
-                <button
-                  key={num}
-                  onClick={() => onChangeBedrooms(num)}
-                  className={`flex-1 py-2.5 rounded-lg border-2 font-semibold transition-all ${
-                    bedrooms === num 
-                      ? "border-primary bg-primary/5 text-primary shadow-sm"
-                      : "border-gray-200 bg-white text-gray-600 hover:border-primary/50"
-                  }`}
-                >
-                  {num}{num === 5 ? "+" : ""}
-                </button>
-              ))}
-           </div>
-        </div>
-      )}
-
       {error && <p className="text-red-500 text-sm mt-3">{error}</p>}
 
       <button
         onClick={handleContinue}
-        className="mt-6 w-full flex items-center justify-center gap-2 py-3.5 bg-primary text-white font-semibold rounded-xl hover:bg-primary/90 transition-all shadow-lg shadow-primary/20"
+        className="mt-6 w-full flex items-center justify-center gap-2 py-3.5 bg-primary text-white font-semibold rounded-xl hover:bg-primary/90 transition-all shadow-lg shadow-primary/20 cursor-pointer"
       >
         Continue
         <ArrowRight className="w-4 h-4" />

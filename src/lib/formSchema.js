@@ -21,8 +21,8 @@ export const step2Schema = z.object({
       /^[A-Za-z]{1,2}\d[A-Za-z\d]?\s?\d[A-Za-z]{2}$/,
       "Enter a valid UK postcode"
     ),
-  moveDate: z.string().min(1, "Move date is required"),
-  bedrooms: z.number().min(0).max(6),
+  moveDate: z.string().optional(),
+  bedrooms: z.number().min(0).max(6).optional(),
 });
 
 export const step3Schema = z.object({

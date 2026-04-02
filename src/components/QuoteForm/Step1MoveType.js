@@ -29,7 +29,7 @@ const moveTypes = [
   },
 ];
 
-export default function Step1MoveType({ value, bedrooms, onChange, onChangeBedrooms, error }) {
+export default function Step1MoveType({ value, onChange, error }) {
   return (
     <div>
       <h3 className="font-[family-name:var(--font-space)] text-2xl font-bold mb-2 text-gray-900">
@@ -80,28 +80,6 @@ export default function Step1MoveType({ value, bedrooms, onChange, onChangeBedro
           );
         })}
       </div>
-
-      {(value === "house" || value === "studio") && (
-        <div className="animate-in fade-in slide-in-from-top-2 duration-300 mt-2">
-           <h3 className="text-sm font-bold text-gray-900 mb-3">How many bedrooms?</h3>
-           <div className="flex items-center gap-3">
-              {[1, 2, 3, 4, 5].map((num) => (
-                <button
-                  key={num}
-                  type="button"
-                  onClick={() => onChangeBedrooms(num)}
-                  className={`flex-1 py-3 rounded-xl border-2 font-semibold transition-all ${
-                    bedrooms === num 
-                      ? "border-primary bg-primary/5 text-primary shadow-md shadow-primary/10"
-                      : "border-gray-200 bg-gray-50/50 text-gray-600 hover:border-primary/50"
-                  }`}
-                >
-                  {num}{num === 5 ? "+" : ""}
-                </button>
-              ))}
-           </div>
-        </div>
-      )}
 
       {error && (
         <p className="text-red-500 text-sm mt-4">{error}</p>
