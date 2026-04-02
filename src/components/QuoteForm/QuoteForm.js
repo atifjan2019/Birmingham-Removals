@@ -172,8 +172,12 @@ export default function QuoteForm() {
                 {step === 1 && (
                   <Step1MoveType
                     value={formData.moveType}
+                    bedrooms={formData.bedrooms}
                     onChange={(val) =>
                       setFormData({ ...formData, moveType: val })
+                    }
+                    onChangeBedrooms={(val) =>
+                      setFormData({ ...formData, bedrooms: val })
                     }
                     error={errors.moveType}
                   />
