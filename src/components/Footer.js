@@ -1,6 +1,7 @@
 "use client";
 
-import { Truck, Phone, Mail, MapPin } from "lucide-react";
+import { Phone, Mail, MapPin } from "lucide-react";
+import Image from "next/image";
 
 const quickLinks = [
   { label: "House Removals", href: "#services" },
@@ -21,13 +22,14 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
           {/* Brand */}
           <div>
-            <div className="flex items-center gap-2 mb-4">
-              <div className="w-10 h-10 rounded-xl bg-primary/10 border border-primary/20 flex items-center justify-center">
-                <Truck className="w-5 h-5 text-primary" />
-              </div>
-              <span className="font-[family-name:var(--font-space)] font-bold text-lg text-gray-900">
-                Newcastle Removals
-              </span>
+            <div className="mb-4">
+              <Image
+                src="/images/logo.png"
+                alt="Newcastle Removals - Newcastle upon Tyne"
+                width={200}
+                height={64}
+                className="h-14 w-auto"
+              />
             </div>
             <p className="text-muted text-sm leading-relaxed mb-6">
               Newcastle&apos;s most trusted removals team. We take the stress out

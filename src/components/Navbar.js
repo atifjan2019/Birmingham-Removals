@@ -2,7 +2,8 @@
 
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Truck, Menu, X, Phone } from "lucide-react";
+import { Menu, X, Phone } from "lucide-react";
+import Image from "next/image";
 
 const navLinks = [
   { label: "Services", href: "#services" },
@@ -31,18 +32,15 @@ export default function Navbar({ onOpenQuote }) {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16 md:h-20">
           {/* Logo */}
-          <a href="#" className="flex items-center gap-2 group">
-            <div className="w-10 h-10 rounded-xl bg-primary/10 border border-primary/20 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
-              <Truck className="w-5 h-5 text-primary" />
-            </div>
-            <div>
-              <span className="font-[family-name:var(--font-space)] font-bold text-lg text-gray-900">
-                Newcastle Removals
-              </span>
-              <span className="hidden sm:block text-xs text-muted -mt-1">
-                Newcastle upon Tyne
-              </span>
-            </div>
+          <a href="#" className="flex items-center group">
+            <Image
+              src="/images/logo.png"
+              alt="Newcastle Removals - Newcastle upon Tyne"
+              width={220}
+              height={70}
+              className="h-12 md:h-14 w-auto"
+              priority
+            />
           </a>
 
           {/* Desktop Nav */}
