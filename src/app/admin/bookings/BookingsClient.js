@@ -443,8 +443,8 @@ export default function BookingsClient({ initialBookings }) {
                       </div>
                     </div>
 
-                    {/* Status + Actions (desktop only) */}
-                    <div className="hidden lg:flex items-center gap-4 shrink-0">
+                    {/* Status (desktop only) */}
+                    <div className="hidden lg:flex items-center shrink-0">
                       <div className="flex flex-col items-end gap-1">
                         <span className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[11px] font-bold uppercase tracking-wider ${
                           booking.status === "Completed" ? "bg-emerald-50 text-emerald-700 border border-emerald-200" :
@@ -461,15 +461,7 @@ export default function BookingsClient({ initialBookings }) {
                           </span>
                         )}
                       </div>
-                      <div className="opacity-0 group-hover:opacity-100 transition-opacity">
-                        <ActionButton bookingId={booking.id} currentStatus={booking.status} />
-                      </div>
                     </div>
-                  </div>
-
-                  {/* Mobile bottom bar: actions */}
-                  <div className="flex items-center justify-end px-4 pb-3 lg:hidden">
-                    <ActionButton bookingId={booking.id} currentStatus={booking.status} />
                   </div>
                 </div>
               );
