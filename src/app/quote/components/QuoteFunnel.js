@@ -3,7 +3,8 @@
 import { useState, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
-import { Truck, Phone, Shield, Star, Award } from "lucide-react";
+import { Phone, Shield, Star, Award } from "lucide-react";
+import Image from "next/image";
 import Step1MoveType from "./Step1MoveType";
 import Step2FromPostcode from "./Step2FromPostcode";
 import Step3ToPostcode from "./Step3ToPostcode";
@@ -26,18 +27,6 @@ const trustItems = [
   { icon: Award, label: "5-Star Rated" },
 ];
 
-// Dummy data for testing — remove later
-const DUMMY_DATA = {
-  moveType: "house",
-  bedrooms: 2,
-  fromPostcode: "NE1 4XF",
-  toPostcode: "NE3 2PA",
-  moveDate: new Date(Date.now() + 7 * 86400000).toISOString().split("T")[0],
-  flexibleDates: false,
-  fullName: "John Smith",
-  phone: "07123 456 789",
-};
-
 export default function QuoteFunnel() {
   const searchParams = useSearchParams();
   const typeParam = searchParams.get("type");
@@ -48,8 +37,14 @@ export default function QuoteFunnel() {
   const [step, setStep] = useState(hasValidType ? 2 : 1);
   const [direction, setDirection] = useState(1);
   const [data, setData] = useState({
-    ...DUMMY_DATA,
-    moveType: hasValidType ? typeParam : DUMMY_DATA.moveType,
+    moveType: hasValidType ? typeParam : "",
+    bedrooms: 1,
+    fromPostcode: "",
+    toPostcode: "",
+    moveDate: "",
+    flexibleDates: false,
+    fullName: "",
+    phone: "",
   });
 
   const goNext = () => {
@@ -76,13 +71,15 @@ export default function QuoteFunnel() {
       {/* Mini header */}
       <header className="sticky top-0 z-50 bg-white/80 backdrop-blur-xl border-b border-gray-200/60 shadow-sm">
         <div className="max-w-2xl mx-auto px-4 flex items-center justify-between h-14">
-          <a href="/" className="flex items-center gap-2">
-            <div className="w-8 h-8 rounded-lg bg-primary/10 border border-primary/20 flex items-center justify-center">
-              <Truck className="w-4 h-4 text-primary" />
-            </div>
-            <span className="font-[family-name:var(--font-space)] font-bold text-gray-900 text-sm">
-              Newcastle Removals
-            </span>
+          <a href="/" className="flex items-center">
+            <Image
+              src="/images/logo.png"
+              alt="Newcastle Removals - Newcastle upon Tyne"
+              width={180}
+              height={58}
+              className="h-10 w-auto"
+              priority
+            />
           </a>
           <a
             href="tel:07943480432"
