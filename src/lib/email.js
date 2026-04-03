@@ -1,20 +1,34 @@
 import nodemailer from "nodemailer";
 
-const transporter = nodemailer.createTransport({
-  host: process.env.SMTP_HOST,
-  port: parseInt(process.env.SMTP_PORT) || 2525,
-  secure: false, // TLS via STARTTLS
-  auth: {
-    user: process.env.SMTP_USER,
-    pass: process.env.SMTP_PASS,
-  },
-});
+let _transporter = null;
+
+function getTransporter() {
+  if (_transporter) return _transporter;
+  if (!process.env.SMTP_HOST || !process.env.SMTP_USER || !process.env.SMTP_PASS) {
+    return null;
+  }
+  _transporter = nodemailer.createTransport({
+    host: process.env.SMTP_HOST,
+    port: parseInt(process.env.SMTP_PORT) || 2525,
+    secure: false, // TLS via STARTTLS
+    auth: {
+      user: process.env.SMTP_USER,
+      pass: process.env.SMTP_PASS,
+    },
+  });
+  return _transporter;
+}
 
 /**
  * Send an email
  * @param {{ to: string, subject: string, html: string, text?: string }} options
  */
 export async function sendEmail({ to, subject, html, text }) {
+  const transporter = getTransporter();
+  if (!transporter) {
+    console.warn("[EMAIL SKIP] SMTP not configured, skipping email to", to);
+    return { success: false, error: "SMTP not configured" };
+  }
   try {
     const info = await transporter.sendMail({
       from: `"Newcastle Removals" <${process.env.SMTP_FROM}>`,
