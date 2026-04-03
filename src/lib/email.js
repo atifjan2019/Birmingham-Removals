@@ -89,7 +89,7 @@ function baseLayout(content) {
 }
 
 /**
- * Booking confirmation emaila to the customer
+ * Booking confirmation email to the customer
  */
 export async function sendBookingConfirmation({ email, fullName, moveType, fromPostcode, toPostcode, moveDate, bedrooms, extras, estimatedPrice }) {
   const formattedDate = new Date(moveDate).toLocaleDateString("en-GB", { weekday: "long", day: "numeric", month: "long", year: "numeric" });
