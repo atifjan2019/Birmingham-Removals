@@ -1,49 +1,52 @@
+import nodemailer from "nodemailer";
+
 let _transporter = null;
 
-async function getTransporter() {
+function getTransporter() {
   if (_transporter) return _transporter;
-  if (!process.env.SMTP_HOST || !process.env.SMTP_USER || !process.env.SMTP_PASS) {
+
+  const host = process.env.SMTP_HOST;
+  const user = process.env.SMTP_USER;
+  const pass = process.env.SMTP_PASS;
+
+  console.log("[EMAIL] SMTP_HOST:", host ? "SET" : "MISSING");
+  console.log("[EMAIL] SMTP_USER:", user ? "SET" : "MISSING");
+  console.log("[EMAIL] SMTP_PASS:", pass ? "SET" : "MISSING");
+
+  if (!host || !user || !pass) {
+    console.warn("[EMAIL] SMTP credentials missing, cannot send emails");
     return null;
   }
-  try {
-    const nodemailer = (await import("nodemailer")).default;
-    _transporter = nodemailer.createTransport({
-      host: process.env.SMTP_HOST,
-      port: parseInt(process.env.SMTP_PORT) || 2525,
-      secure: false,
-      auth: {
-        user: process.env.SMTP_USER,
-        pass: process.env.SMTP_PASS,
-      },
-    });
-    return _transporter;
-  } catch (err) {
-    console.error("[EMAIL] Failed to initialise transporter:", err.message);
-    return null;
-  }
+
+  _transporter = nodemailer.createTransport({
+    host,
+    port: parseInt(process.env.SMTP_PORT) || 2525,
+    secure: false,
+    auth: { user, pass },
+  });
+
+  console.log("[EMAIL] Transporter created successfully");
+  return _transporter;
 }
 
 /**
  * Send an email
  */
 export async function sendEmail({ to, subject, html, text }) {
-  const transporter = await getTransporter();
+  console.log("[EMAIL] Attempting to send email to:", to);
+  const transporter = getTransporter();
   if (!transporter) {
-    console.warn("[EMAIL SKIP] SMTP not configured, skipping email to", to);
+    console.warn("[EMAIL SKIP] No transporter available, skipping email to", to);
     return { success: false, error: "SMTP not configured" };
   }
   try {
-    const info = await transporter.sendMail({
-      from: `"Newcastle Removals" <${process.env.SMTP_FROM}>`,
-      to,
-      subject,
-      html,
-      text: text || "",
-    });
+    const from = `"Newcastle Removals" <${process.env.SMTP_FROM}>`;
+    console.log("[EMAIL] Sending from:", from);
+    const info = await transporter.sendMail({ from, to, subject, html, text: text || "" });
     console.log(`[EMAIL SENT] to=${to} messageId=${info.messageId}`);
     return { success: true, messageId: info.messageId };
   } catch (error) {
-    console.error(`[EMAIL ERROR] to=${to}`, error.message);
+    console.error(`[EMAIL ERROR] to=${to}`, error.message, error.stack);
     return { success: false, error: error.message };
   }
 }
