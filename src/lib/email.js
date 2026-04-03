@@ -54,32 +54,42 @@ export async function sendEmail({ to, subject, html, text }) {
 /* ─── Pre-built templates ─── */
 
 const BRAND_COLOR = "#2563eb";
+const LOGO_URL = "https://www.newcastleremovals.uk/images/logo.png";
 
 function baseLayout(content) {
   return `
 <!DOCTYPE html>
-<html lang="en">
-<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"></head>
-<body style="margin:0;padding:0;background:#f4f6f8;font-family:'Segoe UI',Arial,sans-serif;">
-  <table width="100%" cellpadding="0" cellspacing="0" style="background:#f4f6f8;padding:32px 0;">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <meta name="color-scheme" content="light only">
+  <meta name="supported-color-schemes" content="light only">
+  <style>
+    :root { color-scheme: light only; }
+    body, table, td, div, p, h1, h2, h3 { color: #111827 !important; }
+  </style>
+</head>
+<body style="margin:0;padding:0;background-color:#f4f6f8;font-family:'Segoe UI',Arial,sans-serif;color:#111827;">
+  <table width="100%" cellpadding="0" cellspacing="0" role="presentation" style="background-color:#f4f6f8;padding:32px 0;">
     <tr><td align="center">
-      <table width="600" cellpadding="0" cellspacing="0" style="background:#ffffff;border-radius:12px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,0.06);">
-        <!-- Header -->
+      <table width="600" cellpadding="0" cellspacing="0" role="presentation" style="background-color:#ffffff;border-radius:12px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,0.06);">
+        <!-- Header with Logo -->
         <tr>
-          <td style="background:${BRAND_COLOR};padding:28px 32px;">
-            <h1 style="margin:0;color:#ffffff;font-size:22px;font-weight:700;letter-spacing:-0.3px;">Newcastle Removals</h1>
+          <td style="background-color:${BRAND_COLOR};padding:24px 32px;text-align:center;">
+            <img src="${LOGO_URL}" alt="Newcastle Removals" width="200" style="display:block;margin:0 auto;max-width:200px;height:auto;" />
           </td>
         </tr>
         <!-- Body -->
         <tr>
-          <td style="padding:32px;">
+          <td style="padding:32px;background-color:#ffffff;color:#111827;">
             ${content}
           </td>
         </tr>
         <!-- Footer -->
         <tr>
-          <td style="background:#f9fafb;padding:20px 32px;border-top:1px solid #e5e7eb;">
-            <p style="margin:0;font-size:12px;color:#9ca3af;text-align:center;">
+          <td style="background-color:#f9fafb;padding:20px 32px;border-top:1px solid #e5e7eb;">
+            <p style="margin:0;font-size:12px;color:#6b7280;text-align:center;">
               Newcastle Removals &bull; 0794 348 0432 &bull; info@newcastleremovals.uk
             </p>
           </td>
@@ -94,46 +104,42 @@ function baseLayout(content) {
 /**
  * Booking confirmation email to the customer
  */
-export async function sendBookingConfirmation({ email, fullName, moveType, fromPostcode, toPostcode, moveDate, bedrooms, extras, estimatedPrice }) {
+export async function sendBookingConfirmation({ email, fullName, moveType, fromPostcode, toPostcode, moveDate, bedrooms, extras }) {
   const formattedDate = new Date(moveDate).toLocaleDateString("en-GB", { weekday: "long", day: "numeric", month: "long", year: "numeric" });
   const extrasList = extras && extras.length > 0 ? extras.join(", ") : "None";
 
   const html = baseLayout(`
     <h2 style="margin:0 0 8px;font-size:20px;color:#111827;">Booking Confirmed!</h2>
-    <p style="margin:0 0 24px;font-size:15px;color:#6b7280;">Hi ${fullName}, thank you for choosing Newcastle Removals. Here are your booking details:</p>
+    <p style="margin:0 0 24px;font-size:15px;color:#4b5563;">Hi ${fullName}, thank you for choosing Newcastle Removals. Here are your booking details:</p>
 
     <table width="100%" cellpadding="0" cellspacing="0" style="border:1px solid #e5e7eb;border-radius:8px;overflow:hidden;">
-      <tr style="background:#f9fafb;">
-        <td style="padding:12px 16px;font-size:13px;color:#6b7280;width:140px;">Move Type</td>
-        <td style="padding:12px 16px;font-size:14px;color:#111827;font-weight:600;">${moveType}</td>
+      <tr>
+        <td style="padding:12px 16px;font-size:13px;color:#6b7280;background-color:#f9fafb;width:140px;">Move Type</td>
+        <td style="padding:12px 16px;font-size:14px;color:#111827;background-color:#f9fafb;font-weight:600;">${moveType}</td>
       </tr>
       <tr>
-        <td style="padding:12px 16px;font-size:13px;color:#6b7280;border-top:1px solid #f3f4f6;">From</td>
-        <td style="padding:12px 16px;font-size:14px;color:#111827;border-top:1px solid #f3f4f6;">${fromPostcode}</td>
-      </tr>
-      <tr style="background:#f9fafb;">
-        <td style="padding:12px 16px;font-size:13px;color:#6b7280;">To</td>
-        <td style="padding:12px 16px;font-size:14px;color:#111827;">${toPostcode}</td>
+        <td style="padding:12px 16px;font-size:13px;color:#6b7280;background-color:#ffffff;border-top:1px solid #f3f4f6;">From</td>
+        <td style="padding:12px 16px;font-size:14px;color:#111827;background-color:#ffffff;border-top:1px solid #f3f4f6;">${fromPostcode}</td>
       </tr>
       <tr>
-        <td style="padding:12px 16px;font-size:13px;color:#6b7280;border-top:1px solid #f3f4f6;">Date</td>
-        <td style="padding:12px 16px;font-size:14px;color:#111827;border-top:1px solid #f3f4f6;">${formattedDate}</td>
-      </tr>
-      <tr style="background:#f9fafb;">
-        <td style="padding:12px 16px;font-size:13px;color:#6b7280;">Bedrooms</td>
-        <td style="padding:12px 16px;font-size:14px;color:#111827;">${bedrooms || "N/A"}</td>
+        <td style="padding:12px 16px;font-size:13px;color:#6b7280;background-color:#f9fafb;">To</td>
+        <td style="padding:12px 16px;font-size:14px;color:#111827;background-color:#f9fafb;">${toPostcode}</td>
       </tr>
       <tr>
-        <td style="padding:12px 16px;font-size:13px;color:#6b7280;border-top:1px solid #f3f4f6;">Extras</td>
-        <td style="padding:12px 16px;font-size:14px;color:#111827;border-top:1px solid #f3f4f6;">${extrasList}</td>
+        <td style="padding:12px 16px;font-size:13px;color:#6b7280;background-color:#ffffff;border-top:1px solid #f3f4f6;">Date</td>
+        <td style="padding:12px 16px;font-size:14px;color:#111827;background-color:#ffffff;border-top:1px solid #f3f4f6;">${formattedDate}</td>
       </tr>
-      <tr style="background:${BRAND_COLOR}10;">
-        <td style="padding:12px 16px;font-size:13px;color:${BRAND_COLOR};font-weight:600;">Est. Price</td>
-        <td style="padding:12px 16px;font-size:16px;color:${BRAND_COLOR};font-weight:700;">From &pound;${estimatedPrice}</td>
+      <tr>
+        <td style="padding:12px 16px;font-size:13px;color:#6b7280;background-color:#f9fafb;">Bedrooms</td>
+        <td style="padding:12px 16px;font-size:14px;color:#111827;background-color:#f9fafb;">${bedrooms || "N/A"}</td>
+      </tr>
+      <tr>
+        <td style="padding:12px 16px;font-size:13px;color:#6b7280;background-color:#ffffff;border-top:1px solid #f3f4f6;">Extras</td>
+        <td style="padding:12px 16px;font-size:14px;color:#111827;background-color:#ffffff;border-top:1px solid #f3f4f6;">${extrasList}</td>
       </tr>
     </table>
 
-    <div style="margin-top:24px;padding:16px;background:#f0f9ff;border-radius:8px;border-left:4px solid ${BRAND_COLOR};">
+    <div style="margin-top:24px;padding:16px;background-color:#f0f9ff;border-radius:8px;border-left:4px solid ${BRAND_COLOR};">
       <p style="margin:0;font-size:14px;color:#1e40af;font-weight:600;">What happens next?</p>
       <p style="margin:8px 0 0;font-size:13px;color:#374151;">Our team will review your booking and call you to confirm the final details and price. If you have any questions, feel free to call us on <strong>0794 348 0432</strong>.</p>
     </div>
@@ -149,54 +155,50 @@ export async function sendBookingConfirmation({ email, fullName, moveType, fromP
 /**
  * New booking notification email to admin
  */
-export async function sendAdminNotification({ fullName, email, phone, moveType, fromPostcode, toPostcode, moveDate, bedrooms, extras, estimatedPrice, bookingId }) {
+export async function sendAdminNotification({ fullName, email, phone, moveType, fromPostcode, toPostcode, moveDate, bedrooms, extras, bookingId }) {
   const formattedDate = new Date(moveDate).toLocaleDateString("en-GB", { weekday: "short", day: "numeric", month: "short", year: "numeric" });
   const extrasList = extras && extras.length > 0 ? extras.join(", ") : "None";
 
   const html = baseLayout(`
     <h2 style="margin:0 0 8px;font-size:20px;color:#111827;">New Booking Received</h2>
-    <p style="margin:0 0 24px;font-size:15px;color:#6b7280;">A new booking has just been submitted.</p>
+    <p style="margin:0 0 24px;font-size:15px;color:#4b5563;">A new booking has just been submitted.</p>
 
     <table width="100%" cellpadding="0" cellspacing="0" style="border:1px solid #e5e7eb;border-radius:8px;overflow:hidden;">
-      <tr style="background:#f9fafb;">
-        <td style="padding:12px 16px;font-size:13px;color:#6b7280;width:140px;">Customer</td>
-        <td style="padding:12px 16px;font-size:14px;color:#111827;font-weight:600;">${fullName}</td>
+      <tr>
+        <td style="padding:12px 16px;font-size:13px;color:#6b7280;background-color:#f9fafb;width:140px;">Customer</td>
+        <td style="padding:12px 16px;font-size:14px;color:#111827;background-color:#f9fafb;font-weight:600;">${fullName}</td>
       </tr>
       <tr>
-        <td style="padding:12px 16px;font-size:13px;color:#6b7280;border-top:1px solid #f3f4f6;">Email</td>
-        <td style="padding:12px 16px;font-size:14px;color:#111827;border-top:1px solid #f3f4f6;">${email}</td>
-      </tr>
-      <tr style="background:#f9fafb;">
-        <td style="padding:12px 16px;font-size:13px;color:#6b7280;">Phone</td>
-        <td style="padding:12px 16px;font-size:14px;color:#111827;">${phone}</td>
+        <td style="padding:12px 16px;font-size:13px;color:#6b7280;background-color:#ffffff;border-top:1px solid #f3f4f6;">Email</td>
+        <td style="padding:12px 16px;font-size:14px;color:#111827;background-color:#ffffff;border-top:1px solid #f3f4f6;">${email}</td>
       </tr>
       <tr>
-        <td style="padding:12px 16px;font-size:13px;color:#6b7280;border-top:1px solid #f3f4f6;">Move Type</td>
-        <td style="padding:12px 16px;font-size:14px;color:#111827;border-top:1px solid #f3f4f6;">${moveType}</td>
-      </tr>
-      <tr style="background:#f9fafb;">
-        <td style="padding:12px 16px;font-size:13px;color:#6b7280;">Route</td>
-        <td style="padding:12px 16px;font-size:14px;color:#111827;">${fromPostcode} &rarr; ${toPostcode}</td>
+        <td style="padding:12px 16px;font-size:13px;color:#6b7280;background-color:#f9fafb;">Phone</td>
+        <td style="padding:12px 16px;font-size:14px;color:#111827;background-color:#f9fafb;">${phone}</td>
       </tr>
       <tr>
-        <td style="padding:12px 16px;font-size:13px;color:#6b7280;border-top:1px solid #f3f4f6;">Date</td>
-        <td style="padding:12px 16px;font-size:14px;color:#111827;border-top:1px solid #f3f4f6;">${formattedDate}</td>
-      </tr>
-      <tr style="background:#f9fafb;">
-        <td style="padding:12px 16px;font-size:13px;color:#6b7280;">Bedrooms</td>
-        <td style="padding:12px 16px;font-size:14px;color:#111827;">${bedrooms || "N/A"}</td>
+        <td style="padding:12px 16px;font-size:13px;color:#6b7280;background-color:#ffffff;border-top:1px solid #f3f4f6;">Move Type</td>
+        <td style="padding:12px 16px;font-size:14px;color:#111827;background-color:#ffffff;border-top:1px solid #f3f4f6;">${moveType}</td>
       </tr>
       <tr>
-        <td style="padding:12px 16px;font-size:13px;color:#6b7280;border-top:1px solid #f3f4f6;">Extras</td>
-        <td style="padding:12px 16px;font-size:14px;color:#111827;border-top:1px solid #f3f4f6;">${extrasList}</td>
+        <td style="padding:12px 16px;font-size:13px;color:#6b7280;background-color:#f9fafb;">Route</td>
+        <td style="padding:12px 16px;font-size:14px;color:#111827;background-color:#f9fafb;">${fromPostcode} &rarr; ${toPostcode}</td>
       </tr>
-      <tr style="background:#fef3c7;">
-        <td style="padding:12px 16px;font-size:13px;color:#92400e;font-weight:600;">Est. Price</td>
-        <td style="padding:12px 16px;font-size:16px;color:#92400e;font-weight:700;">From &pound;${estimatedPrice}</td>
+      <tr>
+        <td style="padding:12px 16px;font-size:13px;color:#6b7280;background-color:#ffffff;border-top:1px solid #f3f4f6;">Date</td>
+        <td style="padding:12px 16px;font-size:14px;color:#111827;background-color:#ffffff;border-top:1px solid #f3f4f6;">${formattedDate}</td>
+      </tr>
+      <tr>
+        <td style="padding:12px 16px;font-size:13px;color:#6b7280;background-color:#f9fafb;">Bedrooms</td>
+        <td style="padding:12px 16px;font-size:14px;color:#111827;background-color:#f9fafb;">${bedrooms || "N/A"}</td>
+      </tr>
+      <tr>
+        <td style="padding:12px 16px;font-size:13px;color:#6b7280;background-color:#ffffff;border-top:1px solid #f3f4f6;">Extras</td>
+        <td style="padding:12px 16px;font-size:14px;color:#111827;background-color:#ffffff;border-top:1px solid #f3f4f6;">${extrasList}</td>
       </tr>
     </table>
 
-    <p style="margin:24px 0 0;font-size:13px;color:#9ca3af;">Booking ID: ${bookingId}</p>
+    <p style="margin:24px 0 0;font-size:13px;color:#6b7280;">Booking ID: ${bookingId}</p>
   `);
 
   return sendEmail({
