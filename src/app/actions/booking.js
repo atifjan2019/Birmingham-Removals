@@ -4,6 +4,7 @@ import prisma from "@/lib/prisma";
 import { calculateQuote } from "@/lib/quoteCalculator";
 import { revalidatePath } from "next/cache";
 import { logActivity } from "./activityLog";
+import { sendBookingConfirmation, sendAdminNotification } from "@/lib/email";
 
 export async function createBooking(formData) {
   try {
@@ -99,6 +100,11 @@ export async function createBooking(formData) {
       entityId: booking.id,
       actor: "customer",
     });
+
+    // Send emails (fire-and-forget, don't block the response)
+    const emailData = { email, fullName, phone, moveType, fromPostcode, toPostcode, moveDate, bedrooms: parseInt(bedrooms) || 0, extras: extras || [], estimatedPrice, bookingId: booking.id };
+    sendBookingConfirmation(emailData).catch(err => console.error("[EMAIL] Customer confirmation failed:", err.message));
+    sendAdminNotification(emailData).catch(err => console.error("[EMAIL] Admin notification failed:", err.message));
 
     // Revalidate admin pages to show new data immediately
     revalidatePath("/admin/bookings");

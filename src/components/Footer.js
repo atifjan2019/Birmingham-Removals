@@ -76,10 +76,10 @@ export default function Footer() {
               <li className="flex items-center gap-3">
                 <Mail className="w-5 h-5 text-primary shrink-0" />
                 <a
-                  href="mailto:info@swiftremovalsnewcastle.co.uk"
+                  href="mailto:info@newcastleremovals.uk"
                   className="text-muted text-sm hover:text-gray-900 transition-colors"
                 >
-                  info@swiftremovalsnewcastle.co.uk
+                  info@newcastleremovals.uk
                 </a>
               </li>
               <li className="flex items-start gap-3">
