@@ -100,10 +100,16 @@ export async function createBooking(formData) {
       actor: "customer",
     });
 
-    // Send emails (fire-and-forget, don't block the response)
+    // Send emails (await so Vercel doesn't kill the function before they send)
     const emailData = { email, fullName, phone, moveType, fromPostcode, toPostcode, moveDate, bedrooms: parseInt(bedrooms) || 0, extras: extras || [], estimatedPrice, bookingId: booking.id };
-    sendBookingConfirmation(emailData).catch(err => console.error("[EMAIL] Customer confirmation failed:", err.message));
-    sendAdminNotification(emailData).catch(err => console.error("[EMAIL] Admin notification failed:", err.message));
+    try {
+      await Promise.all([
+        sendBookingConfirmation(emailData),
+        sendAdminNotification(emailData),
+      ]);
+    } catch (emailErr) {
+      console.error("[EMAIL] Failed to send:", emailErr.message);
+    }
 
     // Revalidate admin pages to show new data immediately
     revalidatePath("/admin/bookings");
