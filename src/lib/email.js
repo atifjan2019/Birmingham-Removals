@@ -76,7 +76,7 @@ function baseLayout(content) {
       <table width="600" cellpadding="0" cellspacing="0" role="presentation" style="background-color:#ffffff;border-radius:12px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,0.06);">
         <!-- Header with Logo -->
         <tr>
-          <td style="background-color:${BRAND_COLOR};padding:24px 32px;text-align:center;">
+          <td style="background-color:#ffffff;padding:28px 32px;text-align:center;border-bottom:3px solid #dc2626;">
             <img src="${LOGO_URL}" alt="Newcastle Removals" width="200" style="display:block;margin:0 auto;max-width:200px;height:auto;" />
           </td>
         </tr>
