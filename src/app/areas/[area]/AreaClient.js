@@ -71,11 +71,11 @@ export default function AreaClient({ areaData }) {
               <ArrowRight className="w-5 h-5" />
             </button>
             <a
-              href="tel:07943480432"
+              href="tel:+447888862003"
               className="inline-flex items-center gap-2 px-8 py-4 border-2 border-white/20 text-white font-semibold rounded-full hover:bg-white/10 transition-all w-full sm:w-auto justify-center backdrop-blur-sm"
             >
               <Phone className="w-5 h-5 text-primary" />
-              0794 348 0432
+              0788 886 2003
             </a>
           </motion.div>
         </div>

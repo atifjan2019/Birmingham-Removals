@@ -109,7 +109,7 @@ export default function ServicePageClient({ service }) {
                   <ArrowRight className="w-5 h-5" />
                 </Link>
                 <a
-                  href="tel:07786738432"
+                  href="tel:+447888862003"
                   className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-white border border-gray-200 text-gray-900 font-semibold rounded-xl hover:bg-gray-50 transition-all text-lg"
                 >
                   <Phone className="w-5 h-5 text-primary" />
@@ -280,7 +280,7 @@ export default function ServicePageClient({ service }) {
                   <ArrowRight className="w-5 h-5" />
                 </Link>
                 <a
-                  href="tel:07786738432"
+                  href="tel:+447888862003"
                   className="inline-flex items-center justify-center gap-2 px-10 py-5 bg-white/10 text-white border border-white/20 font-bold rounded-xl hover:bg-white/20 transition-all text-lg w-full sm:w-auto backdrop-blur-md"
                 >
                   <Phone className="w-5 h-5" />

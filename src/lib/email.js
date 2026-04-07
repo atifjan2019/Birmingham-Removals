@@ -90,7 +90,7 @@ function baseLayout(content) {
         <tr>
           <td style="background-color:#f9fafb;padding:20px 32px;border-top:1px solid #e5e7eb;">
             <p style="margin:0;font-size:12px;color:#6b7280;text-align:center;">
-              Newcastle Removals &bull; 0794 348 0432 &bull; info@newcastleremovals.uk
+              Newcastle Removals &bull; 0788 886 2003 &bull; info@newcastleremovals.uk
             </p>
           </td>
         </tr>
@@ -141,7 +141,7 @@ export async function sendBookingConfirmation({ email, fullName, moveType, fromP
 
     <div style="margin-top:24px;padding:16px;background-color:#f0f9ff;border-radius:8px;border-left:4px solid ${BRAND_COLOR};">
       <p style="margin:0;font-size:14px;color:#1e40af;font-weight:600;">What happens next?</p>
-      <p style="margin:8px 0 0;font-size:13px;color:#374151;">Our team will review your booking and call you to confirm the final details and price. If you have any questions, feel free to call us on <strong>0794 348 0432</strong>.</p>
+      <p style="margin:8px 0 0;font-size:13px;color:#374151;">Our team will review your booking and call you to confirm the final details and price. If you have any questions, feel free to call us on <strong>0788 886 2003</strong>.</p>
     </div>
   `);
 

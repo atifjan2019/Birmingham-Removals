@@ -77,7 +77,7 @@ export default function Navbar({ onOpenQuote }) {
           {/* Mobile actions */}
           <div className="flex items-center gap-2 md:hidden">
             <a
-              href="tel:07943480432"
+              href="tel:+447888862003"
               className="w-10 h-10 rounded-full bg-primary/10 border border-primary/20 flex items-center justify-center hover:bg-primary/20 transition-colors"
               aria-label="Call us"
             >
