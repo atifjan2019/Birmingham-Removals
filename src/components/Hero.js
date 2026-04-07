@@ -38,14 +38,14 @@ export default function Hero({ onOpenQuote }) {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6 }}
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 text-primary text-sm font-medium mb-4"
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 text-primary text-sm font-medium mb-2"
             >
               <Clock className="w-4 h-4" />
               Free quotes in under 30 minutes
             </motion.div>
 
             {/* Headline - word by word reveal */}
-            <h1 className="font-[family-name:var(--font-space)] text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold leading-tight mb-4 text-gray-900">
+            <h1 className="font-[family-name:var(--font-space)] text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold leading-tight mb-2 text-gray-900">
               {words.map((word, i) => (
                 <motion.span
                   key={i}
@@ -68,7 +68,7 @@ export default function Hero({ onOpenQuote }) {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.8 }}
-              className="text-lg sm:text-xl text-muted max-w-xl mb-6"
+              className="text-lg sm:text-xl text-muted max-w-xl mb-3"
             >
               Professional house and office removals serving Jesmond, Gosforth,
               Heaton, Gateshead and all across Tyneside. Fully insured,
@@ -102,7 +102,7 @@ export default function Hero({ onOpenQuote }) {
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 1.3 }}
-              className="grid grid-cols-2 sm:grid-cols-3 gap-2 sm:gap-4 mt-8"
+              className="grid grid-cols-2 sm:grid-cols-3 gap-2 sm:gap-4 mt-4"
             >
               {stats.map((stat, i) => (
                 <div
