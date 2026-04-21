@@ -1,5 +1,5 @@
 # Copy this file to .dev.vars for local development.
 # Use your production website origin when you have a domain, for example:
 # CORS_ORIGIN=https://www.example.com
-CORS_ORIGIN=http://localhost:3000
+CORS_ORIGIN=http://localhost:3000,https://birmingham-removals.vercel.app
 ADMIN_API_PIN=524862

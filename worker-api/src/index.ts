@@ -84,7 +84,11 @@ type UpdateBookingRequest = Partial<CreateBookingRequest> & {
 
 type ApiResponse<T> = { data: T } | { error: { message: string; details?: Record<string, string> } };
 
-const DEFAULT_ALLOWED_ORIGINS = ["http://localhost:3000", "http://127.0.0.1:3000"];
+const DEFAULT_ALLOWED_ORIGINS = [
+	"http://localhost:3000",
+	"http://127.0.0.1:3000",
+	"https://birmingham-removals.vercel.app",
+];
 const BOOKING_STATUSES: BookingStatus[] = ["New", "Upcoming", "Completed", "Abandoned"];
 const MAX_LIMIT = 100;
 
