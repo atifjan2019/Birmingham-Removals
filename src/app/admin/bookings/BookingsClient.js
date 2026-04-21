@@ -2,8 +2,8 @@
 
 import { useState, useRef, useEffect, useCallback } from "react";
 import { useRouter } from "next/navigation";
-import { Search, Filter, MoreVertical, CheckCircle2, Clock, CalendarDays, Trash2, ChevronRight } from "lucide-react";
-import { updateBookingDetails, updateBookingStatus, deleteBooking, updateBookingFinancials } from "@/app/actions/booking";
+import { Search, Filter, MoreVertical, CheckCircle2, Clock, CalendarDays, Trash2, ChevronRight, Mail, RefreshCw } from "lucide-react";
+import { updateBookingDetails, updateBookingStatus, deleteBooking, updateBookingFinancials, resendBookingEmails } from "@/app/actions/booking";
 import { PoundSterling } from "lucide-react";
 
 function ActionButton({ bookingId, currentStatus }) {
@@ -89,10 +89,46 @@ function ActionButton({ bookingId, currentStatus }) {
   );
 }
 
-function BookingDetailsModal({ booking, onClose, onChanged }) {
+function EmailStatusBadge({ label, status }) {
+  const current = status?.status || "unknown";
+  const styles = {
+    sent: "bg-emerald-50 text-emerald-700 border-emerald-200",
+    failed: "bg-red-50 text-red-700 border-red-200",
+    pending: "bg-amber-50 text-amber-700 border-amber-200",
+    unknown: "bg-gray-50 text-gray-500 border-gray-200",
+  };
+  const labels = {
+    sent: "Sent",
+    failed: "Failed",
+    pending: "Pending",
+    unknown: "No record",
+  };
+
+  return (
+    <div className="rounded-xl border border-gray-100 bg-white p-3">
+      <div className="text-[10px] text-gray-400 font-semibold uppercase tracking-wider mb-1">{label}</div>
+      <div className={`inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-xs font-bold ${styles[current] || styles.unknown}`}>
+        <span className={`h-1.5 w-1.5 rounded-full ${
+          current === "sent" ? "bg-emerald-500" :
+          current === "failed" ? "bg-red-500" :
+          current === "pending" ? "bg-amber-500 animate-pulse" :
+          "bg-gray-300"
+        }`} />
+        {labels[current] || labels.unknown}
+      </div>
+      {status?.error && (
+        <div className="mt-2 text-xs text-red-500 leading-snug">{status.error}</div>
+      )}
+    </div>
+  );
+}
+
+function BookingDetailsModal({ booking, emailStatus, onEmailStatusChange, onClose, onChanged }) {
   const [status, setStatus] = useState(booking?.status || "New");
   const [updating, setUpdating] = useState(false);
   const [deleting, setDeleting] = useState(false);
+  const [resendingEmails, setResendingEmails] = useState(false);
+  const [emailError, setEmailError] = useState("");
   const [jobCost, setJobCost] = useState(booking?.jobCost || "");
   const [expenses, setExpenses] = useState(booking?.expenses || "");
   const [savingDetails, setSavingDetails] = useState(false);
@@ -179,6 +215,26 @@ function BookingDetailsModal({ booking, onClose, onChanged }) {
       onChanged();
       onClose();
     }
+  };
+
+  const handleResendEmails = async () => {
+    setResendingEmails(true);
+    setEmailError("");
+    const result = await resendBookingEmails(booking);
+    setResendingEmails(false);
+
+    if (!result.success) {
+      setEmailError(result.error || "Failed to resend emails.");
+      return;
+    }
+
+    onEmailStatusChange(booking.id, {
+      source: "manual_resend",
+      customer: result.emailStatus.customer,
+      admin: result.emailStatus.admin,
+      createdAt: new Date().toISOString(),
+    });
+    onChanged();
   };
 
   return (
@@ -300,6 +356,44 @@ function BookingDetailsModal({ booking, onClose, onChanged }) {
           </div>
 
           <div>
+            <div className="mb-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-gray-100 pb-2">
+              <div>
+                <h3 className="text-lg font-bold text-gray-900 flex items-center gap-2">
+                  <Mail className="w-5 h-5 text-primary" />
+                  Email Delivery
+                </h3>
+                <p className="text-xs text-gray-400 mt-1">
+                  {emailStatus?.createdAt
+                    ? `Last checked ${new Date(emailStatus.createdAt).toLocaleString("en-GB", {
+                        day: "numeric",
+                        month: "short",
+                        hour: "2-digit",
+                        minute: "2-digit",
+                      })}`
+                    : "No email status has been recorded for this booking yet."}
+                </p>
+              </div>
+              <button
+                onClick={handleResendEmails}
+                disabled={resendingEmails}
+                className="inline-flex items-center justify-center gap-2 rounded-xl border border-primary/20 bg-primary/5 px-4 py-2 text-sm font-semibold text-primary hover:bg-primary/10 transition-colors disabled:opacity-60"
+              >
+                <RefreshCw className={`w-4 h-4 ${resendingEmails ? "animate-spin" : ""}`} />
+                {resendingEmails ? "Resending..." : "Resend emails"}
+              </button>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <EmailStatusBadge label="Customer email" status={emailStatus?.customer} />
+              <EmailStatusBadge label="Admin email" status={emailStatus?.admin} />
+            </div>
+            {emailError && (
+              <div className="mt-3 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm font-medium text-red-700">
+                {emailError}
+              </div>
+            )}
+          </div>
+
+          <div>
             <h3 className="text-lg font-bold text-gray-900 mb-4 border-b border-gray-100 pb-2">Status</h3>
             <div className="flex flex-wrap gap-2">
               {["New", "Upcoming", "Completed", "Abandoned"].map((s) => {
@@ -417,13 +511,18 @@ function BookingDetailsModal({ booking, onClose, onChanged }) {
 
 import ManualBookingModal from "./ManualBookingModal";
 
-export default function BookingsClient({ initialBookings }) {
+export default function BookingsClient({ initialBookings, initialEmailStatusByBooking = {} }) {
   const router = useRouter();
   const [searchTerm, setSearchTerm] = useState("");
   const [statusFilter, setStatusFilter] = useState("All");
   const [selectedBooking, setSelectedBooking] = useState(null);
   const [isAddingManual, setIsAddingManual] = useState(false);
+  const [emailStatusByBooking, setEmailStatusByBooking] = useState(initialEmailStatusByBooking);
   const refreshData = useCallback(() => router.refresh(), [router]);
+
+  const handleEmailStatusChange = useCallback((bookingId, status) => {
+    setEmailStatusByBooking((current) => ({ ...current, [bookingId]: status }));
+  }, []);
 
   const filteredBookings = initialBookings.filter((booking) => {
     // Map data for easy search
@@ -592,7 +691,14 @@ export default function BookingsClient({ initialBookings }) {
         </div>
       </div>
 
-      <BookingDetailsModal key={selectedBooking?.id} booking={selectedBooking} onClose={() => setSelectedBooking(null)} onChanged={refreshData} />
+      <BookingDetailsModal
+        key={selectedBooking?.id}
+        booking={selectedBooking}
+        emailStatus={selectedBooking ? emailStatusByBooking[selectedBooking.id] : null}
+        onEmailStatusChange={handleEmailStatusChange}
+        onClose={() => setSelectedBooking(null)}
+        onChanged={refreshData}
+      />
       {isAddingManual && <ManualBookingModal onClose={() => { setIsAddingManual(false); refreshData(); }} />}
     </div>
   );

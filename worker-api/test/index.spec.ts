@@ -171,4 +171,35 @@ describe("Birmingham Removals API", () => {
 		expect(payload.data.fromPostcode).toBe("M");
 		expect(payload.data.toPostcode).toBe("CITY CENTRE NEAR STATION");
 	});
+
+	it("records email status activity entries", async () => {
+		const response = await SELF.fetch("https://example.com/activity", {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json",
+				"X-Admin-Pin": env.ADMIN_API_PIN,
+			},
+			body: JSON.stringify({
+				action: "booking.email_status",
+				entityId: "booking-123",
+				actor: "app",
+				details: JSON.stringify({
+					customer: { status: "sent" },
+					admin: { status: "failed", error: "SMTP failed" },
+				}),
+			}),
+		});
+
+		expect(response.status).toBe(201);
+
+		const activityResponse = await SELF.fetch("https://example.com/activity", {
+			headers: { "X-Admin-Pin": env.ADMIN_API_PIN },
+		});
+		const payload = await activityResponse.json<{ data: Array<{ action: string; entityId: string }> }>();
+
+		expect(payload.data[0]).toMatchObject({
+			action: "booking.email_status",
+			entityId: "booking-123",
+		});
+	});
 });

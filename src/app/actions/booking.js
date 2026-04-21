@@ -5,6 +5,7 @@ import { revalidatePath } from "next/cache";
 import { sendBookingConfirmation, sendAdminNotification } from "@/lib/email";
 import {
   createWorkerBooking,
+  recordWorkerActivity,
   updateWorkerBooking,
   deleteWorkerBooking,
 } from "@/lib/workerApi";
@@ -19,9 +20,19 @@ function refreshAdminData() {
   revalidatePath("/admin/activity");
 }
 
-async function sendBookingEmails(emailData) {
+function normalizeEmailResult(result) {
+  if (result.status === "rejected") {
+    return { status: "failed", error: result.reason?.message || String(result.reason || "Email failed") };
+  }
+
+  return result.value?.success
+    ? { status: "sent" }
+    : { status: "failed", error: result.value?.error || "Email failed" };
+}
+
+async function sendBookingEmails(emailData, timeoutMs = EMAIL_WAIT_TIMEOUT_MS) {
   const timeout = new Promise((resolve) => {
-    setTimeout(() => resolve("timeout"), EMAIL_WAIT_TIMEOUT_MS);
+    setTimeout(() => resolve("timeout"), timeoutMs);
   });
   const emailPromise = Promise.allSettled([
     sendBookingConfirmation(emailData),
@@ -32,10 +43,40 @@ async function sendBookingEmails(emailData) {
 
   if (result === "timeout") {
     console.warn("[EMAIL] Sending took too long; booking was saved and response continued.");
-  } else {
-    result
-      .filter((item) => item.status === "rejected")
-      .forEach((item) => console.error("[EMAIL] Failed to send:", item.reason?.message || item.reason));
+    return {
+      customer: { status: "pending", error: "Timed out while sending" },
+      admin: { status: "pending", error: "Timed out while sending" },
+    };
+  }
+
+  const [customerResult, adminResult] = result;
+  const status = {
+    customer: normalizeEmailResult(customerResult),
+    admin: normalizeEmailResult(adminResult),
+  };
+
+  Object.values(status)
+    .filter((item) => item.status === "failed")
+    .forEach((item) => console.error("[EMAIL] Failed to send:", item.error));
+
+  return status;
+}
+
+async function recordEmailStatus(bookingId, status, source = "booking_created") {
+  try {
+    await recordWorkerActivity({
+      action: "booking.email_status",
+      entityId: bookingId,
+      actor: "app",
+      details: JSON.stringify({
+        summary: "Booking email status updated",
+        source,
+        customer: status.customer,
+        admin: status.admin,
+      }),
+    });
+  } catch (error) {
+    console.error("[EMAIL] Failed recording email status:", error.message);
   }
 }
 
@@ -91,13 +132,41 @@ export async function createBooking(formData) {
       bookingId: booking.id,
     };
 
-    await sendBookingEmails(emailData);
+    const emailStatus = await sendBookingEmails(emailData);
+    await recordEmailStatus(booking.id, emailStatus, "booking_created");
 
     refreshAdminData();
-    return { success: true, bookingId: booking.id };
+    return { success: true, bookingId: booking.id, emailStatus };
   } catch (error) {
     console.error("Failed storing booking:", error);
     return { success: false, error: error.message || "System failed to save booking right now." };
+  }
+}
+
+export async function resendBookingEmails(booking) {
+  try {
+    const emailData = {
+      email: booking.customer?.email,
+      fullName: booking.customer?.fullName,
+      phone: booking.customer?.phone,
+      moveType: booking.moveType,
+      fromPostcode: booking.fromPostcode,
+      toPostcode: booking.toPostcode,
+      moveDate: booking.moveDate,
+      bedrooms: booking.bedrooms,
+      extras: booking.extras || [],
+      estimatedPrice: booking.price,
+      bookingId: booking.id,
+    };
+
+    const emailStatus = await sendBookingEmails(emailData, 10000);
+    await recordEmailStatus(booking.id, emailStatus, "manual_resend");
+    refreshAdminData();
+
+    return { success: true, emailStatus };
+  } catch (error) {
+    console.error("Failed resending booking emails:", error);
+    return { success: false, error: error.message || "Failed to resend booking emails." };
   }
 }
 

@@ -82,6 +82,13 @@ type UpdateBookingRequest = Partial<CreateBookingRequest> & {
 	expenses?: number | string | null;
 };
 
+interface CreateActivityRequest {
+	action: string;
+	details?: string | null;
+	entityId?: string | null;
+	actor?: string | null;
+}
+
 type NormalizedBookingRequest = Required<Omit<CreateBookingRequest, "bedrooms" | "price">> & {
 	bedrooms: number;
 	price: number | null;
@@ -159,6 +166,7 @@ export default {
 				const adminResponse = requireAdmin(request, env, corsHeaders);
 				if (adminResponse) return adminResponse;
 				if (request.method === "GET") return listActivity(env, corsHeaders);
+				if (request.method === "POST") return createActivity(request, env, corsHeaders);
 			}
 
 			const bookingMatch = path.match(/^\/bookings\/([^/]+)$/);
@@ -396,6 +404,26 @@ async function listActivity(env: Env, corsHeaders?: HeadersInit): Promise<Respon
 	).all<ActivityLogRow>();
 
 	return json({ data: results }, 200, corsHeaders);
+}
+
+async function createActivity(request: Request, env: Env, corsHeaders?: HeadersInit): Promise<Response> {
+	const body = await readJson<CreateActivityRequest>(request);
+	const validation = validateCreateActivity(body);
+
+	if (!validation.valid) {
+		return json({ error: { message: "Invalid activity data", details: validation.errors } }, 400, corsHeaders);
+	}
+
+	const entry = {
+		action: body.action.trim(),
+		details: body.details ?? "",
+		entityId: body.entityId ?? "",
+		actor: body.actor ?? "api",
+	};
+
+	await logActivity(env, entry);
+
+	return json({ data: entry }, 201, corsHeaders);
 }
 
 async function findBooking(id: string, env: Env): Promise<BookingRow | null> {
@@ -651,6 +679,21 @@ function validateUpdateBooking(body: unknown): { valid: boolean; errors: Record<
 	if ("status" in body && !isBookingStatus(body.status)) {
 		errors.status = `Status must be one of: ${BOOKING_STATUSES.join(", ")}`;
 	}
+
+	return { valid: Object.keys(errors).length === 0, errors };
+}
+
+function validateCreateActivity(body: unknown): { valid: boolean; errors: Record<string, string> } {
+	const errors: Record<string, string> = {};
+
+	if (!isRecord(body)) {
+		return { valid: false, errors: { body: "Body must be a JSON object" } };
+	}
+
+	validateText(body.action, "action", errors, { required: true, min: 2, max: 120 });
+	if ("details" in body && body.details !== null) validateText(body.details, "details", errors, { required: false, max: 4000 });
+	if ("entityId" in body && body.entityId !== null) validateText(body.entityId, "entityId", errors, { required: false, max: 120 });
+	if ("actor" in body && body.actor !== null) validateText(body.actor, "actor", errors, { required: false, max: 80 });
 
 	return { valid: Object.keys(errors).length === 0, errors };
 }

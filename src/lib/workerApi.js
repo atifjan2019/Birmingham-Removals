@@ -91,3 +91,10 @@ export async function deleteWorkerCustomer(id) {
 export async function listActivity() {
   return workerFetch("/activity", {}, { admin: true });
 }
+
+export async function recordWorkerActivity(data) {
+  return workerFetch("/activity", {
+    method: "POST",
+    body: JSON.stringify(data),
+  }, { admin: true });
+}
