@@ -616,8 +616,8 @@ function validateCreateBooking(body: unknown): { valid: boolean; errors: Record<
 	validateEmail(body.email, errors, true);
 	validateText(body.phone, "phone", errors, { required: true, min: 10, max: 30 });
 	validateText(body.moveType, "moveType", errors, { required: true, min: 2, max: 80 });
-	validateText(body.fromPostcode, "fromPostcode", errors, { required: true, min: 3, max: 20 });
-	validateText(body.toPostcode, "toPostcode", errors, { required: true, min: 3, max: 20 });
+	validateRoutePostcode(body.fromPostcode, "fromPostcode", errors, true);
+	validateRoutePostcode(body.toPostcode, "toPostcode", errors, true);
 	validateMoveDate(body.moveDate, errors, true);
 	validateBedrooms(body.bedrooms, errors);
 	validateExtras(body.extras, errors);
@@ -640,8 +640,8 @@ function validateUpdateBooking(body: unknown): { valid: boolean; errors: Record<
 	if ("email" in body) validateEmail(body.email, errors, false);
 	if ("phone" in body) validateText(body.phone, "phone", errors, { required: false, min: 10, max: 30 });
 	if ("moveType" in body) validateText(body.moveType, "moveType", errors, { required: false, min: 2, max: 80 });
-	if ("fromPostcode" in body) validateText(body.fromPostcode, "fromPostcode", errors, { required: false, min: 3, max: 20 });
-	if ("toPostcode" in body) validateText(body.toPostcode, "toPostcode", errors, { required: false, min: 3, max: 20 });
+	if ("fromPostcode" in body) validateRoutePostcode(body.fromPostcode, "fromPostcode", errors, false);
+	if ("toPostcode" in body) validateRoutePostcode(body.toPostcode, "toPostcode", errors, false);
 	if ("moveDate" in body) validateMoveDate(body.moveDate, errors, false);
 	if ("bedrooms" in body) validateBedrooms(body.bedrooms, errors);
 	if ("extras" in body) validateExtras(body.extras, errors);
@@ -771,6 +771,21 @@ function validateEmail(value: unknown, errors: Record<string, string>, required:
 
 	if (typeof value === "string" && value.trim() && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value.trim())) {
 		errors.email = "email must be valid";
+	}
+}
+
+function validateRoutePostcode(
+	value: unknown,
+	field: string,
+	errors: Record<string, string>,
+	required: boolean,
+): void {
+	validateText(value, field, errors, { required, min: 2, max: 20 });
+
+	if (typeof value !== "string" || !value.trim() || value.trim().toLowerCase() === "unknown") return;
+
+	if (!/^[A-Z]{1,2}\d[A-Z\d]?(?:\s?\d[A-Z]{2})?$/i.test(value.trim())) {
+		errors[field] = `${field} must be a valid UK postcode or postcode area`;
 	}
 }
 

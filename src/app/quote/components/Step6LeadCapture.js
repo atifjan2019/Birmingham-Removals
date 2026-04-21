@@ -64,6 +64,7 @@ export default function Step6LeadCapture({ data, onChange, onSubmit, onBack }) {
 
   const handleSubmit = async () => {
     if (!validate()) return;
+    setErrors({});
     setSubmitting(true);
     
     const submissionData = {
@@ -78,11 +79,11 @@ export default function Step6LeadCapture({ data, onChange, onSubmit, onBack }) {
       if (result?.success) {
         onSubmit();
       } else {
-        alert(result?.error || "System error. Please try again or call us.");
+        setErrors({ submit: result?.error || "System error. Please try again or call us." });
       }
     } catch (err) {
       setSubmitting(false);
-      alert("Network error submitting quote.");
+      setErrors({ submit: "Network error submitting quote. Please try again or call us." });
     }
   };
 
@@ -171,6 +172,12 @@ export default function Step6LeadCapture({ data, onChange, onSubmit, onBack }) {
       </div>
 
       {/* CTA */}
+      {errors.submit && (
+        <div className="mb-3 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm font-medium text-red-700" role="alert">
+          {errors.submit}
+        </div>
+      )}
+
       <button
         onClick={handleSubmit}
         disabled={submitting}

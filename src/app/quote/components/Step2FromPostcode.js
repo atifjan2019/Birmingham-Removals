@@ -16,7 +16,7 @@ const NE_AREAS = [
   { code: "B91", area: "Solihull" },
 ];
 
-const UK_POSTCODE_REGEX = /^[A-Za-z]{1,2}\d[A-Za-z\d]?\s?\d[A-Za-z]{2}$/;
+const UK_ROUTE_POSTCODE_REGEX = /^[A-Za-z]{1,2}\d[A-Za-z\d]?(?:\s?\d[A-Za-z]{2})?$/;
 
 export default function Step2FromPostcode({ value, onChange, onNext, onBack }) {
   const [error, setError] = useState("");
@@ -66,8 +66,8 @@ export default function Step2FromPostcode({ value, onChange, onNext, onBack }) {
       setError("Postcode is required");
       return;
     }
-    if (!UK_POSTCODE_REGEX.test(value.trim())) {
-      setError("Enter a valid UK postcode");
+    if (!UK_ROUTE_POSTCODE_REGEX.test(value.trim())) {
+      setError("Enter a valid UK postcode or area");
       return;
     }
     setError("");

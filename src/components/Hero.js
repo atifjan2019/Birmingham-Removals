@@ -119,6 +119,7 @@ export default function Hero({ onOpenQuote }) {
                     <input
                       type="text"
                       required
+                      minLength={2}
                       aria-required="true"
                       placeholder="e.g. B15 3AA"
                       value={from}
@@ -139,6 +140,7 @@ export default function Hero({ onOpenQuote }) {
                     <input
                       type="text"
                       required
+                      minLength={2}
                       aria-required="true"
                       placeholder="e.g. B91 1AA"
                       value={to}

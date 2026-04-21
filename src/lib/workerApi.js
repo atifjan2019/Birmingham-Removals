@@ -34,7 +34,8 @@ async function workerFetch(path, options = {}, { admin = false } = {}) {
   const payload = await response.json().catch(() => ({}));
 
   if (!response.ok) {
-    const message = payload?.error?.message || `Worker API request failed with ${response.status}`;
+    const details = payload?.error?.details ? `: ${Object.values(payload.error.details).join(", ")}` : "";
+    const message = `${payload?.error?.message || `Worker API request failed with ${response.status}`}${details}`;
     throw new Error(message);
   }
 

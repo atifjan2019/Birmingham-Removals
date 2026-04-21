@@ -123,4 +123,28 @@ describe("Birmingham Removals API", () => {
 		expect(results).toHaveLength(1);
 		expect(results[0]).toEqual({ id: abandonedPayload.data.id, status: "New" });
 	});
+
+	it("accepts short UK postcode areas from the hero quote form", async () => {
+		const response = await SELF.fetch("https://example.com/bookings", {
+			method: "POST",
+			headers: { "Content-Type": "application/json" },
+			body: JSON.stringify({
+				fullName: "Atif Jan",
+				email: "webspires@gmail.com",
+				phone: "07765662784",
+				moveType: "house",
+				fromPostcode: "M5",
+				toPostcode: "M2",
+				moveDate: "2026-05-01",
+				bedrooms: 1,
+				extras: [],
+				price: 250,
+			}),
+		});
+		const payload = await response.json<{ data: { fromPostcode: string; toPostcode: string } }>();
+
+		expect(response.status).toBe(201);
+		expect(payload.data.fromPostcode).toBe("M5");
+		expect(payload.data.toPostcode).toBe("M2");
+	});
 });
