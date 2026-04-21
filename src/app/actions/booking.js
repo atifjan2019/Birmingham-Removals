@@ -5,10 +5,11 @@ import { revalidatePath } from "next/cache";
 import { sendBookingConfirmation, sendAdminNotification } from "@/lib/email";
 import {
   createWorkerBooking,
-  listBookings,
   updateWorkerBooking,
   deleteWorkerBooking,
 } from "@/lib/workerApi";
+
+const EMAIL_WAIT_TIMEOUT_MS = 1500;
 
 function refreshAdminData() {
   revalidatePath("/admin");
@@ -18,55 +19,23 @@ function refreshAdminData() {
   revalidatePath("/admin/activity");
 }
 
-function normalizePhone(value) {
-  const digits = String(value || "").replace(/\D/g, "");
-  return digits.startsWith("44") ? `0${digits.slice(2)}` : digits;
-}
+async function sendBookingEmails(emailData) {
+  const timeout = new Promise((resolve) => {
+    setTimeout(() => resolve("timeout"), EMAIL_WAIT_TIMEOUT_MS);
+  });
+  const emailPromise = Promise.allSettled([
+    sendBookingConfirmation(emailData),
+    sendAdminNotification(emailData),
+  ]);
 
-function normalizeEmail(value) {
-  return String(value || "").trim().toLowerCase();
-}
+  const result = await Promise.race([emailPromise, timeout]);
 
-function isPendingEmail(value) {
-  return /^abandoned_\d+@pending\.com$/i.test(String(value || ""));
-}
-
-function leadMatchScore(booking, data) {
-  const customer = booking.customer || {};
-  const email = normalizeEmail(data.email);
-  const bookingEmail = normalizeEmail(customer.email);
-  const phone = normalizePhone(data.phone);
-  const bookingPhone = normalizePhone(customer.phone);
-
-  const emailMatches = email && bookingEmail === email && !isPendingEmail(bookingEmail);
-  const phoneMatches = phone && bookingPhone === phone;
-
-  if (!emailMatches && !phoneMatches) return 0;
-
-  let score = 50;
-  if (emailMatches && phoneMatches) score += 25;
-  if (normalizeEmail(booking.fromPostcode) === normalizeEmail(data.fromPostcode)) score += 5;
-  if (normalizeEmail(booking.toPostcode) === normalizeEmail(data.toPostcode)) score += 5;
-  if (String(booking.moveDate || "") === String(data.moveDate || "")) score += 5;
-  if (String(booking.moveType || "").toLowerCase() === String(data.moveType || "").toLowerCase()) score += 3;
-  if (Number(booking.bedrooms) === Number(data.bedrooms)) score += 2;
-
-  return score;
-}
-
-async function findMatchingAbandonedBooking(data) {
-  if (!data.email && !data.phone) return null;
-
-  try {
-    const bookings = await listBookings();
-    return bookings
-      .filter((booking) => booking.status === "Abandoned")
-      .map((booking) => ({ booking, score: leadMatchScore(booking, data) }))
-      .filter((item) => item.score > 0)
-      .sort((a, b) => b.score - a.score)[0]?.booking || null;
-  } catch (error) {
-    console.error("[BOOKING] Failed checking abandoned leads:", error.message);
-    return null;
+  if (result === "timeout") {
+    console.warn("[EMAIL] Sending took too long; booking was saved and response continued.");
+  } else {
+    result
+      .filter((item) => item.status === "rejected")
+      .forEach((item) => console.error("[EMAIL] Failed to send:", item.reason?.message || item.reason));
   }
 }
 
@@ -106,13 +75,7 @@ function buildBookingPayload(formData, fallbackStatus = "New") {
 export async function createBooking(formData) {
   try {
     const payload = buildBookingPayload(formData);
-    const matchingAbandoned = payload.status !== "Abandoned"
-      ? await findMatchingAbandonedBooking(payload)
-      : null;
-
-    const booking = matchingAbandoned
-      ? await updateWorkerBooking(matchingAbandoned.id, payload)
-      : await createWorkerBooking(payload);
+    const booking = await createWorkerBooking(payload);
 
     const emailData = {
       email: payload.email,
@@ -128,14 +91,7 @@ export async function createBooking(formData) {
       bookingId: booking.id,
     };
 
-    try {
-      await Promise.all([
-        sendBookingConfirmation(emailData),
-        sendAdminNotification(emailData),
-      ]);
-    } catch (emailErr) {
-      console.error("[EMAIL] Failed to send:", emailErr.message);
-    }
+    await sendBookingEmails(emailData);
 
     refreshAdminData();
     return { success: true, bookingId: booking.id };
@@ -214,10 +170,7 @@ export async function captureAbandonedLead(formData) {
       price: estimatedPrice,
     };
 
-    const matchingAbandoned = await findMatchingAbandonedBooking(payload);
-    const booking = matchingAbandoned
-      ? await updateWorkerBooking(matchingAbandoned.id, payload)
-      : await createWorkerBooking(payload);
+    const booking = await createWorkerBooking(payload);
 
     refreshAdminData();
     return { success: true, bookingId: booking.id };

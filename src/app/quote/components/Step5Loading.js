@@ -18,16 +18,14 @@ export default function Step5Loading({ fromPostcode, moveDate, onComplete }) {
 
   const messages = useMemo(() => [
     `Checking availability near ${fromPostcode || "your area"}...`,
-    "Comparing local Birmingham removal teams...",
-    "Calculating your route...",
     `Reviewing ${formattedDate}...`,
-    "Almost ready...",
+    "Price ready.",
   ], [formattedDate, fromPostcode]);
 
   useEffect(() => {
     const start = Date.now();
-    const duration = 5000;
-    const target = 94;
+    const duration = 900;
+    const target = 100;
 
     const tick = () => {
       const elapsed = Date.now() - start;
@@ -41,11 +39,11 @@ export default function Step5Loading({ fromPostcode, moveDate, onComplete }) {
 
     const msgInterval = setInterval(() => {
       setMessageIndex((prev) => Math.min(prev + 1, messages.length - 1));
-    }, 1200);
+    }, 300);
 
     const timeout = setTimeout(() => {
       onComplete();
-    }, 5000);
+    }, duration);
 
     return () => {
       cancelAnimationFrame(timerRef.current);
@@ -58,10 +56,10 @@ export default function Step5Loading({ fromPostcode, moveDate, onComplete }) {
     <div className="py-8">
       <div className="text-center mb-8">
         <h2 className="font-[family-name:var(--font-space)] text-2xl font-bold text-gray-900 mb-2">
-          Finding your best price...
+          Preparing your quote...
         </h2>
         <p className="text-muted text-sm">
-          Hang tight, this takes a few seconds.
+          This should only take a moment.
         </p>
       </div>
 
