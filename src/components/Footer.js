@@ -1,6 +1,6 @@
 "use client";
 
-import { Phone, Mail, MapPin, Facebook, Instagram, Twitter } from "lucide-react";
+import { Phone, Mail, MapPin } from "lucide-react";
 import Link from "next/link";
 
 const serviceLinks = [
@@ -32,6 +32,38 @@ const companyLinks = [
   { label: "Sitemap", href: "/sitemap" },
 ];
 
+const socialLinks = [
+  { label: "Facebook", href: "#", icon: FacebookIcon },
+  { label: "Instagram", href: "#", icon: InstagramIcon },
+  { label: "Twitter", href: "#", icon: TwitterIcon },
+];
+
+function FacebookIcon(props) {
+  return (
+    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" {...props}>
+      <path d="M14.2 8.4V6.9c0-.7.5-.9.9-.9h2.3V2.2L14.2 2c-3.2 0-4.9 1.9-4.9 5.3v1.1H6v4.2h3.3V22h4.2v-9.4h3.3l.5-4.2h-3.1Z" />
+    </svg>
+  );
+}
+
+function InstagramIcon(props) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true" {...props}>
+      <rect width="17" height="17" x="3.5" y="3.5" rx="5" stroke="currentColor" strokeWidth="2" />
+      <circle cx="12" cy="12" r="3.5" stroke="currentColor" strokeWidth="2" />
+      <circle cx="17" cy="7" r="1.2" fill="currentColor" />
+    </svg>
+  );
+}
+
+function TwitterIcon(props) {
+  return (
+    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" {...props}>
+      <path d="M18.9 2.8h3.3l-7.1 8.1 8.4 10.3h-6.6l-5.1-6.3-5.9 6.3H2.6l7.6-8.6-8-9.8h6.8l4.6 5.8 5.3-5.8Zm-1.2 16.6h1.8L8 4.5H6L17.7 19.4Z" />
+    </svg>
+  );
+}
+
 export default function Footer() {
   return (
     <footer className="bg-[#0A2540] text-white">
@@ -57,11 +89,11 @@ export default function Footer() {
               you can focus on settling into your new home or office.
             </p>
             <div className="flex gap-3">
-              {[Facebook, Instagram, Twitter].map((Icon, i) => (
+              {socialLinks.map(({ label, href, icon: Icon }) => (
                 <a
-                  key={i}
-                  href="#"
-                  aria-label="social"
+                  key={label}
+                  href={href}
+                  aria-label={label}
                   className="w-9 h-9 rounded-full bg-white/5 border border-white/10 flex items-center justify-center hover:bg-[#FF6B35] hover:border-[#FF6B35] transition-colors"
                 >
                   <Icon className="w-4 h-4" />
