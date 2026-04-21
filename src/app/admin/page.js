@@ -1,13 +1,14 @@
 import { ArrowRight, TrendingUp, Users, Calendar, DollarSign, Package, PoundSterling, BarChart3 } from "lucide-react";
 import Link from "next/link";
-import prisma from "@/lib/prisma";
+import { listBookings, listCustomers } from "@/lib/workerApi";
 
 export const dynamic = "force-dynamic";
 
 export default async function AdminDashboard() {
-  const totalBookings = await prisma.booking.count();
-  const totalCustomers = await prisma.customer.count();
-  const completedMoves = await prisma.booking.count({ where: { status: "Completed" } });
+  const [bookings, customers] = await Promise.all([listBookings(), listCustomers()]);
+  const totalBookings = bookings.length;
+  const totalCustomers = customers.length;
+  const completedMoves = bookings.filter((booking) => booking.status === "Completed").length;
 
   // Current month boundaries
   const now = new Date();
@@ -16,30 +17,23 @@ export default async function AdminDashboard() {
   const monthName = now.toLocaleString('en-GB', { month: 'long', year: 'numeric' });
 
   // Monthly financials (completed bookings this month)
-  const monthlyFinancials = await prisma.booking.aggregate({
-    where: { status: "Completed", updatedAt: { gte: monthStart, lte: monthEnd } },
-    _sum: { jobCost: true, expenses: true, profit: true }
+  const completedThisMonth = bookings.filter((booking) => {
+    const updatedAt = new Date(booking.updatedAt);
+    return booking.status === "Completed" && updatedAt >= monthStart && updatedAt <= monthEnd;
   });
-  const monthlyRevenue = monthlyFinancials._sum.jobCost || 0;
-  const monthlyProfit = monthlyFinancials._sum.profit || 0;
+  const monthlyRevenue = completedThisMonth.reduce((sum, booking) => sum + (booking.jobCost || 0), 0);
+  const monthlyProfit = completedThisMonth.reduce((sum, booking) => sum + (booking.profit || 0), 0);
 
   // All-time totals
-  const allTimeFinancials = await prisma.booking.aggregate({
-    where: { status: "Completed" },
-    _sum: { jobCost: true, profit: true }
-  });
-  const totalRevenue = allTimeFinancials._sum.jobCost || 0;
+  const totalRevenue = bookings
+    .filter((booking) => booking.status === "Completed")
+    .reduce((sum, booking) => sum + (booking.jobCost || 0), 0);
 
   // Upcoming bookings (nearest move date first, exclude completed/abandoned)
-  const upcomingBookings = await prisma.booking.findMany({
-    where: {
-      status: { in: ["New", "Upcoming"] },
-      moveDate: { gte: new Date() }
-    },
-    take: 5,
-    orderBy: { moveDate: "asc" },
-    include: { customer: true }
-  });
+  const upcomingBookings = bookings
+    .filter((booking) => ["New", "Upcoming"].includes(booking.status) && new Date(booking.moveDate) >= new Date())
+    .sort((a, b) => new Date(a.moveDate) - new Date(b.moveDate))
+    .slice(0, 5);
 
   const stats = [
     { name: "Revenue (All Time)", value: `£${totalRevenue.toFixed(0)}`, icon: DollarSign, trend: "Live" },

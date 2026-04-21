@@ -1,16 +1,11 @@
-import prisma from "@/lib/prisma";
 import { Users, Mail, Phone, CalendarDays } from "lucide-react";
 import DeleteCustomerButton from "./DeleteCustomerButton";
+import { listCustomers } from "@/lib/workerApi";
 
 export const dynamic = "force-dynamic";
 
 export default async function CustomersPage() {
-  const customers = await prisma.customer.findMany({
-    orderBy: { createdAt: "desc" },
-    include: {
-      bookings: true, // so we see how many bookings they have
-    }
-  });
+  const customers = await listCustomers();
 
   return (
     <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-500">
@@ -61,7 +56,7 @@ export default async function CustomersPage() {
                     </td>
                     <td className="px-6 py-4 text-center">
                       <span className="inline-flex items-center justify-center px-3 py-1 rounded-full bg-gray-100 text-gray-700 font-medium text-xs">
-                        {customer.bookings.length} Moves
+                        {customer.bookingCount} Moves
                       </span>
                     </td>
                     <td className="px-6 py-4 text-gray-700">

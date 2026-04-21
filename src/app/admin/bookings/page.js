@@ -1,16 +1,10 @@
-import prisma from "@/lib/prisma";
 import BookingsClient from "./BookingsClient";
+import { listBookings } from "@/lib/workerApi";
 
 export const dynamic = "force-dynamic";
 
 export default async function BookingsPage() {
-  // Fetch from database
-  const bookings = await prisma.booking.findMany({
-    orderBy: { createdAt: "desc" },
-    include: {
-      customer: true
-    }
-  });
+  const bookings = await listBookings();
 
   return <BookingsClient initialBookings={bookings} />;
 }

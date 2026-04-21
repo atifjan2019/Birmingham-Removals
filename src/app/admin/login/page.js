@@ -1,8 +1,8 @@
 "use client";
 
-import { useActionState, useEffect } from "react";
+import { useActionState } from "react";
 import { loginAsAdmin } from "@/app/actions/auth";
-import { Loader2, Mail, Lock } from "lucide-react";
+import { Loader2, LockKeyhole } from "lucide-react";
 import Link from "next/link";
 import { useFormStatus } from "react-dom";
 
@@ -18,10 +18,10 @@ function SubmitButton() {
       {pending ? (
         <>
           <Loader2 className="w-5 h-5 animate-spin" />
-          Signing in...
+          Checking...
         </>
       ) : (
-        "Sign In to Dashboard"
+        "Unlock Dashboard"
       )}
     </button>
   );
@@ -41,38 +41,26 @@ export default function LoginPage() {
             Birmingham Removals
           </span>
         </Link>
-        
+
         <div className="glass-card p-8 sm:p-10 shadow-xl border-gray-200/60">
           <h1 className="text-2xl font-bold text-gray-900 font-[family-name:var(--font-space)] mb-2 text-center">
             Admin Portal
           </h1>
           <p className="text-muted text-center mb-8 text-sm">
-            Enter your credentials to manage operations.
+            Enter your PIN to manage bookings and customer data.
           </p>
 
           <form action={formAction} className="space-y-5">
             <div className="space-y-1.5">
-              <label className="text-sm font-semibold text-gray-700 ml-1 block">Email Address</label>
+              <label className="text-sm font-semibold text-gray-700 ml-1 block">PIN Code</label>
               <div className="relative">
-                <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
-                <input
-                  type="email"
-                  name="email"
-                  placeholder="admin@example.com"
-                  required
-                  className="w-full pl-11 pr-4 py-3 bg-white border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all placeholder:text-gray-400 text-gray-900"
-                />
-              </div>
-            </div>
-
-            <div className="space-y-1.5">
-              <label className="text-sm font-semibold text-gray-700 ml-1 block">Password</label>
-              <div className="relative">
-                <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
+                <LockKeyhole className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
                 <input
                   type="password"
-                  name="password"
-                  placeholder="••••••••"
+                  inputMode="numeric"
+                  name="pin"
+                  placeholder="Enter 6-digit PIN"
+                  autoComplete="current-password"
                   required
                   className="w-full pl-11 pr-4 py-3 bg-white border border-gray-200 rounded-xl focus:ring-2 focus:ring-primary/20 focus:border-primary outline-none transition-all placeholder:text-gray-400 text-gray-900"
                 />

@@ -44,6 +44,25 @@ interface Booking {
 	};
 }
 
+interface CustomerRow {
+	id: string;
+	fullName: string;
+	phone: string;
+	email: string;
+	createdAt: string;
+	updatedAt: string;
+	bookingCount: number;
+}
+
+interface ActivityLogRow {
+	id: string;
+	action: string;
+	details: string | null;
+	entityId: string | null;
+	actor: string | null;
+	createdAt: string;
+}
+
 interface CreateBookingRequest {
 	fullName: string;
 	email: string;
@@ -91,7 +110,7 @@ export default {
 					{
 						data: {
 							name: "Birmingham Removals API",
-							resources: ["/bookings"],
+							resources: ["/bookings", "/customers", "/activity"],
 						},
 					},
 					200,
@@ -104,12 +123,39 @@ export default {
 			}
 
 			if (path === "/bookings") {
-				if (request.method === "GET") return listBookings(request, env, corsHeaders);
+				if (request.method === "GET") {
+					const adminResponse = requireAdmin(request, env, corsHeaders);
+					if (adminResponse) return adminResponse;
+					return listBookings(request, env, corsHeaders);
+				}
 				if (request.method === "POST") return createBooking(request, env, corsHeaders);
+			}
+
+			if (path === "/customers") {
+				const adminResponse = requireAdmin(request, env, corsHeaders);
+				if (adminResponse) return adminResponse;
+				if (request.method === "GET") return listCustomers(env, corsHeaders);
+			}
+
+			const customerMatch = path.match(/^\/customers\/([^/]+)$/);
+			if (customerMatch) {
+				const adminResponse = requireAdmin(request, env, corsHeaders);
+				if (adminResponse) return adminResponse;
+				const id = decodeURIComponent(customerMatch[1]);
+
+				if (request.method === "DELETE") return deleteCustomer(id, env, corsHeaders);
+			}
+
+			if (path === "/activity") {
+				const adminResponse = requireAdmin(request, env, corsHeaders);
+				if (adminResponse) return adminResponse;
+				if (request.method === "GET") return listActivity(env, corsHeaders);
 			}
 
 			const bookingMatch = path.match(/^\/bookings\/([^/]+)$/);
 			if (bookingMatch) {
+				const adminResponse = requireAdmin(request, env, corsHeaders);
+				if (adminResponse) return adminResponse;
 				const id = decodeURIComponent(bookingMatch[1]);
 
 				if (request.method === "GET") return getBooking(id, env, corsHeaders);
@@ -261,6 +307,60 @@ async function deleteBooking(id: string, env: Env, corsHeaders?: HeadersInit): P
 	return new Response(null, { status: 204, headers: corsHeaders });
 }
 
+async function listCustomers(env: Env, corsHeaders?: HeadersInit): Promise<Response> {
+	const { results } = await env.DB.prepare(
+		`SELECT
+			c.id, c.fullName, c.phone, c.email, c.createdAt, c.updatedAt,
+			COUNT(b.id) AS bookingCount
+		FROM Customer c
+		LEFT JOIN Booking b ON b.customerId = c.id
+		GROUP BY c.id, c.fullName, c.phone, c.email, c.createdAt, c.updatedAt
+		ORDER BY c.createdAt DESC`,
+	).all<CustomerRow>();
+
+	return json({ data: results }, 200, corsHeaders);
+}
+
+async function deleteCustomer(id: string, env: Env, corsHeaders?: HeadersInit): Promise<Response> {
+	const customer = await env.DB.prepare("SELECT fullName, phone, email FROM Customer WHERE id = ?1")
+		.bind(id)
+		.first<{ fullName: string; phone: string; email: string }>();
+
+	if (!customer) {
+		return json({ error: { message: "Customer not found" } }, 404, corsHeaders);
+	}
+
+	await env.DB.prepare("DELETE FROM Booking WHERE customerId = ?1").bind(id).run();
+	const result = await env.DB.prepare("DELETE FROM Customer WHERE id = ?1").bind(id).run();
+
+	if ((result.meta.changes ?? 0) === 0) {
+		return json({ error: { message: "Customer not found" } }, 404, corsHeaders);
+	}
+
+	await logActivity(env, {
+		action: "customer.deleted",
+		details: JSON.stringify({
+			summary: `Customer "${customer.fullName}" deleted`,
+			customer,
+		}),
+		entityId: id,
+		actor: "api",
+	});
+
+	return new Response(null, { status: 204, headers: corsHeaders });
+}
+
+async function listActivity(env: Env, corsHeaders?: HeadersInit): Promise<Response> {
+	const { results } = await env.DB.prepare(
+		`SELECT id, action, details, entityId, actor, createdAt
+		FROM ActivityLog
+		ORDER BY createdAt DESC
+		LIMIT 200`,
+	).all<ActivityLogRow>();
+
+	return json({ data: results }, 200, corsHeaders);
+}
+
 async function findBooking(id: string, env: Env): Promise<BookingRow | null> {
 	return env.DB.prepare(
 		`SELECT
@@ -362,6 +462,20 @@ function handleOptions(request: Request, env: Env): Response {
 	}
 
 	return new Response(null, { status: 204, headers: corsHeaders });
+}
+
+function requireAdmin(request: Request, env: Env, corsHeaders?: HeadersInit): Response | null {
+	const expectedPin = env.ADMIN_API_PIN;
+
+	if (!expectedPin) {
+		return json({ error: { message: "Admin API PIN is not configured" } }, 500, corsHeaders);
+	}
+
+	if (request.headers.get("X-Admin-Pin") !== expectedPin) {
+		return json({ error: { message: "Unauthorized" } }, 401, corsHeaders);
+	}
+
+	return null;
 }
 
 function getCorsHeaders(origin: string | null, env: Env): HeadersInit | undefined {
