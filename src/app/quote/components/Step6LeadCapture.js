@@ -1,10 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import { Zap, Lock, User, Phone, ArrowLeft, Loader2, Mail } from "lucide-react";
 import { createBooking, captureAbandonedLead } from "@/app/actions/booking";
-import { useEffect, useRef } from "react";
 
 const UK_MOBILE_REGEX = /^07\d{3}\s?\d{3}\s?\d{3}$/;
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -38,7 +37,7 @@ export default function Step6LeadCapture({ data, onChange, onSubmit, onBack }) {
     return () => {
       if (captureTimeout.current) clearTimeout(captureTimeout.current);
     };
-  }, [phone, email, fullName, submitting]);
+  }, [data, phone, email, fullName, submitting]);
 
   const formattedDate = data.moveDate
     ? new Date(data.moveDate).toLocaleDateString("en-GB", {

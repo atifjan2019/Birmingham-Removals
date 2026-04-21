@@ -5,6 +5,7 @@ import { useSearchParams, useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { Phone, Shield, Star, Award } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 import Step1MoveType from "./Step1MoveType";
 import Step2Bedrooms from "./Step2Bedrooms";
 import Step2FromPostcode from "./Step2FromPostcode";
@@ -114,7 +115,7 @@ export default function QuoteFunnel() {
       {/* Mini header */}
       <header className="sticky top-0 z-50 bg-white/80 backdrop-blur-xl border-b border-gray-200/60 shadow-sm">
         <div className="max-w-2xl mx-auto px-4 flex items-center justify-between h-14">
-          <a href="/" className="flex items-center">
+          <Link href="/" className="flex items-center">
             <Image
               src="/images/logo.png"
               alt="Birmingham Removals"
@@ -123,7 +124,7 @@ export default function QuoteFunnel() {
               className="h-10 w-auto"
               priority
             />
-          </a>
+          </Link>
           <a
             href="tel:+447888862003"
             className="flex items-center gap-1.5 text-muted hover:text-gray-900 transition-colors text-sm"

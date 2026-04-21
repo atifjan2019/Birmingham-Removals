@@ -7,24 +7,17 @@ import { LayoutDashboard, CalendarDays, Settings, LogOut, Users, BarChart3, Menu
 import { logoutAdmin } from "@/app/actions/auth";
 import Image from "next/image";
 
-export default function AdminLayout({ children }) {
-  const pathname = usePathname();
-  const [sidebarOpen, setSidebarOpen] = useState(false);
+const navItems = [
+  { name: "Dashboard", href: "/admin", icon: LayoutDashboard },
+  { name: "Bookings", href: "/admin/bookings", icon: CalendarDays },
+  { name: "Customers", href: "/admin/customers", icon: Users },
+  { name: "Reports", href: "/admin/reports", icon: BarChart3 },
+  { name: "Activity Log", href: "/admin/activity", icon: Activity },
+  { name: "Settings", href: "/admin/settings", icon: Settings },
+];
 
-  const navItems = [
-    { name: "Dashboard", href: "/admin", icon: LayoutDashboard },
-    { name: "Bookings", href: "/admin/bookings", icon: CalendarDays },
-    { name: "Customers", href: "/admin/customers", icon: Users },
-    { name: "Reports", href: "/admin/reports", icon: BarChart3 },
-    { name: "Activity Log", href: "/admin/activity", icon: Activity },
-    { name: "Settings", href: "/admin/settings", icon: Settings },
-  ];
-
-  if (pathname === "/admin/login") {
-    return <div className="min-h-screen">{children}</div>;
-  }
-
-  const NavContent = () => (
+function NavContent({ pathname, onNavigate }) {
+  return (
     <>
       <nav className="flex-1 px-4 py-6 space-y-1 overflow-y-auto">
         {navItems.map((item) => {
@@ -34,7 +27,7 @@ export default function AdminLayout({ children }) {
             <Link
               key={item.name}
               href={item.href}
-              onClick={() => setSidebarOpen(false)}
+              onClick={onNavigate}
               className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-all font-medium ${
                 isActive
                   ? "bg-primary/10 text-primary"
@@ -58,6 +51,15 @@ export default function AdminLayout({ children }) {
       </div>
     </>
   );
+}
+
+export default function AdminLayout({ children }) {
+  const pathname = usePathname();
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+
+  if (pathname === "/admin/login") {
+    return <div className="min-h-screen">{children}</div>;
+  }
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -87,7 +89,7 @@ export default function AdminLayout({ children }) {
                 <X className="w-5 h-5 text-gray-400" />
               </button>
             </div>
-            <NavContent />
+            <NavContent pathname={pathname} onNavigate={() => setSidebarOpen(false)} />
           </div>
         </div>
       )}
@@ -100,7 +102,7 @@ export default function AdminLayout({ children }) {
               <Image src="/images/logo.png" alt="Birmingham Removals" width={160} height={52} className="h-10 w-auto" />
             </Link>
           </div>
-          <NavContent />
+          <NavContent pathname={pathname} onNavigate={() => setSidebarOpen(false)} />
         </aside>
 
         {/* Main Content */}

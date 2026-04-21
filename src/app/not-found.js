@@ -31,7 +31,7 @@ export default function NotFound() {
             </h2>
             <p className="text-lg text-muted mb-12 max-w-lg mx-auto">
               The page you are looking for might have been removed, had its name
-              changed, or is temporarily unavailable. Let's get you back on track.
+              changed, or is temporarily unavailable. Let&apos;s get you back on track.
             </p>
 
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">

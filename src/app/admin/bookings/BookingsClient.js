@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import { Search, Filter, MoreVertical, CheckCircle2, Clock, CalendarDays, Trash2, ChevronRight } from "lucide-react";
 import { updateBookingDetails, updateBookingStatus, deleteBooking, updateBookingFinancials } from "@/app/actions/booking";
@@ -122,7 +122,6 @@ function BookingDetailsModal({ booking, onClose, onChanged }) {
     const ex = parseFloat(expenses);
     if (isNaN(jc) && isNaN(ex)) return;
 
-    setFinancialsSaved(false);
     if (saveTimeout.current) clearTimeout(saveTimeout.current);
     saveTimeout.current = setTimeout(async () => {
       setSavingFinancials(true);
@@ -134,7 +133,7 @@ function BookingDetailsModal({ booking, onClose, onChanged }) {
     }, 1000);
 
     return () => { if (saveTimeout.current) clearTimeout(saveTimeout.current); };
-  }, [jobCost, expenses, status]);
+  }, [booking?.id, jobCost, expenses, onChanged, status]);
 
   if (!booking) return null;
 
@@ -341,7 +340,7 @@ function BookingDetailsModal({ booking, onClose, onChanged }) {
                       step="0.01"
                       min="0"
                       value={jobCost}
-                      onChange={(e) => setJobCost(e.target.value)}
+                      onChange={(e) => { setJobCost(e.target.value); setFinancialsSaved(false); }}
                       placeholder="0.00"
                       className="w-full pl-8 pr-3 py-2.5 border-2 border-gray-200 rounded-xl focus:border-emerald-400 focus:ring-1 focus:ring-emerald-200 outline-none text-sm font-semibold text-gray-900 transition-all"
                     />
@@ -356,7 +355,7 @@ function BookingDetailsModal({ booking, onClose, onChanged }) {
                       step="0.01"
                       min="0"
                       value={expenses}
-                      onChange={(e) => setExpenses(e.target.value)}
+                      onChange={(e) => { setExpenses(e.target.value); setFinancialsSaved(false); }}
                       placeholder="0.00"
                       className="w-full pl-8 pr-3 py-2.5 border-2 border-gray-200 rounded-xl focus:border-amber-400 focus:ring-1 focus:ring-amber-200 outline-none text-sm font-semibold text-gray-900 transition-all"
                     />
@@ -424,7 +423,7 @@ export default function BookingsClient({ initialBookings }) {
   const [statusFilter, setStatusFilter] = useState("All");
   const [selectedBooking, setSelectedBooking] = useState(null);
   const [isAddingManual, setIsAddingManual] = useState(false);
-  const refreshData = () => router.refresh();
+  const refreshData = useCallback(() => router.refresh(), [router]);
 
   const filteredBookings = initialBookings.filter((booking) => {
     // Map data for easy search

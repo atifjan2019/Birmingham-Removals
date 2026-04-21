@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useMemo, useRef } from "react";
 import { CheckCircle } from "lucide-react";
 
 export default function Step5Loading({ fromPostcode, moveDate, onComplete }) {
@@ -16,13 +16,13 @@ export default function Step5Loading({ fromPostcode, moveDate, onComplete }) {
       })
     : "your chosen date";
 
-  const messages = [
+  const messages = useMemo(() => [
     `Checking availability near ${fromPostcode || "your area"}...`,
     "Comparing local Birmingham removal teams...",
     "Calculating your route...",
     `Reviewing ${formattedDate}...`,
     "Almost ready...",
-  ];
+  ], [formattedDate, fromPostcode]);
 
   useEffect(() => {
     const start = Date.now();
@@ -52,7 +52,7 @@ export default function Step5Loading({ fromPostcode, moveDate, onComplete }) {
       clearInterval(msgInterval);
       clearTimeout(timeout);
     };
-  }, []);
+  }, [messages.length, onComplete]);
 
   return (
     <div className="py-8">
