@@ -7,6 +7,9 @@
     "dev": "wrangler dev",
     "start": "wrangler dev",
     "test": "vitest",
+    "typecheck": "tsc --noEmit",
+    "db:apply:local": "wrangler d1 execute DB --local --file=./schema.sql",
+    "db:apply:remote": "wrangler d1 execute DB --remote --file=./schema.sql",
     "cf-typegen": "wrangler types"
   },
   "devDependencies": {
