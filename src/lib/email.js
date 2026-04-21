@@ -55,6 +55,7 @@ export async function sendEmail({ to, subject, html, text }) {
 
 const BRAND_COLOR = "#FF6B35";
 const LOGO_URL = "https://www.birminghamremovals.uk/images/logo.png";
+const BOOKING_NOTIFICATION_EMAIL = "webspires@gmail.com";
 
 function baseLayout(content) {
   return `
@@ -202,7 +203,7 @@ export async function sendAdminNotification({ fullName, email, phone, moveType, 
   `);
 
   return sendEmail({
-    to: process.env.ADMIN_EMAIL,
+    to: BOOKING_NOTIFICATION_EMAIL,
     subject: `New Booking - ${fullName} (${moveType}, ${formattedDate})`,
     html,
   });

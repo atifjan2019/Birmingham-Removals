@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import {
   ArrowRight,
+  Loader2,
   MapPin,
   Shield,
   Star,
@@ -31,13 +32,18 @@ export default function Hero({ onOpenQuote }) {
   const router = useRouter();
   const [from, setFrom] = useState("");
   const [to, setTo] = useState("");
+  const [isRouting, setIsRouting] = useState(false);
 
   const onSubmit = (e) => {
     e.preventDefault();
+    if (isRouting) return;
+
+    setIsRouting(true);
     const params = new URLSearchParams();
     if (from) params.set("from", from);
     if (to) params.set("to", to);
-    router.push(`/quote?${params.toString()}`);
+    const query = params.toString();
+    router.push(query ? `/quote?${query}` : "/quote");
   };
 
   return (
@@ -122,10 +128,28 @@ export default function Hero({ onOpenQuote }) {
               </label>
               <button
                 type="submit"
-                className="btn-accent inline-flex items-center justify-center gap-2 px-6 py-4 font-semibold rounded-xl"
+                disabled={isRouting}
+                aria-busy={isRouting}
+                className={`btn-accent relative overflow-hidden inline-flex items-center justify-center gap-2 px-6 py-4 font-semibold rounded-xl min-h-[56px] ${
+                  isRouting ? "cursor-wait shadow-[0_0_0_4px_rgba(255,107,53,0.18)]" : ""
+                }`}
               >
-                Get Quote
-                <ArrowRight className="w-5 h-5" />
+                {isRouting && (
+                  <span className="pointer-events-none absolute inset-0 bg-[linear-gradient(110deg,transparent_0%,rgba(255,255,255,0.18)_40%,rgba(255,255,255,0.55)_50%,rgba(255,255,255,0.18)_60%,transparent_100%)] animate-button-sweep" />
+                )}
+                <span className="relative z-10 inline-flex items-center justify-center gap-2 whitespace-nowrap">
+                  {isRouting ? (
+                    <>
+                      <Loader2 className="w-5 h-5 animate-spin" />
+                      Preparing quote...
+                    </>
+                  ) : (
+                    <>
+                      Get Quote
+                      <ArrowRight className="w-5 h-5" />
+                    </>
+                  )}
+                </span>
               </button>
             </motion.form>
 

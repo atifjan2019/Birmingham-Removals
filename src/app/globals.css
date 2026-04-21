@@ -76,6 +76,14 @@ body {
   animation: pulseGlow 2.2s ease-in-out infinite;
 }
 
+@keyframes buttonSweep {
+  0% { transform: translateX(-120%); }
+  100% { transform: translateX(120%); }
+}
+.animate-button-sweep {
+  animation: buttonSweep 0.85s ease-in-out infinite;
+}
+
 input[type="date"]::-webkit-calendar-picker-indicator {
   cursor: pointer;
 }
