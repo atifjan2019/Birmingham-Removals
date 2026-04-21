@@ -40,7 +40,7 @@ export async function sendEmail({ to, subject, html, text }) {
     return { success: false, error: "SMTP not configured" };
   }
   try {
-    const from = `"Newcastle Removals" <${process.env.SMTP_FROM}>`;
+    const from = `"Birmingham Removals" <${process.env.SMTP_FROM}>`;
     console.log("[EMAIL] Sending from:", from);
     const info = await transporter.sendMail({ from, to, subject, html, text: text || "" });
     console.log(`[EMAIL SENT] to=${to} messageId=${info.messageId}`);
@@ -53,8 +53,8 @@ export async function sendEmail({ to, subject, html, text }) {
 
 /* ─── Pre-built templates ─── */
 
-const BRAND_COLOR = "#2563eb";
-const LOGO_URL = "https://www.newcastleremovals.uk/images/logo.png";
+const BRAND_COLOR = "#FF6B35";
+const LOGO_URL = "https://www.birminghamremovals.uk/images/logo.png";
 
 function baseLayout(content) {
   return `
@@ -76,8 +76,8 @@ function baseLayout(content) {
       <table width="600" cellpadding="0" cellspacing="0" role="presentation" style="background-color:#ffffff;border-radius:12px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,0.06);">
         <!-- Header with Logo -->
         <tr>
-          <td style="background-color:#ffffff;padding:28px 32px;text-align:center;border-bottom:3px solid #dc2626;">
-            <img src="${LOGO_URL}" alt="Newcastle Removals" width="200" style="display:block;margin:0 auto;max-width:200px;height:auto;" />
+          <td style="background-color:#ffffff;padding:28px 32px;text-align:center;border-bottom:3px solid #FF6B35;">
+            <img src="${LOGO_URL}" alt="Birmingham Removals" width="200" style="display:block;margin:0 auto;max-width:200px;height:auto;" />
           </td>
         </tr>
         <!-- Body -->
@@ -90,7 +90,7 @@ function baseLayout(content) {
         <tr>
           <td style="background-color:#f9fafb;padding:20px 32px;border-top:1px solid #e5e7eb;">
             <p style="margin:0;font-size:12px;color:#6b7280;text-align:center;">
-              Newcastle Removals &bull; 0788 886 2003 &bull; info@newcastleremovals.uk
+              Birmingham Removals &bull; 0788 886 2003 &bull; info@birminghamremovals.uk
             </p>
           </td>
         </tr>
@@ -110,7 +110,7 @@ export async function sendBookingConfirmation({ email, fullName, moveType, fromP
 
   const html = baseLayout(`
     <h2 style="margin:0 0 8px;font-size:20px;color:#111827;">Booking Confirmed!</h2>
-    <p style="margin:0 0 24px;font-size:15px;color:#4b5563;">Hi ${fullName}, thank you for choosing Newcastle Removals. Here are your booking details:</p>
+    <p style="margin:0 0 24px;font-size:15px;color:#4b5563;">Hi ${fullName}, thank you for choosing Birmingham Removals. Here are your booking details:</p>
 
     <table width="100%" cellpadding="0" cellspacing="0" style="border:1px solid #e5e7eb;border-radius:8px;overflow:hidden;">
       <tr>

@@ -12,8 +12,14 @@ export async function generateMetadata({ params }) {
   if (!service) return {};
 
   return {
-    title: `${service.title} | Newcastle Removals`,
+    title: `${service.title} | Birmingham Removals`,
     description: service.heroSubtext,
+    alternates: { canonical: `https://www.birminghamremovals.uk/services/${slug}` },
+    openGraph: {
+      title: `${service.title} — Birmingham Removals`,
+      description: service.heroSubtext,
+      type: "website",
+    },
   };
 }
 

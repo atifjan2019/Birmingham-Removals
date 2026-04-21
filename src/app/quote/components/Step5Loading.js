@@ -18,7 +18,7 @@ export default function Step5Loading({ fromPostcode, moveDate, onComplete }) {
 
   const messages = [
     `Checking availability near ${fromPostcode || "your area"}...`,
-    "Comparing local Newcastle removal teams...",
+    "Comparing local Birmingham removal teams...",
     "Calculating your route...",
     `Reviewing ${formattedDate}...`,
     "Almost ready...",

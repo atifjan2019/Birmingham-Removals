@@ -4,14 +4,16 @@ import { useState, useRef, useEffect } from "react";
 import { MapPin, ArrowRight, ArrowLeft } from "lucide-react";
 
 const NE_AREAS = [
-  { code: "NE1", area: "Newcastle City Centre" },
-  { code: "NE2", area: "Jesmond / Sandyford" },
-  { code: "NE3", area: "Gosforth / Fawdon" },
-  { code: "NE4", area: "Benwell / Elswick" },
-  { code: "NE6", area: "Heaton / Walker" },
-  { code: "NE8", area: "Gateshead" },
-  { code: "NE12", area: "Longbenton / Killingworth" },
-  { code: "NE15", area: "Lemington / Newburn" },
+  { code: "B1", area: "Birmingham City Centre" },
+  { code: "B3", area: "Jewellery Quarter / Colmore" },
+  { code: "B13", area: "Moseley / Billesley" },
+  { code: "B14", area: "Kings Heath" },
+  { code: "B15", area: "Edgbaston" },
+  { code: "B17", area: "Harborne" },
+  { code: "B23", area: "Erdington" },
+  { code: "B29", area: "Selly Oak" },
+  { code: "B74", area: "Sutton Coldfield" },
+  { code: "B91", area: "Solihull" },
 ];
 
 const UK_POSTCODE_REGEX = /^[A-Za-z]{1,2}\d[A-Za-z\d]?\s?\d[A-Za-z]{2}$/;

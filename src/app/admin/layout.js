@@ -64,7 +64,7 @@ export default function AdminLayout({ children }) {
       {/* Mobile Header - always visible on small screens */}
       <div className="md:hidden bg-white border-b border-gray-200 px-4 py-3 flex items-center justify-between sticky top-0 z-50">
         <Link href="/admin" className="flex items-center">
-          <Image src="/images/logo.png" alt="Newcastle Removals" width={140} height={45} className="h-8 w-auto" />
+          <Image src="/images/logo.png" alt="Birmingham Removals" width={140} height={45} className="h-8 w-auto" />
         </Link>
         <button
           onClick={() => setSidebarOpen(true)}
@@ -81,7 +81,7 @@ export default function AdminLayout({ children }) {
           <div className="absolute top-0 left-0 h-full w-64 bg-white border-r border-gray-200 flex flex-col shadow-2xl">
             <div className="px-6 py-6 border-b border-gray-100 flex items-center justify-between">
               <Link href="/admin" className="flex items-center">
-                <Image src="/images/logo.png" alt="Newcastle Removals" width={140} height={45} className="h-8 w-auto" />
+                <Image src="/images/logo.png" alt="Birmingham Removals" width={140} height={45} className="h-8 w-auto" />
               </Link>
               <button onClick={() => setSidebarOpen(false)} className="p-1.5 rounded-lg hover:bg-gray-100">
                 <X className="w-5 h-5 text-gray-400" />
@@ -97,7 +97,7 @@ export default function AdminLayout({ children }) {
         <aside className="hidden md:flex w-64 bg-white border-r border-gray-200 flex-col sticky top-0 h-screen shrink-0">
           <div className="px-6 py-8 border-b border-gray-100">
             <Link href="/admin" className="flex items-center">
-              <Image src="/images/logo.png" alt="Newcastle Removals" width={160} height={52} className="h-10 w-auto" />
+              <Image src="/images/logo.png" alt="Birmingham Removals" width={160} height={52} className="h-10 w-auto" />
             </Link>
           </div>
           <NavContent />

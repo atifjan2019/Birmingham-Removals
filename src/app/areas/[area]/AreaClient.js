@@ -2,12 +2,13 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { MapPin, Phone, ArrowRight, ShieldCheck, Clock, Star } from "lucide-react";
+import { MapPin, Phone, ArrowRight, ShieldCheck, Clock, Star, CheckCircle2 } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import TrustBar from "@/components/TrustBar";
 import Services from "@/components/Services";
 import HowItWorks from "@/components/HowItWorks";
+import CTAStrip from "@/components/CTAStrip";
 import HeroPopup from "@/components/HeroPopup";
 
 export default function AreaClient({ areaData }) {
@@ -16,65 +17,66 @@ export default function AreaClient({ areaData }) {
   return (
     <>
       <Navbar onOpenQuote={() => setPopupOpen(true)} />
-      
-      {/* Area-Specific Hero */}
-      <section className="relative pt-32 pb-20 lg:pt-48 lg:pb-32 overflow-hidden bg-gray-900">
+
+      <section className="relative pt-20 pb-24 overflow-hidden bg-gradient-to-br from-[#0A2540] to-[#14375C] text-white">
         <div className="absolute inset-0 z-0">
-          <img 
-            src={areaData.image} 
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={areaData.image}
             alt={`Removals in ${areaData.name}`}
-            className="w-full h-full object-cover opacity-30"
+            className="w-full h-full object-cover opacity-20"
           />
-          <div className="absolute inset-0 bg-gradient-to-br from-gray-900 via-gray-900/80 to-primary/30" />
+          <div className="absolute inset-0 bg-gradient-to-br from-[#0A2540] via-[#0A2540]/85 to-[#FF6B35]/20" />
         </div>
-        
-        <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <div className="absolute inset-0 grid-pattern opacity-[0.05]" />
+
+        <div className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 border border-white/20 text-white text-sm font-medium mb-8 backdrop-blur-sm"
+            transition={{ duration: 0.5 }}
+            className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 border border-white/15 text-xs font-medium backdrop-blur mb-5"
           >
-            <MapPin className="w-4 h-4" />
-            Local Experts in {areaData.name}
+            <MapPin className="w-4 h-4 text-[#FF6B35]" />
+            Local Birmingham removals · {areaData.postcode || areaData.name}
           </motion.div>
 
           <motion.h1
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.1 }}
-            className="font-[family-name:var(--font-space)] text-4xl sm:text-5xl md:text-6xl font-bold mb-6 text-white"
+            className="font-[family-name:var(--font-space)] text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-tight"
           >
-            Removals in <span className="text-primary">{areaData.name}</span>
+            Removals in <span className="text-[#FF6B35]">{areaData.name}</span>
           </motion.h1>
 
           <motion.p
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
-            className="text-lg sm:text-xl text-gray-300 max-w-2xl mx-auto mb-10"
+            className="text-lg text-white/80 max-w-2xl mx-auto mt-6"
           >
             {areaData.description}
           </motion.p>
 
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.3 }}
-            className="flex flex-col sm:flex-row items-center justify-center gap-4"
+            className="flex flex-col sm:flex-row items-center justify-center gap-3 mt-8"
           >
             <button
               onClick={() => setPopupOpen(true)}
-              className="inline-flex items-center gap-2 px-8 py-4 bg-primary text-white font-semibold rounded-full hover:bg-primary/90 hover:scale-105 transition-all shadow-lg shadow-primary/25 w-full sm:w-auto justify-center"
+              className="btn-accent inline-flex items-center gap-2 px-7 py-4 font-semibold rounded-full w-full sm:w-auto justify-center"
             >
               Get Free Quote
               <ArrowRight className="w-5 h-5" />
             </button>
             <a
               href="tel:+447888862003"
-              className="inline-flex items-center gap-2 px-8 py-4 border-2 border-white/20 text-white font-semibold rounded-full hover:bg-white/10 transition-all w-full sm:w-auto justify-center backdrop-blur-sm"
+              className="inline-flex items-center gap-2 px-7 py-4 border border-white/20 text-white font-semibold rounded-full hover:bg-white/10 transition-all w-full sm:w-auto justify-center backdrop-blur"
             >
-              <Phone className="w-5 h-5 text-primary" />
+              <Phone className="w-5 h-5 text-[#FF6B35]" />
               0788 886 2003
             </a>
           </motion.div>
@@ -83,58 +85,74 @@ export default function AreaClient({ areaData }) {
 
       <TrustBar />
 
-      {/* Area specific content details */}
-      <section className="py-20 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+      <section className="py-24 bg-white">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-14 items-center">
             <div>
-              <h2 className="font-[family-name:var(--font-space)] text-3xl sm:text-4xl font-bold mb-6 text-gray-900">
-                Why Choose Our {areaData.name} Removal Services?
+              <span className="inline-block px-3 py-1 rounded-full bg-[#FF6B35]/10 text-[#FF6B35] text-xs font-bold uppercase tracking-wider mb-4">
+                Local Specialists
+              </span>
+              <h2 className="font-[family-name:var(--font-space)] text-3xl sm:text-4xl font-extrabold mb-5 text-[#0A2540] leading-tight">
+                Why choose us for your {areaData.name} move?
               </h2>
-              <p className="text-muted mb-6 text-lg">
-                Moving can be stressful, but with Newcastle Removals operating directly in {areaData.name}, you are guaranteed a seamless, professional experience from start to finish. We know the local roads, parking restrictions, and best routes.
+              <p className="text-slate-600 mb-7 text-base leading-relaxed">
+                Moving can be stressful — but with Birmingham Removals operating daily in{" "}
+                {areaData.name}, you get a seamless, professional service from start to finish.
+                We know the local roads, parking restrictions and quickest routes in and out.
               </p>
-              <ul className="space-y-4">
+              <ul className="space-y-3">
                 {[
-                  "Local knowledge avoiding traffic and parking fines",
-                  "Fully insured goods in transit and public liability",
-                  "Trained, uniformed, and professional local staff",
-                  "Modern fleet of appropriately sized vans and trucks"
-                ].map((item, i) => (
-                  <li key={i} className="flex items-start gap-3">
-                    <ShieldCheck className="w-6 h-6 text-primary shrink-0" />
-                    <span className="text-gray-700">{item}</span>
+                  "Local knowledge — no parking fines or wrong turns",
+                  "Fully insured: goods-in-transit & public liability",
+                  "Uniformed, DBS-checked Birmingham-based crews",
+                  "Modern fleet, right size van for your move",
+                  "Fixed pricing with no weekend or stair surcharges",
+                ].map((item) => (
+                  <li key={item} className="flex items-start gap-3">
+                    <CheckCircle2 className="w-5 h-5 text-[#FF6B35] shrink-0 mt-0.5" />
+                    <span className="text-slate-700">{item}</span>
                   </li>
                 ))}
               </ul>
             </div>
-            <div className="bg-gray-50 p-8 sm:p-10 rounded-3xl border border-gray-100">
-              <h3 className="text-2xl font-bold text-gray-900 mb-6">Need a quote quickly?</h3>
-              <div className="space-y-6">
+            <div className="bg-gradient-to-br from-slate-50 to-white border border-slate-200 rounded-3xl p-8 sm:p-10">
+              <h3 className="font-[family-name:var(--font-space)] text-2xl font-bold text-[#0A2540] mb-6">
+                Need a quote quickly?
+              </h3>
+              <div className="space-y-5">
                 <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
-                    <Clock className="w-6 h-6 text-primary" />
+                  <div className="w-12 h-12 rounded-xl bg-[#FF6B35]/10 flex items-center justify-center shrink-0">
+                    <Clock className="w-6 h-6 text-[#FF6B35]" />
                   </div>
                   <div>
-                    <h4 className="font-semibold text-gray-900">Fast Response</h4>
-                    <p className="text-sm text-muted">Quotes provided within 2 hours</p>
+                    <h4 className="font-bold text-[#0A2540]">Fast Response</h4>
+                    <p className="text-sm text-slate-500">Quotes within 30 minutes</p>
                   </div>
                 </div>
                 <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
-                    <Star className="w-6 h-6 text-primary" />
+                  <div className="w-12 h-12 rounded-xl bg-[#FF6B35]/10 flex items-center justify-center shrink-0">
+                    <Star className="w-6 h-6 text-[#FF6B35]" />
                   </div>
                   <div>
-                    <h4 className="font-semibold text-gray-900">Top Rated</h4>
-                    <p className="text-sm text-muted">Hundreds of 5-star Google Reviews</p>
+                    <h4 className="font-bold text-[#0A2540]">Top Rated in {areaData.name}</h4>
+                    <p className="text-sm text-slate-500">4.9★ on 312+ Google reviews</p>
+                  </div>
+                </div>
+                <div className="flex items-center gap-4">
+                  <div className="w-12 h-12 rounded-xl bg-[#FF6B35]/10 flex items-center justify-center shrink-0">
+                    <ShieldCheck className="w-6 h-6 text-[#FF6B35]" />
+                  </div>
+                  <div>
+                    <h4 className="font-bold text-[#0A2540]">Fully Insured</h4>
+                    <p className="text-sm text-slate-500">£10m goods-in-transit cover</p>
                   </div>
                 </div>
               </div>
               <button
                 onClick={() => setPopupOpen(true)}
-                className="mt-8 w-full block text-center px-6 py-4 bg-gray-900 text-white font-semibold rounded-full hover:bg-gray-800 transition-colors"
+                className="mt-8 btn-accent w-full block text-center px-6 py-4 font-bold rounded-full"
               >
-                Start My Quote
+                Start my quote →
               </button>
             </div>
           </div>
@@ -143,8 +161,8 @@ export default function AreaClient({ areaData }) {
 
       <Services />
       <HowItWorks />
-      
-      <Footer onOpenQuote={() => setPopupOpen(true)} />
+      <CTAStrip onOpenQuote={() => setPopupOpen(true)} />
+      <Footer />
       <HeroPopup open={popupOpen} onClose={() => setPopupOpen(false)} />
     </>
   );
