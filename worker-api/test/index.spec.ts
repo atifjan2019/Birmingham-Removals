@@ -173,11 +173,13 @@ describe("Birmingham Removals API", () => {
 	});
 
 	it("records email status activity entries", async () => {
-		const response = await SELF.fetch("https://example.com/activity", {
+		const ctx = createExecutionContext();
+		const testEnv = { ...env, ADMIN_API_PIN: "524862" };
+		const response = await worker.fetch(new IncomingRequest("https://example.com/activity", {
 			method: "POST",
 			headers: {
 				"Content-Type": "application/json",
-				"X-Admin-Pin": env.ADMIN_API_PIN,
+				"X-Admin-Pin": "524862",
 			},
 			body: JSON.stringify({
 				action: "booking.email_status",
@@ -188,13 +190,16 @@ describe("Birmingham Removals API", () => {
 					admin: { status: "failed", error: "SMTP failed" },
 				}),
 			}),
-		});
+		}), testEnv, ctx);
+		await waitOnExecutionContext(ctx);
 
 		expect(response.status).toBe(201);
 
-		const activityResponse = await SELF.fetch("https://example.com/activity", {
-			headers: { "X-Admin-Pin": env.ADMIN_API_PIN },
-		});
+		const listCtx = createExecutionContext();
+		const activityResponse = await worker.fetch(new IncomingRequest("https://example.com/activity", {
+			headers: { "X-Admin-Pin": "524862" },
+		}), testEnv, listCtx);
+		await waitOnExecutionContext(listCtx);
 		const payload = await activityResponse.json<{ data: Array<{ action: string; entityId: string }> }>();
 
 		expect(payload.data[0]).toMatchObject({
