@@ -780,13 +780,7 @@ function validateRoutePostcode(
 	errors: Record<string, string>,
 	required: boolean,
 ): void {
-	validateText(value, field, errors, { required, min: 2, max: 20 });
-
-	if (typeof value !== "string" || !value.trim() || value.trim().toLowerCase() === "unknown") return;
-
-	if (!/^[A-Z]{1,2}\d[A-Z\d]?(?:\s?\d[A-Z]{2})?$/i.test(value.trim())) {
-		errors[field] = `${field} must be a valid UK postcode or postcode area`;
-	}
+	validateText(value, field, errors, { required, max: 120 });
 }
 
 function validateBedrooms(value: unknown, errors: Record<string, string>): void {
