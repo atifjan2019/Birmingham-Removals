@@ -82,6 +82,11 @@ type UpdateBookingRequest = Partial<CreateBookingRequest> & {
 	expenses?: number | string | null;
 };
 
+type NormalizedBookingRequest = Required<Omit<CreateBookingRequest, "bedrooms" | "price">> & {
+	bedrooms: number;
+	price: number | null;
+};
+
 type ApiResponse<T> = { data: T } | { error: { message: string; details?: Record<string, string> } };
 
 const DEFAULT_ALLOWED_ORIGINS = [
@@ -226,6 +231,31 @@ async function createBooking(request: Request, env: Env, corsHeaders?: HeadersIn
 	}
 
 	const booking = normalizeCreateBooking(body);
+	const matchingAbandoned = await findMatchingAbandonedBooking(booking, env);
+
+	if (matchingAbandoned) {
+		await updateCustomerFields(matchingAbandoned.customerId, booking, env);
+		await updateBookingFields(matchingAbandoned.id, booking, env);
+
+		await logActivity(env, {
+			action: booking.status === "Abandoned" ? "lead.abandoned_captured" : "booking.created",
+			details: JSON.stringify({
+				summary:
+					booking.status === "Abandoned"
+						? `Abandoned lead updated for ${booking.fullName}`
+						: `Abandoned lead converted to booking for ${booking.fullName}`,
+				customer: { fullName: booking.fullName, phone: booking.phone, email: booking.email },
+				moveType: booking.moveType,
+				route: `${booking.fromPostcode} to ${booking.toPostcode}`,
+			}),
+			entityId: matchingAbandoned.id,
+			actor: "api",
+		});
+
+		const updated = await findBooking(matchingAbandoned.id, env);
+		return json({ data: toBooking(updated as BookingRow) }, 200, corsHeaders);
+	}
+
 	const customer = await findOrCreateCustomer(booking, env);
 	const bookingId = crypto.randomUUID();
 
@@ -250,9 +280,12 @@ async function createBooking(request: Request, env: Env, corsHeaders?: HeadersIn
 		.run();
 
 	await logActivity(env, {
-		action: "booking.created",
+		action: booking.status === "Abandoned" ? "lead.abandoned_captured" : "booking.created",
 		details: JSON.stringify({
-			summary: `New booking from ${booking.fullName}`,
+			summary:
+				booking.status === "Abandoned"
+					? `Abandoned lead captured for ${booking.fullName}`
+					: `New booking from ${booking.fullName}`,
 			customer: { fullName: booking.fullName, phone: booking.phone, email: booking.email },
 			moveType: booking.moveType,
 			route: `${booking.fromPostcode} to ${booking.toPostcode}`,
@@ -380,10 +413,58 @@ async function findBooking(id: string, env: Env): Promise<BookingRow | null> {
 		.first<BookingRow>();
 }
 
-async function findOrCreateCustomer(
-	booking: Required<Omit<CreateBookingRequest, "bedrooms" | "price">> & { bedrooms: number; price: number | null },
-	env: Env,
-): Promise<{ id: string }> {
+async function findMatchingAbandonedBooking(booking: NormalizedBookingRequest, env: Env): Promise<BookingRow | null> {
+	const { results } = await env.DB.prepare(
+		`SELECT
+			b.id, b.customerId, b.moveType, b.fromPostcode, b.toPostcode, b.moveDate,
+			b.bedrooms, b.extras, b.status, b.price, b.jobCost, b.expenses, b.profit,
+			b.createdAt, b.updatedAt,
+			c.fullName AS customerFullName, c.phone AS customerPhone, c.email AS customerEmail
+		FROM Booking b
+		INNER JOIN Customer c ON c.id = b.customerId
+		WHERE b.status = 'Abandoned'
+		ORDER BY b.createdAt DESC
+		LIMIT 100`,
+	).all<BookingRow>();
+
+	return results
+		.map((row) => ({ row, score: abandonedLeadMatchScore(row, booking) }))
+		.filter((item) => item.score > 0)
+		.sort((a, b) => b.score - a.score)[0]?.row ?? null;
+}
+
+function abandonedLeadMatchScore(row: BookingRow, booking: NormalizedBookingRequest): number {
+	const email = booking.email.toLowerCase();
+	const rowEmail = row.customerEmail.toLowerCase();
+	const phone = normalizePhone(booking.phone);
+	const rowPhone = normalizePhone(row.customerPhone);
+
+	const emailMatches = email.length > 0 && !isPendingEmail(rowEmail) && rowEmail === email;
+	const phoneMatches = phone.length > 0 && rowPhone === phone;
+
+	if (!emailMatches && !phoneMatches) return 0;
+
+	let score = 50;
+	if (emailMatches && phoneMatches) score += 25;
+	if (row.fromPostcode.toUpperCase() === booking.fromPostcode.toUpperCase()) score += 5;
+	if (row.toPostcode.toUpperCase() === booking.toPostcode.toUpperCase()) score += 5;
+	if (row.moveDate === booking.moveDate) score += 5;
+	if (row.moveType.toLowerCase() === booking.moveType.toLowerCase()) score += 3;
+	if (row.bedrooms === booking.bedrooms) score += 2;
+
+	return score;
+}
+
+function normalizePhone(value: string): string {
+	const digits = value.replace(/\D/g, "");
+	return digits.startsWith("44") ? `0${digits.slice(2)}` : digits;
+}
+
+function isPendingEmail(value: string): boolean {
+	return /^abandoned_\d+@pending\.com$/i.test(value);
+}
+
+async function findOrCreateCustomer(booking: NormalizedBookingRequest, env: Env): Promise<{ id: string }> {
 	const existing = await env.DB.prepare("SELECT id FROM Customer WHERE lower(email) = ?1 LIMIT 1")
 		.bind(booking.email.toLowerCase())
 		.first<{ id: string }>();
@@ -576,7 +657,7 @@ function validateUpdateBooking(body: unknown): { valid: boolean; errors: Record<
 
 function normalizeCreateBooking(
 	body: CreateBookingRequest,
-): Required<Omit<CreateBookingRequest, "bedrooms" | "price">> & { bedrooms: number; price: number | null } {
+): NormalizedBookingRequest {
 	return {
 		fullName: body.fullName.trim(),
 		email: body.email.trim().toLowerCase(),
