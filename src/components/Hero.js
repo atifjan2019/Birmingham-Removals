@@ -32,16 +32,23 @@ export default function Hero({ onOpenQuote }) {
   const router = useRouter();
   const [from, setFrom] = useState("");
   const [to, setTo] = useState("");
+  const [routeError, setRouteError] = useState("");
   const [isRouting, setIsRouting] = useState(false);
 
   const onSubmit = (e) => {
     e.preventDefault();
     if (isRouting) return;
 
+    if (!from.trim() || !to.trim()) {
+      setRouteError("Please enter both postcodes.");
+      return;
+    }
+
+    setRouteError("");
     setIsRouting(true);
     const params = new URLSearchParams();
-    if (from) params.set("from", from);
-    if (to) params.set("to", to);
+    params.set("from", from.trim());
+    params.set("to", to.trim());
     const query = params.toString();
     router.push(query ? `/quote?${query}` : "/quote");
   };
@@ -93,65 +100,88 @@ export default function Hero({ onOpenQuote }) {
             </motion.p>
 
             {/* Quick-quote postcode widget */}
-            <motion.form
+            <motion.div
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.4 }}
-              onSubmit={onSubmit}
-              className="mt-8 bg-white rounded-2xl p-3 shadow-2xl shadow-black/30 grid grid-cols-1 md:grid-cols-[1fr_1fr_auto] gap-2"
+              className="mt-8"
             >
-              <label className="flex items-center gap-3 px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 focus-within:border-[#FF6B35] transition-colors">
-                <MapPin className="w-5 h-5 text-[#FF6B35] shrink-0" />
-                <div className="flex-1 min-w-0">
-                  <span className="block text-[11px] uppercase tracking-wider text-slate-500 font-semibold">From</span>
-                  <input
-                    type="text"
-                    placeholder="e.g. B15 3AA"
-                    value={from}
-                    onChange={(e) => setFrom(e.target.value.toUpperCase())}
-                    className="w-full bg-transparent text-[#0A2540] font-semibold text-base focus:outline-none placeholder:text-slate-400"
-                  />
-                </div>
-              </label>
-              <label className="flex items-center gap-3 px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 focus-within:border-[#FF6B35] transition-colors">
-                <MapPin className="w-5 h-5 text-[#FF6B35] shrink-0" />
-                <div className="flex-1 min-w-0">
-                  <span className="block text-[11px] uppercase tracking-wider text-slate-500 font-semibold">To</span>
-                  <input
-                    type="text"
-                    placeholder="e.g. B91 1AA"
-                    value={to}
-                    onChange={(e) => setTo(e.target.value.toUpperCase())}
-                    className="w-full bg-transparent text-[#0A2540] font-semibold text-base focus:outline-none placeholder:text-slate-400"
-                  />
-                </div>
-              </label>
-              <button
-                type="submit"
-                disabled={isRouting}
-                aria-busy={isRouting}
-                className={`btn-accent relative overflow-hidden inline-flex items-center justify-center gap-2 px-6 py-4 font-semibold rounded-xl min-h-[56px] ${
-                  isRouting ? "cursor-wait shadow-[0_0_0_4px_rgba(255,107,53,0.18)]" : ""
-                }`}
+              <form
+                onSubmit={onSubmit}
+                className="bg-white rounded-2xl p-3 shadow-2xl shadow-black/30 grid grid-cols-1 md:grid-cols-[1fr_1fr_auto] gap-2"
               >
-                {isRouting && (
-                  <span className="pointer-events-none absolute inset-0 bg-[linear-gradient(110deg,transparent_0%,rgba(255,255,255,0.18)_40%,rgba(255,255,255,0.55)_50%,rgba(255,255,255,0.18)_60%,transparent_100%)] animate-button-sweep" />
-                )}
-                <span className="relative z-10 inline-flex items-center justify-center gap-2 whitespace-nowrap">
-                  {isRouting ? (
-                    <>
-                      <Loader2 className="w-5 h-5 animate-spin" />
-                      Preparing quote...
-                    </>
-                  ) : (
-                    <>
-                      Get Quote
-                      <ArrowRight className="w-5 h-5" />
-                    </>
+                <label className={`flex items-center gap-3 px-4 py-3 rounded-xl bg-slate-50 border transition-colors ${
+                  routeError && !from.trim() ? "border-red-300" : "border-slate-200 focus-within:border-[#FF6B35]"
+                }`}>
+                  <MapPin className="w-5 h-5 text-[#FF6B35] shrink-0" />
+                  <div className="flex-1 min-w-0">
+                    <span className="block text-[11px] uppercase tracking-wider text-slate-500 font-semibold">From</span>
+                    <input
+                      type="text"
+                      required
+                      aria-required="true"
+                      placeholder="e.g. B15 3AA"
+                      value={from}
+                      onChange={(e) => {
+                        setFrom(e.target.value.toUpperCase());
+                        setRouteError("");
+                      }}
+                      className="w-full bg-transparent text-[#0A2540] font-semibold text-base focus:outline-none placeholder:text-slate-400"
+                    />
+                  </div>
+                </label>
+                <label className={`flex items-center gap-3 px-4 py-3 rounded-xl bg-slate-50 border transition-colors ${
+                  routeError && !to.trim() ? "border-red-300" : "border-slate-200 focus-within:border-[#FF6B35]"
+                }`}>
+                  <MapPin className="w-5 h-5 text-[#FF6B35] shrink-0" />
+                  <div className="flex-1 min-w-0">
+                    <span className="block text-[11px] uppercase tracking-wider text-slate-500 font-semibold">To</span>
+                    <input
+                      type="text"
+                      required
+                      aria-required="true"
+                      placeholder="e.g. B91 1AA"
+                      value={to}
+                      onChange={(e) => {
+                        setTo(e.target.value.toUpperCase());
+                        setRouteError("");
+                      }}
+                      className="w-full bg-transparent text-[#0A2540] font-semibold text-base focus:outline-none placeholder:text-slate-400"
+                    />
+                  </div>
+                </label>
+                <button
+                  type="submit"
+                  disabled={isRouting}
+                  aria-busy={isRouting}
+                  className={`btn-accent relative overflow-hidden inline-flex items-center justify-center gap-2 px-6 py-4 font-semibold rounded-xl min-h-[56px] ${
+                    isRouting ? "cursor-wait shadow-[0_0_0_4px_rgba(255,107,53,0.18)]" : ""
+                  }`}
+                >
+                  {isRouting && (
+                    <span className="pointer-events-none absolute inset-0 bg-[linear-gradient(110deg,transparent_0%,rgba(255,255,255,0.18)_40%,rgba(255,255,255,0.55)_50%,rgba(255,255,255,0.18)_60%,transparent_100%)] animate-button-sweep" />
                   )}
-                </span>
-              </button>
-            </motion.form>
+                  <span className="relative z-10 inline-flex items-center justify-center gap-2 whitespace-nowrap">
+                    {isRouting ? (
+                      <>
+                        <Loader2 className="w-5 h-5 animate-spin" />
+                        Preparing quote...
+                      </>
+                    ) : (
+                      <>
+                        Get Quote
+                        <ArrowRight className="w-5 h-5" />
+                      </>
+                    )}
+                  </span>
+                </button>
+              </form>
+              {routeError && (
+                <p className="mt-2 text-sm font-medium text-red-100" role="alert">
+                  {routeError}
+                </p>
+              )}
+            </motion.div>
 
             <motion.div
               initial={{ opacity: 0 }}
