@@ -30,18 +30,30 @@ const trustItems = [
   { icon: Award, label: "5-Star Rated" },
 ];
 
+function normalizePostcodeParam(value) {
+  return String(value || "").trim().toUpperCase();
+}
+
 export default function QuoteFunnel() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const typeParam = searchParams.get("type");
   const hasValidType =
     typeParam && ["house", "office", "flat", "items"].includes(typeParam);
+  const fromParam = normalizePostcodeParam(searchParams.get("from"));
+  const toParam = normalizePostcodeParam(searchParams.get("to"));
+  const [prefilledRoute] = useState({
+    from: Boolean(fromParam),
+    to: Boolean(toParam),
+  });
 
   // For house/flat with type param, start at bedrooms (step 2). For office/items, skip to step 3.
   const getInitialStep = () => {
     if (!hasValidType) return 1;
     if (typeParam === "house" || typeParam === "flat") return 2;
-    return 3; // office/items skip bedrooms
+    if (!prefilledRoute.from) return 3;
+    if (!prefilledRoute.to) return 4;
+    return 5; // office/items skip bedrooms and any postcodes already sent from the hero form
   };
 
   const [step, setStep] = useState(getInitialStep());
@@ -49,8 +61,8 @@ export default function QuoteFunnel() {
   const [data, setData] = useState({
     moveType: hasValidType ? typeParam : "",
     bedrooms: 1,
-    fromPostcode: "",
-    toPostcode: "",
+    fromPostcode: fromParam,
+    toPostcode: toParam,
     moveDate: "",
     flexibleDates: false,
     fullName: "",
@@ -59,53 +71,84 @@ export default function QuoteFunnel() {
 
   const needsBedrooms = data.moveType === "house" || data.moveType === "flat";
 
+  const isStepEnabled = (stepId) => {
+    if (stepId === 2) return needsBedrooms;
+    if (stepId === 3) return !prefilledRoute.from;
+    if (stepId === 4) return !prefilledRoute.to;
+    return true;
+  };
+
+  const getNextStep = (currentStep) => {
+    for (let next = currentStep + 1; next <= 8; next += 1) {
+      if (isStepEnabled(next)) return next;
+    }
+    return currentStep;
+  };
+
+  const getPreviousStep = (currentStep) => {
+    for (let prev = currentStep - 1; prev >= 1; prev -= 1) {
+      if (isStepEnabled(prev)) return prev;
+    }
+    return currentStep;
+  };
+
+  const replaceQuoteParams = (updates) => {
+    const params = new URLSearchParams(searchParams.toString());
+    const routeParams = {
+      from: data.fromPostcode,
+      to: data.toPostcode,
+      ...updates,
+    };
+
+    Object.entries(routeParams).forEach(([key, value]) => {
+      if (value) params.set(key, value);
+      else params.delete(key);
+    });
+
+    const query = params.toString();
+    router.replace(query ? `/quote?${query}` : "/quote", { scroll: false });
+  };
+
   const goNext = () => {
     setDirection(1);
     // Clean up URL param when leaving step 1 — update to reflect actual selection
     if (step === 1 && data.moveType) {
-      router.replace(`/quote?type=${data.moveType}`, { scroll: false });
+      replaceQuoteParams({ type: data.moveType });
     }
-    setStep((s) => {
-      let next = s + 1;
-      // Skip bedrooms step if not needed
-      if (next === 2 && !needsBedrooms) next = 3;
-      return next;
-    });
+    setStep(getNextStep(step));
   };
 
   const goBack = () => {
     setDirection(-1);
+    const previousStep = getPreviousStep(step);
     // When going back to step 1, clear the URL param
-    if (step === 2 || (step === 3 && !needsBedrooms)) {
-      router.replace("/quote", { scroll: false });
+    if (previousStep === 1) {
+      replaceQuoteParams({ type: null });
     }
-    setStep((s) => {
-      let prev = s - 1;
-      // Skip bedrooms step going back if not needed
-      if (prev === 2 && !needsBedrooms) prev = 1;
-      return Math.max(1, prev);
-    });
+    setStep(previousStep);
   };
 
   const update = (fields) => setData((prev) => ({ ...prev, ...fields }));
 
   // Calculate progress (exclude loading step from count)
   const getProgressPercent = () => {
-    const totalSteps = needsBedrooms ? 7 : 6;
-    let currentStep = step;
-    if (!needsBedrooms && step >= 3) currentStep = step - 1;
-    if (step >= 6) currentStep = Math.min(currentStep, totalSteps); // loading doesn't count extra
-    return Math.min(Math.round((currentStep / totalSteps) * 100), 100);
+    const visibleSteps = [1, 2, 3, 4, 5, 7].filter(isStepEnabled);
+    const progressStep = step === 6 ? 5 : step;
+    const index = visibleSteps.indexOf(progressStep);
+
+    if (index === -1) return 100;
+
+    return Math.min(Math.round(((index + 1) / visibleSteps.length) * 100), 100);
   };
 
   const getStepLabel = () => {
-    const totalSteps = needsBedrooms ? 7 : 6;
-    let currentStep = step;
-    if (!needsBedrooms && step >= 3) currentStep = step - 1;
+    const visibleSteps = [1, 2, 3, 4, 5, 7].filter(isStepEnabled);
+    const index = visibleSteps.indexOf(step);
+
     if (step === 6) return ""; // loading step
     if (step === 7) return "Almost there";
     if (step === 8) return "";
-    return `Step ${currentStep} of ${totalSteps}`;
+    return `Step ${index + 1} of ${visibleSteps.length}`;
   };
 
   const progressPercent = getProgressPercent();
