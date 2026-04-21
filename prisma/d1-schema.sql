@@ -1,6 +1,6 @@
--- Birmingham Removals — Cloudflare D1 schema
--- Apply with: wrangler d1 execute birmingham-removals --file=prisma/d1-schema.sql
--- (or via the Cloudflare dashboard D1 console)
+-- Birmingham Removals Cloudflare D1 schema
+-- Remote apply command from worker-api:
+-- npm run db:apply:remote
 
 CREATE TABLE IF NOT EXISTS Customer (
   id         TEXT PRIMARY KEY,
@@ -20,9 +20,9 @@ CREATE TABLE IF NOT EXISTS Booking (
   fromPostcode  TEXT NOT NULL,
   toPostcode    TEXT NOT NULL,
   moveDate      TEXT NOT NULL,
-  bedrooms      INTEGER NOT NULL DEFAULT 1,
-  extras        TEXT,            -- JSON string
-  status        TEXT NOT NULL DEFAULT 'New',
+  bedrooms      INTEGER NOT NULL DEFAULT 1 CHECK (bedrooms >= 0 AND bedrooms <= 10),
+  extras        TEXT,
+  status        TEXT NOT NULL DEFAULT 'New' CHECK (status IN ('New', 'Upcoming', 'Completed', 'Abandoned')),
   price         REAL,
   jobCost       REAL,
   expenses      REAL,
@@ -34,7 +34,7 @@ CREATE TABLE IF NOT EXISTS Booking (
 
 CREATE INDEX IF NOT EXISTS idx_booking_customer ON Booking(customerId);
 CREATE INDEX IF NOT EXISTS idx_booking_status ON Booking(status);
-CREATE INDEX IF NOT EXISTS idx_booking_created ON Booking(createdAt);
+CREATE INDEX IF NOT EXISTS idx_booking_created ON Booking(createdAt DESC);
 
 CREATE TABLE IF NOT EXISTS AdminUser (
   id       TEXT PRIMARY KEY,
@@ -51,5 +51,5 @@ CREATE TABLE IF NOT EXISTS ActivityLog (
   createdAt TEXT NOT NULL DEFAULT (datetime('now'))
 );
 
-CREATE INDEX IF NOT EXISTS idx_activity_created ON ActivityLog(createdAt);
+CREATE INDEX IF NOT EXISTS idx_activity_created ON ActivityLog(createdAt DESC);
 CREATE INDEX IF NOT EXISTS idx_activity_action ON ActivityLog(action);

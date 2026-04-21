@@ -1,64 +1,76 @@
-type BookingStatus = "new" | "contacted" | "quoted" | "booked" | "completed" | "cancelled";
+type BookingStatus = "New" | "Upcoming" | "Completed" | "Abandoned";
 
 interface BookingRow {
 	id: string;
+	customerId: string;
+	moveType: string;
+	fromPostcode: string;
+	toPostcode: string;
+	moveDate: string;
+	bedrooms: number;
+	extras: string | null;
 	status: BookingStatus;
-	customer_name: string;
-	email: string;
-	phone: string;
-	move_type: string;
-	from_postcode: string;
-	to_postcode: string;
-	bedrooms: number | null;
-	move_date: string | null;
-	extras: string;
-	message: string | null;
-	created_at: string;
-	updated_at: string;
+	price: number | null;
+	jobCost: number | null;
+	expenses: number | null;
+	profit: number | null;
+	createdAt: string;
+	updatedAt: string;
+	customerFullName: string;
+	customerPhone: string;
+	customerEmail: string;
 }
 
 interface Booking {
 	id: string;
-	status: BookingStatus;
-	customerName: string;
-	email: string;
-	phone: string;
 	moveType: string;
 	fromPostcode: string;
 	toPostcode: string;
-	bedrooms: number | null;
-	moveDate: string | null;
+	moveDate: string;
+	bedrooms: number;
 	extras: string[];
-	message: string | null;
+	status: BookingStatus;
+	price: number | null;
+	jobCost: number | null;
+	expenses: number | null;
+	profit: number | null;
 	createdAt: string;
 	updatedAt: string;
+	customer: {
+		id: string;
+		fullName: string;
+		phone: string;
+		email: string;
+	};
 }
 
 interface CreateBookingRequest {
-	customerName: string;
+	fullName: string;
 	email: string;
 	phone: string;
 	moveType: string;
 	fromPostcode: string;
 	toPostcode: string;
-	bedrooms?: number | null;
-	moveDate?: string | null;
+	moveDate: string;
+	bedrooms?: number | string | null;
 	extras?: string[];
-	message?: string | null;
+	status?: BookingStatus;
+	price?: number | string | null;
 }
 
 type UpdateBookingRequest = Partial<CreateBookingRequest> & {
-	status?: BookingStatus;
+	jobCost?: number | string | null;
+	expenses?: number | string | null;
 };
 
 type ApiResponse<T> = { data: T } | { error: { message: string; details?: Record<string, string> } };
 
 const DEFAULT_ALLOWED_ORIGINS = ["http://localhost:3000", "http://127.0.0.1:3000"];
-const BOOKING_STATUSES: BookingStatus[] = ["new", "contacted", "quoted", "booked", "completed", "cancelled"];
+const BOOKING_STATUSES: BookingStatus[] = ["New", "Upcoming", "Completed", "Abandoned"];
 const MAX_LIMIT = 100;
 
 export default {
-	async fetch(request, env): Promise<Response> {
+	async fetch(request: Request, env: Env): Promise<Response> {
 		const requestOrigin = request.headers.get("Origin");
 
 		if (request.method === "OPTIONS") {
@@ -92,30 +104,17 @@ export default {
 			}
 
 			if (path === "/bookings") {
-				if (request.method === "GET") {
-					return listBookings(request, env, corsHeaders);
-				}
-
-				if (request.method === "POST") {
-					return createBooking(request, env, corsHeaders);
-				}
+				if (request.method === "GET") return listBookings(request, env, corsHeaders);
+				if (request.method === "POST") return createBooking(request, env, corsHeaders);
 			}
 
 			const bookingMatch = path.match(/^\/bookings\/([^/]+)$/);
 			if (bookingMatch) {
 				const id = decodeURIComponent(bookingMatch[1]);
 
-				if (request.method === "GET") {
-					return getBooking(id, env, corsHeaders);
-				}
-
-				if (request.method === "PUT") {
-					return updateBooking(id, request, env, corsHeaders);
-				}
-
-				if (request.method === "DELETE") {
-					return deleteBooking(id, env, corsHeaders);
-				}
+				if (request.method === "GET") return getBooking(id, env, corsHeaders);
+				if (request.method === "PUT") return updateBooking(id, request, env, corsHeaders);
+				if (request.method === "DELETE") return deleteBooking(id, env, corsHeaders);
 			}
 
 			return json({ error: { message: "Not found" } }, 404, corsHeaders);
@@ -141,10 +140,16 @@ async function listBookings(request: Request, env: Env, corsHeaders?: HeadersIni
 	}
 
 	const { results } = await env.DB.prepare(
-		`SELECT * FROM bookings
-		 WHERE (?1 IS NULL OR status = ?1)
-		 ORDER BY created_at DESC
-		 LIMIT ?2 OFFSET ?3`,
+		`SELECT
+			b.id, b.customerId, b.moveType, b.fromPostcode, b.toPostcode, b.moveDate,
+			b.bedrooms, b.extras, b.status, b.price, b.jobCost, b.expenses, b.profit,
+			b.createdAt, b.updatedAt,
+			c.fullName AS customerFullName, c.phone AS customerPhone, c.email AS customerEmail
+		FROM Booking b
+		INNER JOIN Customer c ON c.id = b.customerId
+		WHERE (?1 IS NULL OR b.status = ?1)
+		ORDER BY b.createdAt DESC
+		LIMIT ?2 OFFSET ?3`,
 	)
 		.bind(status, limit, offset)
 		.all<BookingRow>();
@@ -171,30 +176,42 @@ async function createBooking(request: Request, env: Env, corsHeaders?: HeadersIn
 	}
 
 	const booking = normalizeCreateBooking(body);
-	const id = crypto.randomUUID();
+	const customer = await findOrCreateCustomer(booking, env);
+	const bookingId = crypto.randomUUID();
 
 	await env.DB.prepare(
-		`INSERT INTO bookings (
-			id, customer_name, email, phone, move_type, from_postcode, to_postcode,
-			bedrooms, move_date, extras, message
-		) VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10, ?11)`,
+		`INSERT INTO Booking (
+			id, customerId, moveType, fromPostcode, toPostcode, moveDate,
+			bedrooms, extras, status, price
+		) VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9, ?10)`,
 	)
 		.bind(
-			id,
-			booking.customerName,
-			booking.email,
-			booking.phone,
+			bookingId,
+			customer.id,
 			booking.moveType,
 			booking.fromPostcode,
 			booking.toPostcode,
-			booking.bedrooms,
 			booking.moveDate,
+			booking.bedrooms,
 			JSON.stringify(booking.extras),
-			booking.message,
+			booking.status,
+			booking.price,
 		)
 		.run();
 
-	const row = await findBooking(id, env);
+	await logActivity(env, {
+		action: "booking.created",
+		details: JSON.stringify({
+			summary: `New booking from ${booking.fullName}`,
+			customer: { fullName: booking.fullName, phone: booking.phone, email: booking.email },
+			moveType: booking.moveType,
+			route: `${booking.fromPostcode} to ${booking.toPostcode}`,
+		}),
+		entityId: bookingId,
+		actor: "api",
+	});
+
+	const row = await findBooking(bookingId, env);
 	return json({ data: toBooking(row as BookingRow) }, 201, corsHeaders);
 }
 
@@ -212,39 +229,128 @@ async function updateBooking(id: string, request: Request, env: Env, corsHeaders
 		return json({ error: { message: "Invalid booking data", details: validation.errors } }, 400, corsHeaders);
 	}
 
-	const fields = getUpdateFields(body);
-
-	if (fields.length === 0) {
-		return json({ error: { message: "No supported fields were provided" } }, 400, corsHeaders);
-	}
-
-	const assignments = fields.map((field, index) => `${field.column} = ?${index + 1}`);
-	const values = fields.map((field) => field.value);
-
-	await env.DB.prepare(
-		`UPDATE bookings
-		 SET ${assignments.join(", ")}, updated_at = datetime('now')
-		 WHERE id = ?${values.length + 1}`,
-	)
-		.bind(...values, id)
-		.run();
+	await updateCustomerFields(existing.customerId, body, env);
+	await updateBookingFields(id, body, env);
 
 	const updated = await findBooking(id, env);
+
+	await logActivity(env, {
+		action: "booking.updated",
+		details: JSON.stringify({ summary: "Booking updated via API" }),
+		entityId: id,
+		actor: "api",
+	});
+
 	return json({ data: toBooking(updated as BookingRow) }, 200, corsHeaders);
 }
 
 async function deleteBooking(id: string, env: Env, corsHeaders?: HeadersInit): Promise<Response> {
-	const result = await env.DB.prepare("DELETE FROM bookings WHERE id = ?1").bind(id).run();
+	const result = await env.DB.prepare("DELETE FROM Booking WHERE id = ?1").bind(id).run();
 
 	if ((result.meta.changes ?? 0) === 0) {
 		return json({ error: { message: "Booking not found" } }, 404, corsHeaders);
 	}
 
+	await logActivity(env, {
+		action: "booking.deleted",
+		details: JSON.stringify({ summary: "Booking deleted via API" }),
+		entityId: id,
+		actor: "api",
+	});
+
 	return new Response(null, { status: 204, headers: corsHeaders });
 }
 
 async function findBooking(id: string, env: Env): Promise<BookingRow | null> {
-	return env.DB.prepare("SELECT * FROM bookings WHERE id = ?1").bind(id).first<BookingRow>();
+	return env.DB.prepare(
+		`SELECT
+			b.id, b.customerId, b.moveType, b.fromPostcode, b.toPostcode, b.moveDate,
+			b.bedrooms, b.extras, b.status, b.price, b.jobCost, b.expenses, b.profit,
+			b.createdAt, b.updatedAt,
+			c.fullName AS customerFullName, c.phone AS customerPhone, c.email AS customerEmail
+		FROM Booking b
+		INNER JOIN Customer c ON c.id = b.customerId
+		WHERE b.id = ?1`,
+	)
+		.bind(id)
+		.first<BookingRow>();
+}
+
+async function findOrCreateCustomer(
+	booking: Required<Omit<CreateBookingRequest, "bedrooms" | "price">> & { bedrooms: number; price: number | null },
+	env: Env,
+): Promise<{ id: string }> {
+	const existing = await env.DB.prepare("SELECT id FROM Customer WHERE lower(email) = ?1 LIMIT 1")
+		.bind(booking.email.toLowerCase())
+		.first<{ id: string }>();
+
+	if (existing) {
+		await env.DB.prepare(
+			`UPDATE Customer
+			 SET fullName = ?1, phone = ?2, updatedAt = datetime('now')
+			 WHERE id = ?3`,
+		)
+			.bind(booking.fullName, booking.phone, existing.id)
+			.run();
+
+		return existing;
+	}
+
+	const id = crypto.randomUUID();
+	await env.DB.prepare("INSERT INTO Customer (id, fullName, phone, email) VALUES (?1, ?2, ?3, ?4)")
+		.bind(id, booking.fullName, booking.phone, booking.email.toLowerCase())
+		.run();
+
+	return { id };
+}
+
+async function updateCustomerFields(customerId: string, body: UpdateBookingRequest, env: Env): Promise<void> {
+	const fields: { column: string; value: string }[] = [];
+
+	if (body.fullName !== undefined) fields.push({ column: "fullName", value: body.fullName.trim() });
+	if (body.phone !== undefined) fields.push({ column: "phone", value: body.phone.trim() });
+	if (body.email !== undefined) fields.push({ column: "email", value: body.email.trim().toLowerCase() });
+
+	if (fields.length === 0) return;
+
+	const assignments = fields.map((field, index) => `${field.column} = ?${index + 1}`);
+	const values = fields.map((field) => field.value);
+
+	await env.DB.prepare(
+		`UPDATE Customer
+		 SET ${assignments.join(", ")}, updatedAt = datetime('now')
+		 WHERE id = ?${values.length + 1}`,
+	)
+		.bind(...values, customerId)
+		.run();
+}
+
+async function updateBookingFields(id: string, body: UpdateBookingRequest, env: Env): Promise<void> {
+	const fields = getBookingUpdateFields(body);
+
+	if (fields.length === 0) return;
+
+	const assignments = fields.map((field, index) => `${field.column} = ?${index + 1}`);
+	const values = fields.map((field) => field.value);
+
+	await env.DB.prepare(
+		`UPDATE Booking
+		 SET ${assignments.join(", ")}, updatedAt = datetime('now')
+		 WHERE id = ?${values.length + 1}`,
+	)
+		.bind(...values, id)
+		.run();
+}
+
+async function logActivity(
+	env: Env,
+	entry: { action: string; details: string; entityId: string; actor: string },
+): Promise<void> {
+	await env.DB.prepare(
+		"INSERT INTO ActivityLog (id, action, details, entityId, actor) VALUES (?1, ?2, ?3, ?4, ?5)",
+	)
+		.bind(crypto.randomUUID(), entry.action, entry.details, entry.entityId, entry.actor)
+		.run();
 }
 
 function handleOptions(request: Request, env: Env): Response {
@@ -259,14 +365,10 @@ function handleOptions(request: Request, env: Env): Response {
 }
 
 function getCorsHeaders(origin: string | null, env: Env): HeadersInit | undefined {
-	if (!origin) {
-		return undefined;
-	}
+	if (!origin) return undefined;
 
 	const allowedOrigins = getAllowedOrigins(env);
-	if (!allowedOrigins.includes(origin)) {
-		return undefined;
-	}
+	if (!allowedOrigins.includes(origin)) return undefined;
 
 	return {
 		"Access-Control-Allow-Origin": origin,
@@ -283,14 +385,11 @@ function getAllowedOrigins(env: Env): string[] {
 }
 
 function json<T>(payload: ApiResponse<T>, status = 200, headers?: HeadersInit): Response {
-	return Response.json(payload, {
-		status,
-		headers: {
-			"Content-Type": "application/json; charset=utf-8",
-			"Cache-Control": "no-store",
-			...headers,
-		},
-	});
+	const responseHeaders = new Headers(headers);
+	responseHeaders.set("Content-Type", "application/json; charset=utf-8");
+	responseHeaders.set("Cache-Control", "no-store");
+
+	return Response.json(payload, { status, headers: responseHeaders });
 }
 
 async function readJson<T>(request: Request): Promise<T> {
@@ -314,16 +413,19 @@ function validateCreateBooking(body: unknown): { valid: boolean; errors: Record<
 		return { valid: false, errors: { body: "Body must be a JSON object" } };
 	}
 
-	validateText(body.customerName, "customerName", errors, { required: true, min: 2, max: 120 });
+	validateText(body.fullName, "fullName", errors, { required: true, min: 2, max: 120 });
 	validateEmail(body.email, errors, true);
-	validateText(body.phone, "phone", errors, { required: true, min: 7, max: 30 });
+	validateText(body.phone, "phone", errors, { required: true, min: 10, max: 30 });
 	validateText(body.moveType, "moveType", errors, { required: true, min: 2, max: 80 });
 	validateText(body.fromPostcode, "fromPostcode", errors, { required: true, min: 3, max: 20 });
 	validateText(body.toPostcode, "toPostcode", errors, { required: true, min: 3, max: 20 });
+	validateMoveDate(body.moveDate, errors, true);
 	validateBedrooms(body.bedrooms, errors);
-	validateMoveDate(body.moveDate, errors);
 	validateExtras(body.extras, errors);
-	validateText(body.message, "message", errors, { required: false, max: 2000 });
+	validateMoney(body.price, "price", errors);
+	if ("status" in body && body.status !== undefined && !isBookingStatus(body.status)) {
+		errors.status = `Status must be one of: ${BOOKING_STATUSES.join(", ")}`;
+	}
 
 	return { valid: Object.keys(errors).length === 0, errors };
 }
@@ -335,52 +437,62 @@ function validateUpdateBooking(body: unknown): { valid: boolean; errors: Record<
 		return { valid: false, errors: { body: "Body must be a JSON object" } };
 	}
 
-	if ("status" in body && !isBookingStatus(body.status)) {
-		errors.status = `Status must be one of: ${BOOKING_STATUSES.join(", ")}`;
-	}
-	if ("customerName" in body) validateText(body.customerName, "customerName", errors, { required: false, min: 2, max: 120 });
+	if ("fullName" in body) validateText(body.fullName, "fullName", errors, { required: false, min: 2, max: 120 });
 	if ("email" in body) validateEmail(body.email, errors, false);
-	if ("phone" in body) validateText(body.phone, "phone", errors, { required: false, min: 7, max: 30 });
+	if ("phone" in body) validateText(body.phone, "phone", errors, { required: false, min: 10, max: 30 });
 	if ("moveType" in body) validateText(body.moveType, "moveType", errors, { required: false, min: 2, max: 80 });
 	if ("fromPostcode" in body) validateText(body.fromPostcode, "fromPostcode", errors, { required: false, min: 3, max: 20 });
 	if ("toPostcode" in body) validateText(body.toPostcode, "toPostcode", errors, { required: false, min: 3, max: 20 });
+	if ("moveDate" in body) validateMoveDate(body.moveDate, errors, false);
 	if ("bedrooms" in body) validateBedrooms(body.bedrooms, errors);
-	if ("moveDate" in body) validateMoveDate(body.moveDate, errors);
 	if ("extras" in body) validateExtras(body.extras, errors);
-	if ("message" in body) validateText(body.message, "message", errors, { required: false, max: 2000 });
+	if ("price" in body) validateMoney(body.price, "price", errors);
+	if ("jobCost" in body) validateMoney(body.jobCost, "jobCost", errors);
+	if ("expenses" in body) validateMoney(body.expenses, "expenses", errors);
+	if ("status" in body && !isBookingStatus(body.status)) {
+		errors.status = `Status must be one of: ${BOOKING_STATUSES.join(", ")}`;
+	}
 
 	return { valid: Object.keys(errors).length === 0, errors };
 }
 
-function normalizeCreateBooking(body: CreateBookingRequest): Required<CreateBookingRequest> {
+function normalizeCreateBooking(
+	body: CreateBookingRequest,
+): Required<Omit<CreateBookingRequest, "bedrooms" | "price">> & { bedrooms: number; price: number | null } {
 	return {
-		customerName: body.customerName.trim(),
+		fullName: body.fullName.trim(),
 		email: body.email.trim().toLowerCase(),
 		phone: body.phone.trim(),
 		moveType: body.moveType.trim(),
 		fromPostcode: body.fromPostcode.trim().toUpperCase(),
 		toPostcode: body.toPostcode.trim().toUpperCase(),
-		bedrooms: body.bedrooms ?? null,
-		moveDate: body.moveDate?.trim() || null,
+		moveDate: body.moveDate.trim(),
+		bedrooms: normalizeInteger(body.bedrooms, 1),
 		extras: body.extras ?? [],
-		message: body.message?.trim() || null,
+		status: body.status ?? "New",
+		price: normalizeNullableNumber(body.price),
 	};
 }
 
-function getUpdateFields(body: UpdateBookingRequest): { column: string; value: string | number | null }[] {
+function getBookingUpdateFields(body: UpdateBookingRequest): { column: string; value: string | number | null }[] {
 	const fields: { column: string; value: string | number | null }[] = [];
 
-	if (body.status !== undefined) fields.push({ column: "status", value: body.status });
-	if (body.customerName !== undefined) fields.push({ column: "customer_name", value: body.customerName.trim() });
-	if (body.email !== undefined) fields.push({ column: "email", value: body.email.trim().toLowerCase() });
-	if (body.phone !== undefined) fields.push({ column: "phone", value: body.phone.trim() });
-	if (body.moveType !== undefined) fields.push({ column: "move_type", value: body.moveType.trim() });
-	if (body.fromPostcode !== undefined) fields.push({ column: "from_postcode", value: body.fromPostcode.trim().toUpperCase() });
-	if (body.toPostcode !== undefined) fields.push({ column: "to_postcode", value: body.toPostcode.trim().toUpperCase() });
-	if (body.bedrooms !== undefined) fields.push({ column: "bedrooms", value: body.bedrooms });
-	if (body.moveDate !== undefined) fields.push({ column: "move_date", value: body.moveDate?.trim() || null });
+	if (body.moveType !== undefined) fields.push({ column: "moveType", value: body.moveType.trim() });
+	if (body.fromPostcode !== undefined) fields.push({ column: "fromPostcode", value: body.fromPostcode.trim().toUpperCase() });
+	if (body.toPostcode !== undefined) fields.push({ column: "toPostcode", value: body.toPostcode.trim().toUpperCase() });
+	if (body.moveDate !== undefined) fields.push({ column: "moveDate", value: body.moveDate.trim() });
+	if (body.bedrooms !== undefined) fields.push({ column: "bedrooms", value: normalizeInteger(body.bedrooms, 1) });
 	if (body.extras !== undefined) fields.push({ column: "extras", value: JSON.stringify(body.extras) });
-	if (body.message !== undefined) fields.push({ column: "message", value: body.message?.trim() || null });
+	if (body.status !== undefined) fields.push({ column: "status", value: body.status });
+	if (body.price !== undefined) fields.push({ column: "price", value: normalizeNullableNumber(body.price) });
+	if (body.jobCost !== undefined) fields.push({ column: "jobCost", value: normalizeNullableNumber(body.jobCost) });
+	if (body.expenses !== undefined) fields.push({ column: "expenses", value: normalizeNullableNumber(body.expenses) });
+
+	if (body.jobCost !== undefined || body.expenses !== undefined) {
+		const jobCost = normalizeNullableNumber(body.jobCost);
+		const expenses = normalizeNullableNumber(body.expenses);
+		fields.push({ column: "profit", value: (jobCost ?? 0) - (expenses ?? 0) });
+	}
 
 	return fields;
 }
@@ -388,23 +500,31 @@ function getUpdateFields(body: UpdateBookingRequest): { column: string; value: s
 function toBooking(row: BookingRow): Booking {
 	return {
 		id: row.id,
-		status: row.status,
-		customerName: row.customer_name,
-		email: row.email,
-		phone: row.phone,
-		moveType: row.move_type,
-		fromPostcode: row.from_postcode,
-		toPostcode: row.to_postcode,
+		moveType: row.moveType,
+		fromPostcode: row.fromPostcode,
+		toPostcode: row.toPostcode,
+		moveDate: row.moveDate,
 		bedrooms: row.bedrooms,
-		moveDate: row.move_date,
 		extras: parseExtras(row.extras),
-		message: row.message,
-		createdAt: row.created_at,
-		updatedAt: row.updated_at,
+		status: row.status,
+		price: row.price,
+		jobCost: row.jobCost,
+		expenses: row.expenses,
+		profit: row.profit,
+		createdAt: row.createdAt,
+		updatedAt: row.updatedAt,
+		customer: {
+			id: row.customerId,
+			fullName: row.customerFullName,
+			phone: row.customerPhone,
+			email: row.customerEmail,
+		},
 	};
 }
 
-function parseExtras(value: string): string[] {
+function parseExtras(value: string | null): string[] {
+	if (!value) return [];
+
 	try {
 		const parsed = JSON.parse(value) as unknown;
 		return Array.isArray(parsed) ? parsed.filter((item): item is string => typeof item === "string") : [];
@@ -428,10 +548,8 @@ function validateText(
 	errors: Record<string, string>,
 	options: { required: boolean; min?: number; max: number },
 ): void {
-	if (value === undefined || value === null || value === "") {
-		if (options.required) {
-			errors[field] = `${field} is required`;
-		}
+	if (value === undefined || value === null) {
+		if (options.required) errors[field] = `${field} is required`;
 		return;
 	}
 
@@ -441,34 +559,39 @@ function validateText(
 	}
 
 	const trimmed = value.trim();
-	if (options.min && trimmed.length < options.min) {
-		errors[field] = `${field} must be at least ${options.min} characters`;
+	if (trimmed.length === 0) {
+		if (options.required || options.min) errors[field] = `${field} cannot be empty`;
+		return;
 	}
-	if (trimmed.length > options.max) {
-		errors[field] = `${field} must be ${options.max} characters or fewer`;
-	}
+	if (options.min && trimmed.length < options.min) errors[field] = `${field} must be at least ${options.min} characters`;
+	if (trimmed.length > options.max) errors[field] = `${field} must be ${options.max} characters or fewer`;
 }
 
 function validateEmail(value: unknown, errors: Record<string, string>, required: boolean): void {
 	validateText(value, "email", errors, { required, max: 254 });
 
-	if (typeof value === "string" && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value.trim())) {
+	if (typeof value === "string" && value.trim() && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value.trim())) {
 		errors.email = "email must be valid";
 	}
 }
 
 function validateBedrooms(value: unknown, errors: Record<string, string>): void {
-	if (value === undefined || value === null) {
+	if (value === undefined || value === null || value === "") return;
+
+	if (typeof value !== "number" && typeof value !== "string") {
+		errors.bedrooms = "bedrooms must be an integer between 0 and 10";
 		return;
 	}
 
-	if (!Number.isInteger(value) || value < 0 || value > 10) {
+	const normalized = normalizeInteger(value, Number.NaN);
+	if (!Number.isInteger(normalized) || normalized < 0 || normalized > 10) {
 		errors.bedrooms = "bedrooms must be an integer between 0 and 10";
 	}
 }
 
-function validateMoveDate(value: unknown, errors: Record<string, string>): void {
+function validateMoveDate(value: unknown, errors: Record<string, string>, required: boolean): void {
 	if (value === undefined || value === null || value === "") {
+		if (required) errors.moveDate = "moveDate is required";
 		return;
 	}
 
@@ -478,13 +601,30 @@ function validateMoveDate(value: unknown, errors: Record<string, string>): void 
 }
 
 function validateExtras(value: unknown, errors: Record<string, string>): void {
-	if (value === undefined) {
-		return;
-	}
+	if (value === undefined) return;
 
 	if (!Array.isArray(value) || value.some((item) => typeof item !== "string" || item.length > 100) || value.length > 20) {
 		errors.extras = "extras must be an array of up to 20 strings";
 	}
+}
+
+function validateMoney(value: unknown, field: string, errors: Record<string, string>): void {
+	if (value === undefined || value === null || value === "") return;
+
+	const normalized = typeof value === "number" ? value : Number(value);
+	if (!Number.isFinite(normalized) || normalized < 0) {
+		errors[field] = `${field} must be a positive number`;
+	}
+}
+
+function normalizeInteger(value: number | string | null | undefined, fallback: number): number {
+	if (value === null || value === undefined || value === "") return fallback;
+	return Math.trunc(Number(value));
+}
+
+function normalizeNullableNumber(value: number | string | null | undefined): number | null {
+	if (value === null || value === undefined || value === "") return null;
+	return Number(value);
 }
 
 function isBookingStatus(value: unknown): value is BookingStatus {
@@ -492,10 +632,7 @@ function isBookingStatus(value: unknown): value is BookingStatus {
 }
 
 function clampNumber(value: number, min: number, max: number): number {
-	if (!Number.isFinite(value)) {
-		return min;
-	}
-
+	if (!Number.isFinite(value)) return min;
 	return Math.min(Math.max(Math.floor(value), min), max);
 }
 
