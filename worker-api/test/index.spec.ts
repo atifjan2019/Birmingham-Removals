@@ -22,7 +22,7 @@ describe("Birmingham Removals API", () => {
 		expect(await response.json()).toEqual({
 			data: {
 				name: "Birmingham Removals API",
-				resources: ["/bookings"],
+				resources: ["/bookings", "/customers", "/activity"],
 			},
 		});
 	});

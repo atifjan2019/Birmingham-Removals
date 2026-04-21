@@ -1,8 +1,9 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import { Search, Filter, MoreVertical, CheckCircle2, Clock, CalendarDays, Trash2, ChevronRight } from "lucide-react";
-import { updateBookingStatus, deleteBooking, updateBookingFinancials } from "@/app/actions/booking";
+import { updateBookingDetails, updateBookingStatus, deleteBooking, updateBookingFinancials } from "@/app/actions/booking";
 import { PoundSterling } from "lucide-react";
 
 function ActionButton({ bookingId, currentStatus }) {
@@ -88,12 +89,26 @@ function ActionButton({ bookingId, currentStatus }) {
   );
 }
 
-function BookingDetailsModal({ booking, onClose }) {
+function BookingDetailsModal({ booking, onClose, onChanged }) {
   const [status, setStatus] = useState(booking?.status || "New");
   const [updating, setUpdating] = useState(false);
   const [deleting, setDeleting] = useState(false);
   const [jobCost, setJobCost] = useState(booking?.jobCost || "");
   const [expenses, setExpenses] = useState(booking?.expenses || "");
+  const [savingDetails, setSavingDetails] = useState(false);
+  const [detailsError, setDetailsError] = useState("");
+  const [detailsSaved, setDetailsSaved] = useState(false);
+  const [details, setDetails] = useState({
+    fullName: booking?.customer?.fullName || "",
+    email: booking?.customer?.email || "",
+    phone: booking?.customer?.phone || "",
+    moveType: booking?.moveType || "house",
+    fromPostcode: booking?.fromPostcode || "",
+    toPostcode: booking?.toPostcode || "",
+    moveDate: booking?.moveDate ? String(booking.moveDate).slice(0, 10) : "",
+    bedrooms: booking?.bedrooms ?? 1,
+    price: booking?.price ?? "",
+  });
   const [savingFinancials, setSavingFinancials] = useState(false);
   const [financialsSaved, setFinancialsSaved] = useState(false);
   const saveTimeout = useRef(null);
@@ -114,6 +129,7 @@ function BookingDetailsModal({ booking, onClose }) {
       await updateBookingFinancials(booking?.id, jobCost, expenses);
       setSavingFinancials(false);
       setFinancialsSaved(true);
+      onChanged();
       setTimeout(() => setFinancialsSaved(false), 2000);
     }, 1000);
 
@@ -127,6 +143,33 @@ function BookingDetailsModal({ booking, onClose }) {
     setStatus(newStatus);
     await updateBookingStatus(booking.id, newStatus);
     setUpdating(false);
+    onChanged();
+  };
+
+  const handleDetailChange = (field, value) => {
+    setDetails((current) => ({ ...current, [field]: value }));
+    setDetailsSaved(false);
+    setDetailsError("");
+  };
+
+  const handleDetailsSave = async () => {
+    setSavingDetails(true);
+    setDetailsError("");
+    const result = await updateBookingDetails(booking.id, {
+      ...details,
+      bedrooms: parseInt(details.bedrooms) || 0,
+      price: details.price === "" ? null : parseFloat(details.price),
+    });
+    setSavingDetails(false);
+
+    if (!result.success) {
+      setDetailsError(result.error || "Failed to save details.");
+      return;
+    }
+
+    setDetailsSaved(true);
+    onChanged();
+    setTimeout(() => setDetailsSaved(false), 2000);
   };
 
   const handleDelete = async () => {
@@ -134,6 +177,7 @@ function BookingDetailsModal({ booking, onClose }) {
       setDeleting(true);
       await deleteBooking(booking.id);
       setDeleting(false);
+      onChanged();
       onClose();
     }
   };
@@ -159,6 +203,70 @@ function BookingDetailsModal({ booking, onClose }) {
         </div>
 
         <div className="p-6 overflow-y-auto space-y-8">
+          <div>
+            <h3 className="text-lg font-bold text-gray-900 mb-4 border-b border-gray-100 pb-2">Edit Booking</h3>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-xs text-gray-500 font-semibold uppercase tracking-wider mb-1.5">Full Name</label>
+                <input value={details.fullName} onChange={(e) => handleDetailChange("fullName", e.target.value)} className="w-full px-3 py-2.5 border-2 border-gray-200 rounded-xl focus:border-primary focus:ring-1 focus:ring-primary/20 outline-none text-sm text-gray-900" />
+              </div>
+              <div>
+                <label className="block text-xs text-gray-500 font-semibold uppercase tracking-wider mb-1.5">Email</label>
+                <input type="email" value={details.email} onChange={(e) => handleDetailChange("email", e.target.value)} className="w-full px-3 py-2.5 border-2 border-gray-200 rounded-xl focus:border-primary focus:ring-1 focus:ring-primary/20 outline-none text-sm text-gray-900" />
+              </div>
+              <div>
+                <label className="block text-xs text-gray-500 font-semibold uppercase tracking-wider mb-1.5">Phone</label>
+                <input value={details.phone} onChange={(e) => handleDetailChange("phone", e.target.value)} className="w-full px-3 py-2.5 border-2 border-gray-200 rounded-xl focus:border-primary focus:ring-1 focus:ring-primary/20 outline-none text-sm text-gray-900" />
+              </div>
+              <div>
+                <label className="block text-xs text-gray-500 font-semibold uppercase tracking-wider mb-1.5">Move Type</label>
+                <select value={details.moveType} onChange={(e) => handleDetailChange("moveType", e.target.value)} className="w-full px-3 py-2.5 border-2 border-gray-200 rounded-xl focus:border-primary outline-none bg-white text-sm text-gray-900">
+                  <option value="house">House Removal</option>
+                  <option value="office">Office Relocation</option>
+                  <option value="studio">Studio / Flat</option>
+                  <option value="single">Single Item</option>
+                  <option value="man-and-van">Man & Van</option>
+                  <option value="packing">Packing Service</option>
+                </select>
+              </div>
+              <div>
+                <label className="block text-xs text-gray-500 font-semibold uppercase tracking-wider mb-1.5">From Postcode</label>
+                <input value={details.fromPostcode} onChange={(e) => handleDetailChange("fromPostcode", e.target.value)} className="w-full px-3 py-2.5 border-2 border-gray-200 rounded-xl focus:border-primary focus:ring-1 focus:ring-primary/20 outline-none text-sm text-gray-900 uppercase" />
+              </div>
+              <div>
+                <label className="block text-xs text-gray-500 font-semibold uppercase tracking-wider mb-1.5">To Postcode</label>
+                <input value={details.toPostcode} onChange={(e) => handleDetailChange("toPostcode", e.target.value)} className="w-full px-3 py-2.5 border-2 border-gray-200 rounded-xl focus:border-primary focus:ring-1 focus:ring-primary/20 outline-none text-sm text-gray-900 uppercase" />
+              </div>
+              <div>
+                <label className="block text-xs text-gray-500 font-semibold uppercase tracking-wider mb-1.5">Move Date</label>
+                <input type="date" value={details.moveDate} onChange={(e) => handleDetailChange("moveDate", e.target.value)} className="w-full px-3 py-2.5 border-2 border-gray-200 rounded-xl focus:border-primary focus:ring-1 focus:ring-primary/20 outline-none text-sm text-gray-900" />
+              </div>
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <label className="block text-xs text-gray-500 font-semibold uppercase tracking-wider mb-1.5">Bedrooms</label>
+                  <input type="number" min="0" max="10" value={details.bedrooms} onChange={(e) => handleDetailChange("bedrooms", e.target.value)} className="w-full px-3 py-2.5 border-2 border-gray-200 rounded-xl focus:border-primary focus:ring-1 focus:ring-primary/20 outline-none text-sm text-gray-900" />
+                </div>
+                <div>
+                  <label className="block text-xs text-gray-500 font-semibold uppercase tracking-wider mb-1.5">Quote</label>
+                  <input type="number" step="0.01" min="0" value={details.price} onChange={(e) => handleDetailChange("price", e.target.value)} className="w-full px-3 py-2.5 border-2 border-gray-200 rounded-xl focus:border-primary focus:ring-1 focus:ring-primary/20 outline-none text-sm text-gray-900" />
+                </div>
+              </div>
+            </div>
+            <div className="mt-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+              <div className="text-sm min-h-5">
+                {detailsError && <span className="text-red-600 font-medium">{detailsError}</span>}
+                {detailsSaved && <span className="text-emerald-600 font-medium">Details saved</span>}
+              </div>
+              <button
+                onClick={handleDetailsSave}
+                disabled={savingDetails}
+                className="px-5 py-2.5 bg-primary text-white rounded-xl shadow-lg shadow-primary/20 hover:bg-primary/90 transition-colors font-semibold text-sm disabled:opacity-60"
+              >
+                {savingDetails ? "Saving..." : "Save Changes"}
+              </button>
+            </div>
+          </div>
+
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
             <div className="bg-gray-50 rounded-xl p-4 border border-gray-100">
               <div className="text-xs text-muted font-semibold uppercase tracking-wider mb-2">Customer</div>
@@ -311,10 +419,12 @@ function BookingDetailsModal({ booking, onClose }) {
 import ManualBookingModal from "./ManualBookingModal";
 
 export default function BookingsClient({ initialBookings }) {
+  const router = useRouter();
   const [searchTerm, setSearchTerm] = useState("");
   const [statusFilter, setStatusFilter] = useState("All");
   const [selectedBooking, setSelectedBooking] = useState(null);
   const [isAddingManual, setIsAddingManual] = useState(false);
+  const refreshData = () => router.refresh();
 
   const filteredBookings = initialBookings.filter((booking) => {
     // Map data for easy search
@@ -483,8 +593,8 @@ export default function BookingsClient({ initialBookings }) {
         </div>
       </div>
 
-      <BookingDetailsModal key={selectedBooking?.id} booking={selectedBooking} onClose={() => setSelectedBooking(null)} />
-      {isAddingManual && <ManualBookingModal onClose={() => setIsAddingManual(false)} />}
+      <BookingDetailsModal key={selectedBooking?.id} booking={selectedBooking} onClose={() => setSelectedBooking(null)} onChanged={refreshData} />
+      {isAddingManual && <ManualBookingModal onClose={() => { setIsAddingManual(false); refreshData(); }} />}
     </div>
   );
 }
