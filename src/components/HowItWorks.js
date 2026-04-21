@@ -1,97 +1,73 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { ClipboardList, Calculator, Truck } from "lucide-react";
+import { ClipboardList, Calculator, Calendar, Truck } from "lucide-react";
 
 const steps = [
   {
     icon: ClipboardList,
     step: "01",
-    title: "Fill the Form",
-    description:
-      "Tell us where you're moving from, where you're going, and what you need. Takes less than 2 minutes.",
+    title: "Tell us the details",
+    desc: "Share postcodes, date and what's moving. Takes 2 minutes online or 1 call away.",
   },
   {
     icon: Calculator,
     step: "02",
-    title: "Get Your Quote",
-    description:
-      "We'll review your details and call you back within 30 minutes with a clear, no-obligation quote.",
+    title: "Get a fixed quote",
+    desc: "Transparent, all-in price within 30 minutes. No hidden fees, no guesswork.",
+  },
+  {
+    icon: Calendar,
+    step: "03",
+    title: "Book your date",
+    desc: "Pick the slot that suits you — weekdays, weekends or evenings. Same-day slots often available.",
   },
   {
     icon: Truck,
-    step: "03",
-    title: "We Handle Everything",
-    description:
-      "Sit back. Our team arrives on time, handles every box, and gets you settled in your new place stress-free.",
+    step: "04",
+    title: "Moving day, sorted",
+    desc: "Our uniformed, DBS-checked crew arrives on time and gets you safely into your new Birmingham address.",
   },
 ];
 
 export default function HowItWorks() {
   return (
-    <section id="how-it-works" className="py-24 sm:py-32 bg-white">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-16"
-        >
-          <span className="text-primary text-sm font-semibold uppercase tracking-wider mb-3 block">
+    <section id="how-it-works" className="py-24 sm:py-28 bg-[#0A2540] text-white relative overflow-hidden">
+      <div className="absolute inset-0 grid-pattern opacity-[0.04]" />
+      <div className="absolute -top-40 right-0 w-[40rem] h-[40rem] bg-[#FF6B35]/10 blur-3xl rounded-full" />
+
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="text-center mb-14 max-w-3xl mx-auto">
+          <span className="inline-block px-3 py-1 rounded-full bg-white/10 text-[#FF6B35] text-xs font-bold uppercase tracking-wider mb-4 border border-white/10">
             How It Works
           </span>
-          <h2 className="font-[family-name:var(--font-space)] text-3xl sm:text-4xl md:text-5xl font-bold mb-4 text-gray-900">
-            Three Steps to a Stress-Free Move
+          <h2 className="font-[family-name:var(--font-space)] text-3xl sm:text-4xl lg:text-5xl font-extrabold leading-tight">
+            Book your Birmingham move
+            <br />
+            in <span className="text-[#FF6B35]">four simple steps</span>
           </h2>
-          <p className="text-muted max-w-2xl mx-auto text-lg">
-            No complicated process. No back and forth. Just a simple,
-            straightforward way to get moving.
-          </p>
-        </motion.div>
+        </div>
 
-        {/* Timeline */}
-        <div className="relative">
-          {/* Desktop connector line */}
-          <div className="hidden md:block absolute top-1/2 left-[15%] right-[15%] h-0.5 -translate-y-1/2">
-            <div className="w-full h-full border-t-2 border-dashed border-primary/20" />
-          </div>
-
-          {/* Mobile connector line */}
-          <div className="md:hidden absolute left-8 top-[60px] bottom-[60px] w-0.5">
-            <div className="w-full h-full border-l-2 border-dashed border-primary/20" />
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12 relative">
-            {steps.map((step, i) => (
-              <motion.div
-                key={i}
-                initial={{ opacity: 0, y: 40 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: i * 0.2 }}
-                className="relative flex md:flex-col items-start md:items-center md:text-center gap-6 md:gap-0"
-              >
-                {/* Step number circle */}
-                <div className="relative z-10 w-16 h-16 rounded-full bg-primary/10 border-2 border-primary/20 flex items-center justify-center shrink-0 md:mb-6">
-                  <step.icon className="w-7 h-7 text-primary" />
-                </div>
-
-                <div>
-                  <span className="text-primary/50 text-xs font-bold uppercase tracking-widest mb-1 block">
-                    Step {step.step}
-                  </span>
-                  <h3 className="font-[family-name:var(--font-space)] text-xl font-bold mb-2 text-gray-900">
-                    {step.title}
-                  </h3>
-                  <p className="text-muted text-sm leading-relaxed max-w-xs">
-                    {step.description}
-                  </p>
-                </div>
-              </motion.div>
-            ))}
-          </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
+          {steps.map((s, i) => (
+            <motion.div
+              key={s.step}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.4, delay: i * 0.08 }}
+              className="relative bg-white/5 backdrop-blur border border-white/10 rounded-2xl p-7 hover:bg-white/10 hover:border-[#FF6B35]/40 transition-all"
+            >
+              <div className="absolute -top-4 left-7 px-3 py-1 rounded-full bg-[#FF6B35] text-white text-xs font-bold tracking-wider">
+                STEP {s.step}
+              </div>
+              <div className="w-12 h-12 rounded-xl bg-[#FF6B35]/15 flex items-center justify-center mt-3 mb-5">
+                <s.icon className="w-6 h-6 text-[#FF6B35]" />
+              </div>
+              <h3 className="font-[family-name:var(--font-space)] text-lg font-bold mb-2">{s.title}</h3>
+              <p className="text-white/70 text-sm leading-relaxed">{s.desc}</p>
+            </motion.div>
+          ))}
         </div>
       </div>
     </section>

@@ -8,6 +8,8 @@ import Services from "@/components/Services";
 import WhyUs from "@/components/WhyUs";
 import HowItWorks from "@/components/HowItWorks";
 import Testimonials from "@/components/Testimonials";
+import FAQ from "@/components/FAQ";
+import CTAStrip from "@/components/CTAStrip";
 import Footer from "@/components/Footer";
 import HeroPopup from "@/components/HeroPopup";
 
@@ -23,7 +25,9 @@ export default function Home() {
       <WhyUs />
       <HowItWorks />
       <Testimonials />
-      <Footer onOpenQuote={() => setPopupOpen(true)} />
+      <FAQ />
+      <CTAStrip onOpenQuote={() => setPopupOpen(true)} />
+      <Footer />
       <HeroPopup open={popupOpen} onClose={() => setPopupOpen(false)} />
     </>
   );

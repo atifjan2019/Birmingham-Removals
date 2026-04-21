@@ -1,128 +1,214 @@
 "use client";
 
-
 import { motion } from "framer-motion";
-import Image from "next/image";
-import { ArrowRight, Truck, Star, Zap, Clock, ShieldCheck } from "lucide-react";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import {
+  ArrowRight,
+  MapPin,
+  Shield,
+  Star,
+  CheckCircle2,
+  Clock,
+  Truck,
+} from "lucide-react";
 
+const trustPoints = [
+  "Fully insured moves",
+  "DBS-checked crews",
+  "Free quote in 30 minutes",
+  "5-star Google reviews",
+];
 
-const headline = "Newcastle's Most Trusted Removals Company";
-const words = headline.split(" ");
-
-const stats = [
-  { icon: Truck, value: "500+", label: "Moves Completed" },
-  { icon: Star, value: "5-Star", label: "Google Rating" },
-  { icon: Zap, value: "Same Day", label: "Available" },
+const floatingStats = [
+  { icon: Star, value: "4.9", label: "Google Rating", sub: "312+ reviews" },
+  { icon: Truck, value: "5,200+", label: "Moves Delivered", sub: "since 2015" },
+  { icon: Clock, value: "Same-day", label: "Availability", sub: "West Midlands" },
 ];
 
 export default function Hero({ onOpenQuote }) {
+  const router = useRouter();
+  const [from, setFrom] = useState("");
+  const [to, setTo] = useState("");
+
+  const onSubmit = (e) => {
+    e.preventDefault();
+    const params = new URLSearchParams();
+    if (from) params.set("from", from);
+    if (to) params.set("to", to);
+    router.push(`/quote?${params.toString()}`);
+  };
 
   return (
-      <section className="relative min-h-screen flex items-center overflow-hidden bg-gradient-to-br from-gray-50 via-white to-red-50/30">
-        {/* Background image with overlay */}
-        <div className="absolute inset-0 z-0">
-          <Image
-            src="/images/hero-removals.png"
-            alt="Newcastle Removals team loading a van in Newcastle"
-            fill
-            className="object-cover"
-            priority
-          />
-          <div className="absolute inset-0 bg-gradient-to-r from-white via-white/95 to-white/70" />
-        </div>
+    <section className="relative overflow-hidden bg-gradient-to-br from-[#0A2540] via-[#0E2E50] to-[#0A2540] text-white">
+      {/* Decorative background */}
+      <div className="hero-glow" />
+      <div className="absolute inset-0 grid-pattern opacity-[0.06]" />
+      <div className="absolute -top-20 -left-20 w-96 h-96 bg-[#FF6B35]/10 blur-3xl rounded-full" />
 
-        <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-32">
-          <div className="max-w-2xl">
-            {/* Badge */}
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-14 pb-24 lg:pt-20 lg:pb-32">
+        <div className="grid lg:grid-cols-12 gap-10 items-center">
+          {/* LEFT copy */}
+          <div className="lg:col-span-7">
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 text-primary text-sm font-medium mb-3"
+              transition={{ duration: 0.5 }}
+              className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 border border-white/15 text-xs font-medium backdrop-blur"
             >
-              <Clock className="w-4 h-4" />
-              Free quotes in under 30 minutes
+              <span className="relative flex h-2 w-2">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#FF6B35] opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-[#FF6B35]"></span>
+              </span>
+              Taking bookings for this weekend
             </motion.div>
 
-            {/* Headline - word by word reveal */}
-            <h1 className="font-[family-name:var(--font-space)] text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold leading-tight mb-3 text-gray-900">
-              {words.map((word, i) => (
-                <motion.span
-                  key={i}
-                  initial={{ opacity: 0, y: 30 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: 0.1 + i * 0.08 }}
-                  className="inline-block mr-[0.3em]"
-                >
-                  {word === "Trusted" || word === "Removals" ? (
-                    <span className="text-primary">{word}</span>
-                  ) : (
-                    word
-                  )}
-                </motion.span>
-              ))}
-            </h1>
-
-            {/* Subheading */}
-            <motion.p
+            <motion.h1
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.8 }}
-              className="text-lg sm:text-xl text-muted max-w-xl mb-5"
+              transition={{ duration: 0.6, delay: 0.1 }}
+              className="font-[family-name:var(--font-space)] text-4xl sm:text-5xl lg:text-[4.25rem] font-extrabold leading-[1.05] tracking-tight mt-5"
             >
-              Professional house and office removals serving Jesmond, Gosforth,
-              Heaton, Gateshead and all across Tyneside. Fully insured,
-              competitively priced, zero stress.
+              Birmingham&apos;s
+              <br />
+              <span className="text-[#FF6B35]">stress-free</span> removals company
+            </motion.h1>
+
+            <motion.p
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.25 }}
+              className="mt-5 text-lg text-white/75 max-w-xl"
+            >
+              House moves, office relocations, man &amp; van and packing across Birmingham,
+              Solihull, Sutton Coldfield and the wider West Midlands. Fixed prices, fully
+              insured, zero surprises.
             </motion.p>
 
-            {/* CTAs */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
+            {/* Quick-quote postcode widget */}
+            <motion.form
+              initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 1 }}
-              className="flex flex-row items-start gap-2 sm:gap-4"
+              transition={{ duration: 0.6, delay: 0.4 }}
+              onSubmit={onSubmit}
+              className="mt-8 bg-white rounded-2xl p-3 shadow-2xl shadow-black/30 grid grid-cols-1 md:grid-cols-[1fr_1fr_auto] gap-2"
             >
+              <label className="flex items-center gap-3 px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 focus-within:border-[#FF6B35] transition-colors">
+                <MapPin className="w-5 h-5 text-[#FF6B35] shrink-0" />
+                <div className="flex-1 min-w-0">
+                  <span className="block text-[11px] uppercase tracking-wider text-slate-500 font-semibold">From</span>
+                  <input
+                    type="text"
+                    placeholder="e.g. B15 3AA"
+                    value={from}
+                    onChange={(e) => setFrom(e.target.value.toUpperCase())}
+                    className="w-full bg-transparent text-[#0A2540] font-semibold text-base focus:outline-none placeholder:text-slate-400"
+                  />
+                </div>
+              </label>
+              <label className="flex items-center gap-3 px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 focus-within:border-[#FF6B35] transition-colors">
+                <MapPin className="w-5 h-5 text-[#FF6B35] shrink-0" />
+                <div className="flex-1 min-w-0">
+                  <span className="block text-[11px] uppercase tracking-wider text-slate-500 font-semibold">To</span>
+                  <input
+                    type="text"
+                    placeholder="e.g. B91 1AA"
+                    value={to}
+                    onChange={(e) => setTo(e.target.value.toUpperCase())}
+                    className="w-full bg-transparent text-[#0A2540] font-semibold text-base focus:outline-none placeholder:text-slate-400"
+                  />
+                </div>
+              </label>
               <button
-                onClick={onOpenQuote}
-                className="inline-flex items-center gap-1.5 sm:gap-2 px-6 py-3.5 sm:px-8 sm:py-4 bg-primary text-white font-semibold rounded-full hover:bg-primary/90 hover:scale-105 transition-all shadow-lg shadow-primary/25 text-base sm:text-lg cursor-pointer"
+                type="submit"
+                className="btn-accent inline-flex items-center justify-center gap-2 px-6 py-4 font-semibold rounded-xl"
               >
-                Get Free Quote
-                <ArrowRight className="w-4 h-4 sm:w-5 sm:h-5" />
+                Get Quote
+                <ArrowRight className="w-5 h-5" />
               </button>
-              <a
-                href="#services"
-                className="inline-flex items-center gap-1.5 sm:gap-2 px-6 py-3.5 sm:px-8 sm:py-4 border border-gray-200 text-gray-900 font-semibold rounded-full hover:bg-gray-50 hover:scale-105 transition-all text-base sm:text-lg bg-white/80 backdrop-blur-sm"
-              >
-                View Services
-              </a>
-            </motion.div>
+            </motion.form>
 
-            {/* Floating stat badges */}
             <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 1.3 }}
-              className="grid grid-cols-2 sm:grid-cols-3 gap-2 sm:gap-4 mt-6"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.6, delay: 0.55 }}
+              className="mt-6 flex flex-wrap gap-x-6 gap-y-2"
             >
-              {stats.map((stat, i) => (
-                <div
-                  key={i}
-                  className={`bg-white/80 backdrop-blur-sm border border-gray-200/60 rounded-xl sm:rounded-2xl px-3 py-2.5 sm:px-5 sm:py-3 flex items-center gap-2 sm:gap-3 shadow-sm ${i === stats.length - 1 ? "col-span-2 sm:col-span-1" : ""}`}
-                >
-                  <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
-                    <stat.icon className="w-4 h-4 sm:w-5 sm:h-5 text-primary" />
-                  </div>
-                  <div className="text-left min-w-0">
-                    <div className="font-[family-name:var(--font-space)] font-bold text-gray-900 text-sm sm:text-base">
-                      {stat.value}
-                    </div>
-                    <div className="text-[11px] sm:text-xs text-muted leading-tight">{stat.label}</div>
-                  </div>
+              {trustPoints.map((t) => (
+                <div key={t} className="flex items-center gap-2 text-sm text-white/85">
+                  <CheckCircle2 className="w-4 h-4 text-[#FF6B35]" />
+                  {t}
                 </div>
               ))}
             </motion.div>
           </div>
+
+          {/* RIGHT stats cards */}
+          <div className="lg:col-span-5 relative hidden lg:block">
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.7, delay: 0.3 }}
+              className="relative"
+            >
+              <div className="relative aspect-[4/5] rounded-3xl overflow-hidden border border-white/10 shadow-2xl">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=1400&auto=format&fit=crop"
+                  alt="Birmingham Removals team at work"
+                  className="w-full h-full object-cover"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#0A2540]/70 via-transparent to-transparent" />
+
+                {/* Floating card: 4.9 rating */}
+                <div className="absolute top-6 left-6 bg-white/95 backdrop-blur rounded-2xl p-4 shadow-xl animate-float">
+                  <div className="flex items-center gap-1 text-[#FF6B35] mb-1">
+                    {[...Array(5)].map((_, i) => (
+                      <Star key={i} className="w-4 h-4 fill-current" />
+                    ))}
+                  </div>
+                  <div className="text-[#0A2540] font-bold text-xl">4.9 out of 5</div>
+                  <div className="text-slate-500 text-xs">from 312 Google reviews</div>
+                </div>
+
+                {/* Floating card: insured */}
+                <div className="absolute bottom-6 right-6 bg-[#0A2540] text-white rounded-2xl p-4 shadow-xl flex items-center gap-3">
+                  <Shield className="w-8 h-8 text-[#FF6B35]" />
+                  <div>
+                    <div className="font-bold text-base">£10m insured</div>
+                    <div className="text-white/60 text-xs">Goods in transit</div>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+          </div>
         </div>
+
+        {/* Inline stat strip */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.7 }}
+          className="mt-14 grid grid-cols-3 gap-3 sm:gap-6 max-w-3xl"
+        >
+          {floatingStats.map((s) => (
+            <div
+              key={s.label}
+              className="bg-white/5 backdrop-blur border border-white/10 rounded-2xl px-4 py-4 flex items-center gap-3"
+            >
+              <div className="w-10 h-10 rounded-xl bg-[#FF6B35]/15 flex items-center justify-center shrink-0">
+                <s.icon className="w-5 h-5 text-[#FF6B35]" />
+              </div>
+              <div className="min-w-0">
+                <div className="font-[family-name:var(--font-space)] font-bold text-lg leading-none">{s.value}</div>
+                <div className="text-xs text-white/70 mt-1 leading-tight">{s.label}</div>
+                <div className="text-[10px] text-white/50 leading-tight">{s.sub}</div>
+              </div>
+            </div>
+          ))}
+        </motion.div>
+      </div>
     </section>
   );
 }

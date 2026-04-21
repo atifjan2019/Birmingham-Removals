@@ -1,26 +1,32 @@
 "use client";
 
-const items = [
-  "500+ Moves Completed",
-  "5-Star Google Rating",
-  "Same Day Available",
-  "Fully Insured",
-  "Free Quotes",
-  "Newcastle Based",
+import { Shield, Award, Users, ThumbsUp, Clock, BadgeCheck } from "lucide-react";
+
+const badges = [
+  { icon: Shield, label: "£10m Goods-in-Transit Insurance" },
+  { icon: BadgeCheck, label: "DBS-Checked Crews" },
+  { icon: Award, label: "BAR Registered" },
+  { icon: Users, label: "5,200+ Happy Customers" },
+  { icon: ThumbsUp, label: "4.9★ Google Rating" },
+  { icon: Clock, label: "Same-Day Available" },
 ];
 
 export default function TrustBar() {
-  const repeated = [...items, ...items, ...items, ...items];
-
   return (
-    <section className="relative py-5 border-y border-gray-100 bg-gray-50/50 overflow-hidden">
-      <div className="animate-marquee flex items-center whitespace-nowrap">
-        {repeated.map((item, i) => (
-          <span key={i} className="flex items-center text-sm text-muted mx-4">
-            <span className="font-semibold text-gray-900">{item}</span>
-            <span className="ml-8 text-primary/30">●</span>
-          </span>
-        ))}
+    <section className="bg-white border-b border-slate-100">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 lg:gap-6">
+          {badges.map((b) => (
+            <div key={b.label} className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-lg bg-[#FF6B35]/10 flex items-center justify-center shrink-0">
+                <b.icon className="w-5 h-5 text-[#FF6B35]" />
+              </div>
+              <span className="text-xs lg:text-sm font-semibold text-slate-700 leading-tight">
+                {b.label}
+              </span>
+            </div>
+          ))}
+        </div>
       </div>
     </section>
   );

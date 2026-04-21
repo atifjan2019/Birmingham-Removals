@@ -8,16 +8,16 @@ export async function generateMetadata({ params }) {
   const data = areasData[area];
 
   if (!data) {
-    return {
-      title: "Area Not Found | Newcastle Removals",
-    };
+    return { title: "Area Not Found | Birmingham Removals" };
   }
 
+  const title = `Removals in ${data.name} | Birmingham Removals`;
   return {
-    title: `Removals in ${data.name} | Newcastle Removals`,
+    title,
     description: data.description,
+    alternates: { canonical: `https://www.birminghamremovals.uk/areas/${area}` },
     openGraph: {
-      title: `Expert Removals in ${data.name}`,
+      title: `Expert Removals in ${data.name} — Birmingham Removals`,
       description: data.description,
       type: "website",
     },
@@ -25,19 +25,13 @@ export async function generateMetadata({ params }) {
 }
 
 export function generateStaticParams() {
-  return Object.keys(areasData).map((area) => ({
-    area,
-  }));
+  return Object.keys(areasData).map((area) => ({ area }));
 }
 
 export default async function AreaPage({ params }) {
   const resolvedParams = await params;
   const area = resolvedParams.area;
   const data = areasData[area];
-
-  if (!data) {
-    notFound();
-  }
-
-  return <AreaClient areaData={data} />;
+  if (!data) notFound();
+  return <AreaClient areaData={data} areaSlug={area} />;
 }

@@ -13,44 +13,44 @@ const servicesData = [
     icon: Home,
     title: "House Removals",
     shortDesc:
-      "Full house moves across Newcastle, from studio flats in Heaton to family homes in Gosforth. We handle everything with care.",
-    heroHeading: "House Removals in Newcastle",
+      "Full house moves across Birmingham — from city-centre flats in the Jewellery Quarter to family homes in Sutton Coldfield. Zero stress, fully insured.",
+    heroHeading: "House Removals in Birmingham",
     heroSubtext:
-      "Moving home is one of life's biggest milestones. Let our experienced team take the stress out of your move so you can focus on settling into your new place.",
+      "Moving home is a milestone, not a headache. Our Birmingham crews handle the packing, lifting, transport and reassembly so you can focus on settling in.",
     sections: [
       {
         heading: "Why Choose Us for Your House Move?",
         paragraphs: [
-          "At Newcastle Removals, we have helped hundreds of families relocate across Newcastle and the wider North East. Whether you are moving from a terraced house in Jesmond or a detached home in Gosforth, our trained team ensures every piece of furniture, box, and personal belonging arrives safely at your new address.",
-          "We provide a complete door-to-door service. Our crew arrives on time, wraps and protects your furniture, loads everything securely, and carefully unloads at your new home. No item is too large or too awkward for our experienced movers.",
-          "Every house move includes full transit insurance, giving you total peace of mind. We also offer flexible scheduling, including weekends and evenings, so your move fits around your life."
+          "Birmingham Removals has helped thousands of families relocate across the West Midlands. Whether you're moving from a Victorian terrace in Moseley or a detached home in Edgbaston, our trained crew treats every box and piece of furniture like it's our own.",
+          "We run a complete door-to-door service. The team arrives on time, protective-wraps everything, loads securely and carefully unloads at your new address — no item too large or awkward.",
+          "Every house move includes comprehensive transit insurance, flexible scheduling including weekends and evenings, and a fixed, no-surprises price agreed up front.",
         ],
       },
       {
         heading: "What's Included in Every House Move",
         list: [
-          "Free no-obligation quote",
-          "Fully trained, DBS-checked removal team",
+          "Free no-obligation quote within 30 minutes",
+          "DBS-checked, trained removal team",
           "Protective wrapping for all furniture",
           "Transit insurance included as standard",
-          "Flexible weekend and evening availability",
-          "Disassembly and reassembly of beds, wardrobes, and desks",
-          "Local knowledge of Newcastle streets for faster routes",
+          "Weekend and evening availability",
+          "Disassembly and reassembly of beds, wardrobes, desks",
+          "Birmingham-wide local knowledge for faster routes",
         ],
       },
       {
         heading: "Areas We Cover",
         paragraphs: [
-          "We cover all of Newcastle upon Tyne and the surrounding areas including Jesmond, Gosforth, Heaton, Fenham, Kenton, Byker, Wallsend, Gateshead, Whitley Bay, Tynemouth, Ponteland, and more. Whether you are moving across the street or to the other side of the region, we can help."
+          "We cover the whole of Birmingham and the West Midlands — Edgbaston, Harborne, Moseley, Kings Heath, Selly Oak, Sutton Coldfield, Solihull, Erdington, Kings Norton, Handsworth, Bearwood, Great Barr, city-centre, Dudley, West Bromwich, Wolverhampton and Coventry. Moving across the street or across the country, we've got you.",
         ],
       },
     ],
     faqs: [
-      { q: "How far in advance should I book?", a: "We recommend booking at least 1 to 2 weeks ahead, especially during busy periods like end of month. However, we also accommodate last-minute moves when possible." },
-      { q: "Do you disassemble furniture?", a: "Yes. Our team will disassemble and reassemble beds, wardrobes, desks, and other furniture as part of our standard service at no extra charge." },
-      { q: "Is my move insured?", a: "Absolutely. Every house move includes comprehensive transit insurance covering all your belongings during the move." },
-      { q: "Can you move items upstairs?", a: "Yes. Our movers handle stairs, narrow hallways, and awkward access points on a daily basis. There are no hidden staircase surcharges." },
-      { q: "What size van do you use?", a: "We use a range of Luton vans and large removal trucks depending on the size of your move. For bigger homes, we can deploy multiple vehicles." },
+      { q: "How far in advance should I book?", a: "We recommend 1–2 weeks ahead, especially around end-of-month and end-of-tenancy weekends. Last-minute and same-day moves are often possible — just call." },
+      { q: "Do you disassemble furniture?", a: "Yes — beds, wardrobes, desks and tables are taken apart and reassembled at no extra charge." },
+      { q: "Is my move insured?", a: "Every move includes comprehensive Goods in Transit insurance. Additional cover is available for high-value items." },
+      { q: "Can you handle tight access and stairs?", a: "Yes. Our crews handle narrow stairs, high-rise lifts and awkward doorways daily — no hidden surcharges." },
+      { q: "What size van do you use?", a: "We operate Luton vans and 7.5t trucks. Larger homes get multiple vehicles so everything moves in a single trip." },
     ],
   },
   {
@@ -58,37 +58,37 @@ const servicesData = [
     icon: Building2,
     title: "Office Removals",
     shortDesc:
-      "Minimal disruption office relocations. We work evenings and weekends so your business keeps running without a hitch.",
-    heroHeading: "Office Removals in Newcastle",
+      "Zero-downtime office moves across Birmingham. We work evenings and weekends so your business keeps running.",
+    heroHeading: "Office Removals in Birmingham",
     heroSubtext:
-      "Relocating your business? We specialise in fast, organised office moves that minimise downtime and keep your operations running smoothly.",
+      "Relocating your business? We plan fast, organised office moves that minimise downtime and keep your operations running smoothly across the Midlands.",
     sections: [
       {
         heading: "Professional Office Relocations",
         paragraphs: [
-          "We understand that every hour of downtime costs your business money. That is why our office removal service is designed for speed and efficiency. We plan every detail in advance so your team can shut down on Friday and be fully operational in the new space by Monday.",
-          "From packing IT equipment and server rooms to moving desks, filing cabinets, and boardroom furniture, we handle it all. Our movers are experienced with commercial environments and take extra care with sensitive electronics and documentation.",
-          "We also offer out-of-hours moves including evenings, weekends, and bank holidays, so there is zero disruption to your day-to-day business."
+          "Every hour of downtime costs money. Our office-removal service is engineered for speed and zero disruption — shut down Friday, open Monday in your new space, fully set up.",
+          "From IT equipment and server racks to desks, filing cabinets and boardroom furniture, we handle everything. Our crew is experienced with commercial environments and takes extra care with sensitive electronics and confidential documentation.",
+          "Out-of-hours moves — evenings, weekends, bank holidays — come standard. No disruption to your day-to-day business.",
         ],
       },
       {
         heading: "Our Office Moving Process",
         list: [
           "Pre-move site survey and planning",
-          "Dedicated move coordinator assigned to your project",
+          "Dedicated move coordinator on your project",
           "IT equipment safely packed and transported",
           "Furniture disassembly and reassembly",
-          "Labelling system for efficient unpacking",
+          "Colour-coded labelling for efficient unpacking",
           "Out-of-hours and weekend availability",
-          "Full commercial insurance coverage",
+          "Full commercial insurance cover",
         ],
       },
     ],
     faqs: [
-      { q: "Can you move outside normal business hours?", a: "Yes. We regularly carry out office moves during evenings, weekends, and bank holidays to avoid disrupting your business operations." },
-      { q: "Do you handle IT equipment?", a: "Yes. Our team is experienced in safely packing and transporting computers, monitors, servers, printers, and networking equipment." },
-      { q: "How do you handle confidential documents?", a: "We use sealed crates and tamper-evident packaging for sensitive documents. Our staff are DBS checked and trained in data handling best practices." },
-      { q: "Can you handle multi-floor offices?", a: "Absolutely. We have equipment for multi-floor moves including stair climbers and goods lifts coordination with building management." },
+      { q: "Can you move outside normal business hours?", a: "Yes — evenings, weekends and bank holidays are standard for our commercial clients." },
+      { q: "Do you handle IT equipment?", a: "Yes — our team is trained to safely pack and transport computers, servers, monitors, printers and networking kit." },
+      { q: "How do you handle confidential documents?", a: "Sealed crates with tamper-evident seals. All staff are DBS-checked and trained in data handling." },
+      { q: "Can you handle multi-floor offices?", a: "Yes. We coordinate with building management for lift access and use stair-climbers where needed." },
     ],
   },
   {
@@ -96,26 +96,26 @@ const servicesData = [
     icon: Truck,
     title: "Man & Van",
     shortDesc:
-      "Need a quick move or a few items shifting? Our man and van service covers Newcastle, Gateshead, and beyond. Same day available.",
-    heroHeading: "Man and Van Service in Newcastle",
+      "Quick moves and single items across Birmingham, Solihull and the Black Country. Same-day bookings available.",
+    heroHeading: "Man and Van Service in Birmingham",
     heroSubtext:
-      "Affordable, reliable, and available at short notice. Our man and van service is perfect for smaller moves, single items, or student relocations.",
+      "Affordable, reliable, available at short notice. Perfect for student moves, single items and small relocations across the West Midlands.",
     sections: [
       {
         heading: "Fast and Flexible Man and Van Hire",
         paragraphs: [
-          "Not every move requires a full removal team. Our man and van service is the ideal solution when you need to move a few items, shift furniture between rooms, or handle a quick student flat move.",
-          "Our drivers are fully trained removal professionals, not just delivery drivers. They will carefully load, secure, and transport your belongings with the same care as a full house move.",
-          "We offer same-day availability across Newcastle, Gateshead, Sunderland, and the wider Tyne and Wear area. Just call us and we can often be with you within a couple of hours."
+          "Not every move needs a full crew. Our man-and-van service is the sweet spot for shifting a few items, moving between flats, or handling a quick student relocation.",
+          "Our drivers are fully trained removers — not just delivery drivers. Every item is loaded, secured and transported with the same care as a full house move.",
+          "Same-day availability covers Birmingham, Solihull, Sutton Coldfield, Dudley, West Bromwich and the wider West Midlands. Call and we can often be with you within a couple of hours.",
         ],
       },
       {
         heading: "Perfect For",
         list: [
-          "Student moves and flat relocations",
-          "Single item deliveries (sofas, beds, appliances)",
-          "eBay, Gumtree, and Facebook Marketplace pickups",
-          "Small office moves and desk relocations",
+          "Student moves across Selly Oak, Edgbaston and the Universities",
+          "Single-item deliveries (sofas, beds, appliances)",
+          "eBay, Gumtree and Facebook Marketplace pickups",
+          "Small office and desk relocations",
           "Storage unit drop-offs and collections",
           "Furniture shop deliveries",
           "Same-day and next-day moves",
@@ -123,10 +123,10 @@ const servicesData = [
       },
     ],
     faqs: [
-      { q: "Can I book same-day?", a: "Yes. Subject to availability, we can often accommodate same-day bookings. Call us as early as possible for the best chance." },
-      { q: "How much does man and van cost?", a: "We offer competitive hourly rates starting from £30/hour. Contact us for a free, no-obligation quote based on your specific requirements." },
-      { q: "Will the driver help load and unload?", a: "Absolutely. Our drivers are trained movers and will help with loading, unloading, and carrying items up stairs." },
-      { q: "What size is the van?", a: "We use large Luton vans that can accommodate the contents of a 1 to 2 bedroom flat in a single trip." },
+      { q: "Can I book same-day?", a: "Yes, subject to availability. Call as early as possible for the best chance." },
+      { q: "How much does man and van cost?", a: "Competitive hourly rates starting from £35/hour. Free quote on your exact job in 30 minutes." },
+      { q: "Will the driver help load and unload?", a: "Absolutely — our drivers are trained movers and will carry items up stairs." },
+      { q: "What size is the van?", a: "Luton van with 1,500ft³ capacity — fits the contents of a typical 1–2 bed flat in one trip." },
     ],
   },
   {
@@ -134,37 +134,37 @@ const servicesData = [
     icon: Package,
     title: "Packing Service",
     shortDesc:
-      "Professional packing with premium materials. We wrap, box, and protect your belongings so nothing gets damaged in transit.",
+      "Professional packing with premium materials. We wrap, box and protect so nothing gets damaged in transit.",
     heroHeading: "Professional Packing Service",
     heroSubtext:
-      "Let our expert packers handle everything. We use premium materials and proven techniques to ensure your belongings arrive in perfect condition.",
+      "Leave the packing to the experts. Premium materials, proven techniques, and your belongings arrive in perfect condition.",
     sections: [
       {
         heading: "Leave the Packing to the Professionals",
         paragraphs: [
-          "Packing is often the most time-consuming and stressful part of any move. Our professional packing service takes that burden off your shoulders completely.",
-          "Our trained packers use high-quality materials including double-walled cardboard boxes, acid-free tissue paper, bubble wrap, and custom wardrobe boxes. Every item is individually wrapped and secured to prevent damage during transit.",
-          "We can pack your entire home the day before your move, or focus on specific rooms and fragile items. The choice is yours."
+          "Packing is the most time-consuming part of any move. Our packing service takes that job off your list completely.",
+          "Our trained packers use double-walled boxes, acid-free tissue, bubble wrap and custom wardrobe cartons. Every item is individually wrapped to prevent transit damage.",
+          "Full-home pack, partial pack, or fragile-only — it's entirely up to you.",
         ],
       },
       {
         heading: "What We Provide",
         list: [
           "Professional packing team",
-          "All packing materials included in the price",
-          "Specialist wrapping for fragile and valuable items",
-          "Custom wardrobe boxes for hanging clothes",
-          "Clearly labelled boxes by room for easy unpacking",
-          "Unpacking service available at your new home",
-          "Eco-friendly material recycling after your move",
+          "All materials included in the price",
+          "Specialist wrap for fragile and valuable items",
+          "Custom wardrobe cartons for hanging clothes",
+          "Room-labelled boxes for easy unpacking",
+          "Unpacking service at your new home",
+          "Eco-friendly recycling of all materials post-move",
         ],
       },
     ],
     faqs: [
-      { q: "Do I need to provide boxes?", a: "No. All packing materials are included in our service. We bring everything we need including boxes, tape, bubble wrap, and tissue paper." },
-      { q: "Can you pack fragile items like china?", a: "Yes. Our packers are specially trained in handling delicate items. We use double-layered wrapping and custom dividers for glassware and china." },
-      { q: "How long does packing take?", a: "A typical 3-bedroom house can be fully packed in 4 to 6 hours by our two-person packing team." },
-      { q: "Can you just pack certain rooms?", a: "Absolutely. We offer partial packing if you would prefer to handle some rooms yourself. Many customers ask us to focus on kitchens and fragile items." },
+      { q: "Do I need to provide boxes?", a: "No — all materials are included. We bring boxes, tape, bubble wrap, tissue and wardrobe cartons." },
+      { q: "Can you pack fragile items like china?", a: "Yes — trained packers use double-layer wrap and custom dividers for glassware, china and art." },
+      { q: "How long does packing take?", a: "A typical 3-bed home is fully packed in 4–6 hours by a two-person crew." },
+      { q: "Can you just pack certain rooms?", a: "Yes — partial packing is popular for kitchens and fragile rooms only." },
     ],
   },
   {
@@ -172,37 +172,37 @@ const servicesData = [
     icon: Warehouse,
     title: "Storage Solutions",
     shortDesc:
-      "Secure, clean storage facilities near Newcastle. Short or long term, flexible access, and fully insured.",
-    heroHeading: "Storage Solutions in Newcastle",
+      "Secure, clean, climate-controlled storage near Birmingham city centre. Short or long-term, fully insured.",
+    heroHeading: "Storage Solutions in Birmingham",
     heroSubtext:
-      "Whether you need short-term storage between moves or a long-term solution, our secure facilities keep your belongings safe.",
+      "Move-in date not lined up? Need to store belongings between homes? Our 24/7-monitored facility keeps everything safe for as long as you need.",
     sections: [
       {
         heading: "Secure and Flexible Storage",
         paragraphs: [
-          "Sometimes your move-in date does not line up with your move-out date, or maybe you just need somewhere safe to keep your belongings while you sort things out. Our storage service bridges that gap.",
-          "Our storage facilities are clean, dry, and monitored 24/7 with CCTV and alarm systems. Every unit is individually locked and only you have access to your belongings.",
-          "We offer flexible terms with no long-term contracts. Store your items for a week, a month, or as long as you need. We can even collect your items, store them, and deliver them to your new address when you are ready."
+          "Sometimes moves don't line up perfectly. Our Birmingham storage facility bridges the gap — store for a week, a month or a year.",
+          "Facilities are clean, dry, CCTV-monitored 24/7 and alarmed. Every unit has its own lock and only you hold the key.",
+          "Flexible terms, no long contracts. We can even collect your items, store them and deliver to your new address when you're ready.",
         ],
       },
       {
         heading: "Storage Features",
         list: [
-          "24/7 CCTV monitored facilities",
-          "Clean, dry, and climate-controlled units",
-          "Individual unit locks with key access",
-          "Flexible short and long-term contracts",
-          "Collection and delivery service available",
+          "24/7 CCTV monitoring",
+          "Clean, dry, climate-controlled units",
+          "Individual unit locks, key access",
+          "Short and long-term contracts",
+          "Collection and delivery service",
           "Fully insured storage",
-          "Various unit sizes to suit your needs",
+          "Unit sizes from 25 to 250 sq ft",
         ],
       },
     ],
     faqs: [
-      { q: "How much does storage cost?", a: "Prices depend on the size of the unit and duration. Contact us for a personalised quote. We offer competitive rates with no hidden fees." },
-      { q: "Can you collect and deliver from storage?", a: "Yes. We can collect your items, transport them to our facility, and then deliver them to your new address whenever you are ready." },
-      { q: "Is the storage insured?", a: "Yes. All items in our storage facilities are covered by our insurance policy. You can also arrange additional cover if needed." },
-      { q: "Can I access my items at any time?", a: "Yes. We offer flexible access during business hours. Extended access can be arranged by prior appointment." },
+      { q: "How much does storage cost?", a: "From £25/week for a small unit. Contact us for a tailored quote." },
+      { q: "Can you collect and deliver?", a: "Yes — we collect, store, and deliver to your new address whenever you're ready." },
+      { q: "Is the storage insured?", a: "Yes — insurance is included. Additional cover is available on request." },
+      { q: "Can I access items any time?", a: "Yes, during business hours. Extended access by appointment." },
     ],
   },
   {
@@ -210,17 +210,17 @@ const servicesData = [
     icon: Piano,
     title: "Piano & Specialist Items",
     shortDesc:
-      "Heavy, awkward, or valuable items? Our specialist team handles pianos, antiques, and fragile goods with expert precision.",
+      "Heavy, awkward or priceless items? Our specialist team moves pianos, antiques and fragile goods with expert care.",
     heroHeading: "Piano & Specialist Item Removals",
     heroSubtext:
-      "Trust our trained specialists to safely move pianos, antiques, artwork, and other high-value or awkward items with expert care.",
+      "Trust our trained specialists to safely move pianos, antiques, artwork and high-value items across Birmingham and the Midlands.",
     sections: [
       {
         heading: "Specialist Handling for Precious Items",
         paragraphs: [
-          "Moving a piano, antique dresser, or valuable artwork requires specialist knowledge and equipment. Our trained team has the experience and tools to handle even the most challenging items.",
-          "We use piano skids, heavy-duty straps, custom padding, and specialist vehicles to transport your most precious possessions. Every item receives individual attention and care from start to finish.",
-          "Whether it is an upright piano in a narrow terraced house or a grand piano in a concert hall, we have moved them all safely across the North East."
+          "Moving a piano, antique, or valuable artwork takes specialist knowledge and kit. Our trained team has the experience and equipment for even the trickiest items.",
+          "Piano skids, heavy-duty straps, custom padding and specialist vehicles — every precious item gets individual attention from start to finish.",
+          "From an upright in a terraced house to a grand piano in a concert hall, we've moved them all across the West Midlands.",
         ],
       },
       {
@@ -228,19 +228,19 @@ const servicesData = [
         list: [
           "Upright and grand pianos",
           "Antique furniture and heirlooms",
-          "Fine art, sculptures, and framed prints",
+          "Fine art, sculptures, framed prints",
           "Hot tubs and garden structures",
           "Gym equipment and heavy machinery",
           "Safes and security cabinets",
-          "Pool tables and large musical instruments",
+          "Pool tables and large instruments",
         ],
       },
     ],
     faqs: [
-      { q: "Can you move a grand piano?", a: "Yes. We have specialist piano moving equipment and experienced handlers who regularly move both upright and grand pianos across the North East." },
-      { q: "Do you insure specialist items?", a: "Yes. All specialist items are covered by our comprehensive transit insurance. For particularly high-value items, we can arrange additional cover." },
-      { q: "Can you navigate narrow staircases?", a: "Yes. Our team regularly handles piano moves through narrow hallways and staircases. We assess access beforehand and use specialist equipment where needed." },
-      { q: "How much does it cost to move a piano?", a: "Piano moves are priced individually based on the type of piano, distance, and access conditions. Contact us for a free, no-obligation quote." },
+      { q: "Can you move a grand piano?", a: "Yes — specialist equipment and experienced handlers for both upright and grand pianos." },
+      { q: "Do you insure specialist items?", a: "Yes — comprehensive transit insurance. Additional cover is available for very high-value items." },
+      { q: "Can you navigate narrow staircases?", a: "Yes — we assess access beforehand and use specialist kit where needed." },
+      { q: "How much to move a piano?", a: "Priced individually on piano type, distance and access. Free quote on request." },
     ],
   },
 ];

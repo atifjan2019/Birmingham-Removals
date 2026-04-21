@@ -1,65 +1,72 @@
 import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { MapPin, ArrowRight } from "lucide-react";
+import CTAStrip from "@/components/CTAStrip";
+import { MapPin, ArrowUpRight } from "lucide-react";
+import { areasList as areas } from "./data";
 
 export const metadata = {
-  title: "Areas We Cover | Newcastle Removals",
-  description: "Browse the major areas and postcodes covered by Newcastle Removals across Newcastle, Gateshead, and North Tyneside.",
+  title: "Areas We Cover | Birmingham Removals",
+  description:
+    "Birmingham Removals covers every B postcode — Edgbaston, Harborne, Moseley, Selly Oak, Sutton Coldfield, Solihull, Erdington plus Dudley, Wolverhampton and Coventry.",
+  alternates: { canonical: "https://www.birminghamremovals.uk/areas" },
 };
-
-import { areasList as areas } from "./data";
 
 export default function AreasIndexPage() {
   return (
     <>
       <Navbar />
-      <main className="min-h-screen bg-gray-50 pt-32 pb-24 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-7xl mx-auto">
-          {/* Header */}
-          <div className="text-center max-w-3xl mx-auto mb-16">
-            <h1 className="font-[family-name:var(--font-space)] text-4xl sm:text-5xl font-bold text-gray-900 mb-6">
-              Areas We Cover
+      <main>
+        <section className="relative pt-20 pb-16 bg-gradient-to-br from-[#0A2540] to-[#14375C] text-white overflow-hidden">
+          <div className="absolute inset-0 grid-pattern opacity-[0.05]" />
+          <div className="relative max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <span className="inline-block px-3 py-1 rounded-full bg-white/10 border border-white/15 text-xs font-bold uppercase tracking-wider mb-5">
+              Coverage
+            </span>
+            <h1 className="font-[family-name:var(--font-space)] text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-tight">
+              Birmingham removals, across every <span className="text-[#FF6B35]">B postcode</span>
             </h1>
-            <p className="text-lg text-muted">
-              We provide fully insured, premium removal services across Newcastle upon Tyne and the surrounding North East regions. Find your local area below to see specific services and local benefits.
+            <p className="mt-6 text-lg text-white/80 max-w-2xl mx-auto">
+              From Edgbaston to Erdington, Harborne to Sutton Coldfield — our crews know every
+              street, estate and high-rise across the West Midlands.
             </p>
           </div>
+        </section>
 
-          {/* Cards Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
-            {areas.map((area) => (
-              <Link
-                key={area.id}
-                href={`/areas/${area.id}`}
-                className="group relative bg-white border border-gray-200 hover:border-primary/50 shadow-sm hover:shadow-xl hover:shadow-primary/5 rounded-3xl p-8 transition-all duration-300 flex flex-col justify-between overflow-hidden"
-              >
-                {/* Background Decor */}
-                <div className="absolute top-0 right-0 -mr-8 -mt-8 w-32 h-32 bg-primary/5 rounded-full blur-2xl group-hover:bg-primary/10 transition-colors" />
-
-                <div>
-                  <div className="w-12 h-12 rounded-2xl bg-primary/10 text-primary flex items-center justify-center mb-6 text-xl shadow-sm">
-                    <MapPin className="w-6 h-6" />
+        <section className="py-20 bg-slate-50">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+              {areas.map((area) => (
+                <Link
+                  key={area.id}
+                  href={`/areas/${area.id}`}
+                  className="group bg-white border border-slate-200 rounded-2xl p-7 hover:border-[#FF6B35] hover:shadow-xl hover:-translate-y-1 transition-all duration-300 relative"
+                >
+                  <div className="flex items-start justify-between mb-5">
+                    <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-[#0A2540] to-[#14375C] flex items-center justify-center">
+                      <MapPin className="w-6 h-6 text-[#FF6B35]" />
+                    </div>
+                    <ArrowUpRight className="w-5 h-5 text-slate-300 group-hover:text-[#FF6B35] group-hover:rotate-45 transition-all" />
                   </div>
-                  <div className="inline-block px-3 py-1 bg-gray-100 text-gray-600 font-semibold text-xs rounded-full mb-3">
+                  <span className="inline-block px-2.5 py-1 bg-[#FF6B35]/10 text-[#FF6B35] font-semibold text-[10px] uppercase tracking-wider rounded-full mb-3">
                     {area.tag}
-                  </div>
-                  <h2 className="text-2xl font-bold text-gray-900 mb-2 group-[.hover]:text-primary transition-colors">
+                  </span>
+                  <h2 className="font-[family-name:var(--font-space)] text-xl font-bold text-[#0A2540] mb-1 group-hover:text-[#FF6B35] transition-colors">
                     {area.name}
                   </h2>
-                  <p className="text-muted text-sm mb-8">
-                    Discover specialized local knowledge, pricing, and removal teams operating locally in {area.name}.
+                  {area.postcode ? (
+                    <p className="text-xs text-slate-400 font-mono mb-2">{area.postcode}</p>
+                  ) : null}
+                  <p className="text-slate-600 text-sm leading-relaxed">
+                    Local removals team covering {area.name} — fully insured, DBS-checked,
+                    on-time guaranteed.
                   </p>
-                </div>
-
-                <div className="inline-flex items-center gap-2 text-primary font-semibold text-sm group-hover:translate-x-1 transition-transform">
-                  View Area Details
-                  <ArrowRight className="w-4 h-4" />
-                </div>
-              </Link>
-            ))}
+                </Link>
+              ))}
+            </div>
           </div>
-        </div>
+        </section>
+        <CTAStrip />
       </main>
       <Footer />
     </>
