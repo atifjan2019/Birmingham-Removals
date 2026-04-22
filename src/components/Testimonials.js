@@ -30,14 +30,14 @@ const testimonials = [
     name: "Daniel O'Connor",
     location: "Jewellery Quarter, B3",
     quote:
-      "Office relocation done over a weekend — Monday morning we were up and running. Professional, efficient, and they handled all our IT gear without a single hitch.",
+      "Office relocation done over a weekend,Monday morning we were up and running. Professional, efficient, and they handled all our IT gear without a single hitch.",
     rating: 5,
   },
   {
     name: "Emma Richardson",
     location: "Sutton Coldfield, B74",
     quote:
-      "We moved from London to Sutton Coldfield with them — smooth, punctual, and they protected my grandmother's antique dresser like their own. Five stars doesn't feel like enough.",
+      "We moved from London to Sutton Coldfield with them,smooth, punctual, and they protected my grandmother's antique dresser like their own. Five stars doesn't feel like enough.",
     rating: 5,
   },
 ];

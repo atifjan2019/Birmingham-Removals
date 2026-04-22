@@ -13,7 +13,7 @@ const servicesData = [
     icon: Home,
     title: "House Removals",
     shortDesc:
-      "Full house moves across Birmingham — from city-centre flats in the Jewellery Quarter to family homes in Sutton Coldfield. Zero stress, fully insured.",
+      "Full house moves across Birmingham,from city-centre flats in the Jewellery Quarter to family homes in Sutton Coldfield. Zero stress, fully insured.",
     heroHeading: "House Removals in Birmingham",
     heroSubtext:
       "Moving home is a milestone, not a headache. Our Birmingham crews handle the packing, lifting, transport and reassembly so you can focus on settling in.",
@@ -22,7 +22,7 @@ const servicesData = [
         heading: "Why Choose Us for Your House Move?",
         paragraphs: [
           "Birmingham Removals has helped thousands of families relocate across the West Midlands. Whether you're moving from a Victorian terrace in Moseley or a detached home in Edgbaston, our trained crew treats every box and piece of furniture like it's our own.",
-          "We run a complete door-to-door service. The team arrives on time, protective-wraps everything, loads securely and carefully unloads at your new address — no item too large or awkward.",
+          "We run a complete door-to-door service. The team arrives on time, protective-wraps everything, loads securely and carefully unloads at your new address,no item too large or awkward.",
           "Every house move includes comprehensive transit insurance, flexible scheduling including weekends and evenings, and a fixed, no-surprises price agreed up front.",
         ],
       },
@@ -41,15 +41,15 @@ const servicesData = [
       {
         heading: "Areas We Cover",
         paragraphs: [
-          "We cover the whole of Birmingham and the West Midlands — Edgbaston, Harborne, Moseley, Kings Heath, Selly Oak, Sutton Coldfield, Solihull, Erdington, Kings Norton, Handsworth, Bearwood, Great Barr, city-centre, Dudley, West Bromwich, Wolverhampton and Coventry. Moving across the street or across the country, we've got you.",
+          "We cover the whole of Birmingham and the West Midlands,Edgbaston, Harborne, Moseley, Kings Heath, Selly Oak, Sutton Coldfield, Solihull, Erdington, Kings Norton, Handsworth, Bearwood, Great Barr, city-centre, Dudley, West Bromwich, Wolverhampton and Coventry. Moving across the street or across the country, we've got you.",
         ],
       },
     ],
     faqs: [
-      { q: "How far in advance should I book?", a: "We recommend 1–2 weeks ahead, especially around end-of-month and end-of-tenancy weekends. Last-minute and same-day moves are often possible — just call." },
-      { q: "Do you disassemble furniture?", a: "Yes — beds, wardrobes, desks and tables are taken apart and reassembled at no extra charge." },
+      { q: "How far in advance should I book?", a: "We recommend 1–2 weeks ahead, especially around end-of-month and end-of-tenancy weekends. Last-minute and same-day moves are often possible,just call." },
+      { q: "Do you disassemble furniture?", a: "Yes,beds, wardrobes, desks and tables are taken apart and reassembled at no extra charge." },
       { q: "Is my move insured?", a: "Every move includes comprehensive Goods in Transit insurance. Additional cover is available for high-value items." },
-      { q: "Can you handle tight access and stairs?", a: "Yes. Our crews handle narrow stairs, high-rise lifts and awkward doorways daily — no hidden surcharges." },
+      { q: "Can you handle tight access and stairs?", a: "Yes. Our crews handle narrow stairs, high-rise lifts and awkward doorways daily,no hidden surcharges." },
       { q: "What size van do you use?", a: "We operate Luton vans and 7.5t trucks. Larger homes get multiple vehicles so everything moves in a single trip." },
     ],
   },
@@ -66,9 +66,9 @@ const servicesData = [
       {
         heading: "Professional Office Relocations",
         paragraphs: [
-          "Every hour of downtime costs money. Our office-removal service is engineered for speed and zero disruption — shut down Friday, open Monday in your new space, fully set up.",
+          "Every hour of downtime costs money. Our office-removal service is engineered for speed and zero disruption,shut down Friday, open Monday in your new space, fully set up.",
           "From IT equipment and server racks to desks, filing cabinets and boardroom furniture, we handle everything. Our crew is experienced with commercial environments and takes extra care with sensitive electronics and confidential documentation.",
-          "Out-of-hours moves — evenings, weekends, bank holidays — come standard. No disruption to your day-to-day business.",
+          "Out-of-hours moves,evenings, weekends, bank holidays,come standard. No disruption to your day-to-day business.",
         ],
       },
       {
@@ -85,8 +85,8 @@ const servicesData = [
       },
     ],
     faqs: [
-      { q: "Can you move outside normal business hours?", a: "Yes — evenings, weekends and bank holidays are standard for our commercial clients." },
-      { q: "Do you handle IT equipment?", a: "Yes — our team is trained to safely pack and transport computers, servers, monitors, printers and networking kit." },
+      { q: "Can you move outside normal business hours?", a: "Yes,evenings, weekends and bank holidays are standard for our commercial clients." },
+      { q: "Do you handle IT equipment?", a: "Yes,our team is trained to safely pack and transport computers, servers, monitors, printers and networking kit." },
       { q: "How do you handle confidential documents?", a: "Sealed crates with tamper-evident seals. All staff are DBS-checked and trained in data handling." },
       { q: "Can you handle multi-floor offices?", a: "Yes. We coordinate with building management for lift access and use stair-climbers where needed." },
     ],
@@ -105,7 +105,7 @@ const servicesData = [
         heading: "Fast and Flexible Man and Van Hire",
         paragraphs: [
           "Not every move needs a full crew. Our man-and-van service is the sweet spot for shifting a few items, moving between flats, or handling a quick student relocation.",
-          "Our drivers are fully trained removers — not just delivery drivers. Every item is loaded, secured and transported with the same care as a full house move.",
+          "Our drivers are fully trained removers,not just delivery drivers. Every item is loaded, secured and transported with the same care as a full house move.",
           "Same-day availability covers Birmingham, Solihull, Sutton Coldfield, Dudley, West Bromwich and the wider West Midlands. Call and we can often be with you within a couple of hours.",
         ],
       },
@@ -125,8 +125,8 @@ const servicesData = [
     faqs: [
       { q: "Can I book same-day?", a: "Yes, subject to availability. Call as early as possible for the best chance." },
       { q: "How much does man and van cost?", a: "Competitive hourly rates starting from £35/hour. Free quote on your exact job in 30 minutes." },
-      { q: "Will the driver help load and unload?", a: "Absolutely — our drivers are trained movers and will carry items up stairs." },
-      { q: "What size is the van?", a: "Luton van with 1,500ft³ capacity — fits the contents of a typical 1–2 bed flat in one trip." },
+      { q: "Will the driver help load and unload?", a: "Absolutely,our drivers are trained movers and will carry items up stairs." },
+      { q: "What size is the van?", a: "Luton van with 1,500ft³ capacity,fits the contents of a typical 1–2 bed flat in one trip." },
     ],
   },
   {
@@ -144,7 +144,7 @@ const servicesData = [
         paragraphs: [
           "Packing is the most time-consuming part of any move. Our packing service takes that job off your list completely.",
           "Our trained packers use double-walled boxes, acid-free tissue, bubble wrap and custom wardrobe cartons. Every item is individually wrapped to prevent transit damage.",
-          "Full-home pack, partial pack, or fragile-only — it's entirely up to you.",
+          "Full-home pack, partial pack, or fragile-only,it's entirely up to you.",
         ],
       },
       {
@@ -161,10 +161,10 @@ const servicesData = [
       },
     ],
     faqs: [
-      { q: "Do I need to provide boxes?", a: "No — all materials are included. We bring boxes, tape, bubble wrap, tissue and wardrobe cartons." },
-      { q: "Can you pack fragile items like china?", a: "Yes — trained packers use double-layer wrap and custom dividers for glassware, china and art." },
+      { q: "Do I need to provide boxes?", a: "No,all materials are included. We bring boxes, tape, bubble wrap, tissue and wardrobe cartons." },
+      { q: "Can you pack fragile items like china?", a: "Yes,trained packers use double-layer wrap and custom dividers for glassware, china and art." },
       { q: "How long does packing take?", a: "A typical 3-bed home is fully packed in 4–6 hours by a two-person crew." },
-      { q: "Can you just pack certain rooms?", a: "Yes — partial packing is popular for kitchens and fragile rooms only." },
+      { q: "Can you just pack certain rooms?", a: "Yes,partial packing is popular for kitchens and fragile rooms only." },
     ],
   },
   {
@@ -180,7 +180,7 @@ const servicesData = [
       {
         heading: "Secure and Flexible Storage",
         paragraphs: [
-          "Sometimes moves don't line up perfectly. Our Birmingham storage facility bridges the gap — store for a week, a month or a year.",
+          "Sometimes moves don't line up perfectly. Our Birmingham storage facility bridges the gap,store for a week, a month or a year.",
           "Facilities are clean, dry, CCTV-monitored 24/7 and alarmed. Every unit has its own lock and only you hold the key.",
           "Flexible terms, no long contracts. We can even collect your items, store them and deliver to your new address when you're ready.",
         ],
@@ -200,8 +200,8 @@ const servicesData = [
     ],
     faqs: [
       { q: "How much does storage cost?", a: "From £25/week for a small unit. Contact us for a tailored quote." },
-      { q: "Can you collect and deliver?", a: "Yes — we collect, store, and deliver to your new address whenever you're ready." },
-      { q: "Is the storage insured?", a: "Yes — insurance is included. Additional cover is available on request." },
+      { q: "Can you collect and deliver?", a: "Yes,we collect, store, and deliver to your new address whenever you're ready." },
+      { q: "Is the storage insured?", a: "Yes,insurance is included. Additional cover is available on request." },
       { q: "Can I access items any time?", a: "Yes, during business hours. Extended access by appointment." },
     ],
   },
@@ -219,7 +219,7 @@ const servicesData = [
         heading: "Specialist Handling for Precious Items",
         paragraphs: [
           "Moving a piano, antique, or valuable artwork takes specialist knowledge and kit. Our trained team has the experience and equipment for even the trickiest items.",
-          "Piano skids, heavy-duty straps, custom padding and specialist vehicles — every precious item gets individual attention from start to finish.",
+          "Piano skids, heavy-duty straps, custom padding and specialist vehicles,every precious item gets individual attention from start to finish.",
           "From an upright in a terraced house to a grand piano in a concert hall, we've moved them all across the West Midlands.",
         ],
       },
@@ -237,9 +237,9 @@ const servicesData = [
       },
     ],
     faqs: [
-      { q: "Can you move a grand piano?", a: "Yes — specialist equipment and experienced handlers for both upright and grand pianos." },
-      { q: "Do you insure specialist items?", a: "Yes — comprehensive transit insurance. Additional cover is available for very high-value items." },
-      { q: "Can you navigate narrow staircases?", a: "Yes — we assess access beforehand and use specialist kit where needed." },
+      { q: "Can you move a grand piano?", a: "Yes,specialist equipment and experienced handlers for both upright and grand pianos." },
+      { q: "Do you insure specialist items?", a: "Yes,comprehensive transit insurance. Additional cover is available for very high-value items." },
+      { q: "Can you navigate narrow staircases?", a: "Yes,we assess access beforehand and use specialist kit where needed." },
       { q: "How much to move a piano?", a: "Priced individually on piano type, distance and access. Free quote on request." },
     ],
   },

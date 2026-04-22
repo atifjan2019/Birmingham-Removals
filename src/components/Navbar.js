@@ -35,7 +35,7 @@ export default function Navbar({ onOpenQuote, settings }) {
       <div className="hidden md:block bg-[#0B1E3F] text-white text-xs">
         <div className="max-w-7xl mx-auto px-6 lg:px-8 py-2 flex items-center justify-between">
           <span className="opacity-80">
-            Birmingham&apos;s 5-star removals company — serving the West Midlands since 2015
+            Birmingham&apos;s 5-star removals company,serving the West Midlands since 2015
           </span>
           <div className="flex items-center gap-5">
             <a href={phoneHref} className="flex items-center gap-1.5 hover:text-[#F97316] transition-colors">

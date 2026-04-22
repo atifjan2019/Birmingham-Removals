@@ -29,8 +29,8 @@ export default async function ServicesPage() {
               <span className="text-[#F97316]">Birmingham removals</span>, tailored to you
             </h1>
             <p className="mt-6 text-lg text-white/80 max-w-2xl mx-auto">
-              Whatever you&apos;re moving — single item, 1-bed flat, 5-bed detached, or a whole
-              office — we have the crew, the vans and the Birmingham know-how.
+              Whatever you&apos;re moving,single item, 1-bed flat, 5-bed detached, or a whole
+              office,we have the crew, the vans and the Birmingham know-how.
             </p>
           </div>
         </section>

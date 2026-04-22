@@ -99,13 +99,13 @@ export default function AreaClient({ areaData, settings }) {
                 Why choose us for your {areaData.name} move?
               </h2>
               <p className="text-slate-600 mb-7 text-base leading-relaxed">
-                Moving can be stressful — but with Birmingham Removals operating daily in{" "}
+                Moving can be stressful,but with Birmingham Removals operating daily in{" "}
                 {areaData.name}, you get a seamless, professional service from start to finish.
                 We know the local roads, parking restrictions and quickest routes in and out.
               </p>
               <ul className="space-y-3">
                 {[
-                  "Local knowledge — no parking fines or wrong turns",
+                  "Local knowledge,no parking fines or wrong turns",
                   "Fully insured: goods-in-transit & public liability",
                   "Uniformed, DBS-checked Birmingham-based crews",
                   "Modern fleet, right size van for your move",

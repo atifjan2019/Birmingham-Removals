@@ -5,17 +5,17 @@ import { Award, Users, MapPin, Heart, Clock, ShieldCheck } from "lucide-react";
 import { getSiteSettings } from "@/lib/siteSettings";
 
 export const metadata = {
-  title: "About Us — Birmingham Removals | Our Story & Values",
+  title: "About Us | Birmingham Removals | Our Story & Values",
   description:
     "Meet the Birmingham Removals team. Family-run since 2015, 5,200+ successful moves, and a relentless focus on zero-stress relocations across the West Midlands.",
   alternates: { canonical: "https://www.birminghamremovals.uk/about" },
 };
 
 const values = [
-  { icon: Heart, title: "Care First", desc: "We treat your belongings like our own — every box, every piece." },
+  { icon: Heart, title: "Care First", desc: "We treat your belongings like our own,every box, every piece." },
   { icon: Clock, title: "On Time, Every Time", desc: "Late = 10% off. We've only ever discounted twice in 10 years." },
   { icon: ShieldCheck, title: "Fully Protected", desc: "£10m goods-in-transit and £5m public liability on every job." },
-  { icon: Award, title: "Trained Crews", desc: "DBS-checked, in-house trained movers — not day-rate agency staff." },
+  { icon: Award, title: "Trained Crews", desc: "DBS-checked, in-house trained movers,not day-rate agency staff." },
 ];
 
 const stats = [
@@ -46,7 +46,7 @@ export default async function AboutPage() {
             </h1>
             <p className="mt-6 text-lg text-white/80 max-w-2xl mx-auto">
               Since 2015 we&apos;ve helped thousands of Birmingham families and businesses move
-              without stress — built on care, punctuality and fair prices.
+              without stress,built on care, punctuality and fair prices.
             </p>
           </div>
         </section>
@@ -70,7 +70,7 @@ export default async function AboutPage() {
                 <p>
                   Today we run a modern fleet, employ 24 full-time movers, and cover every
                   postcode from B1 to Solihull, Sutton Coldfield, Dudley and Wolverhampton. But the
-                  job hasn&apos;t changed — show up on time, wrap it properly, and get you into your
+                  job hasn&apos;t changed,show up on time, wrap it properly, and get you into your
                   new home without a scratch.
                 </p>
                 <p>

@@ -4,7 +4,7 @@ export const areasData = {
     tag: "Premium Coverage",
     postcode: "B15, B16",
     description:
-      "Premium house and office removals across Edgbaston. Our fully insured team knows every Georgian terrace, leafy avenue and gated estate in B15 — moves are planned, priced and delivered without stress.",
+      "Premium house and office removals across Edgbaston. Our fully insured team knows every Georgian terrace, leafy avenue and gated estate in B15,moves are planned, priced and delivered without stress.",
     image: "https://images.unsplash.com/photo-1513694203232-719a280e022f?q=80&w=1920&auto=format&fit=crop",
   },
   harborne: {
@@ -20,7 +20,7 @@ export const areasData = {
     tag: "Student & Family",
     postcode: "B13",
     description:
-      "Reliable Moseley removals for students, professionals and growing families. Book weekday, evening or weekend slots — same trusted crew, transparent pricing.",
+      "Reliable Moseley removals for students, professionals and growing families. Book weekday, evening or weekend slots,same trusted crew, transparent pricing.",
     image: "https://images.unsplash.com/photo-1582268611958-ebfd161ef9cf?q=80&w=1920&auto=format&fit=crop",
   },
   "kings-heath": {
@@ -36,7 +36,7 @@ export const areasData = {
     tag: "Student Moves",
     postcode: "B29",
     description:
-      "Fast, affordable student moves across Selly Oak and Bournbrook. Last-minute bookings welcome — we regularly handle end-of-term and September rush.",
+      "Fast, affordable student moves across Selly Oak and Bournbrook. Last-minute bookings welcome,we regularly handle end-of-term and September rush.",
     image: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?q=80&w=1920&auto=format&fit=crop",
   },
   "sutton-coldfield": {
@@ -60,7 +60,7 @@ export const areasData = {
     tag: "Fast Response",
     postcode: "B23, B24",
     description:
-      "Affordable Erdington removals with same-day options available. Flats, family homes and shared houses — every job is fully insured as standard.",
+      "Affordable Erdington removals with same-day options available. Flats, family homes and shared houses,every job is fully insured as standard.",
     image: "https://images.unsplash.com/photo-1570129477492-45c003edd2be?q=80&w=1920&auto=format&fit=crop",
   },
   "kings-norton": {
@@ -68,7 +68,7 @@ export const areasData = {
     tag: "Estate Moves",
     postcode: "B30, B38",
     description:
-      "Dedicated Kings Norton and Cotteridge crews. Large fleet, tail-lift vans and a team that's done it all — from 1-bed flats to 5-bed detached.",
+      "Dedicated Kings Norton and Cotteridge crews. Large fleet, tail-lift vans and a team that's done it all,from 1-bed flats to 5-bed detached.",
     image: "https://images.unsplash.com/photo-1480074568708-e7b720bb3f09?q=80&w=1920&auto=format&fit=crop",
   },
   "acocks-green": {

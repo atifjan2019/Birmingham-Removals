@@ -25,7 +25,7 @@ export default function Services() {
             </h2>
           </motion.div>
           <p className="text-slate-600 text-base max-w-md">
-            Whatever you&apos;re moving, wherever it&apos;s going — we&apos;ve got the team, the vans
+            Whatever you&apos;re moving, wherever it&apos;s going,we&apos;ve got the team, the vans
             and the Birmingham know-how to get it there safely.
           </p>
         </div>

@@ -7,7 +7,7 @@ import { getSiteSettings, telHref } from "@/lib/siteSettings";
 export const metadata = {
   title: "Contact Birmingham Removals | Get in Touch for a Free Quote",
   description:
-    "Speak to Birmingham Removals — call, WhatsApp or email. Free quotes within 30 minutes, 7 days a week. Based in Birmingham city centre, serving the West Midlands.",
+    "Speak to Birmingham Removals,call, WhatsApp or email. Free quotes within 30 minutes, 7 days a week. Based in Birmingham city centre, serving the West Midlands.",
   alternates: { canonical: "https://www.birminghamremovals.uk/contact" },
 };
 
@@ -57,7 +57,7 @@ export default async function ContactPage() {
               Let&apos;s plan your <span className="text-[#F97316]">Birmingham move</span>
             </h1>
             <p className="mt-6 text-lg text-white/80 max-w-2xl mx-auto">
-              Call, WhatsApp or email — you&apos;ll speak to a real Birmingham-based coordinator.
+              Call, WhatsApp or email,you&apos;ll speak to a real Birmingham-based coordinator.
               Free, no-obligation quote within 30 minutes.
             </p>
           </div>

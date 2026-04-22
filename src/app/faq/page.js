@@ -5,7 +5,7 @@ import CTAStrip from "@/components/CTAStrip";
 import { getSiteSettings } from "@/lib/siteSettings";
 
 export const metadata = {
-  title: "FAQ — Birmingham Removals | Prices, Insurance, Booking Questions",
+  title: "FAQ | Birmingham Removals | Prices, Insurance, Booking Questions",
   description:
     "Common questions about Birmingham removals: prices, booking times, insurance, storage, payment and more. Still not sure? Call us on 07365 380090.",
   alternates: { canonical: "https://www.birminghamremovals.uk/faq" },

@@ -7,7 +7,7 @@ import { ChevronDown } from "lucide-react";
 const faqs = [
   {
     q: "How much do Birmingham removals cost?",
-    a: "Typical 2-bed moves start around £350, and 3-bed homes from £550. We give a fixed, all-in quote within 30 minutes of your enquiry — no hidden charges.",
+    a: "Typical 2-bed moves start around £350, and 3-bed homes from £550. We give a fixed, all-in quote within 30 minutes of your enquiry,no hidden charges.",
   },
   {
     q: "How far in advance should I book?",
@@ -15,19 +15,19 @@ const faqs = [
   },
   {
     q: "Are you insured?",
-    a: "Yes — £10m Goods-in-Transit insurance and £5m Public Liability cover is included on every single move.",
+    a: "Yes,£10m Goods-in-Transit insurance and £5m Public Liability cover is included on every single move.",
   },
   {
     q: "Do you cover areas outside Birmingham?",
-    a: "Yes — Solihull, Sutton Coldfield, Dudley, West Bromwich, Wolverhampton and Coventry are all covered daily. Long-distance moves from Birmingham to London, Manchester and beyond are quoted free.",
+    a: "Yes,Solihull, Sutton Coldfield, Dudley, West Bromwich, Wolverhampton and Coventry are all covered daily. Long-distance moves from Birmingham to London, Manchester and beyond are quoted free.",
   },
   {
     q: "Do you offer packing services?",
-    a: "Yes — full pack, partial pack or fragile-only. All materials (boxes, wrap, tape, wardrobe cartons) are included in the packing service price.",
+    a: "Yes,full pack, partial pack or fragile-only. All materials (boxes, wrap, tape, wardrobe cartons) are included in the packing service price.",
   },
   {
     q: "Can you store my stuff between moves?",
-    a: "Yes — our secure, CCTV-monitored Birmingham storage facility offers flexible short and long-term contracts, with collection and delivery available.",
+    a: "Yes,our secure, CCTV-monitored Birmingham storage facility offers flexible short and long-term contracts, with collection and delivery available.",
   },
   {
     q: "What payment do you accept?",

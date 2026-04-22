@@ -18,7 +18,7 @@ export async function generateMetadata({ params }) {
     description: data.description,
     alternates: { canonical: `https://www.birminghamremovals.uk/areas/${area}` },
     openGraph: {
-      title: `Expert Removals in ${data.name} — Birmingham Removals`,
+      title: `Expert Removals in ${data.name} | Birmingham Removals`,
       description: data.description,
       type: "website",
     },

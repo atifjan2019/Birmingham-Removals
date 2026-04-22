@@ -20,7 +20,7 @@ const steps = [
     icon: Calendar,
     step: "03",
     title: "Book your date",
-    desc: "Pick the slot that suits you — weekdays, weekends or evenings. Same-day slots often available.",
+    desc: "Pick the slot that suits you,weekdays, weekends or evenings. Same-day slots often available.",
   },
   {
     icon: Truck,

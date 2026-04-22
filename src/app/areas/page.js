@@ -9,7 +9,7 @@ import { getSiteSettings } from "@/lib/siteSettings";
 export const metadata = {
   title: "Areas We Cover | Birmingham Removals",
   description:
-    "Birmingham Removals covers every B postcode — Edgbaston, Harborne, Moseley, Selly Oak, Sutton Coldfield, Solihull, Erdington plus Dudley, Wolverhampton and Coventry.",
+    "Birmingham Removals covers every B postcode,Edgbaston, Harborne, Moseley, Selly Oak, Sutton Coldfield, Solihull, Erdington plus Dudley, Wolverhampton and Coventry.",
   alternates: { canonical: "https://www.birminghamremovals.uk/areas" },
 };
 
@@ -29,7 +29,7 @@ export default async function AreasIndexPage() {
               Birmingham removals, across every <span className="text-[#F97316]">B postcode</span>
             </h1>
             <p className="mt-6 text-lg text-white/80 max-w-2xl mx-auto">
-              From Edgbaston to Erdington, Harborne to Sutton Coldfield — our crews know every
+              From Edgbaston to Erdington, Harborne to Sutton Coldfield,our crews know every
               street, estate and high-rise across the West Midlands.
             </p>
           </div>
@@ -60,7 +60,7 @@ export default async function AreasIndexPage() {
                     <p className="text-xs text-slate-400 font-mono mb-2">{area.postcode}</p>
                   ) : null}
                   <p className="text-slate-600 text-sm leading-relaxed">
-                    Local removals team covering {area.name} — fully insured, DBS-checked,
+                    Local removals team covering {area.name},fully insured, DBS-checked,
                     on-time guaranteed.
                   </p>
                 </Link>
