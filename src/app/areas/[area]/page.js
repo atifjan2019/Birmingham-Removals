@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 import AreaClient from "./AreaClient";
 import { areasData } from "../data";
+import { getSiteSettings } from "@/lib/siteSettings";
 
 export async function generateMetadata({ params }) {
   const resolvedParams = await params;
@@ -33,5 +34,6 @@ export default async function AreaPage({ params }) {
   const area = resolvedParams.area;
   const data = areasData[area];
   if (!data) notFound();
-  return <AreaClient areaData={data} areaSlug={area} />;
+  const settings = await getSiteSettings();
+  return <AreaClient areaData={data} areaSlug={area} settings={settings} />;
 }

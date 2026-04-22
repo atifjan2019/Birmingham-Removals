@@ -14,6 +14,7 @@ import Step4MoveDate from "./Step4MoveDate";
 import Step5Loading from "./Step5Loading";
 import Step6LeadCapture from "./Step6LeadCapture";
 import Step7Success from "./Step7Success";
+import { SITE_SETTINGS_FALLBACK, telHref } from "@/lib/siteSettings";
 
 // Steps: 1=MoveType, 2=Bedrooms(conditional), 3=FromPostcode, 4=ToPostcode, 5=MoveDate, 6=Loading, 7=LeadCapture, 8=Success
 const TOTAL_VISIBLE_STEPS = 7; // excluding loading & success
@@ -34,7 +35,9 @@ function normalizePostcodeParam(value) {
   return String(value || "").trim().toUpperCase();
 }
 
-export default function QuoteFunnel() {
+export default function QuoteFunnel({ settings }) {
+  const s = { ...SITE_SETTINGS_FALLBACK, ...(settings || {}) };
+  const phoneHref = telHref(s.phone);
   const searchParams = useSearchParams();
   const router = useRouter();
   const typeParam = searchParams.get("type");
@@ -160,21 +163,26 @@ export default function QuoteFunnel() {
       <header className="sticky top-0 z-50 bg-white/80 backdrop-blur-xl border-b border-gray-200/60 shadow-sm">
         <div className="max-w-2xl mx-auto px-4 flex items-center justify-between h-14">
           <Link href="/" className="flex items-center">
-            <Image
-              src="/images/logo.png"
-              alt="Birmingham Removals"
-              width={180}
-              height={58}
-              className="h-10 w-auto"
-              priority
-            />
+            {s.logoUrl && s.logoUrl.startsWith("data:") ? (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img src={s.logoUrl} alt="Birmingham Removals" className="h-10 w-auto" />
+            ) : (
+              <Image
+                src={s.logoUrl || "/images/logo.png"}
+                alt="Birmingham Removals"
+                width={180}
+                height={58}
+                className="h-10 w-auto"
+                priority
+              />
+            )}
           </Link>
           <a
-            href="tel:+447365380090"
+            href={phoneHref}
             className="flex items-center gap-1.5 text-muted hover:text-gray-900 transition-colors text-sm"
           >
             <Phone className="w-4 h-4" />
-            <span className="hidden sm:inline">07365 380090</span>
+            <span className="hidden sm:inline">{s.phone}</span>
           </a>
         </div>
       </header>

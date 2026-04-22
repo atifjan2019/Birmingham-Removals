@@ -10,13 +10,16 @@ import Services from "@/components/Services";
 import HowItWorks from "@/components/HowItWorks";
 import CTAStrip from "@/components/CTAStrip";
 import HeroPopup from "@/components/HeroPopup";
+import { SITE_SETTINGS_FALLBACK, telHref } from "@/lib/siteSettings";
 
-export default function AreaClient({ areaData }) {
+export default function AreaClient({ areaData, settings }) {
   const [popupOpen, setPopupOpen] = useState(false);
+  const s = { ...SITE_SETTINGS_FALLBACK, ...(settings || {}) };
+  const phoneHref = telHref(s.phone);
 
   return (
     <>
-      <Navbar onOpenQuote={() => setPopupOpen(true)} />
+      <Navbar onOpenQuote={() => setPopupOpen(true)} settings={settings} />
 
       <section className="relative pt-20 pb-24 overflow-hidden bg-gradient-to-br from-[#0B1E3F] to-[#1E3A8A] text-white">
         <div className="absolute inset-0 z-0">
@@ -73,11 +76,11 @@ export default function AreaClient({ areaData }) {
               <ArrowRight className="w-5 h-5" />
             </button>
             <a
-              href="tel:+447365380090"
+              href={phoneHref}
               className="inline-flex items-center gap-2 px-7 py-4 border border-white/20 text-white font-semibold rounded-full hover:bg-white/10 transition-all w-full sm:w-auto justify-center backdrop-blur"
             >
               <Phone className="w-5 h-5 text-[#F97316]" />
-              07365 380090
+              {s.phone}
             </a>
           </motion.div>
         </div>
@@ -161,8 +164,8 @@ export default function AreaClient({ areaData }) {
 
       <Services />
       <HowItWorks />
-      <CTAStrip onOpenQuote={() => setPopupOpen(true)} />
-      <Footer />
+      <CTAStrip onOpenQuote={() => setPopupOpen(true)} settings={settings} />
+      <Footer settings={settings} />
       <HeroPopup open={popupOpen} onClose={() => setPopupOpen(false)} />
     </>
   );

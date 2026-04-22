@@ -1,9 +1,9 @@
-"use client";
-
 import { Suspense } from "react";
 import QuoteFunnel from "./components/QuoteFunnel";
+import { getSiteSettings } from "@/lib/siteSettings";
 
-export default function QuotePage() {
+export default async function QuotePage() {
+  const settings = await getSiteSettings();
   return (
     <Suspense
       fallback={
@@ -12,7 +12,7 @@ export default function QuotePage() {
         </div>
       }
     >
-      <QuoteFunnel />
+      <QuoteFunnel settings={settings} />
     </Suspense>
   );
 }
