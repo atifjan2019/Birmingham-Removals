@@ -59,17 +59,24 @@ export default function Navbar({ onOpenQuote, settings }) {
           <div className="flex items-center justify-between h-16 md:h-20">
             {/* Logo */}
             <Link href="/" className="flex items-center gap-3 group">
-              <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#0B1E3F] to-[#1E3A8A] flex items-center justify-center shadow-md">
-                <span className="font-[family-name:var(--font-space)] font-extrabold text-white text-lg">B</span>
-              </div>
-              <div className="leading-tight">
-                <div className="font-[family-name:var(--font-space)] font-extrabold text-[#0B1E3F] text-lg">
-                  Birmingham <span className="text-[#F97316]">Removals</span>
-                </div>
-                <div className="text-[10px] uppercase tracking-widest text-slate-500">
-                  West Midlands · Since 2015
-                </div>
-              </div>
+              {s.logoUrl ? (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img src={s.logoUrl} alt="Logo" className="h-12 w-auto max-w-[220px] object-contain" />
+              ) : (
+                <>
+                  <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#0B1E3F] to-[#1E3A8A] flex items-center justify-center shadow-md">
+                    <span className="font-[family-name:var(--font-space)] font-extrabold text-white text-lg">B</span>
+                  </div>
+                  <div className="leading-tight">
+                    <div className="font-[family-name:var(--font-space)] font-extrabold text-[#0B1E3F] text-lg">
+                      Birmingham <span className="text-[#F97316]">Removals</span>
+                    </div>
+                    <div className="text-[10px] uppercase tracking-widest text-slate-500">
+                      West Midlands · Since 2015
+                    </div>
+                  </div>
+                </>
+              )}
             </Link>
 
             {/* Desktop Nav */}

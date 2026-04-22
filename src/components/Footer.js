@@ -112,17 +112,24 @@ export default function Footer({ settings }) {
           {/* Brand */}
           <div className="lg:col-span-4">
             <Link href="/" className="flex items-center gap-3 mb-5">
-              <div className="w-11 h-11 rounded-xl bg-gradient-to-br from-[#F97316] to-[#EA580C] flex items-center justify-center">
-                <span className="font-[family-name:var(--font-space)] font-extrabold text-white text-lg">B</span>
-              </div>
-              <div>
-                <div className="font-[family-name:var(--font-space)] font-extrabold text-xl">
-                  Birmingham <span className="text-[#F97316]">Removals</span>
-                </div>
-                <div className="text-[10px] uppercase tracking-widest text-white/60">
-                  West Midlands · Since 2015
-                </div>
-              </div>
+              {s.logoUrl ? (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img src={s.logoUrl} alt="Logo" className="h-14 w-auto max-w-[240px] object-contain bg-white rounded-xl p-2" />
+              ) : (
+                <>
+                  <div className="w-11 h-11 rounded-xl bg-gradient-to-br from-[#F97316] to-[#EA580C] flex items-center justify-center">
+                    <span className="font-[family-name:var(--font-space)] font-extrabold text-white text-lg">B</span>
+                  </div>
+                  <div>
+                    <div className="font-[family-name:var(--font-space)] font-extrabold text-xl">
+                      Birmingham <span className="text-[#F97316]">Removals</span>
+                    </div>
+                    <div className="text-[10px] uppercase tracking-widest text-white/60">
+                      West Midlands · Since 2015
+                    </div>
+                  </div>
+                </>
+              )}
             </Link>
             <p className="text-white/70 text-sm leading-relaxed mb-6 max-w-sm">
               Birmingham&apos;s most trusted removals team. We take the stress out of moving so
