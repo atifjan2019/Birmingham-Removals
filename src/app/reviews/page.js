@@ -29,7 +29,7 @@ export default function ReviewsPage() {
       <main>
         <section className="relative pt-20 pb-20 bg-gradient-to-br from-[#0B1E3F] to-[#1E3A8A] text-white overflow-hidden">
           <div className="absolute inset-0 grid-pattern opacity-[0.05]" />
-          <div className="relative max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
             <div className="flex items-center justify-center gap-1 mb-4 text-[#F97316]">
               {[...Array(5)].map((_, i) => <Star key={i} className="w-7 h-7 fill-current" />)}
             </div>
@@ -43,7 +43,7 @@ export default function ReviewsPage() {
         </section>
 
         <section className="py-20 bg-slate-50">
-          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
               {reviews.map((r, i) => (
                 <div key={i} className="bg-white border border-slate-200 rounded-2xl p-7 hover:shadow-lg transition-shadow relative">

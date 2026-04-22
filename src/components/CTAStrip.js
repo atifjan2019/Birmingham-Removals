@@ -9,7 +9,7 @@ export default function CTAStrip({ onOpenQuote }) {
       <div className="absolute inset-0 grid-pattern opacity-10" />
       <div className="absolute -bottom-40 -right-40 w-96 h-96 bg-white/10 blur-3xl rounded-full" />
 
-      <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col lg:flex-row items-center justify-between gap-8">
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col lg:flex-row items-center justify-between gap-8">
         <div className="text-center lg:text-left max-w-2xl">
           <h2 className="font-[family-name:var(--font-space)] text-3xl sm:text-4xl lg:text-5xl font-extrabold leading-tight">
             Ready for a stress-free Birmingham move?

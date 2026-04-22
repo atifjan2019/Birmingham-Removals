@@ -57,7 +57,7 @@ export default function ServicePageClient({ service }) {
         <div className="absolute inset-0 grid-pattern opacity-[0.05]" />
         <div className="absolute -top-20 -right-20 w-[40rem] h-[40rem] bg-[#F97316]/10 blur-3xl rounded-full" />
 
-        <div className="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <Link
             href="/services"
             className="inline-flex items-center gap-1.5 text-white/70 hover:text-[#F97316] text-sm font-semibold mb-8 transition-colors"
@@ -98,7 +98,7 @@ export default function ServicePageClient({ service }) {
       </section>
 
       <section className="py-20 bg-white">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 space-y-20">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-20">
           {service.sections.map((section, i) => (
             <div key={i} className="grid grid-cols-1 lg:grid-cols-12 gap-10">
               <div className="lg:col-span-5">
@@ -141,7 +141,7 @@ export default function ServicePageClient({ service }) {
 
       {service.faqs && service.faqs.length > 0 && (
         <section className="py-20 bg-slate-50">
-          <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 grid lg:grid-cols-12 gap-12">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid lg:grid-cols-12 gap-12">
             <div className="lg:col-span-5">
               <span className="inline-block px-3 py-1 rounded-full bg-[#F97316]/10 text-[#F97316] text-xs font-bold uppercase tracking-wider mb-4">
                 FAQ
