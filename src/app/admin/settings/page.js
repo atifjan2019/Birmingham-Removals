@@ -14,10 +14,14 @@ export default async function SettingsPage() {
 
   let adminDetails = null;
   if (sessionUser?.userId) {
-    adminDetails = await prisma.adminUser.findUnique({
-      where: { id: sessionUser.userId },
-      select: { email: true },
-    });
+    try {
+      adminDetails = await prisma.adminUser.findUnique({
+        where: { id: sessionUser.userId },
+        select: { email: true },
+      });
+    } catch (e) {
+      console.error("[settings] adminUser lookup failed:", e?.message);
+    }
   }
 
   const settings = await getSiteSettings();

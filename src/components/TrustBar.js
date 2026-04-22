@@ -7,7 +7,7 @@ const badges = [
   { icon: BadgeCheck, label: "DBS-Checked Crews" },
   { icon: Award, label: "BAR Registered" },
   { icon: Users, label: "5,200+ Happy Customers" },
-  { icon: ThumbsUp, label: "4.9★ Google Rating" },
+  { icon: ThumbsUp, label: "4.9 Google Rating" },
   { icon: Clock, label: "Same-Day Available" },
 ];
 
