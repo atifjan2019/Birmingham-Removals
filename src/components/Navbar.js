@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X, Phone, ArrowRight } from "lucide-react";
 import Link from "next/link";
+import { SITE_SETTINGS_FALLBACK, telHref } from "@/lib/siteSettings";
 
 const navLinks = [
   { label: "Services", href: "/#services" },
@@ -14,7 +15,10 @@ const navLinks = [
   { label: "Contact", href: "/contact" },
 ];
 
-export default function Navbar({ onOpenQuote }) {
+export default function Navbar({ onOpenQuote, settings }) {
+  const s = { ...SITE_SETTINGS_FALLBACK, ...(settings || {}) };
+  const phoneHref = telHref(s.phone);
+  const mailHref = `mailto:${s.email}`;
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
 
@@ -34,11 +38,11 @@ export default function Navbar({ onOpenQuote }) {
             Birmingham&apos;s 5-star removals company — serving the West Midlands since 2015
           </span>
           <div className="flex items-center gap-5">
-            <a href="tel:+447365380090" className="flex items-center gap-1.5 hover:text-[#F97316] transition-colors">
-              <Phone className="w-3 h-3" /> 07365 380090
+            <a href={phoneHref} className="flex items-center gap-1.5 hover:text-[#F97316] transition-colors">
+              <Phone className="w-3 h-3" /> {s.phone}
             </a>
-            <a href="mailto:info@birminghamremovals.uk" className="hover:text-[#F97316] transition-colors">
-              info@birminghamremovals.uk
+            <a href={mailHref} className="hover:text-[#F97316] transition-colors">
+              {s.email}
             </a>
           </div>
         </div>
@@ -83,11 +87,11 @@ export default function Navbar({ onOpenQuote }) {
 
             <div className="hidden lg:flex items-center gap-3">
               <a
-                href="tel:+447365380090"
+                href={phoneHref}
                 className="flex items-center gap-2 px-4 py-2 rounded-full border border-slate-200 text-[#0B1E3F] text-sm font-semibold hover:border-[#F97316] hover:text-[#F97316] transition-colors"
               >
                 <Phone className="w-4 h-4" />
-                07365 380090
+                {s.phone}
               </a>
               {onOpenQuote ? (
                 <button
@@ -111,7 +115,7 @@ export default function Navbar({ onOpenQuote }) {
             {/* Mobile actions */}
             <div className="flex items-center gap-2 lg:hidden">
               <a
-                href="tel:+447365380090"
+                href={phoneHref}
                 className="w-10 h-10 rounded-full bg-[#F97316]/10 border border-[#F97316]/20 flex items-center justify-center"
                 aria-label="Call us"
               >

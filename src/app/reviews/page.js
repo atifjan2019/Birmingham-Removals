@@ -1,7 +1,8 @@
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
+import Navbar from "@/components/NavbarServer";
+import Footer from "@/components/FooterServer";
 import CTAStrip from "@/components/CTAStrip";
 import { Star, Quote } from "lucide-react";
+import { getSiteSettings } from "@/lib/siteSettings";
 
 export const metadata = {
   title: "Reviews — Birmingham Removals | 4.9★ from 312+ Customers",

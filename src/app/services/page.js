@@ -1,9 +1,10 @@
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
+import Navbar from "@/components/NavbarServer";
+import Footer from "@/components/FooterServer";
 import CTAStrip from "@/components/CTAStrip";
 import servicesData from "@/lib/servicesData";
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
+import { getSiteSettings } from "@/lib/siteSettings";
 
 export const metadata = {
   title: "Removal Services | Birmingham Removals",
@@ -12,7 +13,8 @@ export const metadata = {
   alternates: { canonical: "https://www.birminghamremovals.uk/services" },
 };
 
-export default function ServicesPage() {
+export default async function ServicesPage() {
+  const settings = await getSiteSettings();
   return (
     <>
       <Navbar />
@@ -58,7 +60,7 @@ export default function ServicesPage() {
           </div>
         </section>
 
-        <CTAStrip />
+        <CTAStrip settings={settings} />
       </main>
       <Footer />
     </>

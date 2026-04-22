@@ -2,8 +2,11 @@
 
 import { Phone, ArrowRight } from "lucide-react";
 import Link from "next/link";
+import { SITE_SETTINGS_FALLBACK, telHref } from "@/lib/siteSettings";
 
-export default function CTAStrip({ onOpenQuote }) {
+export default function CTAStrip({ onOpenQuote, settings }) {
+  const s = { ...SITE_SETTINGS_FALLBACK, ...(settings || {}) };
+  const phoneHref = telHref(s.phone);
   return (
     <section className="py-16 sm:py-20 bg-gradient-to-br from-[#F97316] to-[#EA580C] text-white relative overflow-hidden">
       <div className="absolute inset-0 grid-pattern opacity-10" />
@@ -20,11 +23,11 @@ export default function CTAStrip({ onOpenQuote }) {
         </div>
         <div className="flex flex-col sm:flex-row items-center gap-3 shrink-0">
           <a
-            href="tel:+447365380090"
+            href={phoneHref}
             className="inline-flex items-center gap-2 px-6 py-4 rounded-full bg-white/10 border border-white/20 backdrop-blur font-semibold hover:bg-white/20 transition-colors"
           >
             <Phone className="w-5 h-5" />
-            07365 380090
+            {s.phone}
           </a>
           {onOpenQuote ? (
             <button

@@ -31,3 +31,13 @@ export async function getSiteSettings() {
 }
 
 export const SITE_SETTINGS_FALLBACK = FALLBACK;
+
+export function telHref(phone) {
+  if (!phone) return "tel:";
+  const digits = String(phone).replace(/\D/g, "");
+  if (!digits) return "tel:";
+  if (digits.startsWith("44")) return `tel:+${digits}`;
+  if (digits.startsWith("0")) return `tel:+44${digits.slice(1)}`;
+  return `tel:${digits}`;
+}
+

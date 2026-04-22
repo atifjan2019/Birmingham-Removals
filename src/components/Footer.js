@@ -2,6 +2,7 @@
 
 import { Phone, Mail, MapPin } from "lucide-react";
 import Link from "next/link";
+import { SITE_SETTINGS_FALLBACK, telHref } from "@/lib/siteSettings";
 
 const serviceLinks = [
   { label: "House Removals", href: "/services/house-removals" },
@@ -32,10 +33,46 @@ const companyLinks = [
   { label: "Sitemap", href: "/sitemap" },
 ];
 
-const socialLinks = [
-  { label: "Facebook", href: "#", icon: FacebookIcon },
-  { label: "Instagram", href: "#", icon: InstagramIcon },
-  { label: "Twitter", href: "#", icon: TwitterIcon },
+function YouTubeIcon(props) {
+  return (
+    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" {...props}>
+      <path d="M23 7.5c-.3-1.1-1.1-1.9-2.2-2.2C18.8 5 12 5 12 5s-6.8 0-8.8.3C2.1 5.6 1.3 6.4 1 7.5.7 9.5.7 12 .7 12s0 2.5.3 4.5c.3 1.1 1.1 1.9 2.2 2.2 2 .3 8.8.3 8.8.3s6.8 0 8.8-.3c1.1-.3 1.9-1.1 2.2-2.2.3-2 .3-4.5.3-4.5s0-2.5-.3-4.5ZM9.8 15.6V8.4l5.7 3.6-5.7 3.6Z" />
+    </svg>
+  );
+}
+
+function LinkedInIcon(props) {
+  return (
+    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" {...props}>
+      <path d="M20.4 3H3.6C3.3 3 3 3.3 3 3.6v16.8c0 .3.3.6.6.6h16.8c.3 0 .6-.3.6-.6V3.6c0-.3-.3-.6-.6-.6ZM8.3 18.3H5.7V9.7h2.7v8.6Zm-1.3-9.7c-.9 0-1.5-.7-1.5-1.5s.7-1.5 1.5-1.5 1.5.7 1.5 1.5-.6 1.5-1.5 1.5Zm11.3 9.7h-2.7v-4.2c0-1 0-2.3-1.4-2.3s-1.6 1.1-1.6 2.2v4.3h-2.7V9.7h2.6v1.2h.1c.4-.7 1.3-1.4 2.6-1.4 2.7 0 3.2 1.8 3.2 4.1v4.7Z" />
+    </svg>
+  );
+}
+
+function TikTokIcon(props) {
+  return (
+    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" {...props}>
+      <path d="M19.6 6.7a5 5 0 0 1-3-1.7 4.6 4.6 0 0 1-1.1-3h-3.2v12a2.5 2.5 0 1 1-2.5-2.5h.6V8.4a5.6 5.6 0 1 0 5.1 5.6V8.7a8 8 0 0 0 4.1 1.2V6.7Z" />
+    </svg>
+  );
+}
+
+function WhatsAppIcon(props) {
+  return (
+    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" {...props}>
+      <path d="M17.5 14.4c-.3-.1-1.7-.8-2-.9-.3-.1-.5-.1-.7.2-.2.3-.7.9-.9 1.1-.2.2-.3.2-.6.1-.3-.1-1.2-.4-2.3-1.4-.8-.7-1.4-1.7-1.6-2-.2-.3 0-.4.1-.6.1-.1.3-.3.4-.5.1-.2.2-.3.3-.5.1-.2.1-.4 0-.5-.1-.1-.7-1.6-.9-2.2-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.5s1.1 2.9 1.2 3.1c.1.2 2.1 3.3 5.2 4.6 1.9.7 2.7.8 3.6.7.6-.1 1.7-.7 1.9-1.4.2-.7.2-1.2.2-1.4-.1-.1-.3-.2-.6-.3ZM12 2C6.5 2 2 6.5 2 12c0 1.7.5 3.4 1.3 4.8L2 22l5.3-1.4c1.4.8 3 1.2 4.7 1.2 5.5 0 10-4.5 10-10S17.5 2 12 2Z" />
+    </svg>
+  );
+}
+
+const SOCIAL_DEFS = [
+  { key: "facebook", label: "Facebook", Icon: FacebookIcon },
+  { key: "instagram", label: "Instagram", Icon: InstagramIcon },
+  { key: "twitter", label: "Twitter", Icon: TwitterIcon },
+  { key: "linkedin", label: "LinkedIn", Icon: LinkedInIcon },
+  { key: "youtube", label: "YouTube", Icon: YouTubeIcon },
+  { key: "tiktok", label: "TikTok", Icon: TikTokIcon },
+  { key: "whatsapp", label: "WhatsApp", Icon: WhatsAppIcon },
 ];
 
 function FacebookIcon(props) {
@@ -64,7 +101,12 @@ function TwitterIcon(props) {
   );
 }
 
-export default function Footer() {
+export default function Footer({ settings }) {
+  const s = { ...SITE_SETTINGS_FALLBACK, ...(settings || {}) };
+  const phoneHref = telHref(s.phone);
+  const mailHref = `mailto:${s.email}`;
+  const activeSocials = SOCIAL_DEFS.filter((sd) => s[sd.key] && String(s[sd.key]).trim().length > 0);
+
   return (
     <footer className="bg-[#0B1E3F] text-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-20">
@@ -88,18 +130,22 @@ export default function Footer() {
               Birmingham&apos;s most trusted removals team. We take the stress out of moving so
               you can focus on settling into your new home or office.
             </p>
-            <div className="flex gap-3">
-              {socialLinks.map(({ label, href, icon: Icon }) => (
-                <a
-                  key={label}
-                  href={href}
-                  aria-label={label}
-                  className="w-9 h-9 rounded-full bg-white/5 border border-white/10 flex items-center justify-center hover:bg-[#F97316] hover:border-[#F97316] transition-colors"
-                >
-                  <Icon className="w-4 h-4" />
-                </a>
-              ))}
-            </div>
+            {activeSocials.length > 0 && (
+              <div className="flex gap-3 flex-wrap">
+                {activeSocials.map(({ key, label, Icon }) => (
+                  <a
+                    key={key}
+                    href={s[key]}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={label}
+                    className="w-9 h-9 rounded-full bg-white/5 border border-white/10 flex items-center justify-center hover:bg-[#F97316] hover:border-[#F97316] transition-colors"
+                  >
+                    <Icon className="w-4 h-4" />
+                  </a>
+                ))}
+              </div>
+            )}
           </div>
 
           {/* Services */}
@@ -158,23 +204,19 @@ export default function Footer() {
             <ul className="space-y-4 text-sm">
               <li className="flex items-start gap-3">
                 <Phone className="w-4 h-4 text-[#F97316] shrink-0 mt-0.5" />
-                <a href="tel:+447365380090" className="text-white/80 hover:text-white transition-colors">
-                  07365 380090
+                <a href={phoneHref} className="text-white/80 hover:text-white transition-colors">
+                  {s.phone}
                 </a>
               </li>
               <li className="flex items-start gap-3">
                 <Mail className="w-4 h-4 text-[#F97316] shrink-0 mt-0.5" />
-                <a href="mailto:info@birminghamremovals.uk" className="text-white/80 hover:text-white transition-colors">
-                  info@birminghamremovals.uk
+                <a href={mailHref} className="text-white/80 hover:text-white transition-colors">
+                  {s.email}
                 </a>
               </li>
               <li className="flex items-start gap-3">
                 <MapPin className="w-4 h-4 text-[#F97316] shrink-0 mt-0.5" />
-                <span className="text-white/80">
-                  Birmingham City Centre
-                  <br />
-                  B1 1AA, West Midlands
-                </span>
+                <span className="text-white/80 whitespace-pre-line">{s.address}</span>
               </li>
             </ul>
           </div>

@@ -1,6 +1,6 @@
 import Link from "next/link";
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
+import Navbar from "@/components/NavbarServer";
+import Footer from "@/components/FooterServer";
 import { areasList } from "../areas/data";
 import servicesData from "@/lib/servicesData";
 import { Map, MapPin, Navigation, Briefcase } from "lucide-react";
@@ -22,7 +22,7 @@ const mainPages = [
   { href: "/reviews", label: "Customer Reviews" },
 ];
 
-export default function SitemapPage() {
+export default async function SitemapPage() {
   return (
     <>
       <Navbar />
