@@ -150,8 +150,6 @@ export default async function RootLayout({ children }) {
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
-      </head>
-      <body className="min-h-screen bg-white text-[#0B1E3F]" suppressHydrationWarning>
         <Script id="smartlook" strategy="afterInteractive">
           {`
             window.smartlook||(function(d) {
@@ -159,9 +157,11 @@ export default async function RootLayout({ children }) {
               var c=d.createElement('script');o.api=new Array();c.async=true;c.type='text/javascript';
               c.charset='utf-8';c.src='https://web-sdk.smartlook.com/recorder.js';h.appendChild(c);
             })(document);
-            smartlook('init', 'a45602631ad33a33d938753e59ec193131138703', { region: 'eu' });
+            smartlook('init', '46b85b47fc8859eeb693f5a26240894d74e9edd7', { region: 'eu' });
           `}
         </Script>
+      </head>
+      <body className="min-h-screen bg-white text-[#0B1E3F]" suppressHydrationWarning>
         {children}
       </body>
     </html>
