@@ -1,9 +1,0 @@
-{
-  "permissions": {
-    "allow": [
-      "Bash(find src *)",
-      "Bash(sed -i -e 's/e\\\\.g\\\\. NE1 4XF/e.g. B1 1AA/g' -e 's/e\\\\.g\\\\. NE3 2PA/e.g. B15 2TT/g' src/components/QuoteForm/Step2Details.js src/app/quote/components/Step2FromPostcode.js src/app/quote/components/Step3ToPostcode.js)",
-      "Bash(sed -i -e 's/placeholder=\"NE1 1AD\"/placeholder=\"B1 1AA\"/g' -e 's/placeholder=\"NE2 4BC\"/placeholder=\"B15 2TT\"/g' src/app/admin/bookings/ManualBookingModal.js)"
-    ]
-  }
-}
