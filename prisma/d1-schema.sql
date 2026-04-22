@@ -55,9 +55,10 @@ CREATE INDEX IF NOT EXISTS idx_activity_created ON ActivityLog(createdAt DESC);
 CREATE INDEX IF NOT EXISTS idx_activity_action ON ActivityLog(action);
 
 CREATE TABLE IF NOT EXISTS SiteSettings (
-  id          INTEGER PRIMARY KEY,
-  logoUrl     TEXT,
-  faviconUrl  TEXT,
+  id            INTEGER PRIMARY KEY,
+  logoUrl       TEXT,
+  footerLogoUrl TEXT,
+  faviconUrl    TEXT,
   phone       TEXT,
   email       TEXT,
   address     TEXT,

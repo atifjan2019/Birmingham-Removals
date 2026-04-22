@@ -58,15 +58,20 @@ export async function updateSiteSettings(_prevState, formData) {
     }
 
     const logoFile = formData.get("logo");
+    const footerLogoFile = formData.get("footerLogo");
     const faviconFile = formData.get("favicon");
 
     const logoData = await fileToDataUrl(logoFile, MAX_LOGO_BYTES, "Logo");
     if (logoData) patch.logoUrl = logoData;
 
+    const footerLogoData = await fileToDataUrl(footerLogoFile, MAX_LOGO_BYTES, "Footer logo");
+    if (footerLogoData) patch.footerLogoUrl = footerLogoData;
+
     const faviconData = await fileToDataUrl(faviconFile, MAX_FAVICON_BYTES, "Favicon");
     if (faviconData) patch.faviconUrl = faviconData;
 
     if (formData.get("removeLogo") === "1") patch.logoUrl = null;
+    if (formData.get("removeFooterLogo") === "1") patch.footerLogoUrl = null;
     if (formData.get("removeFavicon") === "1") patch.faviconUrl = null;
 
     await updateWorkerSettings(patch);

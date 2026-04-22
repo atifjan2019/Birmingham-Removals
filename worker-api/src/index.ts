@@ -92,6 +92,7 @@ interface CreateActivityRequest {
 interface SiteSettingsRow {
 	id: number;
 	logoUrl: string | null;
+	footerLogoUrl: string | null;
 	faviconUrl: string | null;
 	phone: string | null;
 	email: string | null;
@@ -108,6 +109,7 @@ interface SiteSettingsRow {
 
 const SITE_SETTINGS_FIELDS = [
 	"logoUrl",
+	"footerLogoUrl",
 	"faviconUrl",
 	"phone",
 	"email",
@@ -472,7 +474,7 @@ async function createActivity(request: Request, env: Env, corsHeaders?: HeadersI
 async function getSettings(env: Env, corsHeaders?: HeadersInit): Promise<Response> {
 	await env.DB.prepare("INSERT OR IGNORE INTO SiteSettings (id) VALUES (1)").run();
 	const row = await env.DB.prepare(
-		`SELECT id, logoUrl, faviconUrl, phone, email, address,
+		`SELECT id, logoUrl, footerLogoUrl, faviconUrl, phone, email, address,
 			facebook, instagram, twitter, linkedin, youtube, tiktok, whatsapp, updatedAt
 		 FROM SiteSettings WHERE id = 1`,
 	).first<SiteSettingsRow>();
@@ -517,7 +519,7 @@ async function updateSettings(request: Request, env: Env, corsHeaders?: HeadersI
 	}
 
 	const row = await env.DB.prepare(
-		`SELECT id, logoUrl, faviconUrl, phone, email, address,
+		`SELECT id, logoUrl, footerLogoUrl, faviconUrl, phone, email, address,
 			facebook, instagram, twitter, linkedin, youtube, tiktok, whatsapp, updatedAt
 		 FROM SiteSettings WHERE id = 1`,
 	).first<SiteSettingsRow>();

@@ -2,6 +2,7 @@ import { getWorkerSettings } from "@/lib/workerApi";
 
 const FALLBACK = {
   logoUrl: "/images/logo.png",
+  footerLogoUrl: "",
   faviconUrl: "/favicon.ico",
   phone: "07365 380090",
   email: "info@birminghamremovals.uk",

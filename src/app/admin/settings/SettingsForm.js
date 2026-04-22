@@ -186,6 +186,14 @@ export default function SettingsForm({ initial }) {
             accept="image/png,image/x-icon,image/svg+xml,image/vnd.microsoft.icon"
             hint="ICO, PNG or SVG. Max 100 KB. Square (32×32 or 64×64) works best."
           />
+          <ImageUploader
+            name="footerLogo"
+            removeName="removeFooterLogo"
+            label="Footer Logo"
+            currentSrc={initial.footerLogoUrl}
+            accept="image/png,image/jpeg,image/webp,image/svg+xml"
+            hint="Optional. Used in the dark footer instead of the main logo. PNG, JPG, WebP or SVG. Max 500 KB."
+          />
         </div>
       </section>
 

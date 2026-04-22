@@ -112,9 +112,13 @@ export default function Footer({ settings }) {
           {/* Brand */}
           <div className="lg:col-span-4">
             <Link href="/" className="flex items-center gap-3 mb-5">
-              {s.logoUrl ? (
+              {s.footerLogoUrl || s.logoUrl ? (
                 // eslint-disable-next-line @next/next/no-img-element
-                <img src={s.logoUrl} alt="Logo" className="h-14 w-auto max-w-[240px] object-contain bg-white rounded-xl p-2" />
+                <img
+                  src={s.footerLogoUrl || s.logoUrl}
+                  alt="Logo"
+                  className={`h-14 w-auto max-w-[240px] object-contain ${s.footerLogoUrl ? "" : "bg-white rounded-xl p-2"}`}
+                />
               ) : (
                 <>
                   <div className="w-11 h-11 rounded-xl bg-gradient-to-br from-[#F97316] to-[#EA580C] flex items-center justify-center">
