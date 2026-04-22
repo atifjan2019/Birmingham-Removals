@@ -1,7 +1,8 @@
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
+import Navbar from "@/components/NavbarServer";
+import Footer from "@/components/FooterServer";
 import FAQ from "@/components/FAQ";
 import CTAStrip from "@/components/CTAStrip";
+import { getSiteSettings } from "@/lib/siteSettings";
 
 export const metadata = {
   title: "FAQ — Birmingham Removals | Prices, Insurance, Booking Questions",
@@ -10,7 +11,8 @@ export const metadata = {
   alternates: { canonical: "https://www.birminghamremovals.uk/faq" },
 };
 
-export default function FAQPage() {
+export default async function FAQPage() {
+  const settings = await getSiteSettings();
   return (
     <>
       <Navbar />
@@ -27,7 +29,7 @@ export default function FAQPage() {
           </div>
         </section>
         <FAQ />
-        <CTAStrip />
+        <CTAStrip settings={settings} />
       </main>
       <Footer />
     </>

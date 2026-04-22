@@ -23,7 +23,8 @@ const reviews = [
   { name: "Aisha Bhatti", location: "Erdington, B23", rating: 5, text: "Needed a piano moved up two floors. Specialist team came with proper kit, moved it in under an hour, not a scratch. Fair price too." },
 ];
 
-export default function ReviewsPage() {
+export default async function ReviewsPage() {
+  const settings = await getSiteSettings();
   return (
     <>
       <Navbar />
@@ -68,7 +69,7 @@ export default function ReviewsPage() {
           </div>
         </section>
 
-        <CTAStrip />
+        <CTAStrip settings={settings} />
       </main>
       <Footer />
     </>

@@ -1,7 +1,8 @@
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
+import Navbar from "@/components/NavbarServer";
+import Footer from "@/components/FooterServer";
 import CTAStrip from "@/components/CTAStrip";
 import { Award, Users, MapPin, Heart, Clock, ShieldCheck } from "lucide-react";
+import { getSiteSettings } from "@/lib/siteSettings";
 
 export const metadata = {
   title: "About Us — Birmingham Removals | Our Story & Values",
@@ -24,7 +25,8 @@ const stats = [
   { value: "24", label: "Full-time crew" },
 ];
 
-export default function AboutPage() {
+export default async function AboutPage() {
+  const settings = await getSiteSettings();
   return (
     <>
       <Navbar />
@@ -127,7 +129,7 @@ export default function AboutPage() {
           </div>
         </section>
 
-        <CTAStrip />
+        <CTAStrip settings={settings} />
       </main>
       <Footer />
     </>

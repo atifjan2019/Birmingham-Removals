@@ -1,7 +1,8 @@
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
+import Navbar from "@/components/NavbarServer";
+import Footer from "@/components/FooterServer";
 import { Phone, Mail, MapPin, Clock, MessageCircle } from "lucide-react";
 import Link from "next/link";
+import { getSiteSettings, telHref } from "@/lib/siteSettings";
 
 export const metadata = {
   title: "Contact Birmingham Removals | Get in Touch for a Free Quote",
@@ -10,31 +11,38 @@ export const metadata = {
   alternates: { canonical: "https://www.birminghamremovals.uk/contact" },
 };
 
-const channels = [
-  {
-    icon: Phone,
-    title: "Call us",
-    value: "07365 380090",
-    href: "tel:+447365380090",
-    desc: "Mon–Sun · 7am–9pm",
-  },
-  {
-    icon: MessageCircle,
-    title: "WhatsApp",
-    value: "07365 380090",
-    href: "https://wa.me/447365380090",
-    desc: "Quickest reply, 7 days",
-  },
-  {
+function buildChannels(s) {
+  const items = [
+    {
+      icon: Phone,
+      title: "Call us",
+      value: s.phone,
+      href: telHref(s.phone),
+      desc: "Mon–Sun · 7am–9pm",
+    },
+  ];
+  if (s.whatsapp) {
+    items.push({
+      icon: MessageCircle,
+      title: "WhatsApp",
+      value: s.phone,
+      href: s.whatsapp,
+      desc: "Quickest reply, 7 days",
+    });
+  }
+  items.push({
     icon: Mail,
     title: "Email",
-    value: "info@birminghamremovals.uk",
-    href: "mailto:info@birminghamremovals.uk",
+    value: s.email,
+    href: `mailto:${s.email}`,
     desc: "Replies within 1 hour",
-  },
-];
+  });
+  return items;
+}
 
-export default function ContactPage() {
+export default async function ContactPage() {
+  const settings = await getSiteSettings();
+  const channels = buildChannels(settings);
   return (
     <>
       <Navbar />
@@ -88,11 +96,7 @@ export default function ContactPage() {
                     <MapPin className="w-5 h-5 text-[#F97316] shrink-0 mt-1" />
                     <div>
                       <div className="font-semibold">Head Office</div>
-                      <div className="text-white/70 text-sm">
-                        Birmingham City Centre
-                        <br />
-                        B1 1AA, West Midlands
-                      </div>
+                      <div className="text-white/70 text-sm whitespace-pre-line">{settings.address}</div>
                     </div>
                   </li>
                   <li className="flex gap-4">

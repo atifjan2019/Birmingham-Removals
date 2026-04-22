@@ -1,9 +1,10 @@
 import Link from "next/link";
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
+import Navbar from "@/components/NavbarServer";
+import Footer from "@/components/FooterServer";
 import CTAStrip from "@/components/CTAStrip";
 import { MapPin, ArrowUpRight } from "lucide-react";
 import { areasList as areas } from "./data";
+import { getSiteSettings } from "@/lib/siteSettings";
 
 export const metadata = {
   title: "Areas We Cover | Birmingham Removals",
@@ -12,7 +13,8 @@ export const metadata = {
   alternates: { canonical: "https://www.birminghamremovals.uk/areas" },
 };
 
-export default function AreasIndexPage() {
+export default async function AreasIndexPage() {
+  const settings = await getSiteSettings();
   return (
     <>
       <Navbar />
@@ -66,7 +68,7 @@ export default function AreasIndexPage() {
             </div>
           </div>
         </section>
-        <CTAStrip />
+        <CTAStrip settings={settings} />
       </main>
       <Footer />
     </>
