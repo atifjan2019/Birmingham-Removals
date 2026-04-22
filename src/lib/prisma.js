@@ -9,6 +9,7 @@ const DATE_COLS = {
   Booking: ["createdAt", "updatedAt", "moveDate"],
   AdminUser: [],
   ActivityLog: ["createdAt"],
+  SiteSettings: ["updatedAt"],
 };
 
 const JSON_COLS = {
@@ -208,6 +209,7 @@ const customerBase = makeModel({ table: "Customer", modelKey: "Customer" });
 const bookingBase = makeModel({ table: "Booking", modelKey: "Booking" });
 const adminUserBase = makeModel({ table: "AdminUser", modelKey: "AdminUser" });
 const activityLogBase = makeModel({ table: "ActivityLog", modelKey: "ActivityLog" });
+const siteSettingsBase = makeModel({ table: "SiteSettings", modelKey: "SiteSettings" });
 
 // Attach the related customer for booking rows when include.customer is set.
 async function hydrateBookingIncludes(rows, include) {
@@ -305,6 +307,7 @@ const prisma = {
   booking,
   adminUser: adminUserBase,
   activityLog: activityLogBase,
+  siteSettings: siteSettingsBase,
 
   // Prisma client parity for any code that may call these.
   async $connect() {},

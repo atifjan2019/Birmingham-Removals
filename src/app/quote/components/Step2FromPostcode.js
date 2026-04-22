@@ -82,7 +82,7 @@ export default function Step2FromPostcode({ value, onChange, onNext, onBack }) {
         <input
           ref={inputRef}
           type="text"
-          placeholder="e.g. NE1 4XF"
+          placeholder="e.g. B1 1AA"
           value={value}
           onChange={(e) => handleInput(e.target.value)}
           onFocus={() => {

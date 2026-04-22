@@ -34,7 +34,7 @@ export default function LoginPage() {
     <div className="min-h-screen bg-gray-50/50 flex flex-col justify-center items-center p-4">
       <div className="w-full max-w-md animate-in fade-in slide-in-from-bottom-8 duration-700">
         <Link href="/" className="flex items-center justify-center gap-3 mb-8 cursor-pointer">
-          <div className="w-10 h-10 rounded-xl bg-[#FF6B35] flex items-center justify-center text-white text-xl font-bold shadow-lg shadow-[#FF6B35]/25">
+          <div className="w-10 h-10 rounded-xl bg-[#F97316] flex items-center justify-center text-white text-xl font-bold shadow-lg shadow-[#F97316]/25">
             B
           </div>
           <span className="font-[family-name:var(--font-space)] text-2xl font-bold text-gray-900 tracking-tight">

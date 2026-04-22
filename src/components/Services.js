@@ -16,12 +16,12 @@ export default function Services() {
             viewport={{ once: true }}
             transition={{ duration: 0.5 }}
           >
-            <span className="inline-block px-3 py-1 rounded-full bg-[#FF6B35]/10 text-[#FF6B35] text-xs font-bold uppercase tracking-wider mb-4">
+            <span className="inline-block px-3 py-1 rounded-full bg-[#F97316]/10 text-[#F97316] text-xs font-bold uppercase tracking-wider mb-4">
               Our Services
             </span>
-            <h2 className="font-[family-name:var(--font-space)] text-3xl sm:text-4xl lg:text-5xl font-extrabold text-[#0A2540] leading-tight max-w-2xl">
+            <h2 className="font-[family-name:var(--font-space)] text-3xl sm:text-4xl lg:text-5xl font-extrabold text-[#0B1E3F] leading-tight max-w-2xl">
               Removals services across{" "}
-              <span className="text-[#FF6B35]">Birmingham</span> &amp; the West Midlands
+              <span className="text-[#F97316]">Birmingham</span> &amp; the West Midlands
             </h2>
           </motion.div>
           <p className="text-slate-600 text-base max-w-md">
@@ -41,15 +41,15 @@ export default function Services() {
             >
               <Link
                 href={`/services/${service.slug}`}
-                className="group block h-full bg-white rounded-2xl p-7 border border-slate-200 hover:border-[#FF6B35] hover:shadow-xl hover:-translate-y-1 transition-all duration-300"
+                className="group block h-full bg-white rounded-2xl p-7 border border-slate-200 hover:border-[#F97316] hover:shadow-xl hover:-translate-y-1 transition-all duration-300"
               >
                 <div className="flex items-start justify-between mb-6">
-                  <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-[#0A2540] to-[#14375C] flex items-center justify-center">
+                  <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-[#0B1E3F] to-[#1E3A8A] flex items-center justify-center">
                     <service.icon className="w-7 h-7 text-white" />
                   </div>
-                  <ArrowUpRight className="w-5 h-5 text-slate-300 group-hover:text-[#FF6B35] group-hover:rotate-45 transition-all duration-300" />
+                  <ArrowUpRight className="w-5 h-5 text-slate-300 group-hover:text-[#F97316] group-hover:rotate-45 transition-all duration-300" />
                 </div>
-                <h3 className="font-[family-name:var(--font-space)] text-xl font-bold text-[#0A2540] mb-3 group-hover:text-[#FF6B35] transition-colors">
+                <h3 className="font-[family-name:var(--font-space)] text-xl font-bold text-[#0B1E3F] mb-3 group-hover:text-[#F97316] transition-colors">
                   {service.title}
                 </h3>
                 <p className="text-slate-600 text-sm leading-relaxed">

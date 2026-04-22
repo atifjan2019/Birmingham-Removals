@@ -32,19 +32,19 @@ const steps = [
 
 export default function HowItWorks() {
   return (
-    <section id="how-it-works" className="py-24 sm:py-28 bg-[#0A2540] text-white relative overflow-hidden">
+    <section id="how-it-works" className="py-24 sm:py-28 bg-[#0B1E3F] text-white relative overflow-hidden">
       <div className="absolute inset-0 grid-pattern opacity-[0.04]" />
-      <div className="absolute -top-40 right-0 w-[40rem] h-[40rem] bg-[#FF6B35]/10 blur-3xl rounded-full" />
+      <div className="absolute -top-40 right-0 w-[40rem] h-[40rem] bg-[#F97316]/10 blur-3xl rounded-full" />
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-14 max-w-3xl mx-auto">
-          <span className="inline-block px-3 py-1 rounded-full bg-white/10 text-[#FF6B35] text-xs font-bold uppercase tracking-wider mb-4 border border-white/10">
+          <span className="inline-block px-3 py-1 rounded-full bg-white/10 text-[#F97316] text-xs font-bold uppercase tracking-wider mb-4 border border-white/10">
             How It Works
           </span>
           <h2 className="font-[family-name:var(--font-space)] text-3xl sm:text-4xl lg:text-5xl font-extrabold leading-tight">
             Book your Birmingham move
             <br />
-            in <span className="text-[#FF6B35]">four simple steps</span>
+            in <span className="text-[#F97316]">four simple steps</span>
           </h2>
         </div>
 
@@ -56,13 +56,13 @@ export default function HowItWorks() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.4, delay: i * 0.08 }}
-              className="relative bg-white/5 backdrop-blur border border-white/10 rounded-2xl p-7 hover:bg-white/10 hover:border-[#FF6B35]/40 transition-all"
+              className="relative bg-white/5 backdrop-blur border border-white/10 rounded-2xl p-7 hover:bg-white/10 hover:border-[#F97316]/40 transition-all"
             >
-              <div className="absolute -top-4 left-7 px-3 py-1 rounded-full bg-[#FF6B35] text-white text-xs font-bold tracking-wider">
+              <div className="absolute -top-4 left-7 px-3 py-1 rounded-full bg-[#F97316] text-white text-xs font-bold tracking-wider">
                 STEP {s.step}
               </div>
-              <div className="w-12 h-12 rounded-xl bg-[#FF6B35]/15 flex items-center justify-center mt-3 mb-5">
-                <s.icon className="w-6 h-6 text-[#FF6B35]" />
+              <div className="w-12 h-12 rounded-xl bg-[#F97316]/15 flex items-center justify-center mt-3 mb-5">
+                <s.icon className="w-6 h-6 text-[#F97316]" />
               </div>
               <h3 className="font-[family-name:var(--font-space)] text-lg font-bold mb-2">{s.title}</h3>
               <p className="text-white/70 text-sm leading-relaxed">{s.desc}</p>

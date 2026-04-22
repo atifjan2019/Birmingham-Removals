@@ -66,18 +66,18 @@ function TwitterIcon(props) {
 
 export default function Footer() {
   return (
-    <footer className="bg-[#0A2540] text-white">
+    <footer className="bg-[#0B1E3F] text-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-20">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 lg:gap-8">
           {/* Brand */}
           <div className="lg:col-span-4">
             <Link href="/" className="flex items-center gap-3 mb-5">
-              <div className="w-11 h-11 rounded-xl bg-gradient-to-br from-[#FF6B35] to-[#E55720] flex items-center justify-center">
+              <div className="w-11 h-11 rounded-xl bg-gradient-to-br from-[#F97316] to-[#EA580C] flex items-center justify-center">
                 <span className="font-[family-name:var(--font-space)] font-extrabold text-white text-lg">B</span>
               </div>
               <div>
                 <div className="font-[family-name:var(--font-space)] font-extrabold text-xl">
-                  Birmingham <span className="text-[#FF6B35]">Removals</span>
+                  Birmingham <span className="text-[#F97316]">Removals</span>
                 </div>
                 <div className="text-[10px] uppercase tracking-widest text-white/60">
                   West Midlands · Since 2015
@@ -94,7 +94,7 @@ export default function Footer() {
                   key={label}
                   href={href}
                   aria-label={label}
-                  className="w-9 h-9 rounded-full bg-white/5 border border-white/10 flex items-center justify-center hover:bg-[#FF6B35] hover:border-[#FF6B35] transition-colors"
+                  className="w-9 h-9 rounded-full bg-white/5 border border-white/10 flex items-center justify-center hover:bg-[#F97316] hover:border-[#F97316] transition-colors"
                 >
                   <Icon className="w-4 h-4" />
                 </a>
@@ -104,13 +104,13 @@ export default function Footer() {
 
           {/* Services */}
           <div className="lg:col-span-2">
-            <h3 className="font-[family-name:var(--font-space)] font-bold mb-5 text-sm uppercase tracking-wider text-[#FF6B35]">
+            <h3 className="font-[family-name:var(--font-space)] font-bold mb-5 text-sm uppercase tracking-wider text-[#F97316]">
               Services
             </h3>
             <ul className="space-y-3">
               {serviceLinks.map((l) => (
                 <li key={l.href}>
-                  <Link href={l.href} className="text-white/70 text-sm hover:text-[#FF6B35] transition-colors">
+                  <Link href={l.href} className="text-white/70 text-sm hover:text-[#F97316] transition-colors">
                     {l.label}
                   </Link>
                 </li>
@@ -120,13 +120,13 @@ export default function Footer() {
 
           {/* Areas */}
           <div className="lg:col-span-2">
-            <h3 className="font-[family-name:var(--font-space)] font-bold mb-5 text-sm uppercase tracking-wider text-[#FF6B35]">
+            <h3 className="font-[family-name:var(--font-space)] font-bold mb-5 text-sm uppercase tracking-wider text-[#F97316]">
               Areas
             </h3>
             <ul className="space-y-3">
               {areaLinks.map((l) => (
                 <li key={l.href}>
-                  <Link href={l.href} className="text-white/70 text-sm hover:text-[#FF6B35] transition-colors">
+                  <Link href={l.href} className="text-white/70 text-sm hover:text-[#F97316] transition-colors">
                     {l.label}
                   </Link>
                 </li>
@@ -136,13 +136,13 @@ export default function Footer() {
 
           {/* Company */}
           <div className="lg:col-span-2">
-            <h3 className="font-[family-name:var(--font-space)] font-bold mb-5 text-sm uppercase tracking-wider text-[#FF6B35]">
+            <h3 className="font-[family-name:var(--font-space)] font-bold mb-5 text-sm uppercase tracking-wider text-[#F97316]">
               Company
             </h3>
             <ul className="space-y-3">
               {companyLinks.map((l) => (
                 <li key={l.href}>
-                  <Link href={l.href} className="text-white/70 text-sm hover:text-[#FF6B35] transition-colors">
+                  <Link href={l.href} className="text-white/70 text-sm hover:text-[#F97316] transition-colors">
                     {l.label}
                   </Link>
                 </li>
@@ -152,24 +152,24 @@ export default function Footer() {
 
           {/* Contact */}
           <div className="lg:col-span-2">
-            <h3 className="font-[family-name:var(--font-space)] font-bold mb-5 text-sm uppercase tracking-wider text-[#FF6B35]">
+            <h3 className="font-[family-name:var(--font-space)] font-bold mb-5 text-sm uppercase tracking-wider text-[#F97316]">
               Contact
             </h3>
             <ul className="space-y-4 text-sm">
               <li className="flex items-start gap-3">
-                <Phone className="w-4 h-4 text-[#FF6B35] shrink-0 mt-0.5" />
-                <a href="tel:+447888862003" className="text-white/80 hover:text-white transition-colors">
-                  0788 886 2003
+                <Phone className="w-4 h-4 text-[#F97316] shrink-0 mt-0.5" />
+                <a href="tel:+447365380090" className="text-white/80 hover:text-white transition-colors">
+                  07365 380090
                 </a>
               </li>
               <li className="flex items-start gap-3">
-                <Mail className="w-4 h-4 text-[#FF6B35] shrink-0 mt-0.5" />
+                <Mail className="w-4 h-4 text-[#F97316] shrink-0 mt-0.5" />
                 <a href="mailto:info@birminghamremovals.uk" className="text-white/80 hover:text-white transition-colors">
                   info@birminghamremovals.uk
                 </a>
               </li>
               <li className="flex items-start gap-3">
-                <MapPin className="w-4 h-4 text-[#FF6B35] shrink-0 mt-0.5" />
+                <MapPin className="w-4 h-4 text-[#F97316] shrink-0 mt-0.5" />
                 <span className="text-white/80">
                   Birmingham City Centre
                   <br />
@@ -187,12 +187,12 @@ export default function Footer() {
             &copy; {new Date().getFullYear()} Birmingham Removals. All rights reserved.
           </p>
           <p className="text-white/60 text-xs">
-            Developed with <span className="text-[#FF6B35]">&hearts;</span> by{" "}
+            Developed with <span className="text-[#F97316]">&hearts;</span> by{" "}
             <a
               href="https://webspires.co.uk?utm_source=birminghamremovals"
               target="_blank"
               rel="noopener noreferrer"
-              className="font-bold text-white hover:text-[#FF6B35] transition-colors"
+              className="font-bold text-white hover:text-[#F97316] transition-colors"
             >
               Webspires
             </a>

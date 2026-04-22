@@ -14,15 +14,15 @@ const channels = [
   {
     icon: Phone,
     title: "Call us",
-    value: "0788 886 2003",
-    href: "tel:+447888862003",
+    value: "07365 380090",
+    href: "tel:+447365380090",
     desc: "Mon–Sun · 7am–9pm",
   },
   {
     icon: MessageCircle,
     title: "WhatsApp",
-    value: "0788 886 2003",
-    href: "https://wa.me/447888862003",
+    value: "07365 380090",
+    href: "https://wa.me/447365380090",
     desc: "Quickest reply, 7 days",
   },
   {
@@ -39,14 +39,14 @@ export default function ContactPage() {
     <>
       <Navbar />
       <main>
-        <section className="relative pt-20 pb-24 bg-gradient-to-br from-[#0A2540] to-[#14375C] text-white overflow-hidden">
+        <section className="relative pt-20 pb-24 bg-gradient-to-br from-[#0B1E3F] to-[#1E3A8A] text-white overflow-hidden">
           <div className="absolute inset-0 grid-pattern opacity-[0.05]" />
           <div className="relative max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
             <span className="inline-block px-3 py-1 rounded-full bg-white/10 border border-white/15 text-xs font-bold uppercase tracking-wider mb-5">
               Get in Touch
             </span>
             <h1 className="font-[family-name:var(--font-space)] text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-tight">
-              Let&apos;s plan your <span className="text-[#FF6B35]">Birmingham move</span>
+              Let&apos;s plan your <span className="text-[#F97316]">Birmingham move</span>
             </h1>
             <p className="mt-6 text-lg text-white/80 max-w-2xl mx-auto">
               Call, WhatsApp or email — you&apos;ll speak to a real Birmingham-based coordinator.
@@ -64,13 +64,13 @@ export default function ContactPage() {
                   href={c.href}
                   target={c.href.startsWith("http") ? "_blank" : undefined}
                   rel={c.href.startsWith("http") ? "noopener noreferrer" : undefined}
-                  className="bg-slate-50 border border-slate-200 rounded-2xl p-7 hover:border-[#FF6B35] hover:bg-white hover:shadow-lg transition-all text-center group"
+                  className="bg-slate-50 border border-slate-200 rounded-2xl p-7 hover:border-[#F97316] hover:bg-white hover:shadow-lg transition-all text-center group"
                 >
-                  <div className="w-14 h-14 rounded-2xl bg-[#0A2540] flex items-center justify-center mx-auto mb-5 group-hover:bg-[#FF6B35] transition-colors">
-                    <c.icon className="w-6 h-6 text-[#FF6B35] group-hover:text-white transition-colors" />
+                  <div className="w-14 h-14 rounded-2xl bg-[#0B1E3F] flex items-center justify-center mx-auto mb-5 group-hover:bg-[#F97316] transition-colors">
+                    <c.icon className="w-6 h-6 text-[#F97316] group-hover:text-white transition-colors" />
                   </div>
                   <div className="text-xs uppercase tracking-widest text-slate-500 mb-2">{c.title}</div>
-                  <div className="font-[family-name:var(--font-space)] font-bold text-lg text-[#0A2540] mb-1">
+                  <div className="font-[family-name:var(--font-space)] font-bold text-lg text-[#0B1E3F] mb-1">
                     {c.value}
                   </div>
                   <div className="text-sm text-slate-500">{c.desc}</div>
@@ -79,13 +79,13 @@ export default function ContactPage() {
             </div>
 
             <div className="grid lg:grid-cols-5 gap-10 items-start">
-              <div className="lg:col-span-2 bg-[#0A2540] text-white rounded-3xl p-8 sm:p-10">
+              <div className="lg:col-span-2 bg-[#0B1E3F] text-white rounded-3xl p-8 sm:p-10">
                 <h3 className="font-[family-name:var(--font-space)] font-extrabold text-2xl mb-6">
                   Visit or write to us
                 </h3>
                 <ul className="space-y-5">
                   <li className="flex gap-4">
-                    <MapPin className="w-5 h-5 text-[#FF6B35] shrink-0 mt-1" />
+                    <MapPin className="w-5 h-5 text-[#F97316] shrink-0 mt-1" />
                     <div>
                       <div className="font-semibold">Head Office</div>
                       <div className="text-white/70 text-sm">
@@ -96,7 +96,7 @@ export default function ContactPage() {
                     </div>
                   </li>
                   <li className="flex gap-4">
-                    <Clock className="w-5 h-5 text-[#FF6B35] shrink-0 mt-1" />
+                    <Clock className="w-5 h-5 text-[#F97316] shrink-0 mt-1" />
                     <div>
                       <div className="font-semibold">Working Hours</div>
                       <div className="text-white/70 text-sm">
@@ -110,7 +110,7 @@ export default function ContactPage() {
               </div>
 
               <div className="lg:col-span-3 bg-slate-50 border border-slate-200 rounded-3xl p-8 sm:p-10">
-                <h3 className="font-[family-name:var(--font-space)] font-extrabold text-2xl text-[#0A2540] mb-3">
+                <h3 className="font-[family-name:var(--font-space)] font-extrabold text-2xl text-[#0B1E3F] mb-3">
                   Need a fast quote?
                 </h3>
                 <p className="text-slate-600 mb-6">

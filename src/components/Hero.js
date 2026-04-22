@@ -54,11 +54,11 @@ export default function Hero({ onOpenQuote }) {
   };
 
   return (
-    <section className="relative overflow-hidden bg-gradient-to-br from-[#0A2540] via-[#0E2E50] to-[#0A2540] text-white">
+    <section className="relative overflow-hidden bg-gradient-to-br from-[#0B1E3F] via-[#0E2E50] to-[#0B1E3F] text-white">
       {/* Decorative background */}
       <div className="hero-glow" />
       <div className="absolute inset-0 grid-pattern opacity-[0.06]" />
-      <div className="absolute -top-20 -left-20 w-96 h-96 bg-[#FF6B35]/10 blur-3xl rounded-full" />
+      <div className="absolute -top-20 -left-20 w-96 h-96 bg-[#F97316]/10 blur-3xl rounded-full" />
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-14 pb-24 lg:pt-20 lg:pb-32">
         <div className="grid lg:grid-cols-12 gap-10 items-center">
@@ -71,8 +71,8 @@ export default function Hero({ onOpenQuote }) {
               className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 border border-white/15 text-xs font-medium backdrop-blur"
             >
               <span className="relative flex h-2 w-2">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#FF6B35] opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-[#FF6B35]"></span>
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#F97316] opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-[#F97316]"></span>
               </span>
               Taking bookings for this weekend
             </motion.div>
@@ -85,7 +85,7 @@ export default function Hero({ onOpenQuote }) {
             >
               Birmingham&apos;s
               <br />
-              <span className="text-[#FF6B35]">stress-free</span> removals company
+              <span className="text-[#F97316]">stress-free</span> removals company
             </motion.h1>
 
             <motion.p
@@ -111,9 +111,9 @@ export default function Hero({ onOpenQuote }) {
                 className="bg-white rounded-2xl p-3 shadow-2xl shadow-black/30 grid grid-cols-1 md:grid-cols-[1fr_1fr_auto] gap-2"
               >
                 <label className={`flex items-center gap-3 px-4 py-3 rounded-xl bg-slate-50 border transition-colors ${
-                  routeError && !from.trim() ? "border-red-300" : "border-slate-200 focus-within:border-[#FF6B35]"
+                  routeError && !from.trim() ? "border-red-300" : "border-slate-200 focus-within:border-[#F97316]"
                 }`}>
-                  <MapPin className="w-5 h-5 text-[#FF6B35] shrink-0" />
+                  <MapPin className="w-5 h-5 text-[#F97316] shrink-0" />
                   <div className="flex-1 min-w-0">
                     <span className="block text-[11px] uppercase tracking-wider text-slate-500 font-semibold">From</span>
                     <input
@@ -126,14 +126,14 @@ export default function Hero({ onOpenQuote }) {
                         setFrom(e.target.value.toUpperCase());
                         setRouteError("");
                       }}
-                      className="w-full bg-transparent text-[#0A2540] font-semibold text-base focus:outline-none placeholder:text-slate-400"
+                      className="w-full bg-transparent text-[#0B1E3F] font-semibold text-base focus:outline-none placeholder:text-slate-400"
                     />
                   </div>
                 </label>
                 <label className={`flex items-center gap-3 px-4 py-3 rounded-xl bg-slate-50 border transition-colors ${
-                  routeError && !to.trim() ? "border-red-300" : "border-slate-200 focus-within:border-[#FF6B35]"
+                  routeError && !to.trim() ? "border-red-300" : "border-slate-200 focus-within:border-[#F97316]"
                 }`}>
-                  <MapPin className="w-5 h-5 text-[#FF6B35] shrink-0" />
+                  <MapPin className="w-5 h-5 text-[#F97316] shrink-0" />
                   <div className="flex-1 min-w-0">
                     <span className="block text-[11px] uppercase tracking-wider text-slate-500 font-semibold">To</span>
                     <input
@@ -146,7 +146,7 @@ export default function Hero({ onOpenQuote }) {
                         setTo(e.target.value.toUpperCase());
                         setRouteError("");
                       }}
-                      className="w-full bg-transparent text-[#0A2540] font-semibold text-base focus:outline-none placeholder:text-slate-400"
+                      className="w-full bg-transparent text-[#0B1E3F] font-semibold text-base focus:outline-none placeholder:text-slate-400"
                     />
                   </div>
                 </label>
@@ -155,7 +155,7 @@ export default function Hero({ onOpenQuote }) {
                   disabled={isRouting}
                   aria-busy={isRouting}
                   className={`btn-accent relative overflow-hidden inline-flex items-center justify-center gap-2 px-6 py-4 font-semibold rounded-xl min-h-[56px] ${
-                    isRouting ? "cursor-wait shadow-[0_0_0_4px_rgba(255,107,53,0.18)]" : ""
+                    isRouting ? "cursor-wait shadow-[0_0_0_4px_rgba(249, 115, 22,0.18)]" : ""
                   }`}
                 >
                   {isRouting && (
@@ -191,7 +191,7 @@ export default function Hero({ onOpenQuote }) {
             >
               {trustPoints.map((t) => (
                 <div key={t} className="flex items-center gap-2 text-sm text-white/85">
-                  <CheckCircle2 className="w-4 h-4 text-[#FF6B35]" />
+                  <CheckCircle2 className="w-4 h-4 text-[#F97316]" />
                   {t}
                 </div>
               ))}
@@ -213,22 +213,22 @@ export default function Hero({ onOpenQuote }) {
                   alt="Birmingham Removals team at work"
                   className="w-full h-full object-cover"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#0A2540]/70 via-transparent to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#0B1E3F]/70 via-transparent to-transparent" />
 
                 {/* Floating card: 4.9 rating */}
                 <div className="absolute top-6 left-6 bg-white/95 backdrop-blur rounded-2xl p-4 shadow-xl animate-float">
-                  <div className="flex items-center gap-1 text-[#FF6B35] mb-1">
+                  <div className="flex items-center gap-1 text-[#F97316] mb-1">
                     {[...Array(5)].map((_, i) => (
                       <Star key={i} className="w-4 h-4 fill-current" />
                     ))}
                   </div>
-                  <div className="text-[#0A2540] font-bold text-xl">4.9 out of 5</div>
+                  <div className="text-[#0B1E3F] font-bold text-xl">4.9 out of 5</div>
                   <div className="text-slate-500 text-xs">from 312 Google reviews</div>
                 </div>
 
                 {/* Floating card: insured */}
-                <div className="absolute bottom-6 right-6 bg-[#0A2540] text-white rounded-2xl p-4 shadow-xl flex items-center gap-3">
-                  <Shield className="w-8 h-8 text-[#FF6B35]" />
+                <div className="absolute bottom-6 right-6 bg-[#0B1E3F] text-white rounded-2xl p-4 shadow-xl flex items-center gap-3">
+                  <Shield className="w-8 h-8 text-[#F97316]" />
                   <div>
                     <div className="font-bold text-base">£10m insured</div>
                     <div className="text-white/60 text-xs">Goods in transit</div>
@@ -251,8 +251,8 @@ export default function Hero({ onOpenQuote }) {
               key={s.label}
               className="bg-white/5 backdrop-blur border border-white/10 rounded-2xl px-4 py-4 flex items-center gap-3"
             >
-              <div className="w-10 h-10 rounded-xl bg-[#FF6B35]/15 flex items-center justify-center shrink-0">
-                <s.icon className="w-5 h-5 text-[#FF6B35]" />
+              <div className="w-10 h-10 rounded-xl bg-[#F97316]/15 flex items-center justify-center shrink-0">
+                <s.icon className="w-5 h-5 text-[#F97316]" />
               </div>
               <div className="min-w-0">
                 <div className="font-[family-name:var(--font-space)] font-bold text-lg leading-none">{s.value}</div>

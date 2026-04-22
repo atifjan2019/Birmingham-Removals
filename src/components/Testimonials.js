@@ -52,19 +52,19 @@ export default function Testimonials() {
     <section id="testimonials" className="py-24 sm:py-28 bg-slate-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-14 max-w-3xl mx-auto">
-          <span className="inline-block px-3 py-1 rounded-full bg-[#FF6B35]/10 text-[#FF6B35] text-xs font-bold uppercase tracking-wider mb-4">
+          <span className="inline-block px-3 py-1 rounded-full bg-[#F97316]/10 text-[#F97316] text-xs font-bold uppercase tracking-wider mb-4">
             Reviews
           </span>
-          <h2 className="font-[family-name:var(--font-space)] text-3xl sm:text-4xl lg:text-5xl font-extrabold text-[#0A2540] leading-tight">
-            What our <span className="text-[#FF6B35]">Birmingham</span> customers say
+          <h2 className="font-[family-name:var(--font-space)] text-3xl sm:text-4xl lg:text-5xl font-extrabold text-[#0B1E3F] leading-tight">
+            What our <span className="text-[#F97316]">Birmingham</span> customers say
           </h2>
           <div className="flex items-center justify-center gap-2 mt-5">
-            <div className="flex text-[#FF6B35]">
+            <div className="flex text-[#F97316]">
               {[...Array(5)].map((_, k) => (
                 <Star key={k} className="w-5 h-5 fill-current" />
               ))}
             </div>
-            <span className="font-bold text-[#0A2540]">4.9 / 5</span>
+            <span className="font-bold text-[#0B1E3F]">4.9 / 5</span>
             <span className="text-slate-500">from 312+ Google reviews</span>
           </div>
         </div>
@@ -79,21 +79,21 @@ export default function Testimonials() {
               transition={{ duration: 0.35 }}
               className="bg-white rounded-3xl border border-slate-200 p-8 sm:p-12 relative shadow-sm"
             >
-              <Quote className="absolute top-8 right-8 w-16 h-16 text-[#FF6B35]/10" />
-              <div className="flex text-[#FF6B35] mb-5">
+              <Quote className="absolute top-8 right-8 w-16 h-16 text-[#F97316]/10" />
+              <div className="flex text-[#F97316] mb-5">
                 {[...Array(t.rating)].map((_, k) => (
                   <Star key={k} className="w-5 h-5 fill-current" />
                 ))}
               </div>
-              <p className="text-lg sm:text-xl text-[#0A2540] leading-relaxed mb-8 font-medium">
+              <p className="text-lg sm:text-xl text-[#0B1E3F] leading-relaxed mb-8 font-medium">
                 &ldquo;{t.quote}&rdquo;
               </p>
               <div className="flex items-center gap-4 pt-6 border-t border-slate-100">
-                <div className="w-12 h-12 rounded-full bg-gradient-to-br from-[#0A2540] to-[#14375C] text-white font-bold flex items-center justify-center">
+                <div className="w-12 h-12 rounded-full bg-gradient-to-br from-[#0B1E3F] to-[#1E3A8A] text-white font-bold flex items-center justify-center">
                   {t.name.split(" ").map((n) => n[0]).join("")}
                 </div>
                 <div>
-                  <div className="font-bold text-[#0A2540]">{t.name}</div>
+                  <div className="font-bold text-[#0B1E3F]">{t.name}</div>
                   <div className="text-slate-500 text-sm">{t.location}</div>
                 </div>
               </div>
@@ -104,7 +104,7 @@ export default function Testimonials() {
             <button
               onClick={prev}
               aria-label="Previous review"
-              className="w-11 h-11 rounded-full border border-slate-200 bg-white flex items-center justify-center hover:border-[#FF6B35] hover:text-[#FF6B35] transition-colors"
+              className="w-11 h-11 rounded-full border border-slate-200 bg-white flex items-center justify-center hover:border-[#F97316] hover:text-[#F97316] transition-colors"
             >
               <ChevronLeft className="w-5 h-5" />
             </button>
@@ -114,14 +114,14 @@ export default function Testimonials() {
                   key={k}
                   onClick={() => setI(k)}
                   aria-label={`Go to review ${k + 1}`}
-                  className={`h-2 rounded-full transition-all ${k === i ? "w-8 bg-[#FF6B35]" : "w-2 bg-slate-300"}`}
+                  className={`h-2 rounded-full transition-all ${k === i ? "w-8 bg-[#F97316]" : "w-2 bg-slate-300"}`}
                 />
               ))}
             </div>
             <button
               onClick={next}
               aria-label="Next review"
-              className="w-11 h-11 rounded-full border border-slate-200 bg-white flex items-center justify-center hover:border-[#FF6B35] hover:text-[#FF6B35] transition-colors"
+              className="w-11 h-11 rounded-full border border-slate-200 bg-white flex items-center justify-center hover:border-[#F97316] hover:text-[#F97316] transition-colors"
             >
               <ChevronRight className="w-5 h-5" />
             </button>

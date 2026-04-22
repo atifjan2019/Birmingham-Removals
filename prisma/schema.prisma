@@ -55,3 +55,20 @@ model ActivityLog {
   @@index([createdAt])
   @@index([action])
 }
+
+model SiteSettings {
+  id          Int      @id @default(1)
+  logoUrl     String?
+  faviconUrl  String?
+  phone       String?
+  email       String?
+  address     String?  @db.Text
+  facebook    String?
+  instagram   String?
+  twitter     String?
+  linkedin    String?
+  youtube     String?
+  tiktok      String?
+  whatsapp    String?
+  updatedAt   DateTime @updatedAt
+}

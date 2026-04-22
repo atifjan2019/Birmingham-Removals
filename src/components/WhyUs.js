@@ -41,13 +41,13 @@ export default function WhyUs() {
     <section className="py-24 sm:py-28 bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-14 max-w-3xl mx-auto">
-          <span className="inline-block px-3 py-1 rounded-full bg-[#FF6B35]/10 text-[#FF6B35] text-xs font-bold uppercase tracking-wider mb-4">
+          <span className="inline-block px-3 py-1 rounded-full bg-[#F97316]/10 text-[#F97316] text-xs font-bold uppercase tracking-wider mb-4">
             Why Us
           </span>
-          <h2 className="font-[family-name:var(--font-space)] text-3xl sm:text-4xl lg:text-5xl font-extrabold text-[#0A2540] leading-tight">
+          <h2 className="font-[family-name:var(--font-space)] text-3xl sm:text-4xl lg:text-5xl font-extrabold text-[#0B1E3F] leading-tight">
             Birmingham&apos;s most-reviewed
             <br />
-            <span className="text-[#FF6B35]">5-star</span> removals company
+            <span className="text-[#F97316]">5-star</span> removals company
           </h2>
           <p className="text-slate-600 mt-5 text-lg">
             Hundreds of Birmingham families and businesses choose us every month. Here&apos;s why.
@@ -62,12 +62,12 @@ export default function WhyUs() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.4, delay: i * 0.05 }}
-              className="bg-slate-50 border border-slate-200 rounded-2xl p-7 hover:border-[#FF6B35] hover:bg-white hover:shadow-lg transition-all duration-300"
+              className="bg-slate-50 border border-slate-200 rounded-2xl p-7 hover:border-[#F97316] hover:bg-white hover:shadow-lg transition-all duration-300"
             >
-              <div className="w-12 h-12 rounded-xl bg-[#0A2540] flex items-center justify-center mb-5">
-                <r.icon className="w-6 h-6 text-[#FF6B35]" />
+              <div className="w-12 h-12 rounded-xl bg-[#0B1E3F] flex items-center justify-center mb-5">
+                <r.icon className="w-6 h-6 text-[#F97316]" />
               </div>
-              <h3 className="font-[family-name:var(--font-space)] text-lg font-bold text-[#0A2540] mb-2">
+              <h3 className="font-[family-name:var(--font-space)] text-lg font-bold text-[#0B1E3F] mb-2">
                 {r.title}
               </h3>
               <p className="text-slate-600 text-sm leading-relaxed">{r.desc}</p>

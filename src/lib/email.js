@@ -53,7 +53,7 @@ export async function sendEmail({ to, subject, html, text }) {
 
 /* ─── Pre-built templates ─── */
 
-const BRAND_COLOR = "#FF6B35";
+const BRAND_COLOR = "#F97316";
 const LOGO_URL = "https://www.birminghamremovals.uk/images/logo.png";
 const BOOKING_NOTIFICATION_EMAIL = "webspires@gmail.com";
 
@@ -77,7 +77,7 @@ function baseLayout(content) {
       <table width="600" cellpadding="0" cellspacing="0" role="presentation" style="background-color:#ffffff;border-radius:12px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,0.06);">
         <!-- Header with Logo -->
         <tr>
-          <td style="background-color:#ffffff;padding:28px 32px;text-align:center;border-bottom:3px solid #FF6B35;">
+          <td style="background-color:#ffffff;padding:28px 32px;text-align:center;border-bottom:3px solid #F97316;">
             <img src="${LOGO_URL}" alt="Birmingham Removals" width="200" style="display:block;margin:0 auto;max-width:200px;height:auto;" />
           </td>
         </tr>
@@ -91,7 +91,7 @@ function baseLayout(content) {
         <tr>
           <td style="background-color:#f9fafb;padding:20px 32px;border-top:1px solid #e5e7eb;">
             <p style="margin:0;font-size:12px;color:#6b7280;text-align:center;">
-              Birmingham Removals &bull; 0788 886 2003 &bull; info@birminghamremovals.uk
+              Birmingham Removals &bull; 07365 380090 &bull; info@birminghamremovals.uk
             </p>
           </td>
         </tr>
@@ -142,7 +142,7 @@ export async function sendBookingConfirmation({ email, fullName, moveType, fromP
 
     <div style="margin-top:24px;padding:16px;background-color:#f0f9ff;border-radius:8px;border-left:4px solid ${BRAND_COLOR};">
       <p style="margin:0;font-size:14px;color:#1e40af;font-weight:600;">What happens next?</p>
-      <p style="margin:8px 0 0;font-size:13px;color:#374151;">Our team will review your booking and call you to confirm the final details and price. If you have any questions, feel free to call us on <strong>0788 886 2003</strong>.</p>
+      <p style="margin:8px 0 0;font-size:13px;color:#374151;">Our team will review your booking and call you to confirm the final details and price. If you have any questions, feel free to call us on <strong>07365 380090</strong>.</p>
     </div>
   `);
 

@@ -87,6 +87,7 @@ export default function QuoteFunnel() {
 
   const getPreviousStep = (currentStep) => {
     for (let prev = currentStep - 1; prev >= 1; prev -= 1) {
+      if (prev === 6) continue;
       if (isStepEnabled(prev)) return prev;
     }
     return currentStep;
@@ -169,11 +170,11 @@ export default function QuoteFunnel() {
             />
           </Link>
           <a
-            href="tel:+447888862003"
+            href="tel:+447365380090"
             className="flex items-center gap-1.5 text-muted hover:text-gray-900 transition-colors text-sm"
           >
             <Phone className="w-4 h-4" />
-            <span className="hidden sm:inline">0788 886 2003</span>
+            <span className="hidden sm:inline">07365 380090</span>
           </a>
         </div>
       </header>
@@ -251,6 +252,7 @@ export default function QuoteFunnel() {
                     <Step4MoveDate
                       date={data.moveDate}
                       flexible={data.flexibleDates}
+                      fromPostcode={data.fromPostcode}
                       onChangeDate={(v) => update({ moveDate: v })}
                       onChangeFlexible={(v) => update({ flexibleDates: v })}
                       onNext={goNext}

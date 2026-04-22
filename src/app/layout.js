@@ -70,7 +70,7 @@ const jsonLd = {
   name: "Birmingham Removals",
   url: siteUrl,
   image: `${siteUrl}/images/logo.png`,
-  telephone: "+447888862003",
+  telephone: "+447365380090",
   email: "info@birminghamremovals.uk",
   priceRange: "££",
   address: {
@@ -138,7 +138,7 @@ export default function RootLayout({ children }) {
           }}
         />
       </head>
-      <body className="min-h-screen bg-white text-[#0A2540]" suppressHydrationWarning>
+      <body className="min-h-screen bg-white text-[#0B1E3F]" suppressHydrationWarning>
         {children}
       </body>
     </html>

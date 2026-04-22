@@ -23,19 +23,19 @@ function FAQItem({ faq, index }) {
       viewport={{ once: true }}
       transition={{ duration: 0.3, delay: index * 0.05 }}
       className={`rounded-2xl border transition-all ${
-        open ? "border-[#FF6B35] bg-white shadow-md" : "border-slate-200 bg-slate-50"
+        open ? "border-[#F97316] bg-white shadow-md" : "border-slate-200 bg-slate-50"
       }`}
     >
       <button
         onClick={() => setOpen(!open)}
         className="w-full text-left px-6 py-5 flex items-center justify-between gap-4"
       >
-        <span className="font-[family-name:var(--font-space)] font-bold text-[#0A2540] text-base sm:text-lg">
+        <span className="font-[family-name:var(--font-space)] font-bold text-[#0B1E3F] text-base sm:text-lg">
           {faq.q}
         </span>
         <div
           className={`w-8 h-8 rounded-full flex items-center justify-center shrink-0 ${
-            open ? "bg-[#FF6B35] text-white" : "bg-white border border-slate-200 text-[#0A2540]"
+            open ? "bg-[#F97316] text-white" : "bg-white border border-slate-200 text-[#0B1E3F]"
           }`}
         >
           <ChevronDown className={`w-4 h-4 transition-transform ${open ? "rotate-180" : ""}`} />
@@ -53,14 +53,14 @@ export default function ServicePageClient({ service }) {
     <>
       <Navbar />
 
-      <section className="relative pt-20 pb-16 bg-gradient-to-br from-[#0A2540] to-[#14375C] text-white overflow-hidden">
+      <section className="relative pt-20 pb-16 bg-gradient-to-br from-[#0B1E3F] to-[#1E3A8A] text-white overflow-hidden">
         <div className="absolute inset-0 grid-pattern opacity-[0.05]" />
-        <div className="absolute -top-20 -right-20 w-[40rem] h-[40rem] bg-[#FF6B35]/10 blur-3xl rounded-full" />
+        <div className="absolute -top-20 -right-20 w-[40rem] h-[40rem] bg-[#F97316]/10 blur-3xl rounded-full" />
 
         <div className="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <Link
             href="/services"
-            className="inline-flex items-center gap-1.5 text-white/70 hover:text-[#FF6B35] text-sm font-semibold mb-8 transition-colors"
+            className="inline-flex items-center gap-1.5 text-white/70 hover:text-[#F97316] text-sm font-semibold mb-8 transition-colors"
           >
             <ArrowLeft className="w-4 h-4" />
             All Services
@@ -68,8 +68,8 @@ export default function ServicePageClient({ service }) {
           <div className="max-w-3xl">
             <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 border border-white/15 text-xs font-medium backdrop-blur mb-5">
               <span className="relative flex h-2 w-2">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#FF6B35] opacity-75" />
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-[#FF6B35]" />
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#F97316] opacity-75" />
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-[#F97316]" />
               </span>
               Birmingham&apos;s 5-star service
             </div>
@@ -86,11 +86,11 @@ export default function ServicePageClient({ service }) {
                 <ArrowRight className="w-5 h-5" />
               </Link>
               <a
-                href="tel:+447888862003"
+                href="tel:+447365380090"
                 className="inline-flex items-center justify-center gap-2 px-7 py-4 border border-white/20 text-white font-semibold rounded-full hover:bg-white/10 transition-all backdrop-blur"
               >
-                <Phone className="w-5 h-5 text-[#FF6B35]" />
-                0788 886 2003
+                <Phone className="w-5 h-5 text-[#F97316]" />
+                07365 380090
               </a>
             </div>
           </div>
@@ -103,12 +103,12 @@ export default function ServicePageClient({ service }) {
             <div key={i} className="grid grid-cols-1 lg:grid-cols-12 gap-10">
               <div className="lg:col-span-5">
                 <div className="flex items-center gap-4 mb-5">
-                  <span className="flex items-center justify-center w-11 h-11 rounded-xl bg-[#FF6B35]/10 text-[#FF6B35] font-[family-name:var(--font-space)] font-bold text-lg">
+                  <span className="flex items-center justify-center w-11 h-11 rounded-xl bg-[#F97316]/10 text-[#F97316] font-[family-name:var(--font-space)] font-bold text-lg">
                     0{i + 1}
                   </span>
                   <div className="h-px flex-1 bg-slate-200" />
                 </div>
-                <h2 className="font-[family-name:var(--font-space)] text-3xl sm:text-4xl font-extrabold text-[#0A2540] leading-tight">
+                <h2 className="font-[family-name:var(--font-space)] text-3xl sm:text-4xl font-extrabold text-[#0B1E3F] leading-tight">
                   {section.heading}
                 </h2>
               </div>
@@ -125,9 +125,9 @@ export default function ServicePageClient({ service }) {
                     {section.list.map((item, j) => (
                       <div
                         key={j}
-                        className="flex items-start gap-3 p-4 rounded-xl bg-slate-50 border border-slate-200 hover:border-[#FF6B35] hover:bg-white transition-all"
+                        className="flex items-start gap-3 p-4 rounded-xl bg-slate-50 border border-slate-200 hover:border-[#F97316] hover:bg-white transition-all"
                       >
-                        <CheckCircle2 className="w-5 h-5 text-[#FF6B35] shrink-0 mt-0.5" />
+                        <CheckCircle2 className="w-5 h-5 text-[#F97316] shrink-0 mt-0.5" />
                         <span className="text-slate-700 font-medium text-sm">{item}</span>
                       </div>
                     ))}
@@ -143,10 +143,10 @@ export default function ServicePageClient({ service }) {
         <section className="py-20 bg-slate-50">
           <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 grid lg:grid-cols-12 gap-12">
             <div className="lg:col-span-5">
-              <span className="inline-block px-3 py-1 rounded-full bg-[#FF6B35]/10 text-[#FF6B35] text-xs font-bold uppercase tracking-wider mb-4">
+              <span className="inline-block px-3 py-1 rounded-full bg-[#F97316]/10 text-[#F97316] text-xs font-bold uppercase tracking-wider mb-4">
                 FAQ
               </span>
-              <h2 className="font-[family-name:var(--font-space)] text-3xl sm:text-4xl font-extrabold text-[#0A2540] leading-tight mb-4">
+              <h2 className="font-[family-name:var(--font-space)] text-3xl sm:text-4xl font-extrabold text-[#0B1E3F] leading-tight mb-4">
                 Got questions?
               </h2>
               <p className="text-slate-600 leading-relaxed">

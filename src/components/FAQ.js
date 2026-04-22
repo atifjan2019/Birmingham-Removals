@@ -41,10 +41,10 @@ export default function FAQ() {
     <section className="py-24 sm:py-28 bg-white">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-14">
-          <span className="inline-block px-3 py-1 rounded-full bg-[#FF6B35]/10 text-[#FF6B35] text-xs font-bold uppercase tracking-wider mb-4">
+          <span className="inline-block px-3 py-1 rounded-full bg-[#F97316]/10 text-[#F97316] text-xs font-bold uppercase tracking-wider mb-4">
             FAQ
           </span>
-          <h2 className="font-[family-name:var(--font-space)] text-3xl sm:text-4xl lg:text-5xl font-extrabold text-[#0A2540] leading-tight">
+          <h2 className="font-[family-name:var(--font-space)] text-3xl sm:text-4xl lg:text-5xl font-extrabold text-[#0B1E3F] leading-tight">
             Frequently asked questions
           </h2>
         </div>
@@ -57,7 +57,7 @@ export default function FAQ() {
                 key={i}
                 className={`rounded-2xl border transition-all ${
                   isOpen
-                    ? "border-[#FF6B35] bg-white shadow-md"
+                    ? "border-[#F97316] bg-white shadow-md"
                     : "border-slate-200 bg-slate-50"
                 }`}
               >
@@ -65,14 +65,14 @@ export default function FAQ() {
                   onClick={() => setOpen(isOpen ? -1 : i)}
                   className="w-full text-left px-6 py-5 flex items-center justify-between gap-4"
                 >
-                  <span className="font-[family-name:var(--font-space)] font-bold text-[#0A2540] text-base sm:text-lg">
+                  <span className="font-[family-name:var(--font-space)] font-bold text-[#0B1E3F] text-base sm:text-lg">
                     {f.q}
                   </span>
                   <motion.div
                     animate={{ rotate: isOpen ? 180 : 0 }}
                     transition={{ duration: 0.2 }}
                     className={`shrink-0 w-8 h-8 rounded-full flex items-center justify-center ${
-                      isOpen ? "bg-[#FF6B35] text-white" : "bg-white text-[#0A2540] border border-slate-200"
+                      isOpen ? "bg-[#F97316] text-white" : "bg-white text-[#0B1E3F] border border-slate-200"
                     }`}
                   >
                     <ChevronDown className="w-4 h-4" />

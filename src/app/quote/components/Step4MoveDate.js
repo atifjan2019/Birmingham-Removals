@@ -1,16 +1,23 @@
 "use client";
 
 import { useState } from "react";
-import { Calendar, ArrowRight, ArrowLeft, Check } from "lucide-react";
+import { Calendar, ArrowRight, ArrowLeft, Check, AlertCircle } from "lucide-react";
 
 export default function Step4MoveDate({
   date,
   flexible,
+  fromPostcode,
   onChangeDate,
   onChangeFlexible,
   onNext,
   onBack,
 }) {
+  const postcodeArea = (() => {
+    const cleaned = String(fromPostcode || "").trim().toUpperCase();
+    if (!cleaned) return "";
+    const match = cleaned.match(/^[A-Z]{1,2}\d[A-Z\d]?/);
+    return match ? match[0] : cleaned.split(/\s+/)[0];
+  })();
   const [error, setError] = useState("");
 
   const handleContinue = () => {
@@ -24,9 +31,10 @@ export default function Step4MoveDate({
 
   const generateDates = () => {
     const dates = [];
-    const now = new Date();
-    for (let i = 1; i <= 21; i++) {
-      const d = new Date(now);
+    const start = new Date();
+    start.setHours(0, 0, 0, 0);
+    for (let i = 0; i <= 21; i++) {
+      const d = new Date(start);
       d.setDate(d.getDate() + i);
       dates.push(d);
     }
@@ -47,27 +55,41 @@ export default function Step4MoveDate({
       <h2 className="font-[family-name:var(--font-space)] text-2xl font-bold text-gray-900 mb-1">
         When do you want to move?
       </h2>
-      <p className="text-muted text-sm mb-6">
+      <p className="text-muted text-sm mb-4">
         Pick your preferred moving date.
       </p>
+
+      {postcodeArea && (
+        <div className="flex items-start gap-2 mb-5 px-3 py-2.5 rounded-lg bg-accent/10 border border-accent/30">
+          <AlertCircle className="w-4 h-4 text-accent shrink-0 mt-0.5" />
+          <p className="text-xs text-gray-700 leading-relaxed">
+            We limit to <strong className="text-gray-900">3 new bookings per day</strong> to guarantee quality service in <strong className="text-gray-900">{postcodeArea}</strong>.
+          </p>
+        </div>
+      )}
 
       <div className="grid grid-cols-7 gap-1.5 mb-4">
         {futureDates.map((d, i) => {
           const val = toValue(d);
           const selected = date === val;
-          const isWeekend = d.getDay() === 0 || d.getDay() === 6;
+          const isToday = i === 0;
           return (
             <button
               key={i}
+              type="button"
+              disabled={isToday}
+              aria-disabled={isToday}
+              title={isToday ? "Fully booked" : undefined}
               onClick={() => {
+                if (isToday) return;
                 onChangeDate(val);
                 setError("");
               }}
-              className={`flex flex-col items-center py-2 px-1 rounded-lg text-center transition-all duration-150 ${
-                selected
+              className={`relative flex flex-col items-center py-2 px-1 rounded-lg text-center transition-all duration-150 ${
+                isToday
+                  ? "bg-gray-100 text-gray-400 cursor-not-allowed line-through opacity-60"
+                  : selected
                   ? "bg-primary text-white shadow-md shadow-primary/20"
-                  : isWeekend
-                  ? "bg-gray-100/50 text-gray-400 hover:bg-gray-100"
                   : "bg-gray-50 text-gray-900 hover:bg-gray-100"
               }`}
             >
@@ -75,7 +97,11 @@ export default function Step4MoveDate({
                 {formatDay(d)}
               </span>
               <span className="text-sm font-bold">{formatDate(d)}</span>
-              {i === 0 || d.getDate() === 1 ? (
+              {isToday ? (
+                <span className="text-[9px] font-semibold tracking-wide text-red-500 no-underline">
+                  BOOKED
+                </span>
+              ) : i === 1 || d.getDate() === 1 ? (
                 <span className="text-[9px] opacity-50">{formatMonth(d)}</span>
               ) : (
                 <span className="text-[9px] opacity-0">.</span>

@@ -26,7 +26,7 @@ export default function Step2Details({ data, onChange, errors }) {
             <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted" />
             <input
               type="text"
-              placeholder="e.g. NE1 4XF"
+              placeholder="e.g. B1 1AA"
               value={data.fromPostcode || ""}
               onChange={(e) =>
                 handleChange("fromPostcode", e.target.value.toUpperCase())
@@ -48,7 +48,7 @@ export default function Step2Details({ data, onChange, errors }) {
             <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted" />
             <input
               type="text"
-              placeholder="e.g. NE3 2PA"
+              placeholder="e.g. B15 2TT"
               value={data.toPostcode || ""}
               onChange={(e) =>
                 handleChange("toPostcode", e.target.value.toUpperCase())

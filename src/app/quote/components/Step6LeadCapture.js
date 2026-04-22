@@ -47,6 +47,13 @@ export default function Step6LeadCapture({ data, onChange, onSubmit, onBack }) {
       })
     : "your chosen date";
 
+  const postcodeArea = (() => {
+    const cleaned = String(data.fromPostcode || "").trim().toUpperCase();
+    if (!cleaned) return "";
+    const match = cleaned.match(/^[A-Z]{1,2}\d[A-Z\d]?/);
+    return match ? match[0] : cleaned.split(/\s+/)[0];
+  })();
+
   const validate = () => {
     const errs = {};
     if (!data.fullName || data.fullName.trim().length < 2) {
@@ -106,7 +113,7 @@ export default function Step6LeadCapture({ data, onChange, onSubmit, onBack }) {
       {/* Scarcity text */}
       <p className="text-muted text-sm mb-4 leading-relaxed">
         We limit to <strong className="text-gray-900">3 new bookings per day</strong> to
-        guarantee quality service in your area.
+        guarantee quality service in <strong className="text-gray-900">{postcodeArea || "your area"}</strong>.
       </p>
 
       {/* Pulsing red dot */}

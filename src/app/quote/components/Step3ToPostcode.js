@@ -84,7 +84,7 @@ export default function Step3ToPostcode({ value, fromPostcode, onChange, onNext,
         <input
           ref={inputRef}
           type="text"
-          placeholder="e.g. NE3 2PA"
+          placeholder="e.g. B15 2TT"
           value={value}
           onChange={(e) => handleInput(e.target.value)}
           onFocus={() => {

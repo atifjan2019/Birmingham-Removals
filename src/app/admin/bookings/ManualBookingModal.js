@@ -94,14 +94,14 @@ export default function ManualBookingModal({ onClose }) {
                 <div>
                   <label className="block text-xs text-gray-500 mb-1">From Postcode</label>
                   <div className="relative">
-                    <input required name="fromPostcode" type="text" className="w-full pl-9 pr-4 py-2 border border-gray-200 rounded-xl outline-none uppercase" placeholder="NE1 1AD" />
+                    <input required name="fromPostcode" type="text" className="w-full pl-9 pr-4 py-2 border border-gray-200 rounded-xl outline-none uppercase" placeholder="B1 1AA" />
                     <MapPin className="w-4 h-4 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2" />
                   </div>
                 </div>
                 <div>
                   <label className="block text-xs text-gray-500 mb-1">To Postcode</label>
                   <div className="relative">
-                    <input required name="toPostcode" type="text" className="w-full pl-9 pr-4 py-2 border border-gray-200 rounded-xl outline-none uppercase" placeholder="NE2 4BC" />
+                    <input required name="toPostcode" type="text" className="w-full pl-9 pr-4 py-2 border border-gray-200 rounded-xl outline-none uppercase" placeholder="B15 2TT" />
                     <MapPin className="w-4 h-4 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2" />
                   </div>
                 </div>

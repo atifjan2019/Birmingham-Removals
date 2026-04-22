@@ -28,16 +28,16 @@ export default function Navbar({ onOpenQuote }) {
   return (
     <>
       {/* Top contact strip */}
-      <div className="hidden md:block bg-[#0A2540] text-white text-xs">
+      <div className="hidden md:block bg-[#0B1E3F] text-white text-xs">
         <div className="max-w-7xl mx-auto px-6 lg:px-8 py-2 flex items-center justify-between">
           <span className="opacity-80">
             Birmingham&apos;s 5-star removals company — serving the West Midlands since 2015
           </span>
           <div className="flex items-center gap-5">
-            <a href="tel:+447888862003" className="flex items-center gap-1.5 hover:text-[#FF6B35] transition-colors">
-              <Phone className="w-3 h-3" /> 0788 886 2003
+            <a href="tel:+447365380090" className="flex items-center gap-1.5 hover:text-[#F97316] transition-colors">
+              <Phone className="w-3 h-3" /> 07365 380090
             </a>
-            <a href="mailto:info@birminghamremovals.uk" className="hover:text-[#FF6B35] transition-colors">
+            <a href="mailto:info@birminghamremovals.uk" className="hover:text-[#F97316] transition-colors">
               info@birminghamremovals.uk
             </a>
           </div>
@@ -55,12 +55,12 @@ export default function Navbar({ onOpenQuote }) {
           <div className="flex items-center justify-between h-16 md:h-20">
             {/* Logo */}
             <Link href="/" className="flex items-center gap-3 group">
-              <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#0A2540] to-[#14375C] flex items-center justify-center shadow-md">
+              <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#0B1E3F] to-[#1E3A8A] flex items-center justify-center shadow-md">
                 <span className="font-[family-name:var(--font-space)] font-extrabold text-white text-lg">B</span>
               </div>
               <div className="leading-tight">
-                <div className="font-[family-name:var(--font-space)] font-extrabold text-[#0A2540] text-lg">
-                  Birmingham <span className="text-[#FF6B35]">Removals</span>
+                <div className="font-[family-name:var(--font-space)] font-extrabold text-[#0B1E3F] text-lg">
+                  Birmingham <span className="text-[#F97316]">Removals</span>
                 </div>
                 <div className="text-[10px] uppercase tracking-widest text-slate-500">
                   West Midlands · Since 2015
@@ -74,7 +74,7 @@ export default function Navbar({ onOpenQuote }) {
                 <Link
                   key={link.href}
                   href={link.href}
-                  className="text-sm font-medium text-slate-700 hover:text-[#FF6B35] transition-colors"
+                  className="text-sm font-medium text-slate-700 hover:text-[#F97316] transition-colors"
                 >
                   {link.label}
                 </Link>
@@ -83,11 +83,11 @@ export default function Navbar({ onOpenQuote }) {
 
             <div className="hidden lg:flex items-center gap-3">
               <a
-                href="tel:+447888862003"
-                className="flex items-center gap-2 px-4 py-2 rounded-full border border-slate-200 text-[#0A2540] text-sm font-semibold hover:border-[#FF6B35] hover:text-[#FF6B35] transition-colors"
+                href="tel:+447365380090"
+                className="flex items-center gap-2 px-4 py-2 rounded-full border border-slate-200 text-[#0B1E3F] text-sm font-semibold hover:border-[#F97316] hover:text-[#F97316] transition-colors"
               >
                 <Phone className="w-4 h-4" />
-                0788 886 2003
+                07365 380090
               </a>
               {onOpenQuote ? (
                 <button
@@ -111,11 +111,11 @@ export default function Navbar({ onOpenQuote }) {
             {/* Mobile actions */}
             <div className="flex items-center gap-2 lg:hidden">
               <a
-                href="tel:+447888862003"
-                className="w-10 h-10 rounded-full bg-[#FF6B35]/10 border border-[#FF6B35]/20 flex items-center justify-center"
+                href="tel:+447365380090"
+                className="w-10 h-10 rounded-full bg-[#F97316]/10 border border-[#F97316]/20 flex items-center justify-center"
                 aria-label="Call us"
               >
-                <Phone className="w-4 h-4 text-[#FF6B35]" />
+                <Phone className="w-4 h-4 text-[#F97316]" />
               </a>
               <button
                 onClick={() => setMobileOpen(!mobileOpen)}
@@ -143,7 +143,7 @@ export default function Navbar({ onOpenQuote }) {
                     key={link.href}
                     href={link.href}
                     onClick={() => setMobileOpen(false)}
-                    className="block text-base font-medium text-slate-700 hover:text-[#FF6B35] py-3 border-b border-slate-100"
+                    className="block text-base font-medium text-slate-700 hover:text-[#F97316] py-3 border-b border-slate-100"
                   >
                     {link.label}
                   </Link>
