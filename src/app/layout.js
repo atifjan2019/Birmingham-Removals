@@ -153,11 +153,11 @@ export default async function RootLayout({ children }) {
         <Script id="smartlook" strategy="afterInteractive">
           {`
             window.smartlook||(function(d) {
-              var o=smartlook=function(){ o.api.push(arguments)},h=d.getElementsByTagName('head')[0];
+              var o=window.smartlook=function(){ o.api.push(arguments)},h=d.getElementsByTagName('head')[0];
               var c=d.createElement('script');o.api=new Array();c.async=true;c.type='text/javascript';
               c.charset='utf-8';c.src='https://web-sdk.smartlook.com/recorder.js';h.appendChild(c);
             })(document);
-            smartlook('init', '46b85b47fc8859eeb693f5a26240894d74e9edd7', { region: 'eu' });
+            window.smartlook('init', '46b85b47fc8859eeb693f5a26240894d74e9edd7', { region: 'eu' });
           `}
         </Script>
       </head>
