@@ -15,18 +15,57 @@ const moveTypes = [
 export default function HeroPopup({ open, onClose }) {
   const router = useRouter();
   const [ripple, setRipple] = useState(null);
+  const [loading, setLoading] = useState(null);
 
   const handleSelect = (type, e) => {
+    if (loading) return;
     const rect = e.currentTarget.getBoundingClientRect();
     const x = e.clientX - rect.left;
     const y = e.clientY - rect.top;
     setRipple({ id: type, x, y });
+    setLoading(type);
+    router.prefetch(`/quote?type=${type}`);
     setTimeout(() => {
       router.push(`/quote?type=${type}`);
-    }, 400);
+    }, 350);
   };
 
+  const loadingLabel = loading ? moveTypes.find((m) => m.id === loading)?.label : "";
+
   return (
+    <>
+      <AnimatePresence>
+        {loading && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            className="fixed inset-0 z-[200] flex items-center justify-center bg-[#0B1E3F]/85 backdrop-blur-sm"
+          >
+            <div className="flex flex-col items-center gap-5 text-white">
+              <div className="relative w-16 h-16">
+                <div className="absolute inset-0 rounded-full border-4 border-white/15" />
+                <div className="absolute inset-0 rounded-full border-4 border-transparent border-t-[#F97316] animate-spin" />
+              </div>
+              <div className="text-center">
+                <div className="font-[family-name:var(--font-space)] font-bold text-lg">
+                  Preparing your {loadingLabel.toLowerCase()} quote
+                </div>
+                <div className="mt-1 flex items-center justify-center gap-1 text-sm text-white/70">
+                  <span>Loading</span>
+                  <span className="inline-flex">
+                    <span className="animate-bounce" style={{ animationDelay: "0ms" }}>.</span>
+                    <span className="animate-bounce" style={{ animationDelay: "150ms" }}>.</span>
+                    <span className="animate-bounce" style={{ animationDelay: "300ms" }}>.</span>
+                  </span>
+                </div>
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
     <AnimatePresence>
       {open && (
         <div className="fixed inset-0 z-[100] flex items-center justify-center px-4">
@@ -111,5 +150,6 @@ export default function HeroPopup({ open, onClose }) {
         </div>
       )}
     </AnimatePresence>
+    </>
   );
 }

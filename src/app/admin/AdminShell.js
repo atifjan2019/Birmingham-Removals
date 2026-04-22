@@ -51,13 +51,15 @@ function NavContent({ pathname, onNavigate }) {
         })}
       </nav>
       <div className="p-4 border-t border-gray-100 space-y-1">
-        <button
-          onClick={() => logoutAdmin()}
-          className="flex w-full items-center gap-3 px-4 py-3 rounded-xl text-red-600 hover:bg-red-50 transition-all font-medium"
-        >
-          <LogOut className="w-5 h-5" />
-          Sign Out
-        </button>
+        <form action={logoutAdmin}>
+          <button
+            type="submit"
+            className="flex w-full items-center gap-3 px-4 py-3 rounded-xl text-red-600 hover:bg-red-50 transition-all font-medium"
+          >
+            <LogOut className="w-5 h-5" />
+            Sign Out
+          </button>
+        </form>
       </div>
     </>
   );

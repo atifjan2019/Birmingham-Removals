@@ -19,7 +19,12 @@ const siteUrl = "https://www.birminghamremovals.uk";
 
 export async function generateMetadata() {
   const s = await getSiteSettings();
-  const icons = s.faviconUrl ? { icon: s.faviconUrl } : undefined;
+  const faviconHref = s.faviconUrl || "/favicon.ico";
+  const icons = {
+    icon: [{ url: faviconHref }],
+    shortcut: [{ url: faviconHref }],
+    apple: [{ url: s.logoUrl && !s.logoUrl.startsWith("/") ? s.logoUrl : faviconHref }],
+  };
   const ogImage = s.logoUrl && !s.logoUrl.startsWith("/") ? s.logoUrl : `${siteUrl}/images/logo.png`;
 
   return {
@@ -152,12 +157,18 @@ export default async function RootLayout({ children }) {
         />
         <Script id="smartlook" strategy="afterInteractive">
           {`
-            window.smartlook||(function(d) {
-              var o=window.smartlook=function(){ o.api.push(arguments)},h=d.getElementsByTagName('head')[0];
-              var c=d.createElement('script');o.api=new Array();c.async=true;c.type='text/javascript';
-              c.charset='utf-8';c.src='https://web-sdk.smartlook.com/recorder.js';h.appendChild(c);
-            })(document);
-            window.smartlook('init', '46b85b47fc8859eeb693f5a26240894d74e9edd7', { region: 'eu' });
+            (function(){
+              if (typeof window.smartlook !== 'function') {
+                var sl = function(){ sl.api.push(arguments); };
+                sl.api = [];
+                window.smartlook = sl;
+                var c = document.createElement('script');
+                c.async = true; c.type = 'text/javascript'; c.charset = 'utf-8';
+                c.src = 'https://web-sdk.smartlook.com/recorder.js';
+                document.head.appendChild(c);
+              }
+              window.smartlook('init', '46b85b47fc8859eeb693f5a26240894d74e9edd7', { region: 'eu' });
+            })();
           `}
         </Script>
       </head>
