@@ -13,6 +13,7 @@ import {
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import CTAStrip from "@/components/CTAStrip";
+import { SITE_SETTINGS_FALLBACK, telHref } from "@/lib/siteSettings";
 
 function FAQItem({ faq, index }) {
   const [open, setOpen] = useState(index === 0);
@@ -48,10 +49,12 @@ function FAQItem({ faq, index }) {
   );
 }
 
-export default function ServicePageClient({ service }) {
+export default function ServicePageClient({ service, settings }) {
+  const s = { ...SITE_SETTINGS_FALLBACK, ...(settings || {}) };
+  const phoneHref = telHref(s.phone);
   return (
     <>
-      <Navbar />
+      <Navbar settings={settings} />
 
       <section className="relative pt-20 pb-16 bg-gradient-to-br from-[#0B1E3F] to-[#1E3A8A] text-white overflow-hidden">
         <div className="absolute inset-0 grid-pattern opacity-[0.05]" />
@@ -86,11 +89,11 @@ export default function ServicePageClient({ service }) {
                 <ArrowRight className="w-5 h-5" />
               </Link>
               <a
-                href="tel:+447365380090"
+                href={phoneHref}
                 className="inline-flex items-center justify-center gap-2 px-7 py-4 border border-white/20 text-white font-semibold rounded-full hover:bg-white/10 transition-all backdrop-blur"
               >
                 <Phone className="w-5 h-5 text-[#F97316]" />
-                07365 380090
+                {s.phone}
               </a>
             </div>
           </div>
@@ -163,8 +166,8 @@ export default function ServicePageClient({ service }) {
         </section>
       )}
 
-      <CTAStrip />
-      <Footer />
+      <CTAStrip settings={settings} />
+      <Footer settings={settings} />
     </>
   );
 }

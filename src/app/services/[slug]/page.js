@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 import servicesData, { getServiceBySlug, getAllServiceSlugs } from "@/lib/servicesData";
 import ServicePageClient from "./ServicePageClient";
+import { getSiteSettings } from "@/lib/siteSettings";
 
 export async function generateStaticParams() {
   return getAllServiceSlugs().map((slug) => ({ slug }));
@@ -31,5 +32,6 @@ export default async function ServicePage({ params }) {
     notFound();
   }
 
-  return <ServicePageClient service={JSON.parse(JSON.stringify(service))} />;
+  const settings = await getSiteSettings();
+  return <ServicePageClient service={JSON.parse(JSON.stringify(service))} settings={settings} />;
 }
