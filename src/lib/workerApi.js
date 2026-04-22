@@ -98,3 +98,14 @@ export async function recordWorkerActivity(data) {
     body: JSON.stringify(data),
   }, { admin: true });
 }
+
+export async function getWorkerSettings() {
+  return workerFetch("/settings", {});
+}
+
+export async function updateWorkerSettings(patch) {
+  return workerFetch("/settings", {
+    method: "PUT",
+    body: JSON.stringify(patch),
+  }, { admin: true });
+}

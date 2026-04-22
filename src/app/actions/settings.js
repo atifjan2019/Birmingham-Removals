@@ -1,6 +1,6 @@
 "use server";
 
-import prisma from "@/lib/prisma";
+import { updateWorkerSettings } from "@/lib/workerApi";
 import { revalidatePath } from "next/cache";
 import { cookies } from "next/headers";
 import { decrypt } from "@/lib/session";
@@ -69,12 +69,7 @@ export async function updateSiteSettings(_prevState, formData) {
     if (formData.get("removeLogo") === "1") patch.logoUrl = null;
     if (formData.get("removeFavicon") === "1") patch.faviconUrl = null;
 
-    const existing = await prisma.siteSettings.findUnique({ where: { id: 1 } });
-    if (!existing) {
-      await prisma.siteSettings.create({ data: { id: 1, ...patch } });
-    } else {
-      await prisma.siteSettings.update({ where: { id: 1 }, data: patch });
-    }
+    await updateWorkerSettings(patch);
 
     revalidatePath("/", "layout");
     revalidatePath("/admin/settings");

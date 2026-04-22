@@ -89,6 +89,40 @@ interface CreateActivityRequest {
 	actor?: string | null;
 }
 
+interface SiteSettingsRow {
+	id: number;
+	logoUrl: string | null;
+	faviconUrl: string | null;
+	phone: string | null;
+	email: string | null;
+	address: string | null;
+	facebook: string | null;
+	instagram: string | null;
+	twitter: string | null;
+	linkedin: string | null;
+	youtube: string | null;
+	tiktok: string | null;
+	whatsapp: string | null;
+	updatedAt: string;
+}
+
+const SITE_SETTINGS_FIELDS = [
+	"logoUrl",
+	"faviconUrl",
+	"phone",
+	"email",
+	"address",
+	"facebook",
+	"instagram",
+	"twitter",
+	"linkedin",
+	"youtube",
+	"tiktok",
+	"whatsapp",
+] as const;
+type SiteSettingsField = (typeof SITE_SETTINGS_FIELDS)[number];
+type SiteSettingsUpdate = Partial<Record<SiteSettingsField, string | null>>;
+
 type NormalizedBookingRequest = Required<Omit<CreateBookingRequest, "bedrooms" | "price">> & {
 	bedrooms: number;
 	price: number | null;
@@ -167,6 +201,15 @@ export default {
 				if (adminResponse) return adminResponse;
 				if (request.method === "GET") return listActivity(env, corsHeaders);
 				if (request.method === "POST") return createActivity(request, env, corsHeaders);
+			}
+
+			if (path === "/settings") {
+				if (request.method === "GET") return getSettings(env, corsHeaders);
+				if (request.method === "PUT") {
+					const adminResponse = requireAdmin(request, env, corsHeaders);
+					if (adminResponse) return adminResponse;
+					return updateSettings(request, env, corsHeaders);
+				}
 			}
 
 			const bookingMatch = path.match(/^\/bookings\/([^/]+)$/);
@@ -424,6 +467,69 @@ async function createActivity(request: Request, env: Env, corsHeaders?: HeadersI
 	await logActivity(env, entry);
 
 	return json({ data: entry }, 201, corsHeaders);
+}
+
+async function getSettings(env: Env, corsHeaders?: HeadersInit): Promise<Response> {
+	await env.DB.prepare("INSERT OR IGNORE INTO SiteSettings (id) VALUES (1)").run();
+	const row = await env.DB.prepare(
+		`SELECT id, logoUrl, faviconUrl, phone, email, address,
+			facebook, instagram, twitter, linkedin, youtube, tiktok, whatsapp, updatedAt
+		 FROM SiteSettings WHERE id = 1`,
+	).first<SiteSettingsRow>();
+
+	return json({ data: row ?? null }, 200, corsHeaders);
+}
+
+async function updateSettings(request: Request, env: Env, corsHeaders?: HeadersInit): Promise<Response> {
+	const body = await readJson<SiteSettingsUpdate>(request);
+
+	if (!isRecord(body)) {
+		return json({ error: { message: "Body must be a JSON object" } }, 400, corsHeaders);
+	}
+
+	const fields: { column: SiteSettingsField; value: string | null }[] = [];
+	for (const key of SITE_SETTINGS_FIELDS) {
+		if (!(key in body)) continue;
+		const raw = (body as Record<string, unknown>)[key];
+		if (raw === null) {
+			fields.push({ column: key, value: null });
+			continue;
+		}
+		if (typeof raw !== "string") {
+			return json({ error: { message: `${key} must be a string or null` } }, 400, corsHeaders);
+		}
+		const trimmed = raw.trim();
+		fields.push({ column: key, value: trimmed.length === 0 ? null : trimmed });
+	}
+
+	await env.DB.prepare("INSERT OR IGNORE INTO SiteSettings (id) VALUES (1)").run();
+
+	if (fields.length > 0) {
+		const assignments = fields.map((field, index) => `${field.column} = ?${index + 1}`);
+		const values = fields.map((field) => field.value);
+		await env.DB.prepare(
+			`UPDATE SiteSettings
+			 SET ${assignments.join(", ")}, updatedAt = datetime('now')
+			 WHERE id = 1`,
+		)
+			.bind(...values)
+			.run();
+	}
+
+	const row = await env.DB.prepare(
+		`SELECT id, logoUrl, faviconUrl, phone, email, address,
+			facebook, instagram, twitter, linkedin, youtube, tiktok, whatsapp, updatedAt
+		 FROM SiteSettings WHERE id = 1`,
+	).first<SiteSettingsRow>();
+
+	await logActivity(env, {
+		action: "settings.updated",
+		details: JSON.stringify({ summary: "Site settings updated", fields: fields.map((f) => f.column) }),
+		entityId: "1",
+		actor: "api",
+	});
+
+	return json({ data: row ?? null }, 200, corsHeaders);
 }
 
 async function findBooking(id: string, env: Env): Promise<BookingRow | null> {

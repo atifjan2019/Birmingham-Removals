@@ -1,4 +1,4 @@
-import prisma from "@/lib/prisma";
+import { getWorkerSettings } from "@/lib/workerApi";
 
 const FALLBACK = {
   logoUrl: "/images/logo.png",
@@ -17,7 +17,7 @@ const FALLBACK = {
 
 export async function getSiteSettings() {
   try {
-    const row = await prisma.siteSettings.findUnique({ where: { id: 1 } });
+    const row = await getWorkerSettings();
     if (!row) return { ...FALLBACK };
     const merged = { ...FALLBACK };
     for (const k of Object.keys(FALLBACK)) {
