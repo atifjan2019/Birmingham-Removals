@@ -74,7 +74,7 @@ export default async function AboutPage() {
                   new home without a scratch.
                 </p>
                 <p>
-                  We&apos;re proudly independent, proudly local, and we answer the phone ourselves —
+                  We&apos;re proudly independent, proudly local, and we answer the phone ourselves,
                   every time.
                 </p>
               </div>

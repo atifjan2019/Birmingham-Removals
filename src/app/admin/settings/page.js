@@ -72,7 +72,7 @@ export default async function SettingsPage() {
           <div className="bg-amber-50 border border-amber-200 rounded-2xl p-5 text-sm text-amber-900">
             <p className="font-semibold mb-1">How it works</p>
             <p className="text-amber-800/90 leading-relaxed">
-              Logo and favicon are stored as embedded images in the database — no external file storage needed.
+              Logo and favicon are stored as embedded images in the database, so no external file storage is needed.
               Logo limit 500&nbsp;KB, favicon 100&nbsp;KB. Changes go live immediately across the site.
             </p>
           </div>
