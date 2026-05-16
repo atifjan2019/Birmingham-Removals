@@ -36,5 +36,23 @@ export default function sitemap() {
     priority: 0.7,
   }));
 
-  return [...staticRoutes, ...serviceRoutes, ...areaRoutes];
+  const removalsRoutes = [
+    "removals-edgbaston",
+    "removals-harborne",
+    "removals-selly-oak",
+    "removals-moseley",
+    "removals-kings-heath",
+    "removals-erdington",
+    "removals-sutton-coldfield",
+    "removals-northfield",
+    "removals-hall-green",
+    "removals-solihull",
+  ].map((slug) => ({
+    url: `${baseUrl}/${slug}`,
+    lastModified: now,
+    changeFrequency: "monthly",
+    priority: 0.85,
+  }));
+
+  return [...staticRoutes, ...serviceRoutes, ...areaRoutes, ...removalsRoutes];
 }
