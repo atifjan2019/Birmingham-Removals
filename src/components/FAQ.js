@@ -1,9 +1,3 @@
-"use client";
-
-import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { ChevronDown } from "lucide-react";
-
 const faqs = [
   {
     q: "How much do Birmingham removals cost?",
@@ -35,8 +29,8 @@ const faqs = [
   },
 ];
 
+// Server component: native <details> accordion — zero client JS, no framer-motion.
 export default function FAQ() {
-  const [open, setOpen] = useState(0);
   const faqJsonLd = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
@@ -63,50 +57,22 @@ export default function FAQ() {
         </div>
 
         <div className="space-y-3">
-          {faqs.map((f, i) => {
-            const isOpen = open === i;
-            return (
-              <div
-                key={i}
-                className={`rounded-2xl border transition-all ${
-                  isOpen
-                    ? "border-[#F97316] bg-white shadow-md"
-                    : "border-slate-200 bg-slate-50"
-                }`}
-              >
-                <button
-                  onClick={() => setOpen(isOpen ? -1 : i)}
-                  className="w-full text-left px-6 py-5 flex items-center justify-between gap-4"
-                >
-                  <span className="font-[family-name:var(--font-space)] font-bold text-[#0B1E3F] text-base sm:text-lg">
-                    {f.q}
-                  </span>
-                  <motion.div
-                    animate={{ rotate: isOpen ? 180 : 0 }}
-                    transition={{ duration: 0.2 }}
-                    className={`shrink-0 w-8 h-8 rounded-full flex items-center justify-center ${
-                      isOpen ? "bg-[#F97316] text-white" : "bg-white text-[#0B1E3F] border border-slate-200"
-                    }`}
-                  >
-                    <ChevronDown className="w-4 h-4" />
-                  </motion.div>
-                </button>
-                <AnimatePresence>
-                  {isOpen && (
-                    <motion.div
-                      initial={{ height: 0, opacity: 0 }}
-                      animate={{ height: "auto", opacity: 1 }}
-                      exit={{ height: 0, opacity: 0 }}
-                      transition={{ duration: 0.25 }}
-                      className="overflow-hidden"
-                    >
-                      <p className="px-6 pb-6 text-slate-600 leading-relaxed">{f.a}</p>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              </div>
-            );
-          })}
+          {faqs.map((f, i) => (
+            <details
+              key={i}
+              className="group rounded-2xl border border-slate-200 bg-slate-50 open:border-[#F97316] open:bg-white open:shadow-md transition-all"
+            >
+              <summary className="w-full cursor-pointer list-none px-6 py-5 flex items-center justify-between gap-4">
+                <span className="font-[family-name:var(--font-space)] font-bold text-[#0B1E3F] text-base sm:text-lg">
+                  {f.q}
+                </span>
+                <span className="shrink-0 w-8 h-8 rounded-full flex items-center justify-center bg-white text-[#0B1E3F] border border-slate-200 group-open:bg-[#F97316] group-open:text-white group-open:rotate-45 transition-transform text-xl leading-none">
+                  +
+                </span>
+              </summary>
+              <p className="px-6 pb-6 text-slate-600 leading-relaxed">{f.a}</p>
+            </details>
+          ))}
         </div>
       </div>
     </section>

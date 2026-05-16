@@ -1,6 +1,24 @@
 import Link from "next/link";
 import { MapPin, ArrowRight } from "lucide-react";
 
+// Slugs that have a dedicated /removals-<slug> landing page. Linking straight
+// to them passes link equity directly instead of via a 301 from /areas/<slug>.
+const REMOVALS_PAGES = new Set([
+  "edgbaston",
+  "harborne",
+  "moseley",
+  "selly-oak",
+  "kings-heath",
+  "erdington",
+  "sutton-coldfield",
+  "northfield",
+  "hall-green",
+  "solihull",
+]);
+
+const areaHref = (slug) =>
+  REMOVALS_PAGES.has(slug) ? `/removals-${slug}` : `/areas/${slug}`;
+
 const primaryAreas = [
   { slug: "city-centre", name: "Birmingham City Centre", postcode: "B1–B5" },
   { slug: "edgbaston", name: "Edgbaston", postcode: "B15, B16" },
@@ -59,7 +77,7 @@ export default function AreasCovered() {
               key={a.slug}
             >
               <Link
-                href={`/areas/${a.slug}`}
+                href={areaHref(a.slug)}
                 className="group flex items-center gap-4 bg-white border border-slate-200 rounded-2xl p-5 hover:border-[#F97316] hover:shadow-md hover:-translate-y-0.5 transition-all"
               >
                 <div className="w-11 h-11 rounded-xl bg-[#F97316]/10 flex items-center justify-center shrink-0 group-hover:bg-[#F97316] transition-colors">
@@ -96,7 +114,7 @@ export default function AreasCovered() {
             {surroundingAreas.map((a) => (
               <Link
                 key={a.slug}
-                href={`/areas/${a.slug}`}
+                href={areaHref(a.slug)}
                 className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-slate-50 border border-slate-200 text-sm font-semibold text-[#0B1E3F] hover:bg-[#F97316] hover:text-white hover:border-[#F97316] transition-colors"
               >
                 <MapPin className="w-3.5 h-3.5" />
