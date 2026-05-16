@@ -1,6 +1,3 @@
-"use client";
-
-import { motion } from "framer-motion";
 import Link from "next/link";
 import {
   BadgePoundSterling,
@@ -63,11 +60,7 @@ export default function PricingLogic() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid lg:grid-cols-12 gap-10 lg:gap-16 items-start">
           <div className="lg:col-span-5 lg:sticky lg:top-28">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5 }}
+            <div
             >
               <span className="inline-block px-3 py-1 rounded-full bg-[#F97316]/10 text-[#F97316] text-xs font-bold uppercase tracking-wider mb-4">
                 Pricing Logic
@@ -105,7 +98,7 @@ export default function PricingLogic() {
                   <ArrowRight className="w-4 h-4" />
                 </Link>
               </div>
-            </motion.div>
+            </div>
           </div>
 
           <div className="lg:col-span-7">
@@ -116,12 +109,8 @@ export default function PricingLogic() {
             </div>
             <div className="grid sm:grid-cols-2 gap-3">
               {factors.map((f, i) => (
-                <motion.div
+                <div
                   key={f.title}
-                  initial={{ opacity: 0, y: 16 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.35, delay: i * 0.04 }}
                   className="bg-slate-50 border border-slate-200 rounded-2xl p-5 hover:border-[#F97316] hover:bg-white hover:shadow-md transition-all"
                 >
                   <div className="w-10 h-10 rounded-lg bg-[#F97316]/10 flex items-center justify-center mb-3">
@@ -131,7 +120,7 @@ export default function PricingLogic() {
                     {f.title}
                   </h4>
                   <p className="text-slate-600 text-sm leading-relaxed">{f.desc}</p>
-                </motion.div>
+                </div>
               ))}
             </div>
           </div>

@@ -2,9 +2,12 @@
 
 import { useEffect, useState } from "react";
 import { Phone, ArrowRight } from "lucide-react";
+import Link from "next/link";
 import { SITE_SETTINGS_FALLBACK, telHref } from "@/lib/siteSettings";
+import { useQuoteModal } from "@/components/QuoteModalProvider";
 
-export default function StickyMobileCTA({ onOpenQuote, settings }) {
+export default function StickyMobileCTA({ settings }) {
+  const { openQuote } = useQuoteModal();
   const s = { ...SITE_SETTINGS_FALLBACK, ...(settings || {}) };
   const phoneHref = telHref(s.phone);
   const [visible, setVisible] = useState(false);
@@ -33,13 +36,23 @@ export default function StickyMobileCTA({ onOpenQuote, settings }) {
           <Phone className="w-4 h-4" />
           Call
         </a>
-        <button
-          onClick={onOpenQuote}
-          className="flex-1 inline-flex items-center justify-center gap-2 px-4 py-3.5 rounded-xl bg-[#F97316] text-white font-bold text-sm hover:bg-[#EA580C] transition-colors"
-        >
-          Get Quote
-          <ArrowRight className="w-4 h-4" />
-        </button>
+        {openQuote ? (
+          <button
+            onClick={openQuote}
+            className="flex-1 inline-flex items-center justify-center gap-2 px-4 py-3.5 rounded-xl bg-[#F97316] text-white font-bold text-sm hover:bg-[#EA580C] transition-colors"
+          >
+            Get Quote
+            <ArrowRight className="w-4 h-4" />
+          </button>
+        ) : (
+          <Link
+            href="/quote"
+            className="flex-1 inline-flex items-center justify-center gap-2 px-4 py-3.5 rounded-xl bg-[#F97316] text-white font-bold text-sm hover:bg-[#EA580C] transition-colors"
+          >
+            Get Quote
+            <ArrowRight className="w-4 h-4" />
+          </Link>
+        )}
       </div>
     </div>
   );

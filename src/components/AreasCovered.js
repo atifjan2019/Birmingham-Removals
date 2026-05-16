@@ -1,6 +1,3 @@
-"use client";
-
-import { motion } from "framer-motion";
 import Link from "next/link";
 import { MapPin, ArrowRight } from "lucide-react";
 
@@ -38,11 +35,7 @@ export default function AreasCovered() {
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center max-w-3xl mx-auto mb-14">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
+          <div
           >
             <span className="inline-block px-3 py-1 rounded-full bg-[#F97316]/10 text-[#F97316] text-xs font-bold uppercase tracking-wider mb-4">
               Areas We Cover
@@ -57,17 +50,13 @@ export default function AreasCovered() {
               shifting a one-bed apartment out of the Mailbox, our crew plans around the
               real access, parking and timing realities of each neighbourhood.
             </p>
-          </motion.div>
+          </div>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-10">
           {primaryAreas.map((a, i) => (
-            <motion.div
+            <div
               key={a.slug}
-              initial={{ opacity: 0, y: 16 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.35, delay: i * 0.04 }}
             >
               <Link
                 href={`/areas/${a.slug}`}
@@ -84,15 +73,11 @@ export default function AreasCovered() {
                 </div>
                 <ArrowRight className="w-4 h-4 text-slate-300 group-hover:text-[#F97316] group-hover:translate-x-0.5 transition-all" />
               </Link>
-            </motion.div>
+            </div>
           ))}
         </div>
 
-        <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
+        <div
           className="bg-white border border-slate-200 rounded-2xl p-6 sm:p-8"
         >
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-4">
@@ -119,7 +104,7 @@ export default function AreasCovered() {
               </Link>
             ))}
           </div>
-        </motion.div>
+        </div>
       </div>
     </section>
   );

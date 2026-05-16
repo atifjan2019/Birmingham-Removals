@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { Menu, X, Phone, ArrowRight } from "lucide-react";
 import Link from "next/link";
 import { SITE_SETTINGS_FALLBACK, telHref } from "@/lib/siteSettings";
+import { useQuoteModal } from "@/components/QuoteModalProvider";
 
 const navLinks = [
   { label: "Services", href: "/#services" },
@@ -14,7 +15,8 @@ const navLinks = [
   { label: "Contact", href: "/contact" },
 ];
 
-export default function Navbar({ onOpenQuote, settings }) {
+export default function Navbar({ settings }) {
+  const { openQuote } = useQuoteModal();
   const s = { ...SITE_SETTINGS_FALLBACK, ...(settings || {}) };
   const phoneHref = telHref(s.phone);
   const mailHref = `mailto:${s.email}`;
@@ -99,9 +101,9 @@ export default function Navbar({ onOpenQuote, settings }) {
                 <Phone className="w-4 h-4" />
                 {s.phone}
               </a>
-              {onOpenQuote ? (
+              {openQuote ? (
                 <button
-                  onClick={onOpenQuote}
+                  onClick={openQuote}
                   className="btn-accent inline-flex items-center gap-2 px-5 py-2.5 text-sm font-semibold rounded-full cursor-pointer"
                 >
                   Get Free Quote
@@ -151,9 +153,9 @@ export default function Navbar({ onOpenQuote, settings }) {
                     {link.label}
                   </Link>
                 ))}
-                {onOpenQuote ? (
+                {openQuote ? (
                   <button
-                    onClick={() => { setMobileOpen(false); onOpenQuote(); }}
+                    onClick={() => { setMobileOpen(false); openQuote(); }}
                     className="mt-4 btn-accent block w-full text-center px-5 py-3 font-semibold rounded-full"
                   >
                     Get Free Quote

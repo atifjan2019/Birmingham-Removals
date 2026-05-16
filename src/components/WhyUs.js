@@ -1,6 +1,3 @@
-"use client";
-
-import { motion } from "framer-motion";
 import { Clock, ShieldCheck, BadgePoundSterling, MapPin, Headphones, Award } from "lucide-react";
 
 const reasons = [
@@ -56,12 +53,8 @@ export default function WhyUs() {
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
           {reasons.map((r, i) => (
-            <motion.div
+            <div
               key={r.title}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.4, delay: i * 0.05 }}
               className="bg-slate-50 border border-slate-200 rounded-2xl p-7 hover:border-[#F97316] hover:bg-white hover:shadow-lg transition-all duration-300"
             >
               <div className="w-12 h-12 rounded-xl bg-[#0B1E3F] flex items-center justify-center mb-5">
@@ -71,7 +64,7 @@ export default function WhyUs() {
                 {r.title}
               </h3>
               <p className="text-slate-600 text-sm leading-relaxed">{r.desc}</p>
-            </motion.div>
+            </div>
           ))}
         </div>
       </div>

@@ -1,6 +1,3 @@
-"use client";
-
-import { motion } from "framer-motion";
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import servicesData from "@/lib/servicesData";
@@ -10,11 +7,7 @@ export default function Services() {
     <section id="services" className="py-24 sm:py-28 bg-slate-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between mb-14 gap-6">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
+          <div
           >
             <span className="inline-block px-3 py-1 rounded-full bg-[#F97316]/10 text-[#F97316] text-xs font-bold uppercase tracking-wider mb-4">
               Our Services
@@ -23,7 +16,7 @@ export default function Services() {
               Removals services across{" "}
               <span className="text-[#F97316]">Birmingham</span> &amp; the West Midlands
             </h2>
-          </motion.div>
+          </div>
           <p className="text-slate-600 text-base max-w-md">
             Whatever you&apos;re moving, wherever it&apos;s going,we&apos;ve got the team, the vans
             and the Birmingham know-how to get it there safely.
@@ -32,12 +25,8 @@ export default function Services() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
           {servicesData.map((service, i) => (
-            <motion.div
+            <div
               key={service.slug}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.4, delay: i * 0.06 }}
             >
               <Link
                 href={`/services/${service.slug}`}
@@ -56,7 +45,7 @@ export default function Services() {
                   {service.shortDesc}
                 </p>
               </Link>
-            </motion.div>
+            </div>
           ))}
         </div>
       </div>

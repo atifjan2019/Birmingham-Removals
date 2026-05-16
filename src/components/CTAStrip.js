@@ -3,8 +3,10 @@
 import { Phone, ArrowRight } from "lucide-react";
 import Link from "next/link";
 import { SITE_SETTINGS_FALLBACK, telHref } from "@/lib/siteSettings";
+import { useQuoteModal } from "@/components/QuoteModalProvider";
 
-export default function CTAStrip({ onOpenQuote, settings }) {
+export default function CTAStrip({ settings }) {
+  const { openQuote } = useQuoteModal();
   const s = { ...SITE_SETTINGS_FALLBACK, ...(settings || {}) };
   const phoneHref = telHref(s.phone);
   return (
@@ -29,9 +31,9 @@ export default function CTAStrip({ onOpenQuote, settings }) {
             <Phone className="w-5 h-5" />
             {s.phone}
           </a>
-          {onOpenQuote ? (
+          {openQuote ? (
             <button
-              onClick={onOpenQuote}
+              onClick={openQuote}
               className="inline-flex items-center gap-2 px-7 py-4 rounded-full bg-white text-[#F97316] font-bold hover:scale-[1.02] transition-transform shadow-xl"
             >
               Get Free Quote

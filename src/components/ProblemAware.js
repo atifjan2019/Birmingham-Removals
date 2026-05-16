@@ -1,6 +1,3 @@
-"use client";
-
-import { motion } from "framer-motion";
 import {
   Building2,
   MapPin,
@@ -51,11 +48,7 @@ export default function ProblemAware() {
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid lg:grid-cols-12 gap-10 lg:gap-16 items-start">
           <div className="lg:col-span-5 lg:sticky lg:top-28">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5 }}
+            <div
             >
               <span className="inline-block px-3 py-1 rounded-full bg-[#F97316]/10 text-[#F97316] text-xs font-bold uppercase tracking-wider mb-4">
                 Local challenges, local fixes
@@ -71,18 +64,14 @@ export default function ProblemAware() {
                 points, parking restrictions, item volume and your timeline, so every
                 move runs calmly from first quote to final placement.
               </p>
-            </motion.div>
+            </div>
           </div>
 
           <div className="lg:col-span-7">
             <div className="grid sm:grid-cols-2 gap-4">
               {problems.map((p, i) => (
-                <motion.div
+                <div
                   key={p.title}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.4, delay: i * 0.05 }}
                   className="bg-slate-50 border border-slate-200 rounded-2xl p-6 hover:border-[#F97316] hover:bg-white hover:shadow-lg transition-all duration-300"
                 >
                   <div className="w-11 h-11 rounded-xl bg-[#0B1E3F] flex items-center justify-center mb-4">
@@ -92,7 +81,7 @@ export default function ProblemAware() {
                     {p.title}
                   </h3>
                   <p className="text-slate-600 text-sm leading-relaxed">{p.desc}</p>
-                </motion.div>
+                </div>
               ))}
             </div>
           </div>

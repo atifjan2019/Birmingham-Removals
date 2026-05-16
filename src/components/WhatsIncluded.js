@@ -1,6 +1,3 @@
-"use client";
-
-import { motion } from "framer-motion";
 import Link from "next/link";
 import { CheckCircle2, ArrowRight } from "lucide-react";
 
@@ -52,11 +49,7 @@ export default function WhatsIncluded() {
     <section className="py-24 sm:py-28 bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center max-w-3xl mx-auto mb-14">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
+          <div
           >
             <span className="inline-block px-3 py-1 rounded-full bg-[#F97316]/10 text-[#F97316] text-xs font-bold uppercase tracking-wider mb-4">
               What&apos;s Included
@@ -70,17 +63,13 @@ export default function WhatsIncluded() {
               the first phone call to the last box in place, here is exactly what you get
               with Birmingham Removals, with no hidden extras.
             </p>
-          </motion.div>
+          </div>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-5xl mx-auto">
           {included.map((item, i) => (
-            <motion.div
+            <div
               key={item.title}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.35, delay: (i % 2) * 0.05 + Math.floor(i / 2) * 0.04 }}
               className="flex items-start gap-4 bg-slate-50 border border-slate-200 rounded-2xl p-5 hover:border-[#F97316] hover:bg-white hover:shadow-md transition-all"
             >
               <div className="w-9 h-9 rounded-lg bg-[#F97316]/10 flex items-center justify-center shrink-0">
@@ -94,7 +83,7 @@ export default function WhatsIncluded() {
                   {item.desc}
                 </p>
               </div>
-            </motion.div>
+            </div>
           ))}
         </div>
 
