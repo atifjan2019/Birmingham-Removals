@@ -15,11 +15,12 @@ const AREA_REDIRECTS = [
 ];
 
 const nextConfig = {
-  // Target modern browsers (see .browserslistrc) so SWC stops emitting ES5
+  // Modern-browser target is driven by .browserslistrc, which Next.js + SWC
+  // respect automatically (since 12.2) — SWC stops emitting ES5
   // polyfills/transforms for browsers that no longer exist (~14 KiB saved).
-  experimental: {
-    browsersListForSwc: true,
-  },
+  // Note: there is no `experimental.browsersListForSwc` flag in Next 16
+  // (it is an unrecognized key and a no-op), so .browserslistrc is the
+  // sole, correct mechanism.
 
   images: {
     formats: ["image/avif", "image/webp"],
