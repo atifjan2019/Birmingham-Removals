@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import dynamic from "next/dynamic";
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
 import TrustBar from "@/components/TrustBar";
@@ -16,8 +17,13 @@ import Testimonials from "@/components/Testimonials";
 import FAQ from "@/components/FAQ";
 import CTAStrip from "@/components/CTAStrip";
 import Footer from "@/components/Footer";
-import HeroPopup from "@/components/HeroPopup";
-import StickyMobileCTA from "@/components/StickyMobileCTA";
+
+// Interaction-only UI — kept out of the initial bundle (HeroPopup pulls in
+// framer-motion). Loaded on the client after first paint / on demand.
+const HeroPopup = dynamic(() => import("@/components/HeroPopup"), { ssr: false });
+const StickyMobileCTA = dynamic(() => import("@/components/StickyMobileCTA"), {
+  ssr: false,
+});
 
 export default function HomeClient({ settings }) {
   const [popupOpen, setPopupOpen] = useState(false);

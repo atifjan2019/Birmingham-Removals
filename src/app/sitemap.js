@@ -1,4 +1,3 @@
-import { areasList } from "./areas/data";
 import { getAllServiceSlugs } from "@/lib/servicesData";
 
 export default function sitemap() {
@@ -29,13 +28,9 @@ export default function sitemap() {
     priority: 0.8,
   }));
 
-  const areaRoutes = areasList.map((area) => ({
-    url: `${baseUrl}/areas/${area.id}`,
-    lastModified: now,
-    changeFrequency: "monthly",
-    priority: 0.7,
-  }));
-
+  // Dedicated /removals-* landing pages are the canonical area pages.
+  // The legacy /areas/[slug] routes 301-redirect here (see next.config.mjs)
+  // and are intentionally excluded from the sitemap to avoid duplicates.
   const removalsRoutes = [
     "removals-edgbaston",
     "removals-harborne",
@@ -54,5 +49,5 @@ export default function sitemap() {
     priority: 0.85,
   }));
 
-  return [...staticRoutes, ...serviceRoutes, ...areaRoutes, ...removalsRoutes];
+  return [...staticRoutes, ...serviceRoutes, ...removalsRoutes];
 }

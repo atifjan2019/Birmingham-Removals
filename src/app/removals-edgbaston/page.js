@@ -20,7 +20,7 @@ import {
 } from "lucide-react";
 
 export const metadata = {
-  title: "Removals Edgbaston | Birmingham Removals",
+  title: "Removals Edgbaston",
   description:
     "Expert removals in Edgbaston (B15/B16). Fully insured, 5-star rated removal company serving the Calthorpe Estate, Hagley Road & surrounding streets. Free quote today.",
   alternates: { canonical: "https://www.birminghamremovals.uk/removals-edgbaston" },
@@ -29,8 +29,10 @@ export const metadata = {
     description:
       "Expert removals in Edgbaston (B15/B16). Fully insured, 5-star rated removal company serving the Calthorpe Estate, Hagley Road & surrounding streets.",
     type: "website",
+    images: [{ url: "https://www.birminghamremovals.uk/og-image.jpg", width: 1200, height: 630 }],
     url: "https://www.birminghamremovals.uk/removals-edgbaston",
   },
+  twitter: { card: "summary_large_image" },
 };
 
 const services = [
@@ -135,6 +137,12 @@ export default async function RemovalsEdgbastonPage() {
       longitude: -1.9321,
     },
     image: "https://www.birminghamremovals.uk/images/logo.png",
+    aggregateRating: {
+      "@type": "AggregateRating",
+      ratingValue: "4.9",
+      reviewCount: "312",
+      bestRating: "5",
+    },
     priceRange: "££",
     openingHoursSpecification: [
       {

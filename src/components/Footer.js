@@ -1,5 +1,3 @@
-"use client";
-
 import { Phone, Mail, MapPin } from "lucide-react";
 import Link from "next/link";
 import { SITE_SETTINGS_FALLBACK, telHref } from "@/lib/siteSettings";
@@ -14,12 +12,12 @@ const serviceLinks = [
 ];
 
 const areaLinks = [
-  { label: "Edgbaston", href: "/areas/edgbaston" },
-  { label: "Harborne", href: "/areas/harborne" },
-  { label: "Moseley", href: "/areas/moseley" },
-  { label: "Selly Oak", href: "/areas/selly-oak" },
-  { label: "Sutton Coldfield", href: "/areas/sutton-coldfield" },
-  { label: "Solihull", href: "/areas/solihull" },
+  { label: "Edgbaston", href: "/removals-edgbaston" },
+  { label: "Harborne", href: "/removals-harborne" },
+  { label: "Moseley", href: "/removals-moseley" },
+  { label: "Selly Oak", href: "/removals-selly-oak" },
+  { label: "Sutton Coldfield", href: "/removals-sutton-coldfield" },
+  { label: "Solihull", href: "/removals-solihull" },
   { label: "City Centre", href: "/areas/city-centre" },
   { label: "All Areas →", href: "/areas" },
 ];

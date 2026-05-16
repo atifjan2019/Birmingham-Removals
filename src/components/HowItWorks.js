@@ -1,6 +1,3 @@
-"use client";
-
-import { motion } from "framer-motion";
 import { ClipboardList, Calculator, Calendar, Truck } from "lucide-react";
 
 const steps = [
@@ -50,13 +47,10 @@ export default function HowItWorks() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
           {steps.map((s, i) => (
-            <motion.div
+            <div
               key={s.step}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.4, delay: i * 0.08 }}
-              className="relative bg-white/5 backdrop-blur border border-white/10 rounded-2xl p-7 hover:bg-white/10 hover:border-[#F97316]/40 transition-all"
+              style={{ animationDelay: `${i * 0.08}s` }}
+              className="reveal-up relative bg-white/5 backdrop-blur border border-white/10 rounded-2xl p-7 hover:bg-white/10 hover:border-[#F97316]/40 transition-all"
             >
               <div className="absolute -top-4 left-7 px-3 py-1 rounded-full bg-[#F97316] text-white text-xs font-bold tracking-wider">
                 STEP {s.step}
@@ -66,7 +60,7 @@ export default function HowItWorks() {
               </div>
               <h3 className="font-[family-name:var(--font-space)] text-lg font-bold mb-2">{s.title}</h3>
               <p className="text-white/70 text-sm leading-relaxed">{s.desc}</p>
-            </motion.div>
+            </div>
           ))}
         </div>
       </div>

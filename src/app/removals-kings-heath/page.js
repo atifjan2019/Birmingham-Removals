@@ -11,7 +11,7 @@ import {
 } from "lucide-react";
 
 export const metadata = {
-  title: "Removals Kings Heath | Birmingham Removals",
+  title: "Removals Kings Heath",
   description:
     "Reliable removals in Kings Heath B14. Fully insured removal company covering High Street, Kings Heath Park & Alcester Road South. 5-star rated. Free quote today.",
   alternates: { canonical: "https://www.birminghamremovals.uk/removals-kings-heath" },
@@ -20,8 +20,10 @@ export const metadata = {
     description:
       "Reliable removals in Kings Heath B14. Fully insured removal company covering High Street, Kings Heath Park & Alcester Road South. 5-star rated.",
     type: "website",
+    images: [{ url: "https://www.birminghamremovals.uk/og-image.jpg", width: 1200, height: 630 }],
     url: "https://www.birminghamremovals.uk/removals-kings-heath",
   },
+  twitter: { card: "summary_large_image" },
 };
 
 const services = [
@@ -118,6 +120,12 @@ export default async function RemovalsKingsHeathPage() {
     },
     geo: { "@type": "GeoCoordinates", latitude: 52.4267, longitude: -1.8925 },
     image: "https://www.birminghamremovals.uk/images/logo.png",
+    aggregateRating: {
+      "@type": "AggregateRating",
+      ratingValue: "4.9",
+      reviewCount: "312",
+      bestRating: "5",
+    },
     priceRange: "££",
     openingHoursSpecification: [
       {

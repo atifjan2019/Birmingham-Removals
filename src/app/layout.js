@@ -25,7 +25,7 @@ export async function generateMetadata() {
     shortcut: [{ url: faviconHref }],
     apple: [{ url: s.logoUrl && !s.logoUrl.startsWith("/") ? s.logoUrl : faviconHref }],
   };
-  const ogImage = s.logoUrl && !s.logoUrl.startsWith("/") ? s.logoUrl : `${siteUrl}/images/logo.png`;
+  const ogImage = { url: `${siteUrl}/og-image.jpg`, width: 1200, height: 630 };
 
   return {
     metadataBase: new URL(siteUrl),
@@ -56,14 +56,14 @@ export async function generateMetadata() {
       locale: "en_GB",
       url: siteUrl,
       siteName: "Birmingham Removals",
-      images: [{ url: ogImage }],
+      images: [ogImage],
     },
     twitter: {
       card: "summary_large_image",
       title: "Birmingham Removals | Trusted House & Office Movers",
       description:
         "Birmingham's 5-star removals team. Free quotes, fully insured, same-day availability.",
-      images: [ogImage],
+      images: [ogImage.url],
     },
     robots: {
       index: true,
@@ -136,6 +136,7 @@ function buildJsonLd(s) {
       "@type": "AggregateRating",
       ratingValue: "4.9",
       reviewCount: "312",
+      bestRating: "5",
     },
   };
 }

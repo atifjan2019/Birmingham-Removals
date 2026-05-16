@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -207,11 +208,14 @@ export default function Hero({ onOpenQuote }) {
               className="relative"
             >
               <div className="relative aspect-[4/5] rounded-3xl overflow-hidden border border-white/10 shadow-2xl">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
+                <Image
                   src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=1400&auto=format&fit=crop"
                   alt="Birmingham Removals team at work"
-                  className="w-full h-full object-cover"
+                  fill
+                  priority
+                  fetchPriority="high"
+                  sizes="(min-width: 1024px) 40vw, 100vw"
+                  className="object-cover"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-[#0B1E3F]/70 via-transparent to-transparent" />
 

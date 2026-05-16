@@ -11,7 +11,7 @@ import {
 } from "lucide-react";
 
 export const metadata = {
-  title: "Removals Moseley | Birmingham Removals",
+  title: "Removals Moseley",
   description:
     "Expert removals in Moseley B13. Fully insured, 5-star removal company serving Moseley Village, Wake Green Road & the Alcester Road corridor. Free quote in 30 minutes.",
   alternates: { canonical: "https://www.birminghamremovals.uk/removals-moseley" },
@@ -20,8 +20,10 @@ export const metadata = {
     description:
       "Expert removals in Moseley B13. Fully insured, 5-star removal company serving Moseley Village, Wake Green Road & the Alcester Road corridor.",
     type: "website",
+    images: [{ url: "https://www.birminghamremovals.uk/og-image.jpg", width: 1200, height: 630 }],
     url: "https://www.birminghamremovals.uk/removals-moseley",
   },
+  twitter: { card: "summary_large_image" },
 };
 
 const services = [
@@ -118,6 +120,12 @@ export default async function RemovalsMoseleyPage() {
     },
     geo: { "@type": "GeoCoordinates", latitude: 52.4453, longitude: -1.8850 },
     image: "https://www.birminghamremovals.uk/images/logo.png",
+    aggregateRating: {
+      "@type": "AggregateRating",
+      ratingValue: "4.9",
+      reviewCount: "312",
+      bestRating: "5",
+    },
     priceRange: "££",
     openingHoursSpecification: [
       {

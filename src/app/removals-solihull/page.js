@@ -11,7 +11,7 @@ import {
 } from "lucide-react";
 
 export const metadata = {
-  title: "Removals Solihull | Birmingham Removals",
+  title: "Removals Solihull",
   description:
     "Premium removals in Solihull B91–B93. Fully insured removal company covering Touchwood, Tudor Grange, Olton & Monkspath. Expert service. Free quote today.",
   alternates: { canonical: "https://www.birminghamremovals.uk/removals-solihull" },
@@ -20,8 +20,10 @@ export const metadata = {
     description:
       "Premium removals in Solihull B91–B93. Fully insured removal company covering Touchwood, Tudor Grange, Olton & Monkspath. Expert service.",
     type: "website",
+    images: [{ url: "https://www.birminghamremovals.uk/og-image.jpg", width: 1200, height: 630 }],
     url: "https://www.birminghamremovals.uk/removals-solihull",
   },
+  twitter: { card: "summary_large_image" },
 };
 
 const services = [
@@ -118,6 +120,12 @@ export default async function RemovalsSolihullPage() {
     },
     geo: { "@type": "GeoCoordinates", latitude: 52.4128, longitude: -1.7782 },
     image: "https://www.birminghamremovals.uk/images/logo.png",
+    aggregateRating: {
+      "@type": "AggregateRating",
+      ratingValue: "4.9",
+      reviewCount: "312",
+      bestRating: "5",
+    },
     priceRange: "£££",
     openingHoursSpecification: [
       {

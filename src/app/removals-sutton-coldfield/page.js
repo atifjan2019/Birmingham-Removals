@@ -11,7 +11,7 @@ import {
 } from "lucide-react";
 
 export const metadata = {
-  title: "Removals Sutton Coldfield | Birmingham Removals",
+  title: "Removals Sutton Coldfield",
   description:
     "Premium removals in Sutton Coldfield B72–B76. Fully insured, 5-star rated removal company covering Four Oaks, Mere Green, The Parade & Sutton Park. Free quote.",
   alternates: { canonical: "https://www.birminghamremovals.uk/removals-sutton-coldfield" },
@@ -20,8 +20,10 @@ export const metadata = {
     description:
       "Premium removals in Sutton Coldfield B72–B76. Fully insured, 5-star rated removal company covering Four Oaks, Mere Green, The Parade & Sutton Park.",
     type: "website",
+    images: [{ url: "https://www.birminghamremovals.uk/og-image.jpg", width: 1200, height: 630 }],
     url: "https://www.birminghamremovals.uk/removals-sutton-coldfield",
   },
+  twitter: { card: "summary_large_image" },
 };
 
 const services = [
@@ -118,6 +120,12 @@ export default async function RemovalsSuttonColdfieldPage() {
     },
     geo: { "@type": "GeoCoordinates", latitude: 52.5586, longitude: -1.8232 },
     image: "https://www.birminghamremovals.uk/images/logo.png",
+    aggregateRating: {
+      "@type": "AggregateRating",
+      ratingValue: "4.9",
+      reviewCount: "312",
+      bestRating: "5",
+    },
     priceRange: "£££",
     openingHoursSpecification: [
       {

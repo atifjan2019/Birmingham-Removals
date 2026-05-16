@@ -1,5 +1,3 @@
-"use client";
-
 import { Shield, Award, Users, ThumbsUp, Clock, BadgeCheck } from "lucide-react";
 
 const badges = [

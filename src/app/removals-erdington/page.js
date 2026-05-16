@@ -11,7 +11,7 @@ import {
 } from "lucide-react";
 
 export const metadata = {
-  title: "Removals Erdington | Birmingham Removals",
+  title: "Removals Erdington",
   description:
     "Fast, affordable removals in Erdington B23 & B24. Fully insured removal company covering Six Ways, Chester Road & Castle Vale. Same-day slots available. Free quote.",
   alternates: { canonical: "https://www.birminghamremovals.uk/removals-erdington" },
@@ -20,8 +20,10 @@ export const metadata = {
     description:
       "Fast, affordable removals in Erdington B23 & B24. Fully insured removal company covering Six Ways, Chester Road & Castle Vale. Same-day slots available.",
     type: "website",
+    images: [{ url: "https://www.birminghamremovals.uk/og-image.jpg", width: 1200, height: 630 }],
     url: "https://www.birminghamremovals.uk/removals-erdington",
   },
+  twitter: { card: "summary_large_image" },
 };
 
 const services = [
@@ -118,6 +120,12 @@ export default async function RemovalsErdingtonPage() {
     },
     geo: { "@type": "GeoCoordinates", latitude: 52.5190, longitude: -1.8420 },
     image: "https://www.birminghamremovals.uk/images/logo.png",
+    aggregateRating: {
+      "@type": "AggregateRating",
+      ratingValue: "4.9",
+      reviewCount: "312",
+      bestRating: "5",
+    },
     priceRange: "£",
     openingHoursSpecification: [
       {

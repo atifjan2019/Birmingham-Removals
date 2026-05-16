@@ -11,7 +11,7 @@ import {
 } from "lucide-react";
 
 export const metadata = {
-  title: "Removals Selly Oak | Birmingham Removals",
+  title: "Removals Selly Oak",
   description:
     "Affordable removals in Selly Oak B29. Fully insured removal company specialising in student moves, Victorian terraces & HMOs near Bristol Road. Free same-day quotes.",
   alternates: { canonical: "https://www.birminghamremovals.uk/removals-selly-oak" },
@@ -20,8 +20,10 @@ export const metadata = {
     description:
       "Affordable removals in Selly Oak B29. Fully insured removal company specialising in student moves, Victorian terraces & HMOs near Bristol Road.",
     type: "website",
+    images: [{ url: "https://www.birminghamremovals.uk/og-image.jpg", width: 1200, height: 630 }],
     url: "https://www.birminghamremovals.uk/removals-selly-oak",
   },
+  twitter: { card: "summary_large_image" },
 };
 
 const services = [
@@ -118,6 +120,12 @@ export default async function RemovalsSellyOakPage() {
     },
     geo: { "@type": "GeoCoordinates", latitude: 52.4385, longitude: -1.9414 },
     image: "https://www.birminghamremovals.uk/images/logo.png",
+    aggregateRating: {
+      "@type": "AggregateRating",
+      ratingValue: "4.9",
+      reviewCount: "312",
+      bestRating: "5",
+    },
     priceRange: "£",
     openingHoursSpecification: [
       {

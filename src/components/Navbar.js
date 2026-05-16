@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X, Phone, ArrowRight } from "lucide-react";
 import Link from "next/link";
 import { SITE_SETTINGS_FALLBACK, telHref } from "@/lib/siteSettings";
@@ -139,16 +138,9 @@ export default function Navbar({ onOpenQuote, settings }) {
           </div>
         </div>
 
-        <AnimatePresence>
-          {mobileOpen && (
-            <motion.div
-              initial={{ height: 0, opacity: 0 }}
-              animate={{ height: "auto", opacity: 1 }}
-              exit={{ height: 0, opacity: 0 }}
-              transition={{ duration: 0.25 }}
-              className="lg:hidden overflow-hidden bg-white border-b border-slate-200"
-            >
-              <div className="px-4 py-6 space-y-1">
+        {mobileOpen && (
+          <div className="lg:hidden overflow-hidden bg-white border-b border-slate-200 animate-menu-down">
+            <div className="px-4 py-6 space-y-1">
                 {navLinks.map((link) => (
                   <Link
                     key={link.href}
@@ -175,9 +167,8 @@ export default function Navbar({ onOpenQuote, settings }) {
                   </Link>
                 )}
               </div>
-            </motion.div>
+            </div>
           )}
-        </AnimatePresence>
       </nav>
     </>
   );

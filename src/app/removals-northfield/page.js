@@ -11,7 +11,7 @@ import {
 } from "lucide-react";
 
 export const metadata = {
-  title: "Removals Northfield | Birmingham Removals",
+  title: "Removals Northfield",
   description:
     "Trusted removals in Northfield B31. Fully insured removal company covering Bristol Road South, Longbridge & surrounding estates. Affordable rates. Free quote today.",
   alternates: { canonical: "https://www.birminghamremovals.uk/removals-northfield" },
@@ -20,8 +20,10 @@ export const metadata = {
     description:
       "Trusted removals in Northfield B31. Fully insured removal company covering Bristol Road South, Longbridge & surrounding estates. Affordable rates.",
     type: "website",
+    images: [{ url: "https://www.birminghamremovals.uk/og-image.jpg", width: 1200, height: 630 }],
     url: "https://www.birminghamremovals.uk/removals-northfield",
   },
+  twitter: { card: "summary_large_image" },
 };
 
 const services = [
@@ -118,6 +120,12 @@ export default async function RemovalsNorthfieldPage() {
     },
     geo: { "@type": "GeoCoordinates", latitude: 52.4072, longitude: -1.9765 },
     image: "https://www.birminghamremovals.uk/images/logo.png",
+    aggregateRating: {
+      "@type": "AggregateRating",
+      ratingValue: "4.9",
+      reviewCount: "312",
+      bestRating: "5",
+    },
     priceRange: "£",
     openingHoursSpecification: [
       {
