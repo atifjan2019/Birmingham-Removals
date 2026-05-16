@@ -23,7 +23,7 @@ function WhatsAppIcon(props) {
 }
 
 export const metadata = {
-  title: "Contact Birmingham Removals | Get in Touch for a Free Quote",
+  title: "Contact Us — Get in Touch for a Free Quote",
   description:
     "Speak to Birmingham Removals,call, WhatsApp or email. Free quotes within 30 minutes, 7 days a week. Based in Birmingham city centre, serving the West Midlands.",
   alternates: { canonical: "https://www.birminghamremovals.uk/contact" },

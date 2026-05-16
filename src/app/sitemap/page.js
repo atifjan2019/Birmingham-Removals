@@ -6,7 +6,7 @@ import servicesData from "@/lib/servicesData";
 import { Map, MapPin, Navigation, Briefcase } from "lucide-react";
 
 export const metadata = {
-  title: "HTML Sitemap | Birmingham Removals",
+  title: "HTML Sitemap",
   description: "Navigate every page on the Birmingham Removals website.",
   alternates: { canonical: "https://www.birminghamremovals.uk/sitemap" },
 };

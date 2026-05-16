@@ -114,7 +114,7 @@ export default function Footer({ settings }) {
                 // eslint-disable-next-line @next/next/no-img-element
                 <img
                   src={s.footerLogoUrl || s.logoUrl}
-                  alt="Logo"
+                  alt="Birmingham Removals"
                   className={`h-14 w-auto max-w-[240px] object-contain ${s.footerLogoUrl ? "" : "bg-white rounded-xl p-2"}`}
                 />
               ) : (

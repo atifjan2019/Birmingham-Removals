@@ -118,7 +118,7 @@ export default function Hero() {
               <div className="min-w-0">
                 <div className="font-[family-name:var(--font-space)] font-bold text-lg leading-none">{s.value}</div>
                 <div className="text-xs text-white/70 mt-1 leading-tight">{s.label}</div>
-                <div className="text-[10px] text-white/50 leading-tight">{s.sub}</div>
+                <div className="text-[10px] text-white/70 leading-tight">{s.sub}</div>
               </div>
             </div>
           ))}

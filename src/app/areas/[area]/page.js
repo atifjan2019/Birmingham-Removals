@@ -9,10 +9,10 @@ export async function generateMetadata({ params }) {
   const data = areasData[area];
 
   if (!data) {
-    return { title: "Area Not Found | Birmingham Removals" };
+    return { title: "Area Not Found" };
   }
 
-  const title = `Removals in ${data.name} | Birmingham Removals`;
+  const title = `Removals in ${data.name}`;
   return {
     title,
     description: data.description,

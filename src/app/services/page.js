@@ -7,7 +7,7 @@ import { ArrowUpRight } from "lucide-react";
 import { getSiteSettings } from "@/lib/siteSettings";
 
 export const metadata = {
-  title: "Removal Services | Birmingham Removals",
+  title: "Removal Services",
   description:
     "Full range of Birmingham removal services: house removals, office relocations, man & van, packing, storage and specialist piano moves across the West Midlands.",
   alternates: { canonical: "https://www.birminghamremovals.uk/services" },

@@ -5,7 +5,7 @@ import { Star, Quote } from "lucide-react";
 import { getSiteSettings } from "@/lib/siteSettings";
 
 export const metadata = {
-  title: "Reviews | Birmingham Removals | 4.9★ from 312+ Customers",
+  title: "Reviews — 4.9★ from 312+ Customers",
   description:
     "See what Birmingham customers say about our removals service. 4.9 average on Google from 312+ verified reviews. Real stories from real moves across the West Midlands.",
   alternates: { canonical: "https://www.birminghamremovals.uk/reviews" },

@@ -80,7 +80,7 @@ const dedicatedPages = [
 ];
 
 export const metadata = {
-  title: "Areas We Cover | Birmingham Removals",
+  title: "Areas We Cover",
   description:
     "Birmingham Removals covers every B postcode,Edgbaston, Harborne, Moseley, Selly Oak, Sutton Coldfield, Solihull, Erdington plus Dudley, Wolverhampton and Coventry.",
   alternates: { canonical: "https://www.birminghamremovals.uk/areas" },

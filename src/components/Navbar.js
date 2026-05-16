@@ -62,7 +62,7 @@ export default function Navbar({ settings }) {
             <Link href="/" className="flex items-center gap-3 group">
               {s.logoUrl ? (
                 // eslint-disable-next-line @next/next/no-img-element
-                <img src={s.logoUrl} alt="Logo" className="h-12 w-auto max-w-[220px] object-contain" />
+                <img src={s.logoUrl} alt="Birmingham Removals" className="h-12 w-auto max-w-[220px] object-contain" />
               ) : (
                 <>
                   <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#0B1E3F] to-[#1E3A8A] flex items-center justify-center shadow-md">

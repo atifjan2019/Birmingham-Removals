@@ -5,7 +5,7 @@ import { Award, Users, MapPin, Heart, Clock, ShieldCheck } from "lucide-react";
 import { getSiteSettings } from "@/lib/siteSettings";
 
 export const metadata = {
-  title: "About Us | Birmingham Removals | Our Story & Values",
+  title: "About Us — Our Story & Values",
   description:
     "Meet the Birmingham Removals team. Family-run since 2015, 5,200+ successful moves, and a relentless focus on zero-stress relocations across the West Midlands.",
   alternates: { canonical: "https://www.birminghamremovals.uk/about" },

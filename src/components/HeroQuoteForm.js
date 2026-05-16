@@ -42,11 +42,12 @@ export default function HeroQuoteForm() {
         }`}>
           <MapPin className="w-5 h-5 text-[#F97316] shrink-0" />
           <div className="flex-1 min-w-0">
-            <span className="block text-[11px] uppercase tracking-wider text-slate-500 font-semibold">From</span>
+            <span className="block text-[11px] uppercase tracking-wider text-slate-600 font-semibold">From</span>
             <input
               type="text"
               required
               aria-required="true"
+              aria-label="Move-from postcode"
               placeholder="e.g. B15 3AA"
               value={from}
               onChange={(e) => {
@@ -62,11 +63,12 @@ export default function HeroQuoteForm() {
         }`}>
           <MapPin className="w-5 h-5 text-[#F97316] shrink-0" />
           <div className="flex-1 min-w-0">
-            <span className="block text-[11px] uppercase tracking-wider text-slate-500 font-semibold">To</span>
+            <span className="block text-[11px] uppercase tracking-wider text-slate-600 font-semibold">To</span>
             <input
               type="text"
               required
               aria-required="true"
+              aria-label="Move-to postcode"
               placeholder="e.g. B91 1AA"
               value={to}
               onChange={(e) => {
