@@ -3,6 +3,7 @@ import Navbar from "@/components/NavbarServer";
 import Footer from "@/components/FooterServer";
 import CTAStrip from "@/components/CTAStrip";
 import TrustBar from "@/components/TrustBar";
+import HowItWorks from "@/components/HowItWorks";
 import { getSiteSettings } from "@/lib/siteSettings";
 import {
   MapPin,
@@ -230,6 +231,8 @@ export default async function RemovalsEdgbastonPage() {
           </div>
         </div>
       </section>
+
+      <HowItWorks />
 
       {/* ── Local Area ── */}
       <section className="py-20 bg-slate-50">
