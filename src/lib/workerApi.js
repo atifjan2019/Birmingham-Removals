@@ -9,7 +9,11 @@ function adminPin() {
   return process.env.ADMIN_PIN || process.env.WORKER_ADMIN_PIN || DEFAULT_ADMIN_PIN;
 }
 
-async function workerFetch(path, options = {}, { admin = false } = {}) {
+async function workerFetch(
+  path,
+  options = {},
+  { admin = false, timeoutMs = 8000, revalidate } = {}
+) {
   const headers = new Headers(options.headers);
   headers.set("Accept", "application/json");
 
@@ -21,10 +25,19 @@ async function workerFetch(path, options = {}, { admin = false } = {}) {
     headers.set("X-Admin-Pin", adminPin());
   }
 
+  // Never let an unreachable/slow worker hang the request — this was the
+  // dominant homepage TTFB / LCP cost. Reads can additionally be cached so
+  // public pages don't hit the API on every request.
+  const cacheOpts =
+    typeof revalidate === "number"
+      ? { next: { revalidate } }
+      : { cache: "no-store" };
+
   const response = await fetch(`${apiBase()}${path}`, {
     ...options,
     headers,
-    cache: "no-store",
+    ...cacheOpts,
+    signal: AbortSignal.timeout(timeoutMs),
   });
 
   if (response.status === 204) {
@@ -100,7 +113,9 @@ export async function recordWorkerActivity(data) {
 }
 
 export async function getWorkerSettings() {
-  return workerFetch("/settings", {});
+  // Public, on every page: short timeout so a dead API fails fast to the
+  // fallback, and cached for 10 min so pages aren't blocked per-request.
+  return workerFetch("/settings", {}, { timeoutMs: 1500, revalidate: 600 });
 }
 
 export async function updateWorkerSettings(patch) {
