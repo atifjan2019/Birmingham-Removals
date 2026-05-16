@@ -14,6 +14,13 @@ const dedicatedPages = [
     tag: "Premium Coverage",
     desc: "In-depth guide to house, flat and office removals across Edgbaston — Calthorpe Estate, Hagley Road and beyond.",
   },
+  {
+    slug: "removals-harborne",
+    name: "Removals Harborne",
+    postcode: "B17",
+    tag: "Village Moves",
+    desc: "Full local guide to removals in Harborne — High Street, War Lane, Queen's Park and all surrounding B17 streets.",
+  },
 ];
 
 export const metadata = {
