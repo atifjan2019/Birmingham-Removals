@@ -73,10 +73,12 @@ export default function Hero() {
             <div className="relative">
               <div className="relative aspect-[4/5] rounded-3xl overflow-hidden border border-white/10 shadow-2xl">
                 <Image
-                  src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=1400&auto=format&fit=crop"
+                  src="/images/hero-team.webp"
                   alt="Birmingham Removals team at work"
                   fill
-                  sizes="(min-width: 1024px) 40vw, 0px"
+                  priority
+                  fetchPriority="high"
+                  sizes="(min-width: 1024px) 40vw, 1px"
                   className="object-cover"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-[#0B1E3F]/70 via-transparent to-transparent" />

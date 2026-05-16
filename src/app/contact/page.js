@@ -27,6 +27,16 @@ export const metadata = {
   description:
     "Speak to Birmingham Removals,call, WhatsApp or email. Free quotes within 30 minutes, 7 days a week. Based in Birmingham city centre, serving the West Midlands.",
   alternates: { canonical: "https://www.birminghamremovals.uk/contact" },
+  openGraph: {
+    title: "Contact Us | Birmingham Removals",
+    description:
+      "Call, WhatsApp or email Birmingham Removals. Free fixed quotes within 30 minutes, 7 days a week across Birmingham & the West Midlands.",
+    url: "https://www.birminghamremovals.uk/contact",
+    siteName: "Birmingham Removals",
+    type: "website",
+    images: [{ url: "https://www.birminghamremovals.uk/og-image.jpg", width: 1200, height: 630 }],
+  },
+  twitter: { card: "summary_large_image" },
 };
 
 function buildChannels(s) {

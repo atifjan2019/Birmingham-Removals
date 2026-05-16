@@ -106,7 +106,7 @@ export default function ServicePageClient({ service, settings }) {
             <div key={i} className="grid grid-cols-1 lg:grid-cols-12 gap-10">
               <div className="lg:col-span-5">
                 <div className="flex items-center gap-4 mb-5">
-                  <span className="flex items-center justify-center w-11 h-11 rounded-xl bg-[#F97316]/10 text-[#F97316] font-[family-name:var(--font-space)] font-bold text-lg">
+                  <span className="flex items-center justify-center w-11 h-11 rounded-xl bg-[#F97316]/10 text-[#9A3412] font-[family-name:var(--font-space)] font-bold text-lg">
                     0{i + 1}
                   </span>
                   <div className="h-px flex-1 bg-slate-200" />
@@ -146,7 +146,7 @@ export default function ServicePageClient({ service, settings }) {
         <section className="py-20 bg-slate-50">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid lg:grid-cols-12 gap-12">
             <div className="lg:col-span-5">
-              <span className="inline-block px-3 py-1 rounded-full bg-[#F97316]/10 text-[#F97316] text-xs font-bold uppercase tracking-wider mb-4">
+              <span className="inline-block px-3 py-1 rounded-full bg-[#F97316]/10 text-[#9A3412] text-xs font-bold uppercase tracking-wider mb-4">
                 FAQ
               </span>
               <h2 className="font-[family-name:var(--font-space)] text-3xl sm:text-4xl font-extrabold text-[#0B1E3F] leading-tight mb-4">

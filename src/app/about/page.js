@@ -9,6 +9,16 @@ export const metadata = {
   description:
     "Meet the Birmingham Removals team. Family-run since 2015, 5,200+ successful moves, and a relentless focus on zero-stress relocations across the West Midlands.",
   alternates: { canonical: "https://www.birminghamremovals.uk/about" },
+  openGraph: {
+    title: "About Us — Our Story & Values | Birmingham Removals",
+    description:
+      "Family-run Birmingham removals since 2015 — 5,200+ moves and a relentless focus on zero-stress relocations across the West Midlands.",
+    url: "https://www.birminghamremovals.uk/about",
+    siteName: "Birmingham Removals",
+    type: "website",
+    images: [{ url: "https://www.birminghamremovals.uk/og-image.jpg", width: 1200, height: 630 }],
+  },
+  twitter: { card: "summary_large_image" },
 };
 
 const values = [
@@ -55,7 +65,7 @@ export default async function AboutPage() {
         <section className="py-24 bg-white">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid lg:grid-cols-2 gap-14 items-center">
             <div>
-              <span className="inline-block px-3 py-1 rounded-full bg-[#F97316]/10 text-[#F97316] text-xs font-bold uppercase tracking-wider mb-4">
+              <span className="inline-block px-3 py-1 rounded-full bg-[#F97316]/10 text-[#9A3412] text-xs font-bold uppercase tracking-wider mb-4">
                 Our Story
               </span>
               <h2 className="font-[family-name:var(--font-space)] text-3xl sm:text-4xl font-extrabold text-[#0B1E3F] mb-6 leading-tight">
@@ -108,7 +118,7 @@ export default async function AboutPage() {
         <section className="py-24 bg-slate-50">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-14 max-w-2xl mx-auto">
-              <span className="inline-block px-3 py-1 rounded-full bg-[#F97316]/10 text-[#F97316] text-xs font-bold uppercase tracking-wider mb-4">
+              <span className="inline-block px-3 py-1 rounded-full bg-[#F97316]/10 text-[#9A3412] text-xs font-bold uppercase tracking-wider mb-4">
                 Our Values
               </span>
               <h2 className="font-[family-name:var(--font-space)] text-3xl sm:text-4xl font-extrabold text-[#0B1E3F] leading-tight">

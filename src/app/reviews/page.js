@@ -9,6 +9,16 @@ export const metadata = {
   description:
     "See what Birmingham customers say about our removals service. 4.9 average on Google from 312+ verified reviews. Real stories from real moves across the West Midlands.",
   alternates: { canonical: "https://www.birminghamremovals.uk/reviews" },
+  openGraph: {
+    title: "Reviews — 4.9★ from 312+ Customers | Birmingham Removals",
+    description:
+      "Real reviews from Birmingham removals customers — 4.9/5 on Google from 312+ verified moves across the West Midlands.",
+    url: "https://www.birminghamremovals.uk/reviews",
+    siteName: "Birmingham Removals",
+    type: "website",
+    images: [{ url: "https://www.birminghamremovals.uk/og-image.jpg", width: 1200, height: 630 }],
+  },
+  twitter: { card: "summary_large_image" },
 };
 
 const reviews = [

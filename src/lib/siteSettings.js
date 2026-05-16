@@ -1,7 +1,7 @@
 import { getWorkerSettings } from "@/lib/workerApi";
 
 const FALLBACK = {
-  logoUrl: "/images/logo.png",
+  logoUrl: "/images/logo.webp",
   footerLogoUrl: "",
   faviconUrl: "/favicon.ico",
   phone: "07365 380090",

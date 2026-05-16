@@ -52,7 +52,7 @@ export default function Testimonials() {
     <section id="testimonials" className="py-24 sm:py-28 bg-slate-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-14 max-w-3xl mx-auto">
-          <span className="inline-block px-3 py-1 rounded-full bg-[#F97316]/10 text-[#F97316] text-xs font-bold uppercase tracking-wider mb-4">
+          <span className="inline-block px-3 py-1 rounded-full bg-[#F97316]/10 text-[#9A3412] text-xs font-bold uppercase tracking-wider mb-4">
             Reviews
           </span>
           <h2 className="font-[family-name:var(--font-space)] text-3xl sm:text-4xl lg:text-5xl font-extrabold text-[#0B1E3F] leading-tight">
@@ -114,8 +114,13 @@ export default function Testimonials() {
                   key={k}
                   onClick={() => setI(k)}
                   aria-label={`Go to review ${k + 1}`}
-                  className={`h-2 rounded-full transition-all ${k === i ? "w-8 bg-[#F97316]" : "w-2 bg-slate-300"}`}
-                />
+                  aria-current={k === i ? "true" : undefined}
+                  className="grid place-items-center w-11 h-11 rounded-full transition-all"
+                >
+                  <span
+                    className={`block h-2 rounded-full transition-all ${k === i ? "w-8 bg-[#F97316]" : "w-2 bg-slate-300"}`}
+                  />
+                </button>
               ))}
             </div>
             <button

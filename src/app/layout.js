@@ -96,7 +96,7 @@ function buildJsonLd(s) {
     "@type": "MovingCompany",
     name: "Birmingham Removals",
     url: siteUrl,
-    image: s.logoUrl && !s.logoUrl.startsWith("/") ? s.logoUrl : `${siteUrl}/images/logo.png`,
+    image: s.logoUrl && !s.logoUrl.startsWith("/") ? s.logoUrl : `${siteUrl}/images/logo.webp`,
     telephone: buildPhoneE164(s.phone),
     email: s.email,
     priceRange: "££",
@@ -151,7 +151,6 @@ export default async function RootLayout({ children }) {
       className={`${inter.variable} ${jakarta.variable} antialiased`}
     >
       <head>
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}

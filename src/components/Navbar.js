@@ -8,11 +8,11 @@ import { useQuoteModal } from "@/components/QuoteModalProvider";
 
 const navLinks = [
   { label: "Services", href: "/#services" },
-  { label: "Areas", href: "/areas" },
+  { label: "Areas", href: "/areas", prefetch: false },
   { label: "How It Works", href: "/#how-it-works" },
-  { label: "Reviews", href: "/#testimonials" },
-  { label: "About", href: "/about" },
-  { label: "Contact", href: "/contact" },
+  { label: "Reviews", href: "/reviews", prefetch: false },
+  { label: "About", href: "/about", prefetch: false },
+  { label: "Contact", href: "/contact", prefetch: false },
 ];
 
 export default function Navbar({ settings }) {
@@ -62,7 +62,7 @@ export default function Navbar({ settings }) {
             <Link href="/" className="flex items-center gap-3 group">
               {s.logoUrl ? (
                 // eslint-disable-next-line @next/next/no-img-element
-                <img src={s.logoUrl} alt="Birmingham Removals" className="h-12 w-auto max-w-[220px] object-contain" />
+                <img src={s.logoUrl} alt="Birmingham Removals" width="167" height="48" className="h-12 w-auto max-w-[220px] object-contain" />
               ) : (
                 <>
                   <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#0B1E3F] to-[#1E3A8A] flex items-center justify-center shadow-md">
@@ -86,6 +86,7 @@ export default function Navbar({ settings }) {
                 <Link
                   key={link.href}
                   href={link.href}
+                  prefetch={link.prefetch}
                   className="text-sm font-medium text-slate-700 hover:text-[#F97316] transition-colors"
                 >
                   {link.label}
@@ -147,6 +148,7 @@ export default function Navbar({ settings }) {
                   <Link
                     key={link.href}
                     href={link.href}
+                    prefetch={link.prefetch}
                     onClick={() => setMobileOpen(false)}
                     className="block text-base font-medium text-slate-700 hover:text-[#F97316] py-3 border-b border-slate-100"
                   >

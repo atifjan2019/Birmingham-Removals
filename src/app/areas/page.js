@@ -84,6 +84,16 @@ export const metadata = {
   description:
     "Birmingham Removals covers every B postcode,Edgbaston, Harborne, Moseley, Selly Oak, Sutton Coldfield, Solihull, Erdington plus Dudley, Wolverhampton and Coventry.",
   alternates: { canonical: "https://www.birminghamremovals.uk/areas" },
+  openGraph: {
+    title: "Areas We Cover | Birmingham Removals",
+    description:
+      "Birmingham Removals covers every B postcode — Edgbaston, Harborne, Moseley, Selly Oak, Sutton Coldfield, Solihull, Erdington and the wider West Midlands.",
+    url: "https://www.birminghamremovals.uk/areas",
+    siteName: "Birmingham Removals",
+    type: "website",
+    images: [{ url: "https://www.birminghamremovals.uk/og-image.jpg", width: 1200, height: 630 }],
+  },
+  twitter: { card: "summary_large_image" },
 };
 
 export default async function AreasIndexPage() {
@@ -123,7 +133,7 @@ export default async function AreasIndexPage() {
                     </div>
                     <ArrowUpRight className="w-5 h-5 text-slate-300 group-hover:text-[#F97316] group-hover:rotate-45 transition-all" />
                   </div>
-                  <span className="inline-block px-2.5 py-1 bg-[#F97316]/10 text-[#F97316] font-semibold text-[10px] uppercase tracking-wider rounded-full mb-3">
+                  <span className="inline-block px-2.5 py-1 bg-[#F97316]/10 text-[#9A3412] font-semibold text-[10px] uppercase tracking-wider rounded-full mb-3">
                     {area.tag}
                   </span>
                   <h2 className="font-[family-name:var(--font-space)] text-xl font-bold text-[#0B1E3F] mb-1 group-hover:text-[#F97316] transition-colors">
@@ -145,7 +155,7 @@ export default async function AreasIndexPage() {
         <section className="py-20 bg-white">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="mb-10">
-              <span className="inline-block px-3 py-1 rounded-full bg-[#F97316]/10 text-[#F97316] text-xs font-bold uppercase tracking-wider mb-3">
+              <span className="inline-block px-3 py-1 rounded-full bg-[#F97316]/10 text-[#9A3412] text-xs font-bold uppercase tracking-wider mb-3">
                 Deep Dives
               </span>
               <h2 className="font-[family-name:var(--font-space)] text-3xl font-extrabold text-[#0B1E3F]">
@@ -168,7 +178,7 @@ export default async function AreasIndexPage() {
                     </div>
                     <ArrowUpRight className="w-5 h-5 text-slate-300 group-hover:text-[#F97316] group-hover:rotate-45 transition-all" />
                   </div>
-                  <span className="inline-block px-2.5 py-1 bg-[#F97316]/10 text-[#F97316] font-semibold text-[10px] uppercase tracking-wider rounded-full mb-3">
+                  <span className="inline-block px-2.5 py-1 bg-[#F97316]/10 text-[#9A3412] font-semibold text-[10px] uppercase tracking-wider rounded-full mb-3">
                     {page.tag}
                   </span>
                   <h3 className="font-[family-name:var(--font-space)] text-xl font-bold text-[#0B1E3F] mb-1 group-hover:text-[#F97316] transition-colors">

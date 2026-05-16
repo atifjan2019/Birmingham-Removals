@@ -115,6 +115,8 @@ export default function Footer({ settings }) {
                 <img
                   src={s.footerLogoUrl || s.logoUrl}
                   alt="Birmingham Removals"
+                  width="195"
+                  height="56"
                   className={`h-14 w-auto max-w-[240px] object-contain ${s.footerLogoUrl ? "" : "bg-white rounded-xl p-2"}`}
                 />
               ) : (

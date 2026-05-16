@@ -22,7 +22,7 @@ function LogoMark({ logoUrl, size }) {
     return <img src={logoUrl} alt="Logo" className={`${size} w-auto object-contain`} />;
   }
   return (
-    <Image src="/images/logo.png" alt="Logo" width={160} height={52} className={`${size} w-auto`} />
+    <Image src="/images/logo.webp" alt="Birmingham Removals" width={160} height={52} className={`${size} w-auto`} />
   );
 }
 
