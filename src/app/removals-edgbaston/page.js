@@ -233,7 +233,7 @@ export default async function RemovalsEdgbastonPage() {
 
       {/* ── Local Area ── */}
       <section className="py-20 bg-slate-50">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="mb-8">
             <span className="inline-block px-3 py-1 rounded-full bg-[#F97316]/10 text-[#F97316] text-xs font-bold uppercase tracking-wider mb-3">
               Local Knowledge
@@ -301,7 +301,7 @@ export default async function RemovalsEdgbastonPage() {
             </h2>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 max-w-4xl mx-auto">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 max-w-7xl mx-auto">
             {whyUs.map(({ title, desc }) => (
               <div key={title} className="flex items-start gap-4 p-6 rounded-2xl bg-slate-50 border border-slate-200">
                 <CheckCircle2 className="w-6 h-6 text-[#F97316] shrink-0 mt-0.5" />
@@ -316,7 +316,7 @@ export default async function RemovalsEdgbastonPage() {
           </div>
 
           {/* Trust stats */}
-          <div className="mt-12 grid grid-cols-2 sm:grid-cols-4 gap-4 max-w-3xl mx-auto">
+          <div className="mt-12 grid grid-cols-2 sm:grid-cols-4 gap-4 max-w-7xl mx-auto">
             {[
               { icon: Star, value: "4.9★", label: "Google Rating" },
               { icon: ShieldCheck, value: "£10m", label: "Goods-in-Transit Cover" },
@@ -335,7 +335,7 @@ export default async function RemovalsEdgbastonPage() {
 
       {/* ── FAQ ── */}
       <section className="py-20 bg-slate-50">
-        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-10">
             <span className="inline-block px-3 py-1 rounded-full bg-[#F97316]/10 text-[#F97316] text-xs font-bold uppercase tracking-wider mb-3">
               FAQs
@@ -368,7 +368,7 @@ export default async function RemovalsEdgbastonPage() {
 
       {/* ── CTA ── */}
       <section className="py-20 bg-white">
-        <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <span className="inline-block px-3 py-1 rounded-full bg-[#F97316]/10 text-[#F97316] text-xs font-bold uppercase tracking-wider mb-4">
             Free Quote
           </span>
