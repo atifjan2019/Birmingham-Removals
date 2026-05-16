@@ -1,9 +1,0 @@
-[SERVER ACTION CALLED]: {"moveType":"flat","bedrooms":2,"fromPostcode":"NE1 4XF","toPostcode":"NE3 2PA","moveDate":"2026-04-08","flexibleDates":true,"fullName":"John Smith","phone":"07123 456 789","email":"webspires@gmail.com","extras":[]}
-[BOOKING RECORDED SUCCESSFULLY]: 7f1d2b46-4291-40c2-8549-2a735f480551
-[SERVER ACTION CALLED]: {"moveType":"flat","bedrooms":0,"fromPostcode":"NE1 4XG","toPostcode":"NE4 1AS","moveDate":"2026-04-20","flexibleDates":true,"fullName":"Atif Jan","phone":"07786738432","email":"webspires@gmail.com","extras":[]}
-[BOOKING RECORDED SUCCESSFULLY]: c9a54767-532f-40d1-b2de-caad90032560
-[SERVER ACTION CALLED]: {"moveType":"flat","bedrooms":1,"fromPostcode":"NE1 1WQ","toPostcode":"NE3 1DS","moveDate":"2026-04-20","flexibleDates":false,"fullName":"Atif Jan","phone":"07765662784","email":"webspires@gmail.com","extras":[]}
-[BOOKING RECORDED SUCCESSFULLY]: 99cbe484-5266-4635-b51c-9b154a3ffa87
-[SERVER ACTION CALLED]: {"fullName":"Atif Jan","email":"webspires@gmail.com","phone":"07765662784","moveType":"house","fromPostcode":"24420","toPostcode":"24420","moveDate":"2026-04-08","bedrooms":2,"extras":[]}
-[CUSTOMER CREATED]: d75fc4bf-caed-4cd7-872c-939f7ca9c745
-[BOOKING RECORDED SUCCESSFULLY]: 388690ab-e853-44a7-b5a7-8348bdec9a61
