@@ -3,23 +3,14 @@ import Footer from "@/components/FooterServer";
 import CTAStrip from "@/components/CTAStrip";
 import { Star, Quote } from "lucide-react";
 import { getSiteSettings } from "@/lib/siteSettings";
+import { makeMeta } from "@/lib/metadata";
 
-export const metadata = {
-  title: "Reviews — 4.9★ from 312+ Customers",
+export const metadata = makeMeta({
+  title: "Birmingham Removals Reviews | 4.9-Star from 312+ Customers",
   description:
-    "See what Birmingham customers say about our removals service. 4.9 average on Google from 312+ verified reviews. Real stories from real moves across the West Midlands.",
-  alternates: { canonical: "https://www.birminghamremovals.uk/reviews" },
-  openGraph: {
-    title: "Reviews — 4.9★ from 312+ Customers | Birmingham Removals",
-    description:
-      "Real reviews from Birmingham removals customers — 4.9/5 on Google from 312+ verified moves across the West Midlands.",
-    url: "https://www.birminghamremovals.uk/reviews",
-    siteName: "Birmingham Removals",
-    type: "website",
-    images: [{ url: "https://www.birminghamremovals.uk/og-image.jpg", width: 1200, height: 630 }],
-  },
-  twitter: { card: "summary_large_image" },
-};
+    "Read verified Google reviews from Birmingham customers. 4.9-star average, 312+ reviews. See why families and businesses trust Birmingham Removals.",
+  path: "/reviews",
+});
 
 const reviews = [
   { name: "Sarah Patel", location: "Edgbaston, B15", rating: 5, text: "Absolutely brilliant from start to finish. The team arrived exactly on time, wrapped everything with real care, and had us moved into our Edgbaston house by 2pm. Worth every penny." },

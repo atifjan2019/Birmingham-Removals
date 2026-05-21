@@ -1,9 +1,11 @@
+import { BUSINESS } from "@/config/business";
+
 export default function robots() {
-  const baseUrl = "https://www.birminghamremovals.uk";
   return {
     rules: [
       { userAgent: "*", allow: "/", disallow: ["/admin", "/api"] },
     ],
-    sitemap: `${baseUrl}/sitemap.xml`,
+    sitemap: `${BUSINESS.url}/sitemap.xml`,
+    host: BUSINESS.url,
   };
 }

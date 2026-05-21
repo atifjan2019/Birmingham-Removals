@@ -1,7 +1,9 @@
 /** @type {import('next').NextConfig} */
 
-// Legacy dynamic area routes that now have dedicated landing pages.
-const AREA_REDIRECTS = [
+// Cities that previously lived at /removals-{slug}. Their content is now under
+// /areas/{slug} (the canonical pattern). 301 the legacy paths so existing link
+// equity transfers.
+const LEGACY_REMOVALS_REDIRECTS = [
   "edgbaston",
   "harborne",
   "moseley",
@@ -16,11 +18,8 @@ const AREA_REDIRECTS = [
 
 const nextConfig = {
   // Modern-browser target is driven by .browserslistrc, which Next.js + SWC
-  // respect automatically (since 12.2) — SWC stops emitting ES5
-  // polyfills/transforms for browsers that no longer exist (~14 KiB saved).
-  // Note: there is no `experimental.browsersListForSwc` flag in Next 16
-  // (it is an unrecognized key and a no-op), so .browserslistrc is the
-  // sole, correct mechanism.
+  // respect automatically — SWC stops emitting ES5 polyfills/transforms for
+  // browsers that no longer exist.
 
   images: {
     formats: ["image/avif", "image/webp"],
@@ -38,17 +37,38 @@ const nextConfig = {
         destination: "https://www.birminghamremovals.uk/:path*",
         permanent: true,
       },
-      // Legacy /areas/[slug] → dedicated /removals-[slug] pages (301)
-      ...AREA_REDIRECTS.map((slug) => ({
-        source: `/areas/${slug}`,
-        destination: `/removals-${slug}`,
-        statusCode: 301,
+      // Legacy /removals-{slug} → canonical /areas/{slug} (301)
+      ...LEGACY_REMOVALS_REDIRECTS.map((slug) => ({
+        source: `/removals-${slug}`,
+        destination: `/areas/${slug}`,
+        permanent: true,
       })),
     ];
   },
 
   async headers() {
     return [
+      // Long-lived caching for static images
+      {
+        source: "/images/:path*",
+        headers: [
+          { key: "Cache-Control", value: "public, max-age=31536000, immutable" },
+        ],
+      },
+      {
+        source: "/favicon.ico",
+        headers: [
+          { key: "Cache-Control", value: "public, max-age=86400" },
+        ],
+      },
+      // Short, edge-cacheable HTML defaults
+      {
+        source: "/((?!api/|admin/).*)",
+        headers: [
+          { key: "Cache-Control", value: "public, max-age=300, s-maxage=86400, stale-while-revalidate=604800" },
+        ],
+      },
+      // Security headers (apply everywhere)
       {
         source: "/(.*)",
         headers: [
@@ -60,7 +80,6 @@ const nextConfig = {
             value: "camera=(), microphone=(), geolocation=()",
           },
           { key: "Cross-Origin-Opener-Policy", value: "same-origin" },
-          { key: "Cross-Origin-Embedder-Policy", value: "require-corp" },
           {
             key: "Strict-Transport-Security",
             value: "max-age=31536000; includeSubDomains; preload",
@@ -72,7 +91,7 @@ const nextConfig = {
               "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://web-sdk.smartlook.com",
               "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
               "font-src 'self' https://fonts.gstatic.com",
-              "img-src 'self' data: https://images.unsplash.com https://www.birminghamremovals.uk",
+              "img-src 'self' https://images.unsplash.com https://www.birminghamremovals.uk",
               "connect-src 'self' https://web-sdk.smartlook.com",
               "frame-ancestors 'none'",
             ].join("; "),
@@ -83,9 +102,6 @@ const nextConfig = {
   },
 };
 
-// Run `ANALYZE=true npm run build` to inspect the client bundle.
-// @next/bundle-analyzer is imported only when explicitly enabled, so the
-// default build does not require it as a dependency.
 let configToExport = nextConfig;
 if (process.env.ANALYZE === "true") {
   const withBundleAnalyzer = (await import("@next/bundle-analyzer")).default({

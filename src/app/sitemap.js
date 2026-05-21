@@ -1,53 +1,25 @@
+import { BUSINESS } from "@/config/business";
 import { getAllServiceSlugs } from "@/lib/servicesData";
+import { allCitySlugs } from "@/lib/cities";
 
 export default function sitemap() {
-  const baseUrl = "https://www.birminghamremovals.uk";
   const now = new Date();
+  const staticPaths = [
+    "",
+    "/services",
+    "/areas",
+    "/about",
+    "/contact",
+    "/faq",
+    "/reviews",
+    "/quote",
+    "/sitemap",
+  ];
+  const servicePaths = getAllServiceSlugs().map((slug) => `/services/${slug}`);
+  const areaPaths = allCitySlugs.map((slug) => `/areas/${slug}`);
 
-  const staticRoutes = [
-    { path: "", priority: 1.0, changeFrequency: "weekly" },
-    { path: "/services", priority: 0.9, changeFrequency: "monthly" },
-    { path: "/areas", priority: 0.9, changeFrequency: "weekly" },
-    { path: "/quote", priority: 0.9, changeFrequency: "monthly" },
-    { path: "/about", priority: 0.7, changeFrequency: "monthly" },
-    { path: "/contact", priority: 0.7, changeFrequency: "monthly" },
-    { path: "/faq", priority: 0.6, changeFrequency: "monthly" },
-    { path: "/reviews", priority: 0.7, changeFrequency: "weekly" },
-    { path: "/sitemap", priority: 0.4, changeFrequency: "monthly" },
-  ].map((r) => ({
-    url: `${baseUrl}${r.path}`,
+  return [...staticPaths, ...servicePaths, ...areaPaths].map((path) => ({
+    url: `${BUSINESS.url}${path}`,
     lastModified: now,
-    changeFrequency: r.changeFrequency,
-    priority: r.priority,
   }));
-
-  const serviceRoutes = getAllServiceSlugs().map((slug) => ({
-    url: `${baseUrl}/services/${slug}`,
-    lastModified: now,
-    changeFrequency: "monthly",
-    priority: 0.8,
-  }));
-
-  // Dedicated /removals-* landing pages are the canonical area pages.
-  // The legacy /areas/[slug] routes 301-redirect here (see next.config.mjs)
-  // and are intentionally excluded from the sitemap to avoid duplicates.
-  const removalsRoutes = [
-    "removals-edgbaston",
-    "removals-harborne",
-    "removals-selly-oak",
-    "removals-moseley",
-    "removals-kings-heath",
-    "removals-erdington",
-    "removals-sutton-coldfield",
-    "removals-northfield",
-    "removals-hall-green",
-    "removals-solihull",
-  ].map((slug) => ({
-    url: `${baseUrl}/${slug}`,
-    lastModified: now,
-    changeFrequency: "monthly",
-    priority: 0.85,
-  }));
-
-  return [...staticRoutes, ...serviceRoutes, ...removalsRoutes];
 }

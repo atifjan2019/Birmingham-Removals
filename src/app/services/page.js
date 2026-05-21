@@ -5,13 +5,14 @@ import servicesData from "@/lib/servicesData";
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import { getSiteSettings } from "@/lib/siteSettings";
+import { makeMeta } from "@/lib/metadata";
 
-export const metadata = {
-  title: "Removal Services",
+export const metadata = makeMeta({
+  title: "Removal Services Birmingham | House, Office, Man & Van",
   description:
-    "Full range of Birmingham removal services: house removals, office relocations, man & van, packing, storage and specialist piano moves across the West Midlands.",
-  alternates: { canonical: "https://www.birminghamremovals.uk/services" },
-};
+    "Full range of Birmingham removals: house moves, office relocations, man & van, packing and storage. Fixed quotes, fully insured. Free quote in 30 minutes.",
+  path: "/services",
+});
 
 export default async function ServicesPage() {
   const settings = await getSiteSettings();

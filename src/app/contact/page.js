@@ -22,22 +22,14 @@ function WhatsAppIcon(props) {
   );
 }
 
-export const metadata = {
-  title: "Contact Us — Get in Touch for a Free Quote",
+import { makeMeta } from "@/lib/metadata";
+
+export const metadata = makeMeta({
+  title: "Contact Birmingham Removals | Free Quote in 30 Minutes",
   description:
-    "Speak to Birmingham Removals,call, WhatsApp or email. Free quotes within 30 minutes, 7 days a week. Based in Birmingham city centre, serving the West Midlands.",
-  alternates: { canonical: "https://www.birminghamremovals.uk/contact" },
-  openGraph: {
-    title: "Contact Us | Birmingham Removals",
-    description:
-      "Call, WhatsApp or email Birmingham Removals. Free fixed quotes within 30 minutes, 7 days a week across Birmingham & the West Midlands.",
-    url: "https://www.birminghamremovals.uk/contact",
-    siteName: "Birmingham Removals",
-    type: "website",
-    images: [{ url: "https://www.birminghamremovals.uk/og-image.jpg", width: 1200, height: 630 }],
-  },
-  twitter: { card: "summary_large_image" },
-};
+    "Call 07365 380090, email hello@birminghamremovals.uk or send a message. Free, fixed-price removals quote within 30 minutes. Birmingham & West Midlands.",
+  path: "/contact",
+});
 
 function buildChannels(s) {
   const items = [

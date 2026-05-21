@@ -1,23 +1,7 @@
 import Link from "next/link";
 import { MapPin, ArrowRight } from "lucide-react";
 
-// Slugs that have a dedicated /removals-<slug> landing page. Linking straight
-// to them passes link equity directly instead of via a 301 from /areas/<slug>.
-const REMOVALS_PAGES = new Set([
-  "edgbaston",
-  "harborne",
-  "moseley",
-  "selly-oak",
-  "kings-heath",
-  "erdington",
-  "sutton-coldfield",
-  "northfield",
-  "hall-green",
-  "solihull",
-]);
-
-const areaHref = (slug) =>
-  REMOVALS_PAGES.has(slug) ? `/removals-${slug}` : `/areas/${slug}`;
+const areaHref = (slug) => `/areas/${slug}`;
 
 const primaryAreas = [
   { slug: "city-centre", name: "Birmingham City Centre", postcode: "B1–B5" },

@@ -3,98 +3,26 @@ import Navbar from "@/components/NavbarServer";
 import Footer from "@/components/FooterServer";
 import CTAStrip from "@/components/CTAStrip";
 import { MapPin, ArrowUpRight, BookOpen } from "lucide-react";
-import { areasList as areas } from "./data";
+import { citiesList as areas, primaryCitySlugs } from "@/lib/cities";
 import { getSiteSettings } from "@/lib/siteSettings";
+import { makeMeta } from "@/lib/metadata";
 
-const dedicatedPages = [
-  {
-    slug: "removals-edgbaston",
-    name: "Removals Edgbaston",
-    postcode: "B15, B16",
-    tag: "Premium Coverage",
-    desc: "In-depth guide to house, flat and office removals across Edgbaston — Calthorpe Estate, Hagley Road and beyond.",
-  },
-  {
-    slug: "removals-harborne",
-    name: "Removals Harborne",
-    postcode: "B17",
-    tag: "Village Moves",
-    desc: "Full local guide to removals in Harborne — High Street, War Lane, Queen's Park and all surrounding B17 streets.",
-  },
-  {
-    slug: "removals-selly-oak",
-    name: "Removals Selly Oak",
-    postcode: "B29",
-    tag: "Student Moves",
-    desc: "Expert removals guide for Selly Oak B29 — student and family moves on Bristol Road A38, Oak Tree Lane and surrounding streets.",
-  },
-  {
-    slug: "removals-moseley",
-    name: "Removals Moseley",
-    postcode: "B13",
-    tag: "Village Character",
-    desc: "Local removals guide for Moseley B13 — Moseley Village, Alcester Road, Wake Green Road and the streets around Moseley Bog.",
-  },
-  {
-    slug: "removals-kings-heath",
-    name: "Removals Kings Heath",
-    postcode: "B14",
-    tag: "Local Experts",
-    desc: "Complete guide to removals in Kings Heath B14 — High Street, Vicarage Road, Kings Heath Park and all B14 streets.",
-  },
-  {
-    slug: "removals-erdington",
-    name: "Removals Erdington",
-    postcode: "B23, B24",
-    tag: "Fast Response",
-    desc: "Trusted removals guide for Erdington B23 & B24 — Six Ways, Chester Road, Castle Vale and Gravelly Hill covered.",
-  },
-  {
-    slug: "removals-sutton-coldfield",
-    name: "Removals Sutton Coldfield",
-    postcode: "B72–B76",
-    tag: "Premium Coverage",
-    desc: "Premium removals guide for the Royal Town — Four Oaks, Mere Green, The Parade, Boldmere and all Sutton Coldfield postcodes.",
-  },
-  {
-    slug: "removals-northfield",
-    name: "Removals Northfield",
-    postcode: "B31",
-    tag: "Estate Moves",
-    desc: "Local removals guide for Northfield B31 — Longbridge Village, Bristol Road South, West Heath and surrounding estates.",
-  },
-  {
-    slug: "removals-hall-green",
-    name: "Removals Hall Green",
-    postcode: "B28",
-    tag: "Family Suburb",
-    desc: "Expert removals guide for Hall Green B28 — Stratford Road, Shaftmoor Lane, Springfield Park and all B28 streets.",
-  },
-  {
-    slug: "removals-solihull",
-    name: "Removals Solihull",
-    postcode: "B91–B93",
-    tag: "Premium Area",
-    desc: "Premium removals guide for Solihull B91–B93 — Touchwood, Tudor Grange, Olton, Monkspath and beyond.",
-  },
-];
+const dedicatedPages = areas
+  .filter((a) => primaryCitySlugs.includes(a.slug))
+  .map((a) => ({
+    slug: a.slug,
+    name: `Removals ${a.name}`,
+    postcode: a.postcodes,
+    tag: a.tag,
+    desc: a.intro,
+  }));
 
-export const metadata = {
-  title: "Areas We Cover",
+export const metadata = makeMeta({
+  title: "Removal Areas We Cover | Birmingham & West Midlands",
   description:
-    "Birmingham Removals covers every B postcode,Edgbaston, Harborne, Moseley, Selly Oak, Sutton Coldfield, Solihull, Erdington plus Dudley, Wolverhampton and Coventry.",
-  alternates: { canonical: "https://www.birminghamremovals.uk/areas" },
-  openGraph: {
-    title: "Areas We Cover | Birmingham Removals",
-    description:
-      "Birmingham Removals covers every B postcode — Edgbaston, Harborne, Moseley, Selly Oak, Sutton Coldfield, Solihull, Erdington and the wider West Midlands.",
-    url: "https://www.birminghamremovals.uk/areas",
-    siteName: "Birmingham Removals",
-    type: "website",
-    images: [{ url: "https://www.birminghamremovals.uk/og-image.jpg", width: 1200, height: 630 }],
-  },
-  twitter: { card: "summary_large_image" },
-};
+    "Birmingham Removals covers every B postcode plus Solihull, Sutton Coldfield, Dudley, Wolverhampton and Coventry. See your area for local move details.",
+  path: "/areas",
+});
 
 export default async function AreasIndexPage() {
   const settings = await getSiteSettings();
@@ -169,7 +97,7 @@ export default async function AreasIndexPage() {
               {dedicatedPages.map((page) => (
                 <Link
                   key={page.slug}
-                  href={`/${page.slug}`}
+                  href={`/areas/${page.slug}`}
                   className="group bg-white border border-slate-200 rounded-2xl p-7 hover:border-[#F97316] hover:shadow-xl hover:-translate-y-1 transition-all duration-300"
                 >
                   <div className="flex items-start justify-between mb-5">

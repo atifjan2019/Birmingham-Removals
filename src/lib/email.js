@@ -91,7 +91,7 @@ function baseLayout(content) {
         <tr>
           <td style="background-color:#f9fafb;padding:20px 32px;border-top:1px solid #e5e7eb;">
             <p style="margin:0;font-size:12px;color:#6b7280;text-align:center;">
-              Birmingham Removals &bull; 07365 380090 &bull; info@birminghamremovals.uk
+              Birmingham Removals &bull; 07365 380090 &bull; hello@birminghamremovals.uk
             </p>
           </td>
         </tr>

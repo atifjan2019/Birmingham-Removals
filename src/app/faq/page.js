@@ -3,13 +3,14 @@ import Footer from "@/components/FooterServer";
 import FAQ from "@/components/FAQ";
 import CTAStrip from "@/components/CTAStrip";
 import { getSiteSettings } from "@/lib/siteSettings";
+import { makeMeta } from "@/lib/metadata";
 
-export const metadata = {
-  title: "FAQ — Prices, Insurance & Booking Questions",
+export const metadata = makeMeta({
+  title: "Birmingham Removals FAQ | Prices, Insurance & Booking",
   description:
-    "Common questions about Birmingham removals: prices, booking times, insurance, storage, payment and more. Still not sure? Call us on 07365 380090.",
-  alternates: { canonical: "https://www.birminghamremovals.uk/faq" },
-};
+    "Common questions about Birmingham removals: pricing, booking lead time, insurance, packing, storage and same-day moves. Still unsure? Call us today.",
+  path: "/faq",
+});
 
 export default async function FAQPage() {
   const settings = await getSiteSettings();

@@ -26,7 +26,7 @@ export default function Step2Details({ data, onChange, errors }) {
             <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted" />
             <input
               type="text"
-              placeholder="e.g. B1 1AA"
+              placeholder="e.g. B15 3DH"
               value={data.fromPostcode || ""}
               onChange={(e) =>
                 handleChange("fromPostcode", e.target.value.toUpperCase())

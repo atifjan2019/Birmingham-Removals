@@ -1,15 +1,17 @@
 import Link from "next/link";
 import Navbar from "@/components/NavbarServer";
 import Footer from "@/components/FooterServer";
-import { areasList } from "../areas/data";
+import { citiesList } from "@/lib/cities";
 import servicesData from "@/lib/servicesData";
 import { Map, MapPin, Navigation, Briefcase } from "lucide-react";
+import { makeMeta } from "@/lib/metadata";
 
-export const metadata = {
-  title: "HTML Sitemap",
-  description: "Navigate every page on the Birmingham Removals website.",
-  alternates: { canonical: "https://www.birminghamremovals.uk/sitemap" },
-};
+export const metadata = makeMeta({
+  title: "Site Map | Birmingham Removals",
+  description:
+    "Every page on birminghamremovals.uk: services, coverage areas across Birmingham and the West Midlands, quote form, reviews, FAQ and contact.",
+  path: "/sitemap",
+});
 
 const mainPages = [
   { href: "/", label: "Home" },
@@ -73,9 +75,9 @@ export default async function SitemapPage() {
                 <Map className="w-5 h-5 text-[#F97316]" /> Coverage Areas
               </h2>
               <ul className="grid grid-cols-2 gap-2 text-sm">
-                {areasList.map((a) => (
-                  <li key={a.id}>
-                    <Link href={`/areas/${a.id}`} className="text-slate-700 hover:text-[#F97316] flex items-center gap-1.5">
+                {citiesList.map((a) => (
+                  <li key={a.slug}>
+                    <Link href={`/areas/${a.slug}`} className="text-slate-700 hover:text-[#F97316] flex items-center gap-1.5">
                       <MapPin className="w-3.5 h-3.5 text-slate-300" />
                       {a.name}
                     </Link>

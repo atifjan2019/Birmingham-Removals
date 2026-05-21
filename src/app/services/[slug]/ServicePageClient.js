@@ -142,6 +142,42 @@ export default function ServicePageClient({ service, settings }) {
         </div>
       </section>
 
+      {/* Areas we cover */}
+      <section className="py-20 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-10">
+            <span className="inline-block px-3 py-1 rounded-full bg-[#F97316]/10 text-[#9A3412] text-xs font-bold uppercase tracking-wider mb-3">
+              Coverage
+            </span>
+            <h2 className="font-[family-name:var(--font-space)] text-3xl sm:text-4xl font-extrabold text-[#0B1E3F]">
+              {service.title} — areas we cover
+            </h2>
+          </div>
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
+            {[
+              { slug: "edgbaston", name: "Edgbaston" },
+              { slug: "harborne", name: "Harborne" },
+              { slug: "moseley", name: "Moseley" },
+              { slug: "kings-heath", name: "Kings Heath" },
+              { slug: "selly-oak", name: "Selly Oak" },
+              { slug: "sutton-coldfield", name: "Sutton Coldfield" },
+              { slug: "solihull", name: "Solihull" },
+              { slug: "erdington", name: "Erdington" },
+              { slug: "hall-green", name: "Hall Green" },
+              { slug: "northfield", name: "Northfield" },
+            ].map((a) => (
+              <Link
+                key={a.slug}
+                href={`/areas/${a.slug}`}
+                className="block p-3 rounded-lg bg-slate-50 border border-slate-200 text-[#0B1E3F] text-sm font-semibold text-center hover:border-[#F97316] hover:text-[#F97316] transition-colors"
+              >
+                {a.name}
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {service.faqs && service.faqs.length > 0 && (
         <section className="py-20 bg-slate-50">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid lg:grid-cols-12 gap-12">

@@ -44,8 +44,7 @@ export default function Hero() {
             </div>
 
             <h1 className="font-[family-name:var(--font-space)] text-4xl sm:text-5xl lg:text-[4.25rem] font-extrabold leading-[1.05] tracking-tight mt-5">
-              Birmingham&apos;s
-              <br />
+              Birmingham&apos;s{" "}
               <span className="text-[#F97316]">stress-free</span> removals company
             </h1>
 

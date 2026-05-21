@@ -1,25 +1,16 @@
 import Navbar from "@/components/NavbarServer";
 import Footer from "@/components/FooterServer";
 import CTAStrip from "@/components/CTAStrip";
-import { Award, Users, MapPin, Heart, Clock, ShieldCheck } from "lucide-react";
+import { Award, Heart, Clock, ShieldCheck } from "lucide-react";
 import { getSiteSettings } from "@/lib/siteSettings";
+import { makeMeta } from "@/lib/metadata";
 
-export const metadata = {
-  title: "About Us — Our Story & Values",
+export const metadata = makeMeta({
+  title: "About Birmingham Removals | 5-Star Local Movers Since 2015",
   description:
-    "Meet the Birmingham Removals team. Family-run since 2015, 5,200+ successful moves, and a relentless focus on zero-stress relocations across the West Midlands.",
-  alternates: { canonical: "https://www.birminghamremovals.uk/about" },
-  openGraph: {
-    title: "About Us — Our Story & Values | Birmingham Removals",
-    description:
-      "Family-run Birmingham removals since 2015 — 5,200+ moves and a relentless focus on zero-stress relocations across the West Midlands.",
-    url: "https://www.birminghamremovals.uk/about",
-    siteName: "Birmingham Removals",
-    type: "website",
-    images: [{ url: "https://www.birminghamremovals.uk/og-image.jpg", width: 1200, height: 630 }],
-  },
-  twitter: { card: "summary_large_image" },
-};
+    "Family-run Birmingham removals company since 2015. 5,200+ moves delivered, 4.9-star rating from 312+ reviews. Meet the team behind your stress-free move.",
+  path: "/about",
+});
 
 const values = [
   { icon: Heart, title: "Care First", desc: "We treat your belongings like our own,every box, every piece." },
@@ -50,8 +41,7 @@ export default async function AboutPage() {
               About Us
             </span>
             <h1 className="font-[family-name:var(--font-space)] text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-tight">
-              Birmingham&apos;s family-run
-              <br />
+              Birmingham&apos;s family-run{" "}
               <span className="text-[#F97316]">removals specialists</span>
             </h1>
             <p className="mt-6 text-lg text-white/80 max-w-2xl mx-auto">

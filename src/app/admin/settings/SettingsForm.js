@@ -217,7 +217,7 @@ export default function SettingsForm({ initial }) {
             icon={Mail}
             type="email"
             defaultValue={initial.email}
-            placeholder="info@birminghamremovals.uk"
+            placeholder="hello@birminghamremovals.uk"
           />
           <div className="md:col-span-2">
             <TextInput
