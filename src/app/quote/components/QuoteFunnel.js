@@ -168,7 +168,7 @@ export default function QuoteFunnel({ settings }) {
               <img src={s.logoUrl} alt="Birmingham Removals" className="h-10 w-auto" />
             ) : (
               <Image
-                src={s.logoUrl || "/images/logo.png"}
+                src={s.logoUrl || "/images/logo.webp"}
                 alt="Birmingham Removals"
                 width={180}
                 height={58}

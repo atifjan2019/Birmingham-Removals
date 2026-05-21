@@ -54,7 +54,7 @@ export async function sendEmail({ to, subject, html, text }) {
 /* ─── Pre-built templates ─── */
 
 const BRAND_COLOR = "#F97316";
-const LOGO_URL = "https://www.birminghamremovals.uk/images/logo.png";
+const LOGO_URL = "https://www.birminghamremovals.uk/images/logo.webp";
 const BOOKING_NOTIFICATION_EMAIL = "webspires@gmail.com";
 
 function baseLayout(content) {
