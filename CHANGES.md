@@ -104,16 +104,28 @@ Provide these and they get wired into footer NAP, schema, About, Contact and Rev
 
 > `business.js` currently lists `sameAs` Facebook + Trustpilot URLs as requested — **confirm these profiles exist and are yours**, or they should be removed (a wrong `sameAs` hurts trust).
 
-## Outstanding — content build-out (unblocked, not yet done)
+## 9. Second build-out session (2026-05-22)
 
-- **§10** 4 new service pages: student-removals, long-distance-removals, furniture-removals, end-of-tenancy-removals.
-- **§9** Blog architecture (`/blog`, `/blog/[slug]`, Article schema, sitemap inclusion) + 12 posts.
-- **§11** Area content audits; expand Dudley / Wolverhampton / Coventry to 1,200+ words.
-- **§8** Reorganise FAQ under category headings + add remaining questions.
-- **§3** Homepage H1 rewrite, "who we are" intro, expand homepage reviews grid to 6–9.
-- **§12–14** Contact form, quote-page trust signals, accessibility (skip-nav, aria-labels, tel links audit), 301 redirects map.
-- **§6.3 / §12.2** Google Maps embeds (need GBP/coords).
+| Section | Done |
+|---|---|
+| **§10** New service pages | Created student-removals, long-distance-removals, furniture-removals, end-of-tenancy-removals (each ~1,200–1,900 words, pricing, FAQs, internal links, Service schema, metadata). Wired into the services index + sitemap. |
+| **§11** Area expansions | Dudley, Wolverhampton, Coventry rebuilt to 1,200+ words of unique local content. |
+| **§9** Blog | New `/blog` index + `/blog/[slug]` template (ToC, crawlable `<details>` FAQs, related posts, CTA). BlogPosting + Breadcrumb + FAQPage schema; CollectionPage on index; posts in sitemap with own dates. 12 posts written (1,000–2,500 words each) with internal links. |
+| **§8** FAQ | Regrouped into categories, deduped, added the missing questions with internal links. `/faq` shows full categorised set; homepage shows a curated subset. |
+| **§3** Homepage | Keyword-led H1 ("Birmingham removals without the stress"); new entity "Who We Are" intro; "Trusted Since 2015" trust badge. |
+| **§13** Quote | Trust-signal row above the form. |
+| **§14** Accessibility | Skip-to-main-content link; FAQ uses crawlable `<details>`; footer social links already have aria-labels. |
+| Nav | Added Blog to main navigation. |
+
+## Outstanding — content build-out (unblocked, lower priority, not yet done)
+
+- **§3.2** Expand the homepage reviews carousel to a 6–9 review grid (currently the lazy carousel).
+- **§3.5** Hidden-but-crawlable "last updated" `<time>` on the homepage.
+- **§6.3 / §12.2** Google Maps embeds on area/contact pages (can use a keyless `?output=embed` iframe; deferred).
 - **§6.5** Optional `/areas/{area}/{service}` combo pages.
+- **§2.4 / §2.5** ImageObject schema on real photos; VideoObject placeholder component.
+- **§12.3** Full contact form (Name, Email, Phone, postcodes, date, message, "how did you hear") — needs a form handler decision.
+- **§14.5 / §14.6** Full crawl for 404s; a documented 301 redirects map.
 
 ---
 
