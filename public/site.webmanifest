@@ -1,0 +1,22 @@
+{
+  "name": "Birmingham Removals",
+  "short_name": "Birmingham Removals",
+  "description": "Fixed-price house and office removals across Birmingham and the West Midlands since 2015.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0B1E3F",
+  "theme_color": "#F97316",
+  "icons": [
+    {
+      "src": "/favicon.ico",
+      "sizes": "any",
+      "type": "image/x-icon"
+    },
+    {
+      "src": "/images/logo.webp",
+      "sizes": "512x512",
+      "type": "image/webp",
+      "purpose": "any"
+    }
+  ]
+}

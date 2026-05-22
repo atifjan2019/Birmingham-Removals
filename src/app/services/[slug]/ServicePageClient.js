@@ -150,7 +150,7 @@ export default function ServicePageClient({ service, settings }) {
               Coverage
             </span>
             <h2 className="font-[family-name:var(--font-space)] text-3xl sm:text-4xl font-extrabold text-[#0B1E3F]">
-              {service.title} — areas we cover
+              {service.title}: areas we cover
             </h2>
           </div>
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">

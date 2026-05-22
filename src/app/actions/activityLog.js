@@ -26,7 +26,7 @@ export async function logActivity({ action, details, entityId, actor = "system" 
     });
   } catch (error) {
     console.error("Failed to log activity:", error);
-    // Don't throw — logging should never break the main flow
+    // Don't throw, logging should never break the main flow
   }
 }
 

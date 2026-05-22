@@ -115,7 +115,7 @@ export default function QuoteFunnel({ settings }) {
 
   const goNext = () => {
     setDirection(1);
-    // Clean up URL param when leaving step 1 — update to reflect actual selection
+    // Clean up URL param when leaving step 1, update to reflect actual selection
     if (step === 1 && data.moveType) {
       replaceQuoteParams({ type: data.moveType });
     }

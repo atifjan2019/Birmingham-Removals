@@ -8,7 +8,7 @@ const SLUG = "quinton";
 const POSTCODES = "B32";
 
 export const metadata = makeMeta({
-  title: `Removals ${NAME} | Birmingham Removals - Fixed Prices`,
+  title: `Removals ${NAME} | Fixed-Price Movers`,
   description: `Reliable removals across Quinton B32, from 1930s semis on Quinton Road to homes near the Hagley Road West and the M5. Fixed prices and a free quote in 30 minutes.`,
   path: `/areas/${SLUG}`,
   keywords: [

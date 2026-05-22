@@ -43,6 +43,14 @@ export async function generateMetadata() {
     "removals West Midlands",
   ],
   alternates: { canonical: BUSINESS.url },
+  manifest: "/site.webmanifest",
+  other: {
+    "theme-color": "#F97316",
+    "geo.region": "GB-WMD",
+    "geo.placename": "Birmingham, West Midlands",
+    "geo.position": "52.4862;-1.8904",
+    ICBM: "52.4862, -1.8904",
+  },
   icons: {
     icon: [{ url: faviconUrl }],
     shortcut: [{ url: faviconUrl }],
@@ -81,7 +89,7 @@ export async function generateMetadata() {
 export default function RootLayout({ children }) {
   return (
     <html
-      lang="en"
+      lang="en-GB"
       className={`${inter.variable} ${jakarta.variable} antialiased`}
     >
       <head>

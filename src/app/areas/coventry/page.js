@@ -8,7 +8,7 @@ const SLUG = "coventry";
 const POSTCODES = "CV1, CV2, CV3";
 
 export const metadata = makeMeta({
-  title: `Removals ${NAME} | Birmingham Removals - Fixed Prices`,
+  title: `Removals ${NAME} | Fixed-Price Movers`,
   description: `Fixed-price Coventry removals across CV1, CV2 and CV3, from city-centre student flats to Cheylesmore family homes. Insured Birmingham crews, free 30-minute quote.`,
   path: `/areas/${SLUG}`,
   keywords: [

@@ -43,7 +43,7 @@ export const cities = {
     postcodes: "B29",
     tag: "Student Moves",
     intro:
-      "Fast, affordable student and family removals across Selly Oak and Bournbrook. Last-minute bookings welcome — we regularly handle the end-of-term rush.",
+      "Fast, affordable student and family removals across Selly Oak and Bournbrook. Last-minute bookings welcome, and we regularly handle the end-of-term rush.",
     primary: true,
   },
   "sutton-coldfield": {
@@ -67,7 +67,7 @@ export const cities = {
     postcodes: "B23, B24",
     tag: "Fast Response",
     intro:
-      "Affordable Erdington removals with same-day options available. Flats, family homes and shared houses — every job is fully insured as standard.",
+      "Affordable Erdington removals with same-day options available. Flats, family homes and shared houses, every job fully insured as standard.",
     primary: true,
   },
   "hall-green": {
@@ -83,7 +83,7 @@ export const cities = {
     postcodes: "B31",
     tag: "Estate Moves",
     intro:
-      "Local removals across Northfield B31 — Longbridge Village, Bristol Road South, West Heath and the surrounding estates. Same-day slots often available.",
+      "Local removals across Northfield B31, covering Longbridge Village, Bristol Road South, West Heath and the surrounding estates. Same-day slots often available.",
     primary: true,
   },
   "kings-norton": {
@@ -91,7 +91,7 @@ export const cities = {
     postcodes: "B30, B38",
     tag: "Estate Moves",
     intro:
-      "Dedicated Kings Norton and Cotteridge crews. Large fleet, tail-lift vans and a team that has done it all — from 1-bed flats to 5-bed detached homes.",
+      "Dedicated Kings Norton and Cotteridge crews. Large fleet, tail-lift vans and a team that has done it all, from 1-bed flats to 5-bed detached homes.",
   },
   "acocks-green": {
     name: "Acocks Green",
@@ -102,7 +102,7 @@ export const cities = {
   },
   bearwood: {
     name: "Bearwood",
-    postcodes: "B67, B68",
+    postcodes: "B66, B67",
     tag: "Fast Response",
     intro:
       "Rapid Bearwood and Smethwick movers. Short-notice bookings, flexible slots and transparent hourly rates.",

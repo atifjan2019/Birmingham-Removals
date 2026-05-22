@@ -50,7 +50,7 @@ export default async function AreaTemplate({
       { name: "Areas", url: `${BUSINESS.url}/areas` },
       { name: name, url },
     ]),
-    serviceAreaSchema(name, slug),
+    serviceAreaSchema(name, slug, postcodes),
     ...(Array.isArray(faqs) && faqs.length > 0 ? [faqSchema(faqs)] : []),
   ];
 
@@ -109,7 +109,7 @@ export default async function AreaTemplate({
                 Our removal services in {name}
               </h2>
               <p className="mt-3 text-slate-500 max-w-xl mx-auto">
-                Every service delivered by our Birmingham-based crew — no agency staff, no subcontracting.
+                Every service delivered by our Birmingham-based crew, with no agency staff and no subcontracting.
               </p>
             </div>
 
@@ -204,7 +204,7 @@ export default async function AreaTemplate({
         </section>
       )}
 
-      {/* Removal services in {city} — internal linking */}
+      {/* Removal services in {city}, internal linking */}
       <section className="py-20 bg-slate-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-10">
@@ -238,7 +238,7 @@ export default async function AreaTemplate({
                 FAQs
               </span>
               <h2 className="font-[family-name:var(--font-space)] text-3xl sm:text-4xl font-extrabold text-[#0B1E3F]">
-                Removals {name} — frequently asked questions
+                Removals {name}: frequently asked questions
               </h2>
             </div>
             <div className="space-y-3">
@@ -275,8 +275,8 @@ export default async function AreaTemplate({
           </h2>
           <p className="text-slate-600 mb-8 max-w-xl mx-auto">
             Share your move date, {postcodes ? `${postcodes.split(",")[0].trim()} postcode` : "postcode"} and rough volume and
-            we&apos;ll return a fixed, no-obligation quote within 30 minutes. No call centres — direct
-            to the team running your move.
+            we&apos;ll return a fixed, no-obligation quote within 30 minutes. No call centres, just direct
+            access to the team running your move.
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
             <Link

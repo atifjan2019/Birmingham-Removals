@@ -13,12 +13,19 @@ export const BUSINESS = {
   email: "hello@birminghamremovals.uk",
   priceRange: "££",
   foundingYear: 2015,
+  numberOfEmployees: 24,
+  openingHours: { opens: "07:00", closes: "21:00" },
   rating: { value: "4.9", count: "312" },
   address: {
     locality: "Birmingham",
     region: "West Midlands",
+    postalCode: "B1",
     country: "GB",
   },
+  geo: { latitude: 52.4862, longitude: -1.8904 },
+  hasMap: "https://maps.google.com/?q=Birmingham+Removals+West+Midlands",
+  // British Association of Removers (referenced in the About page stats).
+  memberOf: { name: "British Association of Removers", url: "https://www.bar.co.uk" },
   areasServed: [
     "Birmingham",
     "Solihull",
@@ -44,6 +51,11 @@ export const BUSINESS = {
     "Wolverhampton",
     "West Midlands",
   ],
-  // Add real social URLs as they go live — empty array means no `sameAs` is emitted.
-  sameAs: [],
+  // Social / review profile URLs emitted as schema `sameAs`. Confirm each of
+  // these profiles actually exists and matches the brand; replace or remove any
+  // that do not (a wrong/unverified URL hurts trust more than an omission).
+  sameAs: [
+    "https://www.facebook.com/birminghamremovals",
+    "https://www.trustpilot.com/review/birminghamremovals.uk",
+  ],
 };

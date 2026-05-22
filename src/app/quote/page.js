@@ -5,13 +5,21 @@ import Navbar from "@/components/NavbarServer";
 import Footer from "@/components/FooterServer";
 import { getSiteSettings, telHref } from "@/lib/siteSettings";
 import { BUSINESS } from "@/config/business";
+import JsonLd from "@/components/seo/JsonLd";
+import { breadcrumbSchema } from "@/lib/schema";
 
 export default async function QuotePage() {
   const settings = await getSiteSettings();
   const phoneHref = telHref(settings.phone || BUSINESS.phoneDisplay);
 
+  const breadcrumb = breadcrumbSchema([
+    { name: "Home", url: BUSINESS.url },
+    { name: "Get a Free Quote", url: `${BUSINESS.url}/quote` },
+  ]);
+
   return (
     <>
+      <JsonLd data={breadcrumb} />
       <Navbar />
 
       <Suspense
@@ -42,9 +50,9 @@ export default async function QuotePage() {
           </h2>
           <ul className="mt-3 space-y-2 text-slate-700 text-base list-disc pl-6">
             <li>From and to postcodes (and floor / lift access if applicable)</li>
-            <li>Preferred move date — and whether a weekend or evening is needed</li>
+            <li>Preferred move date, and whether a weekend or evening is needed</li>
             <li>Property size (studio, 1-bed, 2-bed, 3-bed, 4-bed+, office)</li>
-            <li>Rough volume — number of large items, boxes, special items</li>
+            <li>Rough volume: number of large items, boxes and special items</li>
             <li>Any access challenges: stairs, narrow doorways, parking restrictions</li>
           </ul>
 
@@ -55,7 +63,7 @@ export default async function QuotePage() {
             Birmingham removals are priced on volume, distance and access, not by the
             hour. A 1-bed flat with lift access in B1 will cost less than a 3-bed
             semi with a long path and a piano. Fixed quotes mean the figure you see
-            is the figure you pay — no surprise add-ons on move day.
+            is the figure you pay, with no surprise add-ons on move day.
           </p>
 
           <h2 className="mt-10 font-[family-name:var(--font-space)] text-xl font-bold text-[#0B1E3F]">

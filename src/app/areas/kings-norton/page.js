@@ -8,7 +8,7 @@ const SLUG = "kings-norton";
 const POSTCODES = "B30, B38";
 
 export const metadata = makeMeta({
-  title: `Removals ${NAME} | Birmingham Removals - Fixed Prices`,
+  title: `Removals ${NAME} | Fixed-Price Movers`,
   description: `Fixed-price removals across Kings Norton B30 and B38. House, office and man & van moves from the historic Green to the Pool Farm estate. Free 30-minute quote.`,
   path: `/areas/${SLUG}`,
   keywords: [

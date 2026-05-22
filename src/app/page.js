@@ -16,6 +16,27 @@ import FAQ from "@/components/FAQ";
 import CTAStrip from "@/components/CTAStrip";
 import Footer from "@/components/Footer";
 import StickyMobileCTA from "@/components/StickyMobileCTA";
+import JsonLd from "@/components/seo/JsonLd";
+import { howToSchema } from "@/lib/schema";
+
+const bookingHowTo = howToSchema([
+  {
+    name: "Tell us the details",
+    text: "Share your postcodes, your moving date and what needs to move. It takes about 2 minutes online or one quick phone call.",
+  },
+  {
+    name: "Get a fixed quote",
+    text: "Receive a transparent, all-in price within 30 minutes. There are no hidden fees and no guesswork.",
+  },
+  {
+    name: "Book your date",
+    text: "Pick the slot that suits you, whether that is a weekday, weekend or evening. Same-day slots are often available.",
+  },
+  {
+    name: "Moving day, sorted",
+    text: "Our uniformed, DBS-checked crew arrives on time and gets you safely into your new Birmingham address.",
+  },
+]);
 
 // Server component. Only Navbar / HeroQuoteForm / CTAStrip / StickyMobileCTA /
 // the lazy reviews carousel ship JS; the rest is static server-rendered HTML so
@@ -25,6 +46,7 @@ export default async function Home() {
 
   return (
     <QuoteModalProvider>
+      <JsonLd data={bookingHowTo} />
       <Navbar settings={settings} />
       <Hero />
       <TrustBar />

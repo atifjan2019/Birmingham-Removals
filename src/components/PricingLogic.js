@@ -77,6 +77,15 @@ export default function PricingLogic() {
                 you see is the figure you pay.
               </p>
 
+              <p className="mt-4 text-slate-600 text-base sm:text-lg leading-relaxed">
+                As a guide, most 2-bedroom house moves in Birmingham cost between{" "}
+                <strong className="text-[#0B1E3F]">£350 and £650</strong>. A 3-bedroom home
+                typically runs <strong className="text-[#0B1E3F]">£550 to £900</strong>, and
+                man and van jobs start from <strong className="text-[#0B1E3F]">£60</strong>.
+                Your exact fixed price depends on postcode, volume and access, and it is free
+                within 30 minutes.
+              </p>
+
               <div className="mt-8 p-6 rounded-2xl bg-gradient-to-br from-[#0B1E3F] to-[#1E3A8A] text-white">
                 <div className="flex items-center gap-3 mb-3">
                   <div className="w-10 h-10 rounded-xl bg-[#F97316]/20 flex items-center justify-center">
