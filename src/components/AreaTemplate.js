@@ -2,6 +2,7 @@ import Link from "next/link";
 import Navbar from "@/components/NavbarServer";
 import Footer from "@/components/FooterServer";
 import CTAStrip from "@/components/CTAStrip";
+import { BreadcrumbBar } from "@/components/Breadcrumbs";
 import TrustBar from "@/components/TrustBar";
 import HowItWorks from "@/components/HowItWorks";
 import JsonLd from "@/components/seo/JsonLd";
@@ -58,6 +59,14 @@ export default async function AreaTemplate({
     <>
       <JsonLd data={schemas} />
       <Navbar settings={settings} />
+
+      <BreadcrumbBar
+        items={[
+          { name: "Home", href: "/" },
+          { name: "Areas", href: "/areas" },
+          { name: name },
+        ]}
+      />
 
       {/* Hero */}
       <section className="relative pt-20 pb-24 overflow-hidden bg-gradient-to-br from-[#0B1E3F] to-[#1E3A8A] text-white">

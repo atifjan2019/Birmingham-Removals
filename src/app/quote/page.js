@@ -7,6 +7,7 @@ import { getSiteSettings, telHref } from "@/lib/siteSettings";
 import { BUSINESS } from "@/config/business";
 import JsonLd from "@/components/seo/JsonLd";
 import { breadcrumbSchema } from "@/lib/schema";
+import { BreadcrumbBar } from "@/components/Breadcrumbs";
 
 export default async function QuotePage() {
   const settings = await getSiteSettings();
@@ -21,6 +22,7 @@ export default async function QuotePage() {
     <>
       <JsonLd data={breadcrumb} />
       <Navbar />
+      <BreadcrumbBar items={[{ name: "Home", href: "/" }, { name: "Get a Free Quote" }]} />
 
       <Suspense
         fallback={

@@ -2,8 +2,34 @@ import { BUSINESS } from "@/config/business";
 import { getAllServiceSlugs } from "@/lib/servicesData";
 import { allCitySlugs } from "@/lib/cities";
 
+// Genuine last-modified dates, reflecting when each section's content was last
+// meaningfully updated. Update the relevant date here when you change a page so
+// the sitemap stays honest (avoid stamping every URL with the same build time).
+const LASTMOD = {
+  home: "2026-05-22",
+  marketing: "2026-05-22", // /about, /contact, /faq, /reviews, /services, /areas
+  quote: "2026-05-22",
+  service: "2026-05-21", // /services/[slug]
+  area: "2026-05-20", // established /areas/[slug]
+  areaNew: "2026-05-22", // newly added areas
+  htmlSitemap: "2026-05-15",
+};
+
+const NEW_AREAS = new Set(["longbridge", "bournville", "rubery"]);
+
+function lastModFor(path) {
+  if (path === "") return LASTMOD.home;
+  if (path === "/quote") return LASTMOD.quote;
+  if (path === "/sitemap") return LASTMOD.htmlSitemap;
+  if (path.startsWith("/services/")) return LASTMOD.service;
+  if (path.startsWith("/areas/")) {
+    const slug = path.replace("/areas/", "");
+    return NEW_AREAS.has(slug) ? LASTMOD.areaNew : LASTMOD.area;
+  }
+  return LASTMOD.marketing;
+}
+
 export default function sitemap() {
-  const now = new Date();
   const staticPaths = [
     "",
     "/services",
@@ -33,7 +59,7 @@ export default function sitemap() {
 
   return [...staticPaths, ...servicePaths, ...areaPaths].map((path) => ({
     url: `${BUSINESS.url}${path}`,
-    lastModified: now,
+    lastModified: lastModFor(path),
     ...meta(path),
   }));
 }

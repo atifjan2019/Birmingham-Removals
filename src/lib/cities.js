@@ -93,6 +93,30 @@ export const cities = {
     intro:
       "Dedicated Kings Norton and Cotteridge crews. Large fleet, tail-lift vans and a team that has done it all, from 1-bed flats to 5-bed detached homes.",
   },
+  longbridge: {
+    name: "Longbridge",
+    postcodes: "B31",
+    tag: "Regeneration Area",
+    intro:
+      "Removals across Longbridge B31, from the new-build apartments and townhouses on the former Rover site to established family homes around Longbridge Lane. Fixed prices and same-day slots available.",
+    primary: true,
+  },
+  bournville: {
+    name: "Bournville",
+    postcodes: "B30",
+    tag: "Village Character",
+    intro:
+      "Careful removals across Bournville B30, the Cadbury model village. We know the Bournville Village Trust streets, conservation rules and tree-lined closes around the Green.",
+    primary: true,
+  },
+  rubery: {
+    name: "Rubery",
+    postcodes: "B45",
+    tag: "Edge of City",
+    intro:
+      "Reliable removals across Rubery and Rednal B45, on the Birmingham and Worcestershire border by the Lickey Hills. Family homes, new-builds and the Great Park area all covered.",
+    primary: true,
+  },
   "acocks-green": {
     name: "Acocks Green",
     postcodes: "B27",

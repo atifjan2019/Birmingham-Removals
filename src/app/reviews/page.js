@@ -5,6 +5,7 @@ import { Star, Quote } from "lucide-react";
 import { getSiteSettings } from "@/lib/siteSettings";
 import { makeMeta } from "@/lib/metadata";
 import JsonLd from "@/components/seo/JsonLd";
+import { BreadcrumbBar } from "@/components/Breadcrumbs";
 import { reviewListSchema, webPageSchema } from "@/lib/schema";
 import { BUSINESS } from "@/config/business";
 
@@ -59,6 +60,7 @@ export default async function ReviewsPage() {
     <>
       <JsonLd data={schemas} />
       <Navbar />
+      <BreadcrumbBar items={[{ name: "Home", href: "/" }, { name: "Reviews" }]} />
       <main>
         <section className="relative pt-20 pb-20 bg-gradient-to-br from-[#0B1E3F] to-[#1E3A8A] text-white overflow-hidden">
           <div className="absolute inset-0 grid-pattern opacity-[0.05]" />
