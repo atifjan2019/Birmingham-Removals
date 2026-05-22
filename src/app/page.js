@@ -3,6 +3,7 @@ import QuoteModalProvider from "@/components/QuoteModalProvider";
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
 import TrustBar from "@/components/TrustBar";
+import WhoWeAre from "@/components/WhoWeAre";
 import ProblemAware from "@/components/ProblemAware";
 import Services from "@/components/Services";
 import WhatsIncluded from "@/components/WhatsIncluded";
@@ -50,6 +51,7 @@ export default async function Home() {
       <Navbar settings={settings} />
       <Hero />
       <TrustBar />
+      <WhoWeAre />
       <ProblemAware />
       <Services />
       <WhatsIncluded />

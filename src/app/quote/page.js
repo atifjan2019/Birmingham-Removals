@@ -24,6 +24,16 @@ export default async function QuotePage() {
       <Navbar />
       <BreadcrumbBar items={[{ name: "Home", href: "/" }, { name: "Get a Free Quote" }]} />
 
+      {/* Trust signals above the form */}
+      <div className="bg-[#0B1E3F] text-white border-b border-white/10">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-3 grid grid-cols-2 sm:grid-cols-4 gap-3 text-center text-xs sm:text-sm font-semibold">
+          <span>No obligation</span>
+          <span>Reply in 30 mins</span>
+          <span>Fixed price</span>
+          <span>5-star rated</span>
+        </div>
+      </div>
+
       <Suspense
         fallback={
           <div className="min-h-screen bg-[#0A0F1E] flex items-center justify-center">
