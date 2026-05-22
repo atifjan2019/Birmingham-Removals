@@ -102,7 +102,7 @@ export const cities = {
   },
   bearwood: {
     name: "Bearwood",
-    postcodes: "B66, B67",
+    postcodes: "B67, B68",
     tag: "Fast Response",
     intro:
       "Rapid Bearwood and Smethwick movers. Short-notice bookings, flexible slots and transparent hourly rates.",

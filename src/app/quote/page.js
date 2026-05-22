@@ -1,6 +1,8 @@
 import { Suspense } from "react";
 import Link from "next/link";
 import QuoteFunnel from "./components/QuoteFunnel";
+import Navbar from "@/components/NavbarServer";
+import Footer from "@/components/FooterServer";
 import { getSiteSettings, telHref } from "@/lib/siteSettings";
 import { BUSINESS } from "@/config/business";
 
@@ -10,6 +12,7 @@ export default async function QuotePage() {
 
   return (
     <>
+      <Navbar />
       {/* SEO content block (rendered before the interactive funnel) */}
       <section className="bg-white border-b border-slate-100">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
@@ -88,6 +91,8 @@ export default async function QuotePage() {
       >
         <QuoteFunnel settings={settings} />
       </Suspense>
+
+      <Footer />
     </>
   );
 }

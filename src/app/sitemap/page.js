@@ -7,7 +7,7 @@ import { Map, MapPin, Navigation, Briefcase } from "lucide-react";
 import { makeMeta } from "@/lib/metadata";
 
 export const metadata = makeMeta({
-  title: "Site Map | Birmingham Removals",
+  title: "Site Map",
   description:
     "Every page on birminghamremovals.uk: services, coverage areas across Birmingham and the West Midlands, quote form, reviews, FAQ and contact.",
   path: "/sitemap",
