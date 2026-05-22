@@ -86,7 +86,7 @@ export default function Step5Summary({ formData, onSubmit }) {
             <div>
               <div className="text-xs text-muted">From</div>
               <div className="font-semibold text-gray-900 text-sm">
-                {formData.fromPostcode || "—"}
+                {formData.fromPostcode || "Not set"}
               </div>
             </div>
           </div>
@@ -95,7 +95,7 @@ export default function Step5Summary({ formData, onSubmit }) {
             <div>
               <div className="text-xs text-muted">To</div>
               <div className="font-semibold text-gray-900 text-sm">
-                {formData.toPostcode || "—"}
+                {formData.toPostcode || "Not set"}
               </div>
             </div>
           </div>
@@ -114,7 +114,7 @@ export default function Step5Summary({ formData, onSubmit }) {
                       month: "long",
                       year: "numeric",
                     })
-                  : "—"}
+                  : "Not set"}
               </div>
             </div>
           </div>

@@ -3,6 +3,9 @@ import Footer from "@/components/FooterServer";
 import { Phone, Mail, MapPin, Clock } from "lucide-react";
 import Link from "next/link";
 import { getSiteSettings, telHref } from "@/lib/siteSettings";
+import JsonLd from "@/components/seo/JsonLd";
+import { webPageSchema } from "@/lib/schema";
+import { BUSINESS } from "@/config/business";
 
 function formatWhatsAppNumber(input) {
   let digits = String(input || "").replace(/\D/g, "");
@@ -25,10 +28,17 @@ function WhatsAppIcon(props) {
 import { makeMeta } from "@/lib/metadata";
 
 export const metadata = makeMeta({
-  title: "Contact Birmingham Removals | Free Quote in 30 Minutes",
+  title: "Contact Us | Free Quote in 30 Minutes",
   description:
     "Call 07365 380090, email hello@birminghamremovals.uk or send a message. Free, fixed-price removals quote within 30 minutes. Birmingham & West Midlands.",
   path: "/contact",
+  keywords: [
+    "contact Birmingham Removals",
+    "removals quote Birmingham",
+    "Birmingham movers phone number",
+    "free removals quote Birmingham",
+    "removal company contact Birmingham",
+  ],
 });
 
 function buildChannels(s) {
@@ -38,7 +48,7 @@ function buildChannels(s) {
       title: "Call us",
       value: s.phone,
       href: telHref(s.phone),
-      desc: "Mon–Sun · 7am–9pm",
+      desc: "Mon to Sun, 7am to 9pm",
     },
   ];
   if (s.whatsapp) {
@@ -63,8 +73,20 @@ function buildChannels(s) {
 export default async function ContactPage() {
   const settings = await getSiteSettings();
   const channels = buildChannels(settings);
+  const contactSchema = webPageSchema({
+    type: "ContactPage",
+    path: "/contact",
+    name: "Contact Birmingham Removals | Free Quote in 30 Minutes",
+    description:
+      "Call 07365 380090, WhatsApp or email hello@birminghamremovals.uk. Free fixed-price removals quote in 30 minutes. Open Monday to Sunday, 7am to 9pm.",
+    breadcrumb: [
+      { name: "Home", url: BUSINESS.url },
+      { name: "Contact", url: `${BUSINESS.url}/contact` },
+    ],
+  });
   return (
     <>
+      <JsonLd data={contactSchema} />
       <Navbar />
       <main>
         <section className="relative pt-20 pb-24 bg-gradient-to-br from-[#0B1E3F] to-[#1E3A8A] text-white overflow-hidden">
@@ -77,7 +99,7 @@ export default async function ContactPage() {
               Let&apos;s plan your <span className="text-[#F97316]">Birmingham move</span>
             </h1>
             <p className="mt-6 text-lg text-white/80 max-w-2xl mx-auto">
-              Call, WhatsApp or email,you&apos;ll speak to a real Birmingham-based coordinator.
+              Call, WhatsApp or email, you&apos;ll speak to a real Birmingham-based coordinator.
               Free, no-obligation quote within 30 minutes.
             </p>
           </div>
@@ -97,7 +119,7 @@ export default async function ContactPage() {
                   <div className="w-14 h-14 rounded-2xl bg-[#0B1E3F] flex items-center justify-center mx-auto mb-5 group-hover:bg-[#F97316] transition-colors">
                     <c.icon className="w-6 h-6 text-[#F97316] group-hover:text-white transition-colors" />
                   </div>
-                  <div className="text-xs uppercase tracking-widest text-slate-500 mb-2">{c.title}</div>
+                  <h2 className="text-xs uppercase tracking-widest text-slate-500 mb-2 font-bold">{c.title}</h2>
                   <div className="font-[family-name:var(--font-space)] font-bold text-lg text-[#0B1E3F] mb-1">
                     {c.value}
                   </div>
@@ -122,11 +144,9 @@ export default async function ContactPage() {
                   <li className="flex gap-4">
                     <Clock className="w-5 h-5 text-[#F97316] shrink-0 mt-1" />
                     <div>
-                      <div className="font-semibold">Working Hours</div>
+                      <h2 className="font-[family-name:var(--font-space)] font-bold text-lg">Opening Hours</h2>
                       <div className="text-white/70 text-sm">
-                        Monday – Sunday
-                        <br />
-                        7am – 9pm (incl. bank holidays)
+                        Open Monday to Sunday, 7am to 9pm, including bank holidays.
                       </div>
                     </div>
                   </li>

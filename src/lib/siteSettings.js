@@ -7,7 +7,7 @@ const FALLBACK = {
   faviconUrl: "/favicon.ico",
   phone: BUSINESS.phoneDisplay,
   email: BUSINESS.email,
-  address: `${BUSINESS.address.locality}, ${BUSINESS.address.region}, ${BUSINESS.address.country}`,
+  address: `${BUSINESS.address.locality}, ${BUSINESS.address.region}, UK`,
   facebook: "",
   instagram: "",
   twitter: "",

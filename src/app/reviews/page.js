@@ -4,21 +4,31 @@ import CTAStrip from "@/components/CTAStrip";
 import { Star, Quote } from "lucide-react";
 import { getSiteSettings } from "@/lib/siteSettings";
 import { makeMeta } from "@/lib/metadata";
+import JsonLd from "@/components/seo/JsonLd";
+import { reviewListSchema, webPageSchema } from "@/lib/schema";
+import { BUSINESS } from "@/config/business";
 
 export const metadata = makeMeta({
-  title: "Birmingham Removals Reviews | 4.9-Star from 312+ Customers",
+  title: "Customer Reviews | 4.9 Stars from 312+ Customers",
   description:
-    "Read verified Google reviews from Birmingham customers. 4.9-star average, 312+ reviews. See why families and businesses trust Birmingham Removals.",
+    "Read verified Google reviews from Birmingham customers. 4.9-star average from 312+ reviews. See why families and businesses trust Birmingham Removals.",
   path: "/reviews",
+  keywords: [
+    "Birmingham removals reviews",
+    "removal company reviews Birmingham",
+    "Birmingham Removals testimonials",
+    "best removals Birmingham",
+    "trusted movers Birmingham",
+  ],
 });
 
 const reviews = [
   { name: "Sarah Patel", location: "Edgbaston, B15", rating: 5, text: "Absolutely brilliant from start to finish. The team arrived exactly on time, wrapped everything with real care, and had us moved into our Edgbaston house by 2pm. Worth every penny." },
   { name: "James Whitmore", location: "Solihull, B91", rating: 5, text: "Used them for a 4-bed move from Moseley to Solihull. Fixed price agreed, no surprises, and they even reassembled the kids' bunk bed. Honestly the easiest house move we've ever done." },
   { name: "Priya Shah", location: "Harborne, B17", rating: 5, text: "Booked a last-minute man and van for a flat move in Harborne. They came within 2 hours, were polite, careful and charged exactly what they quoted." },
-  { name: "Daniel O'Connor", location: "Jewellery Quarter, B3", rating: 5, text: "Office relocation done over a weekend,Monday morning we were up and running. Professional, efficient, and they handled all our IT gear without a single hitch." },
-  { name: "Emma Richardson", location: "Sutton Coldfield, B74", rating: 5, text: "We moved from London to Sutton Coldfield with them,smooth, punctual, and they protected my grandmother's antique dresser like their own." },
-  { name: "Mohammed Ali", location: "Selly Oak, B29", rating: 5, text: "Best man and van experience ever. Student move from halls to private house,arrived when they said, carried everything up two flights without a grumble." },
+  { name: "Daniel O'Connor", location: "Jewellery Quarter, B3", rating: 5, text: "Office relocation done over a weekend, so Monday morning we were up and running. Professional, efficient, and they handled all our IT gear without a single hitch." },
+  { name: "Emma Richardson", location: "Sutton Coldfield, B74", rating: 5, text: "We moved from London to Sutton Coldfield with them. Smooth, punctual, and they protected my grandmother's antique dresser like their own." },
+  { name: "Mohammed Ali", location: "Selly Oak, B29", rating: 5, text: "Best man and van experience ever. Student move from halls to private house, and they arrived when they said and carried everything up two flights without a grumble." },
   { name: "Helen Carter", location: "Moseley, B13", rating: 5, text: "Packed, moved and unpacked our 3-bed in a single day. The crew were lovely with the kids and the dog. Will 100% use again." },
   { name: "Tom Bradley", location: "Kings Heath, B14", rating: 5, text: "Clear pricing, polite crew, and they even took our old sofa to the tip for us. Small thing, but it's the small things that count." },
   { name: "Aisha Bhatti", location: "Erdington, B23", rating: 5, text: "Needed a piano moved up two floors. Specialist team came with proper kit, moved it in under an hour, not a scratch. Fair price too." },
@@ -26,8 +36,27 @@ const reviews = [
 
 export default async function ReviewsPage() {
   const settings = await getSiteSettings();
+
+  const schemas = [
+    reviewListSchema(
+      reviews.map((r) => ({ author: r.name, body: r.text, rating: r.rating }))
+    ),
+    webPageSchema({
+      type: "CollectionPage",
+      path: "/reviews",
+      name: "Customer Reviews | 4.9-Star Removals Birmingham",
+      description:
+        "Verified customer reviews for Birmingham Removals, rated 4.9 out of 5 from 312+ customers.",
+      breadcrumb: [
+        { name: "Home", url: BUSINESS.url },
+        { name: "Reviews", url: `${BUSINESS.url}/reviews` },
+      ],
+    }),
+  ];
+
   return (
     <>
+      <JsonLd data={schemas} />
       <Navbar />
       <main>
         <section className="relative pt-20 pb-20 bg-gradient-to-br from-[#0B1E3F] to-[#1E3A8A] text-white overflow-hidden">
@@ -37,9 +66,12 @@ export default async function ReviewsPage() {
               {[...Array(5)].map((_, i) => <Star key={i} className="w-7 h-7 fill-current" />)}
             </div>
             <h1 className="font-[family-name:var(--font-space)] text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-tight">
-              <span className="text-[#F97316]">4.9 / 5</span> from 312+ Birmingham customers
+              Birmingham Removals Reviews
             </h1>
-            <p className="mt-6 text-lg text-white/80 max-w-2xl mx-auto">
+            <p className="mt-4 text-xl font-bold text-white">
+              <span className="text-[#F97316]">4.9 / 5</span> from 312+ Birmingham customers
+            </p>
+            <p className="mt-4 text-lg text-white/80 max-w-2xl mx-auto">
               Real reviews from real West Midlands moves. Here&apos;s what our customers say.
             </p>
           </div>

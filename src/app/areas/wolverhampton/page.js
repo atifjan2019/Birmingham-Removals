@@ -8,7 +8,7 @@ const SLUG = "wolverhampton";
 const POSTCODES = "WV1, WV2, WV3";
 
 export const metadata = makeMeta({
-  title: `Removals ${NAME} | Birmingham Removals - Fixed Prices`,
+  title: `Removals ${NAME} | Fixed-Price Movers`,
   description: `Fixed-price Wolverhampton removals across WV1, WV2 and WV3, from city ring road flats to Tettenhall family homes. Insured Birmingham crews, free 30-minute quote.`,
   path: `/areas/${SLUG}`,
   keywords: [

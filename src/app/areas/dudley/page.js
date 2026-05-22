@@ -8,7 +8,7 @@ const SLUG = "dudley";
 const POSTCODES = "DY1, DY2, DY3";
 
 export const metadata = makeMeta({
-  title: `Removals ${NAME} | Birmingham Removals - Fixed Prices`,
+  title: `Removals ${NAME} | Fixed-Price Movers`,
   description: `Black Country removals across Dudley DY1 to DY3, covering Brierley Hill, Netherton and Sedgley. Affordable fixed prices, same-day quotes and a free quote in 30 minutes.`,
   path: `/areas/${SLUG}`,
   keywords: [

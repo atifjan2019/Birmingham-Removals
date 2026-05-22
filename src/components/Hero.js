@@ -67,7 +67,7 @@ export default function Hero() {
             </div>
           </div>
 
-          {/* RIGHT stats cards (desktop only — not rendered/painted on mobile) */}
+          {/* RIGHT stats cards (desktop only, not rendered/painted on mobile) */}
           <div className="lg:col-span-5 relative hidden lg:block">
             <div className="relative">
               <div className="relative aspect-[4/5] rounded-3xl overflow-hidden border border-white/10 shadow-2xl">

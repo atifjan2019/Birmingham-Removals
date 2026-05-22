@@ -22,6 +22,9 @@ export default function CTAStrip({ settings }) {
           <p className="mt-3 text-white/90 text-base sm:text-lg">
             Get your fixed, no-obligation quote in under 30 minutes.
           </p>
+          <p className="mt-2 text-white/70 text-sm">
+            Open Monday to Sunday, 7am to 9pm, including bank holidays.
+          </p>
         </div>
         <div className="flex flex-col sm:flex-row items-center gap-3 shrink-0">
           <a

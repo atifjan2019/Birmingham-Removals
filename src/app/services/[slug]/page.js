@@ -4,7 +4,7 @@ import ServicePageClient from "./ServicePageClient";
 import { getSiteSettings } from "@/lib/siteSettings";
 import { makeMeta } from "@/lib/metadata";
 import JsonLd from "@/components/seo/JsonLd";
-import { breadcrumbSchema, faqSchema } from "@/lib/schema";
+import { breadcrumbSchema, faqSchema, serviceSchema } from "@/lib/schema";
 import { BUSINESS } from "@/config/business";
 
 const SERVICE_META = {
@@ -37,6 +37,57 @@ const SERVICE_META = {
     title: "Piano & Specialist Item Removals Birmingham",
     description:
       "Expert piano, antique and high-value item removals across Birmingham. Specialist crews, full insurance, careful handling guaranteed. Free quote today.",
+  },
+};
+
+const SERVICE_SCHEMA_DATA = {
+  "house-removals": {
+    serviceType: "House Removals",
+    name: "House Removals Birmingham",
+    description:
+      "Full house removals across Birmingham and the West Midlands. Fixed prices, DBS-checked crews, comprehensive insurance. Free quote in 30 minutes.",
+    minPrice: 250,
+    maxPrice: 2000,
+  },
+  "office-removals": {
+    serviceType: "Office Removals",
+    name: "Office Removals Birmingham",
+    description:
+      "Zero-downtime office relocations across Birmingham. Evening and weekend scheduling, IT handling, fixed prices.",
+    minPrice: 400,
+    maxPrice: 5000,
+  },
+  "man-and-van": {
+    serviceType: "Man and Van",
+    name: "Man and Van Birmingham",
+    description:
+      "Same-day man and van service across Birmingham, Solihull and the Black Country. Fixed prices, fully insured.",
+    minPrice: 60,
+    maxPrice: 400,
+  },
+  "packing-service": {
+    serviceType: "Packing Service",
+    name: "Professional Packing Service Birmingham",
+    description:
+      "Professional packing service in Birmingham using double-walled boxes and specialist wrapping. Full or part-packing available.",
+    minPrice: 80,
+    maxPrice: 600,
+  },
+  "storage-solutions": {
+    serviceType: "Storage Solutions",
+    name: "Storage Solutions Birmingham",
+    description:
+      "Secure, climate-controlled storage near Birmingham city centre. Short and long-term, fully insured, CCTV-monitored.",
+    minPrice: 20,
+    maxPrice: 200,
+  },
+  "piano-and-specialist-items": {
+    serviceType: "Specialist Item Removals",
+    name: "Piano & Specialist Item Removals Birmingham",
+    description:
+      "Expert removal of pianos, antiques, artwork and fragile items in Birmingham. Specialist crew with the proper equipment.",
+    minPrice: 150,
+    maxPrice: 800,
   },
 };
 
@@ -73,6 +124,9 @@ export default async function ServicePage({ params }) {
     ]),
     ...(Array.isArray(service.faqs) && service.faqs.length > 0
       ? [faqSchema(service.faqs)]
+      : []),
+    ...(SERVICE_SCHEMA_DATA[slug]
+      ? [serviceSchema({ ...SERVICE_SCHEMA_DATA[slug], slug })]
       : []),
   ];
 

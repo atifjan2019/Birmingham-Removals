@@ -13,12 +13,18 @@ export const BUSINESS = {
   email: "hello@birminghamremovals.uk",
   priceRange: "££",
   foundingYear: 2015,
+  numberOfEmployees: 24,
+  openingHours: { opens: "07:00", closes: "21:00" },
   rating: { value: "4.9", count: "312" },
   address: {
     locality: "Birmingham",
     region: "West Midlands",
+    postalCode: "B1",
     country: "GB",
   },
+  geo: { latitude: 52.4862, longitude: -1.8904 },
+  // British Association of Removers (referenced in the About page stats).
+  memberOf: { name: "British Association of Removers", url: "https://www.bar.co.uk" },
   areasServed: [
     "Birmingham",
     "Solihull",
@@ -44,6 +50,8 @@ export const BUSINESS = {
     "Wolverhampton",
     "West Midlands",
   ],
-  // Add real social URLs as they go live — empty array means no `sameAs` is emitted.
+  // Add real, verified profile URLs (Google Business Profile, Facebook, Trustpilot,
+  // Companies House, etc.) here as they are confirmed. An empty array emits no
+  // `sameAs`, which is correct: a wrong/unverified URL is worse than none.
   sameAs: [],
 };

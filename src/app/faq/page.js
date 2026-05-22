@@ -6,9 +6,16 @@ import { getSiteSettings } from "@/lib/siteSettings";
 import { makeMeta } from "@/lib/metadata";
 
 export const metadata = makeMeta({
-  title: "Birmingham Removals FAQ | Prices, Insurance & Booking",
+  title: "Removals FAQ: Prices, Insurance & Booking",
   description:
     "Common questions about Birmingham removals: pricing, booking lead time, insurance, packing, storage and same-day moves. Still unsure? Call us today.",
+  keywords: [
+    "Birmingham removals FAQ",
+    "removals cost Birmingham",
+    "removals insurance Birmingham",
+    "how to book removals Birmingham",
+    "removal company questions",
+  ],
   path: "/faq",
 });
 

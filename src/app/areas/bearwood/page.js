@@ -8,7 +8,7 @@ const SLUG = "bearwood";
 const POSTCODES = "B66, B67";
 
 export const metadata = makeMeta({
-  title: `Removals ${NAME} | Birmingham Removals - Fixed Prices`,
+  title: `Removals ${NAME} | Fixed-Price Movers`,
   description: `Fixed-price removals across Bearwood B66 and B67. House, office and man & van moves from the Bearwood Road shops to the Lightwoods Park streets. Free 30-minute quote.`,
   path: `/areas/${SLUG}`,
   keywords: [

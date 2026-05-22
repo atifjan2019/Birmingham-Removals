@@ -4,32 +4,54 @@ import CTAStrip from "@/components/CTAStrip";
 import { Award, Heart, Clock, ShieldCheck } from "lucide-react";
 import { getSiteSettings } from "@/lib/siteSettings";
 import { makeMeta } from "@/lib/metadata";
+import JsonLd from "@/components/seo/JsonLd";
+import { webPageSchema } from "@/lib/schema";
+import { BUSINESS } from "@/config/business";
 
 export const metadata = makeMeta({
-  title: "About Birmingham Removals | 5-Star Local Movers Since 2015",
+  title: "About Us | 5-Star Local Movers Since 2015",
   description:
     "Family-run Birmingham removals company since 2015. 5,200+ moves delivered, 4.9-star rating from 312+ reviews. Meet the team behind your stress-free move.",
   path: "/about",
+  keywords: [
+    "about Birmingham Removals",
+    "Birmingham removals company",
+    "local movers Birmingham",
+    "family-run removals Birmingham",
+    "trusted removal company West Midlands",
+  ],
 });
 
 const values = [
-  { icon: Heart, title: "Care First", desc: "We treat your belongings like our own,every box, every piece." },
-  { icon: Clock, title: "On Time, Every Time", desc: "Late = 10% off. We've only ever discounted twice in 10 years." },
+  { icon: Heart, title: "Care First", desc: "We treat your belongings like our own: every box, every piece." },
+  { icon: Clock, title: "On Time, Every Time", desc: "Late = 10% off. We've only ever discounted twice in 11 years." },
   { icon: ShieldCheck, title: "Fully Protected", desc: "£10m goods-in-transit and £5m public liability on every job." },
-  { icon: Award, title: "Trained Crews", desc: "DBS-checked, in-house trained movers,not day-rate agency staff." },
+  { icon: Award, title: "Trained Crews", desc: "DBS-checked, in-house trained movers, not day-rate agency staff." },
 ];
 
 const stats = [
   { value: "5,200+", label: "Moves completed" },
   { value: "312", label: "5-star Google reviews" },
-  { value: "10+", label: "Years in Birmingham" },
+  { value: "11+", label: "Years in Birmingham" },
   { value: "24", label: "Full-time crew" },
 ];
 
 export default async function AboutPage() {
   const settings = await getSiteSettings();
+  const aboutSchema = webPageSchema({
+    type: "AboutPage",
+    path: "/about",
+    name: "About Birmingham Removals | Local Movers Since 2015",
+    description:
+      "Family-run Birmingham removals company since 2015. 5,200+ moves, 24 full-time crew, 4.9-star average from 312+ reviews.",
+    breadcrumb: [
+      { name: "Home", url: BUSINESS.url },
+      { name: "About", url: `${BUSINESS.url}/about` },
+    ],
+  });
   return (
     <>
+      <JsonLd data={aboutSchema} />
       <Navbar />
       <main>
         {/* Hero */}
@@ -46,7 +68,7 @@ export default async function AboutPage() {
             </h1>
             <p className="mt-6 text-lg text-white/80 max-w-2xl mx-auto">
               Since 2015 we&apos;ve helped thousands of Birmingham families and businesses move
-              without stress,built on care, punctuality and fair prices.
+              without stress, built on care, punctuality and fair prices.
             </p>
           </div>
         </section>
@@ -69,8 +91,9 @@ export default async function AboutPage() {
                 </p>
                 <p>
                   Today we run a modern fleet, employ 24 full-time movers, and cover every
-                  postcode from B1 to Solihull, Sutton Coldfield, Dudley and Wolverhampton. But the
-                  job hasn&apos;t changed,show up on time, wrap it properly, and get you into your
+                  postcode from B1 to Solihull, Sutton Coldfield, Dudley and Wolverhampton. Our 24
+                  full-time, DBS-checked movers are employed directly, never agency staff. But the
+                  job hasn&apos;t changed, show up on time, wrap it properly, and get you into your
                   new home without a scratch.
                 </p>
                 <p>

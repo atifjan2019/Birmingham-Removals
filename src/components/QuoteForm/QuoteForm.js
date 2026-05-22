@@ -67,7 +67,7 @@ export default function QuoteForm() {
         data = { moveType: formData.moveType };
         break;
       case 2:
-        // Bedrooms step — no schema needed, always valid
+        // Bedrooms step, no schema needed, always valid
         return true;
       case 3:
         schema = step2Schema;
@@ -79,7 +79,7 @@ export default function QuoteForm() {
         };
         break;
       case 4:
-        // Extras — always valid
+        // Extras, always valid
         return true;
       case 5:
         schema = step4Schema;

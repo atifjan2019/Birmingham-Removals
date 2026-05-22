@@ -8,7 +8,7 @@ const SLUG = "great-barr";
 const POSTCODES = "B42, B43, B44";
 
 export const metadata = makeMeta({
-  title: `Removals ${NAME} | Birmingham Removals - Fixed Prices`,
+  title: `Removals ${NAME} | Fixed-Price Movers`,
   description: `Fixed-price removals across Great Barr B42, B43 and B44. House, office and man & van moves from the Scott Arms to the Red House Park streets. Free 30-minute quote.`,
   path: `/areas/${SLUG}`,
   keywords: [
