@@ -64,7 +64,7 @@ export default async function AboutPage() {
               <div className="space-y-4 text-slate-600 leading-relaxed">
                 <p>
                   Birmingham Removals started in 2015 with one van and a simple belief: moving
-                  shouldn&apos;t be stressful. A decade later, we&apos;ve kept that belief at the
+                  shouldn&apos;t be stressful. Over a decade later, we&apos;ve kept that belief at the
                   centre of everything we do.
                 </p>
                 <p>
@@ -83,8 +83,8 @@ export default async function AboutPage() {
               <div className="aspect-[4/5] rounded-3xl overflow-hidden shadow-xl">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
-                  src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=1400&auto=format&fit=crop"
-                  alt="Birmingham Removals crew"
+                  src="/images/about-birmingham.jpg"
+                  alt="Birmingham street scene"
                   className="w-full h-full object-cover"
                 />
               </div>

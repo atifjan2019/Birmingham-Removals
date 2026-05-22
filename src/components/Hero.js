@@ -72,8 +72,8 @@ export default function Hero() {
             <div className="relative">
               <div className="relative aspect-[4/5] rounded-3xl overflow-hidden border border-white/10 shadow-2xl">
                 <Image
-                  src="/images/hero-team.webp"
-                  alt="Birmingham Removals team at work"
+                  src="/images/hero-birmingham.jpg"
+                  alt="Birmingham removals team loading a van"
                   fill
                   priority
                   fetchPriority="high"
