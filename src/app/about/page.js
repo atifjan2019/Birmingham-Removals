@@ -5,6 +5,7 @@ import { Award, Heart, Clock, ShieldCheck } from "lucide-react";
 import { getSiteSettings } from "@/lib/siteSettings";
 import { makeMeta } from "@/lib/metadata";
 import JsonLd from "@/components/seo/JsonLd";
+import { BreadcrumbBar } from "@/components/Breadcrumbs";
 import { webPageSchema } from "@/lib/schema";
 import { BUSINESS } from "@/config/business";
 
@@ -54,6 +55,7 @@ export default async function AboutPage() {
     <>
       <JsonLd data={aboutSchema} />
       <Navbar />
+      <BreadcrumbBar items={[{ name: "Home", href: "/" }, { name: "About Us" }]} />
       <main>
         {/* Hero */}
         <section className="relative pt-20 pb-24 bg-gradient-to-br from-[#0B1E3F] to-[#1E3A8A] text-white overflow-hidden">
@@ -109,6 +111,10 @@ export default async function AboutPage() {
                 <img
                   src="/images/about-birmingham.jpg"
                   alt="Birmingham street scene"
+                  width="640"
+                  height="800"
+                  loading="lazy"
+                  decoding="async"
                   className="w-full h-full object-cover"
                 />
               </div>

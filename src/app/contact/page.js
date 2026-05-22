@@ -4,6 +4,7 @@ import { Phone, Mail, MapPin, Clock } from "lucide-react";
 import Link from "next/link";
 import { getSiteSettings, telHref } from "@/lib/siteSettings";
 import JsonLd from "@/components/seo/JsonLd";
+import { BreadcrumbBar } from "@/components/Breadcrumbs";
 import { webPageSchema } from "@/lib/schema";
 import { BUSINESS } from "@/config/business";
 
@@ -89,6 +90,7 @@ export default async function ContactPage() {
     <>
       <JsonLd data={contactSchema} />
       <Navbar />
+      <BreadcrumbBar items={[{ name: "Home", href: "/" }, { name: "Contact" }]} />
       <main>
         <section className="relative pt-20 pb-24 bg-gradient-to-br from-[#0B1E3F] to-[#1E3A8A] text-white overflow-hidden">
           <div className="absolute inset-0 grid-pattern opacity-[0.05]" />

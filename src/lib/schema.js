@@ -74,6 +74,33 @@ export const movingCompanySchema = {
     { "@type": "Place", name: "Wolverhampton" },
     { "@type": "Place", name: "Coventry" },
   ],
+  serviceType: [
+    "House Removals",
+    "Office Removals",
+    "Man and Van",
+    "Packing Service",
+    "Storage Solutions",
+    "Piano and Specialist Item Removals",
+  ],
+  hasOfferCatalog: {
+    "@type": "OfferCatalog",
+    name: "Birmingham Removals Services",
+    itemListElement: [
+      ["House Removals Birmingham", "house-removals"],
+      ["Office Removals Birmingham", "office-removals"],
+      ["Man and Van Birmingham", "man-and-van"],
+      ["Packing Service Birmingham", "packing-service"],
+      ["Storage Solutions Birmingham", "storage-solutions"],
+      ["Piano and Specialist Item Removals Birmingham", "piano-and-specialist-items"],
+    ].map(([name, slug]) => ({
+      "@type": "Offer",
+      itemOffered: {
+        "@type": "Service",
+        name,
+        url: `${BUSINESS.url}/services/${slug}`,
+      },
+    })),
+  },
   aggregateRating: {
     "@type": "AggregateRating",
     ratingValue: BUSINESS.rating.value,

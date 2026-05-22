@@ -13,6 +13,7 @@ import {
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import CTAStrip from "@/components/CTAStrip";
+import { BreadcrumbBar } from "@/components/Breadcrumbs";
 import { SITE_SETTINGS_FALLBACK, telHref } from "@/lib/siteSettings";
 
 function FAQItem({ faq, index }) {
@@ -55,6 +56,14 @@ export default function ServicePageClient({ service, settings }) {
   return (
     <>
       <Navbar settings={settings} />
+
+      <BreadcrumbBar
+        items={[
+          { name: "Home", href: "/" },
+          { name: "Services", href: "/services" },
+          { name: service.title },
+        ]}
+      />
 
       <section className="relative pt-20 pb-16 bg-gradient-to-br from-[#0B1E3F] to-[#1E3A8A] text-white overflow-hidden">
         <div className="absolute inset-0 grid-pattern opacity-[0.05]" />

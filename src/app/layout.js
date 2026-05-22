@@ -42,7 +42,9 @@ export async function generateMetadata() {
     "removals Sutton Coldfield",
     "removals West Midlands",
   ],
-  alternates: { canonical: BUSINESS.url },
+  // Use the trailing-slash origin so the canonical and og:url match exactly
+  // (Next normalises the root canonical with a trailing slash via metadataBase).
+  alternates: { canonical: `${BUSINESS.url}/` },
   manifest: "/site.webmanifest",
   other: {
     "theme-color": "#F97316",
@@ -62,7 +64,7 @@ export async function generateMetadata() {
       "Birmingham's 5-star removals company since 2015. Fixed prices, fully insured, DBS-checked crews. House, office, man & van across the West Midlands.",
     type: "website",
     locale: "en_GB",
-    url: BUSINESS.url,
+    url: `${BUSINESS.url}/`,
     siteName: BUSINESS.name,
     images: [{ url: BUSINESS.ogImage, width: 1200, height: 630 }],
   },

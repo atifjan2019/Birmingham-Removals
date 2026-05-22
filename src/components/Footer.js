@@ -117,6 +117,8 @@ export default function Footer({ settings }) {
                   alt="Birmingham Removals"
                   width="195"
                   height="56"
+                  loading="lazy"
+                  decoding="async"
                   className={`h-14 w-auto max-w-[240px] object-contain ${s.footerLogoUrl ? "" : "bg-white rounded-xl p-2"}`}
                 />
               ) : (
