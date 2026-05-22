@@ -1,6 +1,7 @@
-import { Shield, Award, Users, ThumbsUp, Clock, BadgeCheck } from "lucide-react";
+import { Shield, Award, Users, ThumbsUp, Clock, BadgeCheck, CalendarCheck } from "lucide-react";
 
 const badges = [
+  { icon: CalendarCheck, label: "Trusted Since 2015" },
   { icon: Shield, label: "£10m Insurance" },
   { icon: BadgeCheck, label: "DBS-Checked Crews" },
   { icon: Award, label: "BAR Registered" },
@@ -13,7 +14,7 @@ export default function TrustBar() {
   return (
     <section className="bg-white border-b border-slate-100">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 lg:gap-6">
+        <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-4 lg:gap-6">
           {badges.map((b) => (
             <div key={b.label} className="flex items-center gap-3">
               <div className="w-10 h-10 rounded-lg bg-[#F97316]/10 flex items-center justify-center shrink-0">

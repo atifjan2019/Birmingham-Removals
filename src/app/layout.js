@@ -108,7 +108,13 @@ export default function RootLayout({ children }) {
         </Script>
       </head>
       <body className="min-h-screen bg-white text-[#0B1E3F]" suppressHydrationWarning>
-        {children}
+        <a
+          href="#main-content"
+          className="sr-only focus:not-sr-only focus:absolute focus:top-3 focus:left-3 focus:z-[100] focus:rounded-lg focus:bg-white focus:px-4 focus:py-2 focus:text-[#0B1E3F] focus:shadow-lg focus:ring-2 focus:ring-[#F97316]"
+        >
+          Skip to main content
+        </a>
+        <div id="main-content">{children}</div>
       </body>
     </html>
   );

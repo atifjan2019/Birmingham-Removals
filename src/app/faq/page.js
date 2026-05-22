@@ -4,6 +4,7 @@ import FAQ from "@/components/FAQ";
 import CTAStrip from "@/components/CTAStrip";
 import { getSiteSettings } from "@/lib/siteSettings";
 import { makeMeta } from "@/lib/metadata";
+import { BreadcrumbBar } from "@/components/Breadcrumbs";
 
 export const metadata = makeMeta({
   title: "Removals FAQ: Prices, Insurance & Booking | Birmingham Removals",
@@ -25,6 +26,7 @@ export default async function FAQPage() {
   return (
     <>
       <Navbar />
+      <BreadcrumbBar items={[{ name: "Home", href: "/" }, { name: "FAQ" }]} />
       <main>
         <section className="relative pt-20 pb-16 bg-gradient-to-br from-[#0B1E3F] to-[#1E3A8A] text-white overflow-hidden">
           <div className="absolute inset-0 grid-pattern opacity-[0.05]" />
@@ -37,7 +39,7 @@ export default async function FAQPage() {
             </h1>
           </div>
         </section>
-        <FAQ />
+        <FAQ categorized />
         <CTAStrip settings={settings} />
       </main>
       <Footer />
