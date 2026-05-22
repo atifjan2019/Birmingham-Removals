@@ -17,12 +17,18 @@ const FALLBACK = {
   whatsapp: "",
 };
 
-// Any data: URL stored historically by the admin upload tool would balloon
-// every page to multi-MB and embed base64 in JSON-LD. Drop them so the
-// static fallback image is used instead.
-function stripDataUrl(value, fallback) {
-  if (typeof value !== "string") return fallback;
-  if (value.startsWith("data:")) return fallback;
+// Logos uploaded via the admin panel are stored inline as base64 data URLs in
+// D1. We allow them to render, but cap their size so a stray oversized upload
+// can't balloon every page's HTML. The admin uploader already enforces 500 KB
+// per image; this is a defensive backstop for any historical/large value.
+// (JSON-LD uses BUSINESS.logo, a static URL, so data URLs never reach schema.)
+const MAX_INLINE_IMAGE_CHARS = 800 * 1024; // ~500 KB binary + base64 overhead
+
+function sanitizeImageUrl(value, fallback) {
+  if (typeof value !== "string" || value.length === 0) return fallback;
+  if (value.startsWith("data:") && value.length > MAX_INLINE_IMAGE_CHARS) {
+    return fallback;
+  }
   return value;
 }
 
@@ -34,9 +40,9 @@ export async function getSiteSettings() {
     for (const k of Object.keys(FALLBACK)) {
       if (row[k] != null && String(row[k]).length > 0) merged[k] = row[k];
     }
-    merged.logoUrl = stripDataUrl(merged.logoUrl, FALLBACK.logoUrl);
-    merged.footerLogoUrl = stripDataUrl(merged.footerLogoUrl, "");
-    merged.faviconUrl = stripDataUrl(merged.faviconUrl, FALLBACK.faviconUrl);
+    merged.logoUrl = sanitizeImageUrl(merged.logoUrl, FALLBACK.logoUrl);
+    merged.footerLogoUrl = sanitizeImageUrl(merged.footerLogoUrl, "");
+    merged.faviconUrl = sanitizeImageUrl(merged.faviconUrl, FALLBACK.faviconUrl);
     return merged;
   } catch (e) {
     console.error("[siteSettings] read failed, using fallback:", e?.message);
