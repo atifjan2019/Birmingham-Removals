@@ -1,6 +1,8 @@
 import ActivityLogClient from "./ActivityLogClient";
 import { listActivity } from "@/lib/workerApi";
 
+export const metadata = { title: "Activity Log" };
+
 export default async function ActivityLogPage() {
   const logs = await listActivity();
   const actionTypes = [...new Set(logs.map((log) => log.action))].sort();

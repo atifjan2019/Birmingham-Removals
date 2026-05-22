@@ -4,6 +4,8 @@ import { listCustomers } from "@/lib/workerApi";
 
 export const dynamic = "force-dynamic";
 
+export const metadata = { title: "Customers" };
+
 export default async function CustomersPage() {
   const customers = await listCustomers();
 

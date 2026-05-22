@@ -4,6 +4,8 @@ import { listBookings, listCustomers } from "@/lib/workerApi";
 
 export const dynamic = "force-dynamic";
 
+export const metadata = { title: "Dashboard" };
+
 export default async function AdminDashboard() {
   const [bookings, customers] = await Promise.all([listBookings(), listCustomers()]);
   const totalBookings = bookings.length;

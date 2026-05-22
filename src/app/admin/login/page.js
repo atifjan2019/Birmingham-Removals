@@ -2,6 +2,8 @@ import Link from "next/link";
 import { getSiteSettings } from "@/lib/siteSettings";
 import LoginForm from "./LoginForm";
 
+export const metadata = { title: "Login" };
+
 export default async function LoginPage() {
   const settings = await getSiteSettings();
   const logoSrc = settings.logoUrl;

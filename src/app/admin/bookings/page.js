@@ -3,6 +3,8 @@ import { listActivity, listBookings } from "@/lib/workerApi";
 
 export const dynamic = "force-dynamic";
 
+export const metadata = { title: "Bookings" };
+
 function parseDetails(details) {
   if (!details) return null;
   try {

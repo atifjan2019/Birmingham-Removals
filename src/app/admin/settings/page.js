@@ -7,6 +7,8 @@ import SettingsForm from "./SettingsForm";
 
 export const dynamic = "force-dynamic";
 
+export const metadata = { title: "Settings" };
+
 export default async function SettingsPage() {
   const cookieStore = await cookies();
   const sessionToken = cookieStore.get("admin_session")?.value;
