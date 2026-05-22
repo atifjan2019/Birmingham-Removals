@@ -1,11 +1,12 @@
 import { BUSINESS } from "@/config/business";
 
-export function makeMeta({ title, description, path, image, noindex }) {
+export function makeMeta({ title, description, path, image, noindex, keywords }) {
   const url = `${BUSINESS.url}${path}`;
   const ogImage = image || BUSINESS.ogImage;
   return {
     title,
     description,
+    keywords: Array.isArray(keywords) && keywords.length > 0 ? keywords : undefined,
     alternates: { canonical: url },
     robots: noindex
       ? { index: false, follow: true }
