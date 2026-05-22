@@ -9,7 +9,9 @@ export function makeMeta({ title, description, path, image, noindex, keywords, a
     // when the brand is already part of the title).
     title: absoluteTitle ? { absolute: title } : title,
     description,
-    keywords: Array.isArray(keywords) && keywords.length > 0 ? keywords : undefined,
+    // The keywords meta tag is intentionally not emitted: Google has ignored it
+    // since 2009 and it needlessly exposes targeting. `keywords` is accepted for
+    // backwards compatibility with callers but deliberately not rendered.
     alternates: { canonical: url },
     robots: noindex
       ? { index: false, follow: true }

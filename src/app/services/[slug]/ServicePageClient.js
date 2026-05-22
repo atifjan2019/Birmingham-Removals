@@ -126,14 +126,45 @@ export default function ServicePageClient({ service, settings }) {
               </div>
               <div className="lg:col-span-7">
                 {section.paragraphs && (
-                  <div className="space-y-4 text-slate-600 leading-relaxed">
+                  <div className="space-y-4 text-slate-600 leading-relaxed [&_a]:text-[#F97316] [&_a]:font-semibold [&_a]:underline [&_a]:underline-offset-2 hover:[&_a]:text-[#EA580C] [&_strong]:text-[#0B1E3F]">
                     {section.paragraphs.map((p, j) => (
-                      <p key={j} className="text-base">{p}</p>
+                      // Content is authored in-repo (trusted) and may contain
+                      // inline links/bold for internal linking and pricing.
+                      <p key={j} className="text-base" dangerouslySetInnerHTML={{ __html: p }} />
                     ))}
                   </div>
                 )}
+                {section.table && (
+                  <div className="mt-6 overflow-x-auto rounded-2xl border border-slate-200">
+                    <table className="w-full text-sm text-left">
+                      <thead className="bg-[#0B1E3F] text-white">
+                        <tr>
+                          {section.table.headers.map((h, j) => (
+                            <th key={j} className="px-4 py-3 font-[family-name:var(--font-space)] font-bold">
+                              {h}
+                            </th>
+                          ))}
+                        </tr>
+                      </thead>
+                      <tbody className="divide-y divide-slate-100">
+                        {section.table.rows.map((row, ri) => (
+                          <tr key={ri} className={ri % 2 ? "bg-slate-50" : "bg-white"}>
+                            {row.map((cell, ci) => (
+                              <td
+                                key={ci}
+                                className={`px-4 py-3 ${ci === 0 ? "font-semibold text-[#0B1E3F]" : "text-slate-600"}`}
+                              >
+                                {cell}
+                              </td>
+                            ))}
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                )}
                 {section.list && (
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-6">
                     {section.list.map((item, j) => (
                       <div
                         key={j}
@@ -199,7 +230,7 @@ export default function ServicePageClient({ service, settings }) {
               </h2>
               <p className="text-slate-600 leading-relaxed">
                 Everything you need to know about our {service.title.toLowerCase()} service in
-                Birmingham. Still not sure? Give us a call,we&apos;re happy to chat.
+                Birmingham. Still not sure? Give us a call, we&apos;re happy to chat.
               </p>
             </div>
             <div className="lg:col-span-7 space-y-3">
