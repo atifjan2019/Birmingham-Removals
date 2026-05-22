@@ -91,7 +91,7 @@ const nextConfig = {
               "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://web-sdk.smartlook.com",
               "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
               "font-src 'self' https://fonts.gstatic.com",
-              "img-src 'self' https://images.unsplash.com https://www.birminghamremovals.uk",
+              "img-src 'self' data: https://images.unsplash.com https://www.birminghamremovals.uk",
               "connect-src 'self' https://web-sdk.smartlook.com",
               "frame-ancestors 'none'",
             ].join("; "),
