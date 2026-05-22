@@ -1,7 +1,7 @@
 import { Shield, Award, Users, ThumbsUp, Clock, BadgeCheck } from "lucide-react";
 
 const badges = [
-  { icon: Shield, label: "£10m Goods-in-Transit Insurance" },
+  { icon: Shield, label: "£10m Insurance" },
   { icon: BadgeCheck, label: "DBS-Checked Crews" },
   { icon: Award, label: "BAR Registered" },
   { icon: Users, label: "5,200+ Happy Customers" },
