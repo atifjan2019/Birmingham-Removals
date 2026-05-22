@@ -23,6 +23,7 @@ export const BUSINESS = {
     country: "GB",
   },
   geo: { latitude: 52.4862, longitude: -1.8904 },
+  hasMap: "https://maps.google.com/?q=Birmingham+Removals+West+Midlands",
   // British Association of Removers (referenced in the About page stats).
   memberOf: { name: "British Association of Removers", url: "https://www.bar.co.uk" },
   areasServed: [
@@ -50,8 +51,11 @@ export const BUSINESS = {
     "Wolverhampton",
     "West Midlands",
   ],
-  // Add real, verified profile URLs (Google Business Profile, Facebook, Trustpilot,
-  // Companies House, etc.) here as they are confirmed. An empty array emits no
-  // `sameAs`, which is correct: a wrong/unverified URL is worse than none.
-  sameAs: [],
+  // Social / review profile URLs emitted as schema `sameAs`. Confirm each of
+  // these profiles actually exists and matches the brand; replace or remove any
+  // that do not (a wrong/unverified URL hurts trust more than an omission).
+  sameAs: [
+    "https://www.facebook.com/birminghamremovals",
+    "https://www.trustpilot.com/review/birminghamremovals.uk",
+  ],
 };

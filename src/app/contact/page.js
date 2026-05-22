@@ -28,7 +28,8 @@ function WhatsAppIcon(props) {
 import { makeMeta } from "@/lib/metadata";
 
 export const metadata = makeMeta({
-  title: "Contact Us | Free Quote in 30 Minutes",
+  title: "Contact Us | Free Quote in 30 Mins | Birmingham Removals",
+  absoluteTitle: true,
   description:
     "Call 07365 380090, email hello@birminghamremovals.uk or send a message. Free, fixed-price removals quote within 30 minutes. Birmingham & West Midlands.",
   path: "/contact",

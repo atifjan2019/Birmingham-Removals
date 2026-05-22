@@ -9,7 +9,8 @@ import { reviewListSchema, webPageSchema } from "@/lib/schema";
 import { BUSINESS } from "@/config/business";
 
 export const metadata = makeMeta({
-  title: "Customer Reviews | 4.9 Stars from 312+ Customers",
+  title: "Customer Reviews | 4.9-Star Removals Birmingham",
+  absoluteTitle: true,
   description:
     "Read verified Google reviews from Birmingham customers. 4.9-star average from 312+ reviews. See why families and businesses trust Birmingham Removals.",
   path: "/reviews",

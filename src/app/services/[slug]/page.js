@@ -45,9 +45,9 @@ const SERVICE_SCHEMA_DATA = {
     serviceType: "House Removals",
     name: "House Removals Birmingham",
     description:
-      "Full house removals across Birmingham and the West Midlands. Fixed prices, DBS-checked crews, comprehensive insurance. Free quote in 30 minutes.",
+      "Full house removals across Birmingham and the West Midlands. Fixed prices, DBS-checked crews, £10m goods-in-transit insurance included. Free quote in 30 minutes.",
     minPrice: 250,
-    maxPrice: 2000,
+    maxPrice: 1800,
   },
   "office-removals": {
     serviceType: "Office Removals",
