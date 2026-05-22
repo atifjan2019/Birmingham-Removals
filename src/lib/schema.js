@@ -269,6 +269,25 @@ export function serviceHowToSchema({ name, description, steps }) {
   };
 }
 
+// Article (BlogPosting) schema for a /blog/[slug] post.
+export function articleSchema({ slug, title, description, date, updated, author, image }) {
+  const url = `${BUSINESS.url}/blog/${slug}`;
+  return {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "@id": `${url}#article`,
+    mainEntityOfPage: url,
+    headline: title,
+    description,
+    datePublished: date,
+    dateModified: updated || date,
+    author: { "@type": "Organization", name: author || BUSINESS.name, url: `${BUSINESS.url}/about` },
+    publisher: { "@id": ORG_ID },
+    image: image ? `${BUSINESS.url}${image}` : BUSINESS.ogImage,
+    url,
+  };
+}
+
 // ItemList of reviews for the /reviews page.
 export function reviewListSchema(reviews) {
   return {

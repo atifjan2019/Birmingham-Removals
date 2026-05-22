@@ -1,13 +1,14 @@
 import { BUSINESS } from "@/config/business";
 import { getAllServiceSlugs } from "@/lib/servicesData";
 import { allCitySlugs } from "@/lib/cities";
+import blogPosts from "@/lib/blogData";
 
 // Genuine last-modified dates, reflecting when each section's content was last
 // meaningfully updated. Update the relevant date here when you change a page so
 // the sitemap stays honest (avoid stamping every URL with the same build time).
 const LASTMOD = {
   home: "2026-05-22",
-  marketing: "2026-05-22", // /about, /contact, /faq, /reviews, /services, /areas
+  marketing: "2026-05-22", // /about, /contact, /faq, /reviews, /services, /areas, /blog
   quote: "2026-05-22",
   service: "2026-05-21", // /services/[slug]
   area: "2026-05-20", // established /areas/[slug]
@@ -39,10 +40,18 @@ export default function sitemap() {
     "/faq",
     "/reviews",
     "/quote",
+    "/blog",
     "/sitemap",
   ];
   const servicePaths = getAllServiceSlugs().map((slug) => `/services/${slug}`);
   const areaPaths = allCitySlugs.map((slug) => `/areas/${slug}`);
+  // Blog posts carry their own publish/updated date as lastmod.
+  const blogEntries = blogPosts.map((p) => ({
+    url: `${BUSINESS.url}/blog/${p.slug}`,
+    lastModified: p.updated || p.date,
+    changeFrequency: "monthly",
+    priority: 0.7,
+  }));
 
   // Per-path SEO hints: the homepage ranks highest, primary marketing pages
   // next, then the service/area landing pages.
@@ -57,9 +66,11 @@ export default function sitemap() {
     return { changeFrequency: "monthly", priority: 0.6 };
   };
 
-  return [...staticPaths, ...servicePaths, ...areaPaths].map((path) => ({
+  const pageEntries = [...staticPaths, ...servicePaths, ...areaPaths].map((path) => ({
     url: `${BUSINESS.url}${path}`,
     lastModified: lastModFor(path),
     ...meta(path),
   }));
+
+  return [...pageEntries, ...blogEntries];
 }
