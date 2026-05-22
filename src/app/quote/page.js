@@ -13,7 +13,18 @@ export default async function QuotePage() {
   return (
     <>
       <Navbar />
-      {/* SEO content block (rendered before the interactive funnel) */}
+
+      <Suspense
+        fallback={
+          <div className="min-h-screen bg-[#0A0F1E] flex items-center justify-center">
+            <div className="text-[#F8FAFC] text-lg">Loading...</div>
+          </div>
+        }
+      >
+        <QuoteFunnel settings={settings} />
+      </Suspense>
+
+      {/* SEO content block (rendered after the interactive funnel) */}
       <section className="bg-white border-b border-slate-100">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
           <h1 className="font-[family-name:var(--font-space)] text-3xl sm:text-4xl lg:text-5xl font-extrabold text-[#0B1E3F] leading-tight">
@@ -81,16 +92,6 @@ export default async function QuotePage() {
           </p>
         </div>
       </section>
-
-      <Suspense
-        fallback={
-          <div className="min-h-screen bg-[#0A0F1E] flex items-center justify-center">
-            <div className="text-[#F8FAFC] text-lg">Loading...</div>
-          </div>
-        }
-      >
-        <QuoteFunnel settings={settings} />
-      </Suspense>
 
       <Footer />
     </>
