@@ -32,16 +32,6 @@ export async function generateMetadata() {
   },
   description:
     "Birmingham's 5-star removals company since 2015. Fixed prices, fully insured, DBS-checked crews. House, office, man & van across the West Midlands.",
-  keywords: [
-    "removals Birmingham",
-    "house removals Birmingham",
-    "office removals Birmingham",
-    "man and van Birmingham",
-    "moving company Birmingham",
-    "removals Solihull",
-    "removals Sutton Coldfield",
-    "removals West Midlands",
-  ],
   // Use the trailing-slash origin so the canonical and og:url match exactly
   // (Next normalises the root canonical with a trailing slash via metadataBase).
   alternates: { canonical: `${BUSINESS.url}/` },
