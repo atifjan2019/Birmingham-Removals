@@ -51,8 +51,8 @@ export default async function AreasIndexPage() {
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
               {areas.map((area) => (
                 <Link
-                  key={area.id}
-                  href={`/areas/${area.id}`}
+                  key={area.slug}
+                  href={`/areas/${area.slug}`}
                   className="group bg-white border border-slate-200 rounded-2xl p-7 hover:border-[#F97316] hover:shadow-xl hover:-translate-y-1 transition-all duration-300 relative"
                 >
                   <div className="flex items-start justify-between mb-5">
