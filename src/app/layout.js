@@ -4,6 +4,7 @@ import "./globals.css";
 import { BUSINESS } from "@/config/business";
 import JsonLd from "@/components/seo/JsonLd";
 import { movingCompanySchema, websiteSchema } from "@/lib/schema";
+import { getSiteSettings } from "@/lib/siteSettings";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -17,7 +18,13 @@ const jakarta = Plus_Jakarta_Sans({
   display: "swap",
 });
 
-export const metadata = {
+export async function generateMetadata() {
+  // Use the favicon uploaded via /admin/settings (stored as a data URL), falling
+  // back to the static file when none has been set.
+  const settings = await getSiteSettings();
+  const faviconUrl = settings.faviconUrl || "/favicon.ico";
+
+  return {
   metadataBase: new URL(BUSINESS.url),
   title: {
     default: "Birmingham Removals | Fixed-Price House & Office Movers",
@@ -37,9 +44,9 @@ export const metadata = {
   ],
   alternates: { canonical: BUSINESS.url },
   icons: {
-    icon: [{ url: "/favicon.ico" }],
-    shortcut: [{ url: "/favicon.ico" }],
-    apple: [{ url: "/favicon.ico" }],
+    icon: [{ url: faviconUrl }],
+    shortcut: [{ url: faviconUrl }],
+    apple: [{ url: faviconUrl }],
   },
   openGraph: {
     title: "Birmingham Removals | Fixed-Price House & Office Movers",
@@ -68,7 +75,8 @@ export const metadata = {
       "max-snippet": -1,
     },
   },
-};
+  };
+}
 
 export default function RootLayout({ children }) {
   return (
