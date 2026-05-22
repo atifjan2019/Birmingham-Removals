@@ -7,6 +7,10 @@ import manAndVan from "./services/man-and-van";
 import packingService from "./services/packing-service";
 import storageSolutions from "./services/storage-solutions";
 import pianoSpecialist from "./services/piano-and-specialist-items";
+import studentRemovals from "./services/student-removals";
+import longDistanceRemovals from "./services/long-distance-removals";
+import furnitureRemovals from "./services/furniture-removals";
+import endOfTenancyRemovals from "./services/end-of-tenancy-removals";
 
 const servicesData = [
   houseRemovals,
@@ -15,6 +19,10 @@ const servicesData = [
   packingService,
   storageSolutions,
   pianoSpecialist,
+  studentRemovals,
+  longDistanceRemovals,
+  furnitureRemovals,
+  endOfTenancyRemovals,
 ];
 
 export default servicesData;
