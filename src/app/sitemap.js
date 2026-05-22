@@ -51,9 +51,9 @@ export default function sitemap() {
     if (path === "/quote") return { changeFrequency: "monthly", priority: 0.9 };
     if (path === "/services" || path === "/areas")
       return { changeFrequency: "weekly", priority: 0.8 };
-    if (path === "/sitemap") return { changeFrequency: "monthly", priority: 0.3 };
+    if (path === "/sitemap") return { changeFrequency: "monthly", priority: 0.5 };
     if (path.startsWith("/services/") || path.startsWith("/areas/"))
-      return { changeFrequency: "monthly", priority: 0.7 };
+      return { changeFrequency: "monthly", priority: 0.8 };
     return { changeFrequency: "monthly", priority: 0.6 };
   };
 
