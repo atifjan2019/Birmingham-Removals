@@ -70,8 +70,8 @@ const endOfTenancyRemovals = {
     {
       heading: "Areas We Cover for End-of-Tenancy Moves",
       paragraphs: [
-        "We cover every Birmingham postcode and the wider West Midlands for end-of-tenancy work. The busiest areas for tenant moves are the rental-heavy neighbourhoods around the universities (Selly Oak, Bournbrook, Edgbaston), the professional flats in the city centre and Digbeth, and the family-rental belt across Moseley, Kings Heath, Hall Green and Harborne.",
-        "Outside Birmingham we cover Solihull, Sutton Coldfield, the Black Country and Coventry for tenancy moves. If your new address is further afield, our <a href=\"/services/long-distance-removals\">long-distance service</a> can handle the bigger journey on the same day.",
+        "We cover every Birmingham postcode and the wider West Midlands for end-of-tenancy work. The busiest areas for tenant moves are the rental-heavy neighbourhoods around the universities (<a href=\"/areas/selly-oak\">Selly Oak</a>, Bournbrook, <a href=\"/areas/edgbaston\">Edgbaston</a>), the professional flats in the <a href=\"/areas/city-centre\">city centre</a> and Digbeth, and the family-rental belt across <a href=\"/areas/moseley\">Moseley</a>, <a href=\"/areas/kings-heath\">Kings Heath</a>, <a href=\"/areas/hall-green\">Hall Green</a> and <a href=\"/areas/harborne\">Harborne</a>.",
+        "Outside Birmingham we cover <a href=\"/areas/solihull\">Solihull</a>, <a href=\"/areas/sutton-coldfield\">Sutton Coldfield</a>, the Black Country and <a href=\"/areas/coventry\">Coventry</a> for tenancy moves. If your new address is further afield, our <a href=\"/services/long-distance-removals\">long-distance service</a> can handle the bigger journey on the same day.",
       ],
     },
   ],

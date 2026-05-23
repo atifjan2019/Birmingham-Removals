@@ -80,7 +80,7 @@ const packingService = {
     {
       heading: "Areas We Cover",
       paragraphs: [
-        "We provide our packing service right across Birmingham and the surrounding suburbs, including <a href=\"/areas/harborne\">Harborne</a>, <a href=\"/areas/edgbaston\">Edgbaston</a> and <a href=\"/areas/sutton-coldfield\">Sutton Coldfield</a>. Wherever you are moving from, our packers can be on your doorstep with everything they need.",
+        "We provide our packing service right across Birmingham and the surrounding suburbs, including <a href=\"/areas/harborne\">Harborne</a>, <a href=\"/areas/edgbaston\">Edgbaston</a>, <a href=\"/areas/moseley\">Moseley</a>, <a href=\"/areas/kings-heath\">Kings Heath</a>, <a href=\"/areas/selly-oak\">Selly Oak</a>, <a href=\"/areas/solihull\">Solihull</a>, <a href=\"/areas/erdington\">Erdington</a> and <a href=\"/areas/sutton-coldfield\">Sutton Coldfield</a>. Wherever you are moving from, our packers can be on your doorstep with everything they need.",
       ],
     },
   ],

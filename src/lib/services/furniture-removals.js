@@ -65,8 +65,8 @@ const furnitureRemovals = {
     {
       heading: "Areas We Cover for Furniture Moves",
       paragraphs: [
-        "We collect and deliver across the whole of Birmingham and the West Midlands. The most common runs are within the city: showroom pickups in the <a href=\"/areas/city-centre\">city centre</a> dropped to <a href=\"/areas/edgbaston\">Edgbaston</a>, <a href=\"/areas/harborne\">Harborne</a>, <a href=\"/areas/moseley\">Moseley</a> or Kings Heath, plus regular runs out to Sutton Coldfield, Solihull and the wider Black Country.",
-        "Further out, we cover Coventry, Wolverhampton, Walsall and Worcestershire on a daily basis. For furniture coming from further afield, such as a piece bought at auction in Cheshire or collected from a relative's house in London, our <a href=\"/services/long-distance-removals\">long-distance service</a> gives you a fixed price for the whole journey.",
+        "We collect and deliver across the whole of Birmingham and the West Midlands. The most common runs are within the city: showroom pickups in the <a href=\"/areas/city-centre\">city centre</a> dropped to <a href=\"/areas/edgbaston\">Edgbaston</a>, <a href=\"/areas/harborne\">Harborne</a>, <a href=\"/areas/moseley\">Moseley</a> or <a href=\"/areas/kings-heath\">Kings Heath</a>, plus regular runs out to <a href=\"/areas/sutton-coldfield\">Sutton Coldfield</a>, <a href=\"/areas/solihull\">Solihull</a> and the wider Black Country.",
+        "Further out, we cover <a href=\"/areas/coventry\">Coventry</a>, <a href=\"/areas/wolverhampton\">Wolverhampton</a>, Walsall and Worcestershire on a daily basis. For furniture coming from further afield, such as a piece bought at auction in Cheshire or collected from a relative's house in London, our <a href=\"/services/long-distance-removals\">long-distance service</a> gives you a fixed price for the whole journey.",
       ],
     },
   ],

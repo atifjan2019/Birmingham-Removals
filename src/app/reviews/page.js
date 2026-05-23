@@ -6,7 +6,7 @@ import { getSiteSettings } from "@/lib/siteSettings";
 import { makeMeta } from "@/lib/metadata";
 import JsonLd from "@/components/seo/JsonLd";
 import { BreadcrumbBar } from "@/components/Breadcrumbs";
-import { reviewListSchema, webPageSchema } from "@/lib/schema";
+import { aggregateRatingSchema, reviewListSchema, webPageSchema } from "@/lib/schema";
 import { BUSINESS } from "@/config/business";
 
 export const metadata = makeMeta({
@@ -43,6 +43,7 @@ export default async function ReviewsPage() {
     reviewListSchema(
       reviews.map((r) => ({ author: r.name, body: r.text, rating: r.rating }))
     ),
+    aggregateRatingSchema(),
     webPageSchema({
       type: "CollectionPage",
       path: "/reviews",

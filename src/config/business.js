@@ -22,6 +22,10 @@ export const BUSINESS = {
     postalCode: "B1",
     country: "GB",
   },
+  // Single source of truth for the NAP address shown in the Footer, Contact
+  // page and LocalBusiness schema. Update this when the full street address
+  // arrives (Section E1) — every consumer picks up the new value.
+  addressDisplay: "Birmingham, West Midlands, UK",
   geo: { latitude: 52.4862, longitude: -1.8904 },
   hasMap: "https://maps.google.com/?q=Birmingham+Removals+West+Midlands",
   // British Association of Removers (referenced in the About page stats).

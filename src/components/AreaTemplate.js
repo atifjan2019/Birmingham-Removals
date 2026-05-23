@@ -169,7 +169,7 @@ export default async function AreaTemplate({
         </section>
       )}
 
-      <HowItWorks />
+      <HowItWorks cityName={name} />
 
       {/* Local area knowledge */}
       {localArea && (

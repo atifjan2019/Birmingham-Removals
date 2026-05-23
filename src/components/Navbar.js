@@ -7,9 +7,9 @@ import { SITE_SETTINGS_FALLBACK, telHref } from "@/lib/siteSettings";
 import { useQuoteModal } from "@/components/QuoteModalProvider";
 
 const navLinks = [
-  { label: "Services", href: "/#services" },
+  { label: "Services", href: "/services", prefetch: false },
   { label: "Areas", href: "/areas", prefetch: false },
-  { label: "How It Works", href: "/#how-it-works" },
+  { label: "How It Works", href: "/services", prefetch: false },
   { label: "Reviews", href: "/reviews", prefetch: false },
   { label: "Blog", href: "/blog", prefetch: false },
   { label: "About", href: "/about", prefetch: false },

@@ -141,7 +141,7 @@ export default async function ContactPage() {
                     <MapPin className="w-5 h-5 text-[#F97316] shrink-0 mt-1" />
                     <div>
                       <div className="font-semibold">Head Office</div>
-                      <div className="text-white/70 text-sm whitespace-pre-line">{settings.address}</div>
+                      <div className="text-white/70 text-sm whitespace-pre-line">{BUSINESS.addressDisplay}</div>
                     </div>
                   </li>
                   <li className="flex gap-4">

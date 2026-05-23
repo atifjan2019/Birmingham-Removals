@@ -9,7 +9,7 @@ const reasons = [
   {
     icon: ShieldCheck,
     title: "Fully Insured",
-    desc: "£10m Goods-in-Transit and £5m Public Liability cover,on every single move.",
+    desc: "£10m Goods-in-Transit and £5m Public Liability cover, on every single move.",
   },
   {
     icon: Award,
@@ -24,12 +24,12 @@ const reasons = [
   {
     icon: Clock,
     title: "On-Time, Every Time",
-    desc: "We arrive when we say we will. If we're ever late, you get 10% off,written in stone.",
+    desc: "We arrive when we say we will. If we're ever late, you get 10% off, written in stone.",
   },
   {
     icon: Headphones,
     title: "Real People, Always",
-    desc: "Call, WhatsApp or email,you'll speak to a real Birmingham-based coordinator, every time.",
+    desc: "Call, WhatsApp or email, you'll speak to a real Birmingham-based coordinator, every time.",
   },
 ];
 
@@ -42,7 +42,7 @@ export default function WhyUs() {
             Why Us
           </span>
           <h2 className="font-[family-name:var(--font-space)] text-3xl sm:text-4xl lg:text-5xl font-extrabold text-[#0B1E3F] leading-tight">
-            Birmingham&apos;s most-reviewed
+            Birmingham&apos;s most-reviewed{" "}
             <br />
             <span className="text-[#F97316]">5-star</span> removals company
           </h2>

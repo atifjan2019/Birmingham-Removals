@@ -59,7 +59,7 @@ const pianoSpecialist = {
     {
       heading: "Areas We Cover",
       paragraphs: [
-        "Our specialist team works right across Birmingham and the wider West Midlands, including <a href=\"/areas/edgbaston\">Edgbaston</a>, <a href=\"/areas/sutton-coldfield\">Sutton Coldfield</a> and <a href=\"/areas/solihull\">Solihull</a>. Wherever you are, we will assess your access and items in advance and bring the right crew and kit on the day.",
+        "Our specialist team works right across Birmingham and the wider West Midlands, including <a href=\"/areas/edgbaston\">Edgbaston</a>, <a href=\"/areas/harborne\">Harborne</a>, <a href=\"/areas/moseley\">Moseley</a>, <a href=\"/areas/sutton-coldfield\">Sutton Coldfield</a> and <a href=\"/areas/solihull\">Solihull</a>. Wherever you are, we will assess your access and items in advance and bring the right crew and kit on the day.",
       ],
     },
   ],

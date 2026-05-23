@@ -75,7 +75,7 @@ const houseRemovals = {
     {
       heading: "Areas We Cover for House Removals",
       paragraphs: [
-        "We cover the whole of Birmingham and the wider West Midlands for house removals. Popular areas include <a href=\"/areas/edgbaston\">Edgbaston</a>, <a href=\"/areas/harborne\">Harborne</a>, <a href=\"/areas/moseley\">Moseley</a> and <a href=\"/areas/sutton-coldfield\">Sutton Coldfield</a>, along with Kings Heath, Selly Oak, Solihull, Erdington and the city centre. Whether you are moving across the street or across the region, our local knowledge helps us plan faster routes and tackle tight access with confidence.",
+        "We cover the whole of Birmingham and the wider West Midlands for house removals. Popular areas include <a href=\"/areas/edgbaston\">Edgbaston</a>, <a href=\"/areas/harborne\">Harborne</a>, <a href=\"/areas/moseley\">Moseley</a> and <a href=\"/areas/sutton-coldfield\">Sutton Coldfield</a>, along with <a href=\"/areas/kings-heath\">Kings Heath</a>, <a href=\"/areas/selly-oak\">Selly Oak</a>, <a href=\"/areas/solihull\">Solihull</a>, <a href=\"/areas/erdington\">Erdington</a>, <a href=\"/areas/hall-green\">Hall Green</a>, <a href=\"/areas/northfield\">Northfield</a>, <a href=\"/areas/bromsgrove\">Bromsgrove</a>, <a href=\"/areas/knowle\">Knowle</a>, <a href=\"/areas/tamworth\">Tamworth</a>, <a href=\"/areas/warwick\">Warwick</a>, <a href=\"/areas/redditch\">Redditch</a> and the city centre. Whether you are moving across the street or across the region, our local knowledge helps us plan faster routes and tackle tight access with confidence.",
       ],
     },
   ],

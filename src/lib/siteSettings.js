@@ -2,19 +2,26 @@ import { getWorkerSettings } from "@/lib/workerApi";
 import { BUSINESS } from "@/config/business";
 
 const FALLBACK = {
-  logoUrl: "/images/logo.webp",
+  // Empty defaults trigger the text-based logo fallback in Navbar/Footer when
+  // no logo has been uploaded via /admin/settings. A non-empty default that
+  // points at a missing file ("/images/logo.webp") would render as a blank box.
+  logoUrl: "",
   footerLogoUrl: "",
   faviconUrl: "/favicon.ico",
   phone: BUSINESS.phoneDisplay,
   email: BUSINESS.email,
-  address: `${BUSINESS.address.locality}, ${BUSINESS.address.region}, UK`,
+  address: BUSINESS.addressDisplay,
   facebook: "",
   instagram: "",
   twitter: "",
   linkedin: "",
   youtube: "",
   tiktok: "",
-  whatsapp: "",
+  // Default the WhatsApp URL to the main business phone so the navbar call
+  // number and footer/contact WhatsApp number always match. An admin-supplied
+  // value in D1 overrides this fallback (some businesses route WhatsApp to a
+  // dedicated handset). Without an override, no divergence is possible.
+  whatsapp: `https://wa.me/${BUSINESS.phoneE164.replace(/[^\d]/g, "")}`,
 };
 
 // Logos uploaded via the admin panel are stored inline as base64 data URLs in

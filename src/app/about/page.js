@@ -51,6 +51,10 @@ export default async function AboutPage() {
       { name: "About", url: `${BUSINESS.url}/about` },
     ],
   });
+  // The full Organization (MovingCompany) schema with foundingDate,
+  // numberOfEmployees and aggregateRating is emitted site-wide in
+  // src/app/layout.js, so /about inherits it. Add a Person schema for the
+  // founder here once Section E2 (founder name + bio) is supplied.
   return (
     <>
       <JsonLd data={aboutSchema} />

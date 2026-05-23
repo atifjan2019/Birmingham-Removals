@@ -52,7 +52,7 @@ export default function AreasCovered() {
             </span>
             <h2 className="font-[family-name:var(--font-space)] text-3xl sm:text-4xl lg:text-5xl font-extrabold text-[#0B1E3F] leading-tight">
               Removals across{" "}
-              <span className="text-[#F97316]">Birmingham</span> &amp; the West Midlands
+              <span className="text-[#F97316]">Birmingham</span>{" "}&amp;{" "}the West Midlands
             </h2>
             <p className="mt-5 text-slate-600 text-base sm:text-lg">
               Whether you&apos;re leaving a student flat in Selly Oak, moving a family

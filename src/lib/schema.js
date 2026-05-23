@@ -290,6 +290,20 @@ export function reviewListSchema(reviews) {
   };
 }
 
+// Standalone AggregateRating block tied to the organization. Used on the
+// /reviews page where on-page reviews demonstrate the rating in context.
+export function aggregateRatingSchema() {
+  return {
+    "@context": "https://schema.org",
+    "@type": "AggregateRating",
+    itemReviewed: { "@id": ORG_ID },
+    ratingValue: BUSINESS.rating.value,
+    reviewCount: BUSINESS.rating.count,
+    bestRating: "5",
+    worstRating: "1",
+  };
+}
+
 // BlogPosting schema for a single article. Used by /blog/[slug] pages.
 // Pass post.image as a path beginning with "/" (resolved against BUSINESS.url)
 // or leave undefined to fall back to the site OG image.

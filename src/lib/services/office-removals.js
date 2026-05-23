@@ -83,7 +83,7 @@ const officeRemovals = {
     {
       heading: "Areas We Cover",
       paragraphs: [
-        "We relocate businesses right across the region, including <a href=\"/areas/city-centre\">Birmingham city centre</a>, <a href=\"/areas/solihull\">Solihull</a> and <a href=\"/areas/edgbaston\">Edgbaston</a>, as well as the wider West Midlands. Wherever your new premises are, we will plan a route, access and timings that keep your move efficient and your downtime to a minimum.",
+        "We relocate businesses right across the region, including <a href=\"/areas/city-centre\">Birmingham city centre</a>, <a href=\"/areas/solihull\">Solihull</a>, <a href=\"/areas/edgbaston\">Edgbaston</a>, <a href=\"/areas/harborne\">Harborne</a>, <a href=\"/areas/sutton-coldfield\">Sutton Coldfield</a>, <a href=\"/areas/erdington\">Erdington</a> and <a href=\"/areas/coventry\">Coventry</a>, as well as the wider West Midlands. Wherever your new premises are, we will plan a route, access and timings that keep your move efficient and your downtime to a minimum.",
       ],
     },
   ],

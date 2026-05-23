@@ -234,8 +234,8 @@ export default function ServicePageClient({ service, settings }) {
                 Got questions?
               </h2>
               <p className="text-slate-600 leading-relaxed">
-                Everything you need to know about our {service.title.toLowerCase()} service in
-                Birmingham. Still not sure? Give us a call, we&apos;re happy to chat.
+                Everything you need to know about our{" "}
+                {service.title.toLowerCase()} service in Birmingham. Still not sure? Give us a call, we&apos;re happy to chat.
               </p>
             </div>
             <div className="lg:col-span-7 space-y-3">

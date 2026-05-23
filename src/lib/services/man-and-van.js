@@ -72,7 +72,7 @@ const manAndVan = {
     {
       heading: "Areas We Cover",
       paragraphs: [
-        "We cover the whole of Birmingham and the West Midlands, including <a href=\"/areas/harborne\">Harborne</a>, <a href=\"/areas/moseley\">Moseley</a> and <a href=\"/areas/erdington\">Erdington</a>, along with Sutton Coldfield, Solihull, Dudley, West Bromwich, Wolverhampton and Coventry. Wherever you are in the region, our drivers know the quickest routes and the trickiest parking spots, so your man and van turns up on time and gets the job done.",
+        "We cover the whole of Birmingham and the West Midlands, including <a href=\"/areas/harborne\">Harborne</a>, <a href=\"/areas/moseley\">Moseley</a> and <a href=\"/areas/erdington\">Erdington</a>, along with <a href=\"/areas/sutton-coldfield\">Sutton Coldfield</a>, <a href=\"/areas/solihull\">Solihull</a>, <a href=\"/areas/dudley\">Dudley</a>, <a href=\"/areas/west-bromwich\">West Bromwich</a>, <a href=\"/areas/wolverhampton\">Wolverhampton</a> and <a href=\"/areas/coventry\">Coventry</a>. Wherever you are in the region, our drivers know the quickest routes and the trickiest parking spots, so your man and van turns up on time and gets the job done.",
       ],
     },
   ],

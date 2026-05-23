@@ -54,7 +54,7 @@ const studentRemovals = {
     {
       heading: "Areas We Cover Around the Universities",
       paragraphs: [
-        "We move students across all the main Birmingham university neighbourhoods, with crews who know the parking, the one-way systems and the awkward terraced streets like locals. Key areas include <a href=\"/areas/selly-oak\">Selly Oak</a>, Bournbrook, <a href=\"/areas/edgbaston\">Edgbaston</a>, Harborne, <a href=\"/areas/moseley\">Moseley</a>, Kings Heath, Stirchley and the <a href=\"/areas/city-centre\">city centre</a> around Aston and BCU.",
+        "We move students across all the main Birmingham university neighbourhoods, with crews who know the parking, the one-way systems and the awkward terraced streets like locals. Key areas include <a href=\"/areas/selly-oak\">Selly Oak</a>, Bournbrook, <a href=\"/areas/edgbaston\">Edgbaston</a>, <a href=\"/areas/harborne\">Harborne</a>, <a href=\"/areas/moseley\">Moseley</a>, <a href=\"/areas/kings-heath\">Kings Heath</a>, Stirchley and the <a href=\"/areas/city-centre\">city centre</a> around Aston and BCU.",
         "We also handle longer student moves between Birmingham and home cities, including London, Manchester, Leeds, Bristol and Sheffield. Whether you are heading home for summer with a full car-boot's worth of kit, or relocating after graduation for a new job, we offer fixed-price long-distance quotes.",
       ],
     },

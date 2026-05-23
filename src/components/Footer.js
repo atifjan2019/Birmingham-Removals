@@ -1,6 +1,7 @@
 import { Phone, Mail, MapPin, Clock } from "lucide-react";
 import Link from "next/link";
 import { SITE_SETTINGS_FALLBACK, telHref } from "@/lib/siteSettings";
+import { BUSINESS } from "@/config/business";
 
 const serviceLinks = [
   { label: "House Removals", href: "/services/house-removals" },
@@ -233,7 +234,7 @@ export default function Footer({ settings }) {
               </li>
               <li className="flex items-start gap-3">
                 <MapPin className="w-4 h-4 text-[#F97316] shrink-0 mt-0.5" />
-                <span className="text-white/80 whitespace-pre-line">{s.address}</span>
+                <span className="text-white/80 whitespace-pre-line">{BUSINESS.addressDisplay}</span>
               </li>
               <li className="flex items-start gap-3">
                 <Clock className="w-4 h-4 text-[#F97316] shrink-0 mt-0.5" />

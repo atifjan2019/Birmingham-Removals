@@ -17,7 +17,7 @@ const steps = [
     icon: Calendar,
     step: "03",
     title: "Book your date",
-    desc: "Pick the slot that suits you,weekdays, weekends or evenings. Same-day slots often available.",
+    desc: "Pick the slot that suits you, weekdays, weekends or evenings. Same-day slots often available.",
   },
   {
     icon: Truck,
@@ -27,7 +27,7 @@ const steps = [
   },
 ];
 
-export default function HowItWorks() {
+export default function HowItWorks({ cityName = "Birmingham" }) {
   return (
     <section id="how-it-works" className="py-24 sm:py-28 bg-[#0B1E3F] text-white relative overflow-hidden">
       <div className="absolute inset-0 grid-pattern opacity-[0.04]" />
@@ -39,7 +39,7 @@ export default function HowItWorks() {
             How It Works
           </span>
           <h2 className="font-[family-name:var(--font-space)] text-3xl sm:text-4xl lg:text-5xl font-extrabold leading-tight">
-            Book your Birmingham move
+            Book your {cityName} move{" "}
             <br />
             in <span className="text-[#F97316]">four simple steps</span>
           </h2>

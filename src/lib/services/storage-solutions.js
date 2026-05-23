@@ -73,7 +73,7 @@ const storageSolutions = {
     {
       heading: "Areas We Cover",
       paragraphs: [
-        "Our storage service reaches right across Birmingham and the surrounding suburbs, including <a href=\"/areas/edgbaston\">Edgbaston</a>, <a href=\"/areas/selly-oak\">Selly Oak</a> and <a href=\"/areas/solihull\">Solihull</a>. Wherever you are based, we can collect, store and return your belongings with the same care and flexible terms.",
+        "Our storage service reaches right across Birmingham and the surrounding suburbs, including <a href=\"/areas/edgbaston\">Edgbaston</a>, <a href=\"/areas/harborne\">Harborne</a>, <a href=\"/areas/moseley\">Moseley</a>, <a href=\"/areas/selly-oak\">Selly Oak</a>, <a href=\"/areas/sutton-coldfield\">Sutton Coldfield</a> and <a href=\"/areas/solihull\">Solihull</a>. Wherever you are based, we can collect, store and return your belongings with the same care and flexible terms.",
       ],
     },
   ],
