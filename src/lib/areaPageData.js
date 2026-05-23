@@ -2,6 +2,7 @@ import { BUSINESS } from "@/config/business";
 import { batch1 } from "@/lib/areaContent/batch1";
 import { batch2 } from "@/lib/areaContent/batch2";
 import { batch3 } from "@/lib/areaContent/batch3";
+import { batch4 } from "@/lib/areaContent/batch4";
 
 // Hand-written per-area unique content. Each batch file exports an object
 // keyed by slug with shape: { metaDescription, openingHook, localUnique,
@@ -10,6 +11,7 @@ const uniqueContent = {
   ...batch1,
   ...batch2,
   ...batch3,
+  ...batch4,
 };
 
 const rawAreaPages = [
