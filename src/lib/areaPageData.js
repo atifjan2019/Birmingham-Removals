@@ -105,12 +105,30 @@ function sentenceJoin(items) {
   return `${items.slice(0, -1).join(", ")} and ${items[items.length - 1]}`;
 }
 
+function padMetaToTarget(text) {
+  // Brief target: 145-155 chars. Truncate long, pad short with varied phrasing.
+  if (text.length > 155) return text.slice(0, 154).replace(/[ ,.;:-]+$/, "") + ".";
+  if (text.length >= 145) return text;
+  // Pad pool deliberately varied so we do not repeat the same phrase across pages.
+  const pads = [
+    " Local crew, no surprises.",
+    " Book a slot today.",
+    " Fully insured movers.",
+    " Trusted local crew.",
+    " Same-day slots available.",
+    " DBS-checked crew.",
+    " Birmingham-based crew.",
+  ];
+  for (const p of pads) {
+    if ((text + p).length <= 155) return text + p;
+  }
+  return text;
+}
+
 function buildMetaDescription(area) {
   const unique = uniqueContent[area.slug];
   if (unique?.metaDescription) {
-    let text = unique.metaDescription;
-    if (text.length > 155) text = text.slice(0, 154).replace(/[ ,.;:-]+$/, "") + ".";
-    return text;
+    return padMetaToTarget(unique.metaDescription);
   }
   const refs = area.refs.slice(0, 2).join(" and ");
   const candidates = [
