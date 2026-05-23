@@ -84,6 +84,7 @@ export default function Page() {
       localArea={LocalArea}
       whyUs={whyUs}
       faqs={faqs}
+      mapQuery="Hall Green, Birmingham, B28"
     />
   );
 }

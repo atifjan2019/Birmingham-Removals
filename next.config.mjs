@@ -116,6 +116,8 @@ const nextConfig = {
               "font-src 'self' https://fonts.gstatic.com",
               "img-src 'self' data: https://images.unsplash.com https://www.birminghamremovals.uk",
               "connect-src 'self' https://web-sdk.smartlook.com",
+              // Google Maps embed (keyless iframe on area pages + future /contact).
+              "frame-src https://www.google.com https://maps.google.com",
               "frame-ancestors 'none'",
             ].join("; "),
           },

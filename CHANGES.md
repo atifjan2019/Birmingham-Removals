@@ -5,6 +5,69 @@ on the `main` branch. Dates use the session date noted in each section.
 
 ---
 
+## 2026-05-23 - E6 build: Google Maps embeds on 10 primary area pages
+
+The 10 static primary-city area pages now render a keyless Google Maps
+iframe centred on each area's postcode. The /contact map is intentionally
+deferred until E2 (real street address) is supplied — embedding a map
+pinned to "United Kingdom" provides zero value.
+
+**New component:** `src/components/AreaMap.js`
+
+- Server-rendered iframe (no client JS, no `next/dynamic`).
+- Uses the public `maps.google.com/maps?q=...&output=embed` URL, so no API
+  key, no billing account and no runtime config required.
+- `loading="lazy"` so the iframe never blocks the LCP paint.
+- Wrapped in a `<figure>` with `aria-label` and a screen-reader-only
+  `<figcaption>` for accessibility and crawler context.
+
+**Template wiring:** `src/components/AreaTemplate.js`
+
+- Added a new optional `mapQuery` prop. When set, the `<AreaMap>` block
+  renders immediately after the existing "Local Knowledge" section.
+- When `mapQuery` is omitted (all 73 dynamic area pages today) nothing is
+  rendered, so there is no visual change for non-primary areas.
+- Also fixed an existing em dash in the section heading:
+  `"Local Knowledge — Moving in {name}"` → `"Local Knowledge: Moving in {name}"`
+  (em dashes are banned per the project copy rules).
+
+**Per-page `mapQuery` values added to the 10 static primary pages:**
+
+| Page                        | mapQuery                              |
+| --------------------------- | ------------------------------------- |
+| /areas/edgbaston            | `Edgbaston, Birmingham, B15`          |
+| /areas/harborne             | `Harborne, Birmingham, B17`           |
+| /areas/moseley              | `Moseley, Birmingham, B13`            |
+| /areas/kings-heath          | `Kings Heath, Birmingham, B14`        |
+| /areas/selly-oak            | `Selly Oak, Birmingham, B29`          |
+| /areas/sutton-coldfield     | `Sutton Coldfield, B72`               |
+| /areas/solihull             | `Solihull, B91`                       |
+| /areas/erdington            | `Erdington, Birmingham, B23`          |
+| /areas/hall-green           | `Hall Green, Birmingham, B28`         |
+| /areas/city-centre          | `Birmingham city centre, B1`          |
+
+Queries use "Area, Birmingham, [first postcode]" so the embed centres on
+the right neighbourhood rather than the broader city or the postcode
+centroid. Sutton Coldfield and Solihull drop the "Birmingham" qualifier
+because they are administratively distinct.
+
+**CSP update:** `next.config.mjs`
+
+The site CSP previously had `default-src 'self'` and no `frame-src`, which
+would have blocked the Google Maps iframe (default-src governs frame-src
+when frame-src is absent). Added:
+
+```
+frame-src https://www.google.com https://maps.google.com
+```
+
+`frame-ancestors 'none'` is kept untouched — that only governs the site
+being embedded elsewhere, not iframes inside the site.
+
+Build verified: 129 routes still build cleanly, zero errors.
+
+---
+
 ## 2026-05-23 - Priority 2 build: Homepage reviews grid + freshness signal
 
 **P2a — Homepage reviews carousel replaced with a 3-card server-rendered grid.**

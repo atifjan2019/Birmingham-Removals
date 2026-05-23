@@ -5,6 +5,7 @@ import CTAStrip from "@/components/CTAStrip";
 import { BreadcrumbBar } from "@/components/Breadcrumbs";
 import TrustBar from "@/components/TrustBar";
 import HowItWorks from "@/components/HowItWorks";
+import AreaMap from "@/components/AreaMap";
 import JsonLd from "@/components/seo/JsonLd";
 import { getSiteSettings } from "@/lib/siteSettings";
 import { BUSINESS } from "@/config/business";
@@ -44,6 +45,7 @@ export default async function AreaTemplate({
   nearbyAreas,
   isDistantArea,
   priceRange = "££",
+  mapQuery,
 }) {
   const settings = await getSiteSettings();
   const url = `${BUSINESS.url}/areas/${slug}`;
@@ -178,12 +180,17 @@ export default async function AreaTemplate({
                 Local Knowledge
               </span>
               <h2 className="font-[family-name:var(--font-space)] text-3xl sm:text-4xl font-extrabold text-[#0B1E3F]">
-                Local Knowledge — Moving in {name}
+                Local Knowledge: Moving in {name}
               </h2>
             </div>
             <div className="space-y-5 text-slate-700 leading-relaxed">{localArea}</div>
           </div>
         </section>
+      )}
+
+      {/* Optional Google Maps embed (10 primary area pages). Keyless. */}
+      {mapQuery && (
+        <AreaMap query={mapQuery} areaName={name} postcode={postcodes} />
       )}
 
       {/* Why us */}

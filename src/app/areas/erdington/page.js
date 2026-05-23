@@ -82,6 +82,7 @@ export default function Page() {
       localArea={LocalArea}
       whyUs={whyUs}
       faqs={faqs}
+      mapQuery="Erdington, Birmingham, B23"
     />
   );
 }

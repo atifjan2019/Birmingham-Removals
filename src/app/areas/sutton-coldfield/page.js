@@ -85,6 +85,7 @@ export default function Page() {
       localArea={LocalArea}
       whyUs={whyUs}
       faqs={faqs}
+      mapQuery="Sutton Coldfield, B72"
     />
   );
 }

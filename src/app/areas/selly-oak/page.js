@@ -78,6 +78,7 @@ export default function Page() {
       localArea={LocalArea}
       whyUs={whyUs}
       faqs={faqs}
+      mapQuery="Selly Oak, Birmingham, B29"
     />
   );
 }
