@@ -96,7 +96,7 @@ export const batch5 = {
     ],
   },
 
-  nuneaton: {
+  "nuneaton-and-bedworth": {
     metaDescription:
       "Removals in Nuneaton and Bedworth CV10, CV11 and CV12 — Queen's Road, Bond Gate and Newtown Road. Fixed-price Warwickshire movers. Free quote.",
     openingHook:
@@ -115,7 +115,7 @@ export const batch5 = {
     ],
   },
 
-  cannock: {
+  "cannock-chase": {
     metaDescription:
       "Removals in Cannock Chase WS11 and WS12 — Market Hall Street, Hednesford Road and Chase Road. Fixed-price commuter and AONB-fringe movers. Free quote.",
     openingHook:
@@ -134,7 +134,7 @@ export const batch5 = {
     ],
   },
 
-  kidderminster: {
+  "wyre-forest": {
     metaDescription:
       "Removals in Wyre Forest DY10, DY11 and DY12 — Kidderminster, Bewdley and Stourport. Fixed-price movers for north Worcestershire towns. Free quote.",
     openingHook:

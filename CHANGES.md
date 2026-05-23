@@ -5,6 +5,64 @@ on the `main` branch. Dates use the session date noted in each section.
 
 ---
 
+## 2026-05-23 - Priority 1 build: 4 new services, slug renames, /services breadcrumb
+
+Closes the highest-priority outstanding items in the master build prompt.
+
+**New service pages (Priority 1a).** Four full-length service pages added, each
+~1,300-1,500 words with the same structure as `house-removals`: numbered
+sections, pricing table, step-by-step process, 8-10 FAQs, internal links to
+area + service pages, breadcrumb component, and Service + FAQPage +
+BreadcrumbList JSON-LD:
+
+- `/services/student-removals` — affordable Birmingham student moves,
+  summer storage, university-area knowledge.
+- `/services/long-distance-removals` — UK-wide single-trip moves from
+  Birmingham, with destination pricing table.
+- `/services/furniture-removals` — single items, showroom collections,
+  marketplace pickups, white goods.
+- `/services/end-of-tenancy-removals` — same-day inspection-ready moves,
+  evening/weekend slots, deposit-safe handling.
+
+All four are registered in `servicesData.js`, given metadata + schema entries
+in `src/app/services/[slug]/page.js`, and surfaced in the footer SERVICES
+column. The footer also gains a new `All Services →` link to match the
+existing `All Areas →` (Priority 4d).
+
+**Area slug renames (Priority 1b).** Eleven area slugs renamed to match the
+descriptive borough/district names rather than abbreviated town names:
+
+| Old slug         | New slug                  |
+| ---------------- | ------------------------- |
+| `nuneaton`       | `nuneaton-and-bedworth`   |
+| `cannock`        | `cannock-chase`           |
+| `kidderminster`  | `wyre-forest`             |
+| `telford`        | `telford-and-wrekin`      |
+| `shrewsbury`     | `shrewsbury-shropshire`   |
+| `hereford`       | `herefordshire`           |
+| `malvern`        | `malvern-hills`           |
+| `evesham`        | `wychavon`                |
+| `wombourne`      | `south-staffordshire`     |
+| `leek`           | `staffordshire-moorlands` |
+| `coleshill`      | `north-warwickshire`      |
+
+Each rename touches `src/lib/areaPageData.js` (slug field) and the
+corresponding key in `src/lib/areaContent/batch5.js` or `batch6.js`. The
+auto-generated sitemap and the `/areas/[area]` dynamic route both pick up
+the new slugs without further edits. 301 redirects added in
+`next.config.mjs` (`AREA_SLUG_REDIRECTS`) so the old paths forward to the
+new canonical URLs and any inbound link equity transfers.
+
+**/services breadcrumb (Priority 4a).** `/services` now renders the
+`BreadcrumbBar` component (Home → Services) above the hero and emits a
+matching `BreadcrumbList` JSON-LD block, bringing it in line with every
+other top-level page.
+
+Build verified clean: `npm run build` generates 116 routes with zero
+errors.
+
+---
+
 ## 2026-05-23 - Repository audit cleanup
 
 Removed eight boilerplate / dev-only files that were not needed for the live

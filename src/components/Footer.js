@@ -9,6 +9,11 @@ const serviceLinks = [
   { label: "Packing Service", href: "/services/packing-service" },
   { label: "Storage Solutions", href: "/services/storage-solutions" },
   { label: "Piano & Specialist", href: "/services/piano-and-specialist-items" },
+  { label: "Student Removals", href: "/services/student-removals" },
+  { label: "Long-Distance Removals", href: "/services/long-distance-removals" },
+  { label: "Furniture Removals", href: "/services/furniture-removals" },
+  { label: "End of Tenancy", href: "/services/end-of-tenancy-removals" },
+  { label: "All Services →", href: "/services" },
 ];
 
 const areaLinks = [

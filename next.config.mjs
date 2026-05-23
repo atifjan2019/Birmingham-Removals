@@ -16,6 +16,23 @@ const LEGACY_REMOVALS_REDIRECTS = [
   "solihull",
 ];
 
+// Area slug rename: short slugs replaced by descriptive borough/district names
+// to match the actual administrative geography. 301 the old paths so any
+// existing inbound links and indexed URLs forward to the new canonical slug.
+const AREA_SLUG_REDIRECTS = [
+  ["nuneaton", "nuneaton-and-bedworth"],
+  ["cannock", "cannock-chase"],
+  ["kidderminster", "wyre-forest"],
+  ["telford", "telford-and-wrekin"],
+  ["shrewsbury", "shrewsbury-shropshire"],
+  ["hereford", "herefordshire"],
+  ["malvern", "malvern-hills"],
+  ["evesham", "wychavon"],
+  ["wombourne", "south-staffordshire"],
+  ["leek", "staffordshire-moorlands"],
+  ["coleshill", "north-warwickshire"],
+];
+
 const nextConfig = {
   // Modern-browser target is driven by .browserslistrc, which Next.js + SWC
   // respect automatically — SWC stops emitting ES5 polyfills/transforms for
@@ -41,6 +58,12 @@ const nextConfig = {
       ...LEGACY_REMOVALS_REDIRECTS.map((slug) => ({
         source: `/removals-${slug}`,
         destination: `/areas/${slug}`,
+        permanent: true,
+      })),
+      // Old short area slugs → renamed descriptive slugs (301)
+      ...AREA_SLUG_REDIRECTS.map(([from, to]) => ({
+        source: `/areas/${from}`,
+        destination: `/areas/${to}`,
         permanent: true,
       })),
     ];

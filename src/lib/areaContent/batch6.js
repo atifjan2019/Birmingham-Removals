@@ -1,7 +1,7 @@
 // Per-area unique content for Batch 6 (outer regions, mostly long-distance / specialist).
 
 export const batch6 = {
-  telford: {
+  "telford-and-wrekin": {
     metaDescription:
       "Removals in Telford and Wrekin TF1-TF7 — Telford centre, Newport, Wellington and Ironbridge. Fixed-price long-distance movers. Free quote.",
     openingHook:
@@ -20,7 +20,7 @@ export const batch6 = {
     ],
   },
 
-  shrewsbury: {
+  "shrewsbury-shropshire": {
     metaDescription:
       "Removals to and from Shrewsbury and Shropshire SY1-SY13 — English Bridge, Wyle Cop and Ludlow Castle Street. Fixed-price long-distance movers. Free quote.",
     openingHook:
@@ -39,7 +39,7 @@ export const batch6 = {
     ],
   },
 
-  hereford: {
+  herefordshire: {
     metaDescription:
       "Removals to and from Herefordshire HR1-HR9 — Hereford Cathedral, Ledbury High Street and Ross Market Place. Fixed-price long-distance movers. Free quote.",
     openingHook:
@@ -58,7 +58,7 @@ export const batch6 = {
     ],
   },
 
-  malvern: {
+  "malvern-hills": {
     metaDescription:
       "Removals to and from Malvern Hills WR13 and WR14 — Church Street, Malvern Link and West Malvern Road. Fixed-price hill-access movers. Free quote.",
     openingHook:
@@ -77,7 +77,7 @@ export const batch6 = {
     ],
   },
 
-  evesham: {
+  wychavon: {
     metaDescription:
       "Removals to and from Wychavon WR10 and WR11 — Evesham, Pershore, Droitwich and Avon Vale villages. Fixed-price rural movers. Free quote.",
     openingHook:
@@ -96,7 +96,7 @@ export const batch6 = {
     ],
   },
 
-  wombourne: {
+  "south-staffordshire": {
     metaDescription:
       "Removals in South Staffordshire WV5 and WV8 — Wombourne, Codsall, Perton and Kinver. Fixed-price executive rural movers. Free quote.",
     openingHook:
@@ -115,7 +115,7 @@ export const batch6 = {
     ],
   },
 
-  leek: {
+  "staffordshire-moorlands": {
     metaDescription:
       "Removals to and from Staffordshire Moorlands ST13 and ST10 — Leek, Cheadle and the Peak District fringe. Fixed-price rural movers. Free quote.",
     openingHook:
@@ -134,7 +134,7 @@ export const batch6 = {
     ],
   },
 
-  coleshill: {
+  "north-warwickshire": {
     metaDescription:
       "Removals in North Warwickshire B46, B78 and CV9 — Coleshill, Atherstone and Polesworth. Fixed-price market-town and rural movers. Free quote.",
     openingHook:

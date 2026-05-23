@@ -38,6 +38,26 @@ const SERVICE_META = {
     description:
       "Expert piano, antique and high-value item removals across Birmingham. Specialist crews, full insurance, careful handling guaranteed. Free quote today.",
   },
+  "student-removals": {
+    title: "Student Removals Birmingham | Affordable Moves",
+    description:
+      "Affordable Birmingham student removals around the universities. Same-day slots, summer storage, fixed prices, fully insured. Halls or house, no surcharges.",
+  },
+  "long-distance-removals": {
+    title: "Long-Distance Removals Birmingham | UK-Wide",
+    description:
+      "UK-wide long-distance removals from Birmingham to London, Manchester, Scotland and beyond. Single-trip vans, fixed quotes, fully insured. Free quote today.",
+  },
+  "furniture-removals": {
+    title: "Furniture Removals Birmingham | Single Items & Full Loads",
+    description:
+      "Furniture removals across Birmingham, from single sofas to full lounges. Showroom pickups, marketplace runs, fully insured, fixed prices, no stair fees.",
+  },
+  "end-of-tenancy-removals": {
+    title: "End of Tenancy Removals Birmingham | Same-Day Available",
+    description:
+      "Same-day end-of-tenancy removals in Birmingham. Quick, careful moves to keep your deposit safe. Evening and weekend slots, fixed prices, fully insured.",
+  },
 };
 
 const SERVICE_SCHEMA_DATA = {
@@ -88,6 +108,38 @@ const SERVICE_SCHEMA_DATA = {
       "Expert removal of pianos, antiques, artwork and fragile items in Birmingham. Specialist crew with the proper equipment.",
     minPrice: 150,
     maxPrice: 800,
+  },
+  "student-removals": {
+    serviceType: "Student Removals",
+    name: "Student Removals Birmingham",
+    description:
+      "Affordable student removals across Birmingham and the universities. Same-day slots, summer storage available, fixed prices, fully insured throughout.",
+    minPrice: 60,
+    maxPrice: 450,
+  },
+  "long-distance-removals": {
+    serviceType: "Long-Distance Removals",
+    name: "Long-Distance Removals from Birmingham",
+    description:
+      "UK-wide long-distance removals from Birmingham. Single-trip vans, fixed-price quotes, fully insured. London, Manchester, Scotland, the South West and beyond.",
+    minPrice: 700,
+    maxPrice: 2500,
+  },
+  "furniture-removals": {
+    serviceType: "Furniture Removals",
+    name: "Furniture Removals Birmingham",
+    description:
+      "Single items, showroom collections and full furniture loads across Birmingham. Sofas, beds, white goods, marketplace pickups. Fully insured, no stair surcharges.",
+    minPrice: 40,
+    maxPrice: 400,
+  },
+  "end-of-tenancy-removals": {
+    serviceType: "End of Tenancy Removals",
+    name: "End of Tenancy Removals Birmingham",
+    description:
+      "Same-day end-of-tenancy removals across Birmingham. Quick, inspection-ready moves with evening and weekend slots, fixed prices, full insurance throughout.",
+    minPrice: 80,
+    maxPrice: 750,
   },
 };
 

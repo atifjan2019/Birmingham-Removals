@@ -6,6 +6,10 @@ import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import { getSiteSettings } from "@/lib/siteSettings";
 import { makeMeta } from "@/lib/metadata";
+import { BreadcrumbBar } from "@/components/Breadcrumbs";
+import JsonLd from "@/components/seo/JsonLd";
+import { breadcrumbSchema } from "@/lib/schema";
+import { BUSINESS } from "@/config/business";
 
 export const metadata = makeMeta({
   title: "Removal Services Birmingham | House, Office, Man & Van",
@@ -16,9 +20,20 @@ export const metadata = makeMeta({
 
 export default async function ServicesPage() {
   const settings = await getSiteSettings();
+  const crumbs = [
+    { name: "Home", url: BUSINESS.url },
+    { name: "Services", url: `${BUSINESS.url}/services` },
+  ];
   return (
     <>
+      <JsonLd data={[breadcrumbSchema(crumbs)]} />
       <Navbar />
+      <BreadcrumbBar
+        items={[
+          { name: "Home", href: "/" },
+          { name: "Services" },
+        ]}
+      />
       <main>
         <section className="relative pt-20 pb-16 bg-gradient-to-br from-[#0B1E3F] to-[#1E3A8A] text-white overflow-hidden">
           <div className="absolute inset-0 grid-pattern opacity-[0.05]" />
