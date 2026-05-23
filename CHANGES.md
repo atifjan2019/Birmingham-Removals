@@ -5,6 +5,67 @@ on the `main` branch. Dates use the session date noted in each section.
 
 ---
 
+## 2026-05-23 - Priority 1a build: Blog (12 posts) deployed
+
+`/blog` is no longer a 404. The 12 posts that existed only on the
+`seo/em-dashes-schema-aeo` branch (commits `48c9051`, `75ee655`, `22e2eaa`)
+have been restored to `main` and fully wired up.
+
+**Restored from commit 75ee655 (verified blob identity):**
+
+- `src/lib/blogData.js` — newest-first aggregator with `getPostBySlug` /
+  `getAllPostSlugs` helpers.
+- `src/lib/blog/<slug>.js` (12 modules) — house removal costs, moving
+  checklist, best areas to live, moving to Birmingham, office relocation,
+  student moving, piano removal, packing tips, moving day, storage, comparing
+  companies, conveyancing timeline. Each 1,000-2,500 words, British English,
+  no em dashes, with internal links to service + area pages.
+- `src/app/blog/page.js` — index. CollectionPage JSON-LD via
+  `webPageSchema({ type: "CollectionPage" })`, BreadcrumbBar + BreadcrumbList
+  (Home → Blog), 3-col card grid with title, excerpt, date, read time.
+- `src/app/blog/[slug]/page.js` — post renderer. BlogPosting + BreadcrumbList
+  + (optional) FAQPage JSON-LD, BreadcrumbBar (Home → Blog → Post),
+  conditional Table of Contents for posts with >3 sections, crawlable
+  `<details>` FAQ blocks, related posts grid, end-of-post CTA.
+
+**New code added on main:**
+
+- `articleSchema()` helper added to `src/lib/schema.js` — emits BlogPosting
+  with `@id`, `mainEntityOfPage`, `datePublished`/`dateModified`,
+  Organization author, publisher referencing `@id` `#organization`, and
+  image fallback to the site OG image.
+
+**Navigation + discovery wiring:**
+
+- `src/components/Navbar.js` — `Blog` link added to `navLinks`, positioned
+  between `Reviews` and `About` per the build prompt.
+- `src/components/Footer.js` — `Blog` link added to the COMPANY column,
+  positioned between `Reviews` and `FAQ`.
+- `src/app/sitemap.js` — `/blog` (priority 0.7, weekly) and every
+  `/blog/[slug]` (priority 0.7, monthly) added to the XML sitemap. Each post
+  uses its own `post.updated || post.date` as `lastModified` rather than a
+  shared timestamp. Section `LASTMOD` dates updated to today (2026-05-23)
+  for home, marketing, services and area buckets to reflect this session's
+  work; `htmlSitemap` updated to match.
+- `src/app/sitemap/page.js` — new full-width "Blog" section below the
+  existing 3-col Main / Services / Areas grid, listing all 12 posts as
+  clickable titles.
+
+Build verified: 129 routes generate cleanly (was 116 before adding the 13
+blog routes). Zero errors. Zero placeholder strings in `src/`. No em dashes
+in any restored blog copy.
+
+**Priority 1b note — sameAs URLs.** The Facebook
+(`facebook.com/birminghamremovals`) and Trustpilot
+(`trustpilot.com/review/birminghamremovals.uk`) URLs in
+`src/config/business.js` remain in place, with the existing inline comment
+flagging them for owner confirmation. They were not removed in this session
+because owner confirmation has not been received either way; removing
+plausible URLs blindly would lose real entity signal if they are in fact
+genuine. Owner still needs to confirm or deny each URL.
+
+---
+
 ## 2026-05-23 - Priority 1 build: 4 new services, slug renames, /services breadcrumb
 
 Closes the highest-priority outstanding items in the master build prompt.
