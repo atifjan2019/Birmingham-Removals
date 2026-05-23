@@ -11,13 +11,13 @@ import PricingLogic from "@/components/PricingLogic";
 import AreasCovered from "@/components/AreasCovered";
 import HowItWorks from "@/components/HowItWorks";
 import WhyUs from "@/components/WhyUs";
-import TestimonialsLazy from "@/components/TestimonialsLazy";
+import Testimonials, { HOMEPAGE_REVIEWS } from "@/components/Testimonials";
 import FAQ from "@/components/FAQ";
 import CTAStrip from "@/components/CTAStrip";
 import Footer from "@/components/Footer";
 import StickyMobileCTA from "@/components/StickyMobileCTA";
 import JsonLd from "@/components/seo/JsonLd";
-import { howToSchema } from "@/lib/schema";
+import { howToSchema, reviewListSchema } from "@/lib/schema";
 
 const bookingHowTo = howToSchema([
   {
@@ -38,15 +38,19 @@ const bookingHowTo = howToSchema([
   },
 ]);
 
-// Server component. Only Navbar / HeroQuoteForm / CTAStrip / StickyMobileCTA /
-// the lazy reviews carousel ship JS; the rest is static server-rendered HTML so
-// the LCP headline paints without waiting for the bundle.
+// Server component. Only Navbar / HeroQuoteForm / CTAStrip / StickyMobileCTA
+// ship JS; the rest, including the three featured reviews, is static
+// server-rendered HTML so the LCP headline paints without waiting for a bundle.
+const homepageReviews = reviewListSchema(
+  HOMEPAGE_REVIEWS.map((r) => ({ author: r.name, body: r.quote, rating: r.rating }))
+);
+
 export default async function Home() {
   const settings = await getSiteSettings();
 
   return (
     <QuoteModalProvider>
-      <JsonLd data={bookingHowTo} />
+      <JsonLd data={[bookingHowTo, homepageReviews]} />
       <Navbar settings={settings} />
       <Hero />
       <TrustBar />
@@ -58,11 +62,14 @@ export default async function Home() {
       <AreasCovered />
       <HowItWorks />
       <WhyUs />
-      <TestimonialsLazy />
+      <Testimonials />
       <FAQ />
       <CTAStrip settings={settings} />
       <Footer settings={settings} />
       <StickyMobileCTA settings={settings} />
+      <time dateTime="2026-05-23" className="sr-only">
+        Last updated 23 May 2026
+      </time>
     </QuoteModalProvider>
   );
 }

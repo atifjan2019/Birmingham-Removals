@@ -5,6 +5,49 @@ on the `main` branch. Dates use the session date noted in each section.
 
 ---
 
+## 2026-05-23 - Priority 2 build: Homepage reviews grid + freshness signal
+
+**P2a — Homepage reviews carousel replaced with a 3-card server-rendered grid.**
+
+The previous homepage "what our customers say" section was a 1-at-a-time
+client-side carousel driven by `framer-motion` and React state, with prev/next
+buttons. Only one review was ever visible at a time, and the whole component
+loaded as `ssr: false` so the quotes never shipped in the initial HTML for
+crawlers.
+
+Replaced with a server-rendered 3-up grid (`src/components/Testimonials.js`,
+no longer a `"use client"` component):
+
+- Three featured reviews exported as `HOMEPAGE_REVIEWS` so the homepage can
+  emit matching Review JSON-LD from the same source of truth.
+- Uses semantic `<ul>` of `<li>` cards with `<blockquote>` for each quote.
+- `aria-label="Rated 5 out of 5"` on the star row; decorative star/quote
+  icons marked `aria-hidden`.
+- "Read all reviews" outbound link to /reviews under the grid.
+
+The companion lazy-loader `src/components/TestimonialsLazy.js` is no longer
+needed and has been deleted. `src/app/page.js` now imports `Testimonials`
+directly and emits an `ItemList` of `Review` JSON-LD for the three visible
+quotes via the existing `reviewListSchema()` helper.
+
+**Aggregate rating note.** The MovingCompany `AggregateRating` in
+`src/lib/schema.js` (4.9 / 312) reflects the business's external Google
+rating, not the on-page sample reviews, so it has not been changed. The
+`/reviews` page already renders 9 reviews in a 3-col grid with a complete
+`ItemList` of 9 Review entries, so no restructure was needed there.
+
+**P2b — Homepage freshness signal.**
+
+Added a hidden-but-crawlable `<time dateTime="2026-05-23">` at the end of
+the homepage body (inside `QuoteModalProvider`, after `StickyMobileCTA`).
+Uses `className="sr-only"` so it is invisible to sighted users but read by
+crawlers and screen readers. Reads "Last updated 23 May 2026". Update the
+`dateTime` and visible text whenever the homepage is meaningfully changed.
+
+Build verified: still 129 routes, zero errors, zero warnings.
+
+---
+
 ## 2026-05-23 - Priority 1a build: Blog (12 posts) deployed
 
 `/blog` is no longer a 404. The 12 posts that existed only on the
