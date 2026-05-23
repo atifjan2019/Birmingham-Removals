@@ -1,4 +1,12 @@
 import { BUSINESS } from "@/config/business";
+import { batch1 } from "@/lib/areaContent/batch1";
+
+// Hand-written per-area unique content. Each batch file exports an object
+// keyed by slug with shape: { metaDescription, openingHook, localUnique,
+// uniqueFaqs: [{q,a},{q,a}] }. We merge all batches into a single map.
+const uniqueContent = {
+  ...batch1,
+};
 
 const rawAreaPages = [
   { name: `Bromsgrove`, slug: "bromsgrove", postcodes: `B60, B61`, postcode: `B60`, borough: `Bromsgrove District`, region: `Worcestershire`, group: `Solihull & South Birmingham`, refs: ["High Street","Stourbridge Road","Birmingham Road"], housing: `Victorian terraces, inter-war semis and newer executive homes`, access: `A38, M5 J4/J5 and the Birmingham Road corridor`, market: `commuters leaving south Birmingham for more space`, isDistantArea: false, expandedExisting: false, priority: 0.8 },
@@ -88,6 +96,12 @@ function sentenceJoin(items) {
 }
 
 function buildMetaDescription(area) {
+  const unique = uniqueContent[area.slug];
+  if (unique?.metaDescription) {
+    let text = unique.metaDescription;
+    if (text.length > 155) text = text.slice(0, 154).replace(/[ ,.;:-]+$/, "") + ".";
+    return text;
+  }
   const refs = area.refs.slice(0, 2).join(" and ");
   const candidates = [
     `Fixed-price removals in ${area.name} ${area.postcodes}, covering ${refs}. House, flat and office movers with packing and local access planning.`,
@@ -116,6 +130,14 @@ function buildIntro(area) {
 }
 
 function buildOpening(area) {
+  const unique = uniqueContent[area.slug];
+  if (unique?.openingHook) {
+    return [
+      unique.openingHook,
+      `The housing mix is ${area.housing}, so move planning can range from tight terrace access to larger driveway loads and careful furniture protection.`,
+      `Our Birmingham-based crew quotes the job as a fixed price, confirms parking and access in advance, and brings the right van, covers and lifting kit for the address.`,
+    ];
+  }
   const first = area.slug === "lichfield"
     ? `${area.name} is a cathedral city north of Birmingham with a busy property market around ${sentenceJoin(area.refs.slice(0, 2))}.`
     : `${area.name} sits within ${area.borough}, serving movers across ${area.postcodes} and the streets around ${sentenceJoin(area.refs.slice(0, 2))}.`;
@@ -141,16 +163,26 @@ function buildServices(area) {
 }
 
 function buildLocalParagraphs(area) {
+  const unique = uniqueContent[area.slug];
   const refs = sentenceJoin(area.refs.slice(0, 4));
   const rural = area.isDistantArea || /rural|village|lanes|cottages|farmhouses|AONB|Peak/.test(area.housing + area.access + area.market);
   const accessDetail = rural
     ? `For rural addresses we check lane width, turning space, overhanging trees and whether a shuttle van is needed between the property and the main removal vehicle.`
     : `For town and suburban jobs we check yellow lines, school-run pressure, shared drives and whether a loading bay or neighbour agreement is needed.`;
-  return [
+  const paragraphs = [
     `Local work in ${area.name} is shaped by ${refs}. The area gives us a mixture of ${area.housing}, so the crew may be protecting original banisters in the morning and handling estate parking courts or modern driveways by the afternoon.`,
-    `Access usually comes down to ${area.access}. ${accessDetail} This is the difference between a smooth load and a van parked too far away for a heavy wardrobe or American fridge freezer.`,
-    `${area.name} generates steady removal work because of ${area.market}. We regularly price moves to and from Birmingham, Solihull, the Black Country and further afield, building mileage, crew hours and packing into the written quote rather than adding surprises on the day. That planning also covers dismantling, lift checks, key-release timing and the order each room is loaded.`,
   ];
+  if (unique?.localUnique) {
+    paragraphs.push(unique.localUnique);
+  } else {
+    paragraphs.push(
+      `Access usually comes down to ${area.access}. ${accessDetail} This is the difference between a smooth load and a van parked too far away for a heavy wardrobe or American fridge freezer.`,
+    );
+  }
+  paragraphs.push(
+    `${area.name} generates steady removal work because of ${area.market}. We regularly price moves to and from Birmingham, Solihull, the Black Country and further afield, building mileage, crew hours and packing into the written quote rather than adding surprises on the day. That planning also covers dismantling, lift checks, key-release timing and the order each room is loaded.`,
+  );
+  return paragraphs;
 }
 
 function buildWhyUs(area) {
@@ -163,17 +195,23 @@ function buildWhyUs(area) {
 }
 
 function buildFaqs(area) {
+  const unique = uniqueContent[area.slug];
   const refs = area.refs.slice(0, 2).join(" and ");
   const distantAnswer = area.isDistantArea
     ? `Yes. We cover moves to and from ${area.name} as part of our wider West Midlands and nationwide service. It is usually a full-day job, and we price mileage, crew time and return travel into the fixed quote.`
     : `Yes. ${area.name} is inside our regular West Midlands coverage, and we quote ${area.postcodes} moves without hidden mileage charges.`;
-  return [
+  const generic = [
     { q: `How much do removals in ${area.name} cost?`, a: `Most ${area.name} moves are priced after we know the volume, access, floor levels and destination. Smaller man and van jobs are cheaper, while full-house moves with packing, storage or specialist items cost more; every quote is fixed in writing.` },
     { q: `Do you cover ${area.name} ${area.postcodes}?`, a: distantAnswer },
     { q: `Can you handle parking or access around ${refs}?`, a: `Yes. We check the loading position before the job, including restrictions, narrow streets, shared drives and any need to speak with neighbours, building managers or the council about access.` },
     { q: `What type of homes do you usually move in ${area.name}?`, a: `We commonly move ${area.housing} in and around ${area.name}. The equipment and crew size are matched to that property type, from stair protection in period homes to long-carry planning on estate roads.` },
     { q: "Can you provide packing materials and dismantling?", a: "Yes. We can supply boxes, tape, paper and wardrobe cartons, then dismantle and rebuild standard beds, wardrobes and tables when agreed as part of the quote." },
   ];
+  if (Array.isArray(unique?.uniqueFaqs) && unique.uniqueFaqs.length >= 2) {
+    // Lead with two hand-written area-specific FAQs, then three generic ones.
+    return [unique.uniqueFaqs[0], unique.uniqueFaqs[1], generic[0], generic[1], generic[4]];
+  }
+  return generic;
 }
 
 function buildNearby(area) {
