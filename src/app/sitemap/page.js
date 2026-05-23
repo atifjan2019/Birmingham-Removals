@@ -3,7 +3,8 @@ import Navbar from "@/components/NavbarServer";
 import Footer from "@/components/FooterServer";
 import { citiesList } from "@/lib/cities";
 import servicesData from "@/lib/servicesData";
-import { Map, MapPin, Navigation, Briefcase } from "lucide-react";
+import blogPosts from "@/lib/blogData";
+import { Map, MapPin, Navigation, Briefcase, BookOpen } from "lucide-react";
 import { makeMeta } from "@/lib/metadata";
 
 export const metadata = makeMeta({
@@ -17,6 +18,7 @@ const mainPages = [
   { href: "/", label: "Home" },
   { href: "/services", label: "All Services" },
   { href: "/areas", label: "All Areas" },
+  { href: "/blog", label: "Blog" },
   { href: "/quote", label: "Get a Free Quote" },
   { href: "/about", label: "About Us" },
   { href: "/contact", label: "Contact" },
@@ -85,6 +87,21 @@ export default async function SitemapPage() {
                 ))}
               </ul>
             </div>
+          </div>
+
+          <div className="mt-5 bg-white rounded-2xl p-7 border border-slate-200">
+            <h2 className="font-[family-name:var(--font-space)] font-bold text-lg text-[#0B1E3F] mb-5 flex items-center gap-2">
+              <BookOpen className="w-5 h-5 text-[#F97316]" /> Blog
+            </h2>
+            <ul className="grid grid-cols-1 md:grid-cols-2 gap-2 text-sm">
+              {blogPosts.map((p) => (
+                <li key={p.slug}>
+                  <Link href={`/blog/${p.slug}`} className="text-slate-700 hover:text-[#F97316]">
+                    {p.title}
+                  </Link>
+                </li>
+              ))}
+            </ul>
           </div>
         </div>
       </main>

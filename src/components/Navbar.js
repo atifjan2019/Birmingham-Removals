@@ -11,6 +11,7 @@ const navLinks = [
   { label: "Areas", href: "/areas", prefetch: false },
   { label: "How It Works", href: "/#how-it-works" },
   { label: "Reviews", href: "/reviews", prefetch: false },
+  { label: "Blog", href: "/blog", prefetch: false },
   { label: "About", href: "/about", prefetch: false },
   { label: "Contact", href: "/contact", prefetch: false },
 ];

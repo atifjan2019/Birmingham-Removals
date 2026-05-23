@@ -290,6 +290,27 @@ export function reviewListSchema(reviews) {
   };
 }
 
+// BlogPosting schema for a single article. Used by /blog/[slug] pages.
+// Pass post.image as a path beginning with "/" (resolved against BUSINESS.url)
+// or leave undefined to fall back to the site OG image.
+export function articleSchema({ slug, title, description, date, updated, author, image }) {
+  const url = `${BUSINESS.url}/blog/${slug}`;
+  return {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "@id": `${url}#article`,
+    mainEntityOfPage: url,
+    headline: title,
+    description,
+    datePublished: date,
+    dateModified: updated || date,
+    author: { "@type": "Organization", name: author || BUSINESS.name, url: `${BUSINESS.url}/about` },
+    publisher: { "@id": ORG_ID },
+    image: image ? `${BUSINESS.url}${image}` : `${BUSINESS.url}/og-image.jpg`,
+    url,
+  };
+}
+
 // Generic WebPage schema with optional breadcrumb. `type` lets callers emit
 // AboutPage / ContactPage / CollectionPage etc.
 export function webPageSchema({ type = "WebPage", path, name, description, breadcrumb }) {
