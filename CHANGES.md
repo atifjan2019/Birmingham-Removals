@@ -228,10 +228,11 @@ Earlier commits merged via `seo/em-dashes-schema-aeo`: `010cd3b`,
 
 ## Notes for future sessions
 
-- The site is hosted on Cloudflare with the Next.js front-end and a
-  separate Worker API (`worker-api/`) backed by D1. The front-end uses a
-  thin D1-over-HTTP shim at `src/lib/prisma.js` that mimics the Prisma API
-  surface so existing call sites continue to work.
+- The Next.js front-end is deployed on **Vercel**. The separate Worker API
+  (`worker-api/`) lives on **Cloudflare Workers** with a D1 database. The
+  front-end talks to the Worker over HTTP via a thin shim at
+  `src/lib/prisma.js` that mimics the Prisma API surface so existing call
+  sites continue to work without code changes.
 - The dynamic `/areas/[area]` route is the canonical area renderer. Static
   `src/app/areas/<slug>/page.js` files still exist for the original ten
   primary cities (Edgbaston, Harborne, Moseley, Kings Heath, Selly Oak,
