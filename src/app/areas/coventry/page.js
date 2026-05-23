@@ -59,7 +59,11 @@ const LocalArea = (
       bay-fronted Edwardian streets in Earlsdon and Stoke, and a large stock of student flats and
       shared houses near the university campuses. That student demand keeps our man and van
       service busy through the academic year, while full crews handle family moves out towards
-      Tile Hill, Whitley and the Warwickshire fringe.
+      Tile Hill, Whitley and the Warwickshire fringe, including{" "}
+      <Link href="/areas/earlsdon" className="text-[#F97316] underline underline-offset-2 hover:text-[#EA580C]">Earlsdon</Link>,{" "}
+      <Link href="/areas/cheylesmore" className="text-[#F97316] underline underline-offset-2 hover:text-[#EA580C]">Cheylesmore</Link>,{" "}
+      <Link href="/areas/wainbody" className="text-[#F97316] underline underline-offset-2 hover:text-[#EA580C]">Wainbody</Link> and{" "}
+      <Link href="/areas/bablake" className="text-[#F97316] underline underline-offset-2 hover:text-[#EA580C]">Bablake</Link>.
     </p>
     <p>
       As the largest city in the wider region we serve, Coventry sits a little apart from our

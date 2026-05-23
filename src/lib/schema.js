@@ -169,6 +169,7 @@ export function serviceAreaSchema(city, slug, postcodes) {
       address: {
         "@type": "PostalAddress",
         addressLocality: city,
+        ...(postcodes ? { postalCode: postcodes } : {}),
         addressRegion: "West Midlands",
         addressCountry: "GB",
       },

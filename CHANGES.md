@@ -6,6 +6,26 @@ Dates use the session date **2026-05-22**.
 
 ---
 
+## 2026-05-22 - West Midlands area page expansion
+
+Created or expanded 73 area entries across the six requested campaign batches using the shared dynamic area renderer. Each entry has postcode-aware metadata, linked services, local knowledge, trust points, nearby area links, FAQs, CTA coverage, city registry data and sitemap priority data.
+
+Expanded existing URLs: /areas/northfield, /areas/longbridge, /areas/rubery, /areas/bournville, /areas/kings-norton, /areas/great-barr.
+
+Batch 1: Bromsgrove, Redditch, Tamworth, Lichfield, Sutton Four Oaks, Sutton Mere Green, Sutton Walmley, Sutton Trinity, Sutton Vesey, Sutton Roughley, Knowle, Dorridge, Balsall Common, Castle Bromwich, Streetly, Aldridge.
+
+Batch 2: Stourbridge, Halesowen, Kingswinford, Wollaston, Sedgley, Brierley Hill, Quarry Bank, Gornal, Hateley Heath, Charlemont, Great Barr with Yew Tree, Princes End, Pelsall, Brownhills, Pheasey, Rushall, Shelfield.
+
+Batch 3: Tettenhall Regis, Tettenhall Wightwick, Penn, Oxley, Bushbury North, Merry Hill (Wolverhampton), Earlsdon, Cheylesmore, Wainbody, Woodlands, Bablake, Whoberley.
+
+Batch 4: Northfield, Longbridge and West Heath, Rubery and Rednal, Frankley Great Park, Castle Vale, Bournville and Cotteridge, Highters Heath, Kings Norton North, Shard End, Bentley Heath, Meriden, Hampton-in-Arden.
+
+Batch 5: Warwick, Stratford-upon-Avon, Rugby, Worcester, Stafford, Nuneaton and Bedworth, Cannock Chase, Wyre Forest.
+
+Batch 6: Telford and Wrekin, Shrewsbury/Shropshire, Herefordshire, Malvern Hills, Wychavon, South Staffordshire, Staffordshire Moorlands, North Warwickshire.
+
+---
+
 ## 1. Content cleanup
 
 | Change | Rationale |

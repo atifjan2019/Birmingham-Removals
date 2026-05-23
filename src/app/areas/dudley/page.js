@@ -68,7 +68,11 @@ const LocalArea = (
       Households regularly move between Dudley and neighbouring{" "}
       <Link href="/areas/west-bromwich" className="text-[#F97316] underline underline-offset-2 hover:text-[#EA580C]">West Bromwich</Link> or
       head north towards{" "}
-      <Link href="/areas/wolverhampton" className="text-[#F97316] underline underline-offset-2 hover:text-[#EA580C]">Wolverhampton</Link>. Whether
+      <Link href="/areas/wolverhampton" className="text-[#F97316] underline underline-offset-2 hover:text-[#EA580C]">Wolverhampton</Link>. We also cover{" "}
+      <Link href="/areas/stourbridge" className="text-[#F97316] underline underline-offset-2 hover:text-[#EA580C]">Stourbridge</Link>,{" "}
+      <Link href="/areas/kingswinford" className="text-[#F97316] underline underline-offset-2 hover:text-[#EA580C]">Kingswinford</Link>,{" "}
+      <Link href="/areas/sedgley" className="text-[#F97316] underline underline-offset-2 hover:text-[#EA580C]">Sedgley</Link> and{" "}
+      <Link href="/areas/brierley-hill" className="text-[#F97316] underline underline-offset-2 hover:text-[#EA580C]">Brierley Hill</Link>. Whether
       you are moving up to a Sedgley semi or relocating a family home near Russells Hall, the
       removal company Dudley residents trust will keep the move affordable and on time.
     </p>

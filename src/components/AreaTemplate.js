@@ -36,10 +36,13 @@ export default async function AreaTemplate({
   name,
   postcodes,
   heroIntro,
+  openingParagraphs,
   services,
   localArea,
   whyUs,
   faqs,
+  nearbyAreas,
+  isDistantArea,
   priceRange = "££",
 }) {
   const settings = await getSiteSettings();
@@ -106,6 +109,25 @@ export default async function AreaTemplate({
 
       <TrustBar />
 
+      {Array.isArray(openingParagraphs) && openingParagraphs.length > 0 && (
+        <section className="py-14 bg-white">
+          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="space-y-5 text-slate-700 leading-relaxed text-lg">
+              {openingParagraphs.map((paragraph) => (
+                <p key={paragraph}>{paragraph}</p>
+              ))}
+              {isDistantArea ? (
+                <p className="rounded-xl border border-[#F97316]/20 bg-[#F97316]/10 p-5 text-base text-slate-700">
+                  We cover moves to and from {name} as part of our wider West Midlands and
+                  nationwide service. Longer-distance jobs are planned as full-day work and
+                  priced clearly upfront, with no hidden mileage charges added on the day.
+                </p>
+              ) : null}
+            </div>
+          </div>
+        </section>
+      )}
+
       {/* Services */}
       {Array.isArray(services) && services.length > 0 && (
         <section className="py-20 bg-white">
@@ -115,7 +137,7 @@ export default async function AreaTemplate({
                 What We Do
               </span>
               <h2 className="font-[family-name:var(--font-space)] text-3xl sm:text-4xl font-extrabold text-[#0B1E3F]">
-                Our removal services in {name}
+                Our Removal Services in {name}
               </h2>
               <p className="mt-3 text-slate-500 max-w-xl mx-auto">
                 Every service delivered by our Birmingham-based crew, with no agency staff and no subcontracting.
@@ -123,9 +145,10 @@ export default async function AreaTemplate({
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-              {services.map(({ icon: Icon, name: sName, desc }) => (
-                <div
+              {services.map(({ icon: Icon, name: sName, desc, slug: serviceSlug }) => (
+                <Link
                   key={sName}
+                  href={serviceSlug ? `/services/${serviceSlug}` : "/services"}
                   className="p-7 rounded-2xl border border-slate-200 bg-white hover:shadow-lg hover:border-[#F97316]/30 transition-all group"
                 >
                   {Icon ? (
@@ -137,7 +160,7 @@ export default async function AreaTemplate({
                     {sName}
                   </h3>
                   <p className="text-slate-600 text-sm leading-relaxed">{desc}</p>
-                </div>
+                </Link>
               ))}
             </div>
           </div>
@@ -155,7 +178,7 @@ export default async function AreaTemplate({
                 Local Knowledge
               </span>
               <h2 className="font-[family-name:var(--font-space)] text-3xl sm:text-4xl font-extrabold text-[#0B1E3F]">
-                Moving to or from {name}?
+                Local Knowledge — Moving in {name}
               </h2>
             </div>
             <div className="space-y-5 text-slate-700 leading-relaxed">{localArea}</div>
@@ -172,7 +195,7 @@ export default async function AreaTemplate({
                 Why Us
               </span>
               <h2 className="font-[family-name:var(--font-space)] text-3xl sm:text-4xl font-extrabold text-[#0B1E3F]">
-                Why choose Birmingham Removals in {name}
+                Why Choose Birmingham Removals in {name}
               </h2>
             </div>
 
@@ -213,7 +236,33 @@ export default async function AreaTemplate({
         </section>
       )}
 
-      {/* Removal services in {city}, internal linking */}
+      {Array.isArray(nearbyAreas) && nearbyAreas.length > 0 && (
+        <section className="py-16 bg-white">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="mb-8">
+              <span className="inline-block px-3 py-1 rounded-full bg-[#F97316]/10 text-[#9A3412] text-xs font-bold uppercase tracking-wider mb-3">
+                Nearby Areas
+              </span>
+              <h2 className="font-[family-name:var(--font-space)] text-3xl sm:text-4xl font-extrabold text-[#0B1E3F]">
+                Areas Near {name} We Also Cover
+              </h2>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+              {nearbyAreas.map((area) => (
+                <Link
+                  key={area.slug}
+                  href={`/areas/${area.slug}`}
+                  className="block rounded-xl border border-slate-200 bg-slate-50 px-5 py-4 font-semibold text-[#0B1E3F] hover:border-[#F97316] hover:bg-white hover:text-[#F97316] transition-colors"
+                >
+                  Removals in {area.name}
+                </Link>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* Removal services in {city} — internal linking */}
       <section className="py-20 bg-slate-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-10">

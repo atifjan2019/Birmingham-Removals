@@ -205,6 +205,11 @@ export default function ServicePageClient({ service, settings }) {
               { slug: "erdington", name: "Erdington" },
               { slug: "hall-green", name: "Hall Green" },
               { slug: "northfield", name: "Northfield" },
+              { slug: "bromsgrove", name: "Bromsgrove" },
+              { slug: "knowle", name: "Knowle" },
+              { slug: "tamworth", name: "Tamworth" },
+              { slug: "warwick", name: "Warwick" },
+              { slug: "redditch", name: "Redditch" },
             ].map((a) => (
               <Link
                 key={a.slug}

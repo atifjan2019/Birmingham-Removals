@@ -66,7 +66,11 @@ const LocalArea = (
       it and the towns in between. Customers often relocate between Wolverhampton and{" "}
       <Link href="/areas/dudley" className="text-[#F97316] underline underline-offset-2 hover:text-[#EA580C]">Dudley</Link> or{" "}
       <Link href="/areas/west-bromwich" className="text-[#F97316] underline underline-offset-2 hover:text-[#EA580C]">West Bromwich</Link> along
-      the New Road corridor. Whether you&apos;re moving into a city-centre flat or out to a Tettenhall
+      the New Road corridor, with suburb guides for{" "}
+      <Link href="/areas/tettenhall-regis" className="text-[#F97316] underline underline-offset-2 hover:text-[#EA580C]">Tettenhall Regis</Link>,{" "}
+      <Link href="/areas/tettenhall-wightwick" className="text-[#F97316] underline underline-offset-2 hover:text-[#EA580C]">Tettenhall Wightwick</Link>,{" "}
+      <Link href="/areas/penn" className="text-[#F97316] underline underline-offset-2 hover:text-[#EA580C]">Penn</Link> and{" "}
+      <Link href="/areas/oxley" className="text-[#F97316] underline underline-offset-2 hover:text-[#EA580C]">Oxley</Link>. Whether you&apos;re moving into a city-centre flat or out to a Tettenhall
       villa, our Wolverhampton crews manage the packing, lifting and paperwork end to end.
     </p>
   </>

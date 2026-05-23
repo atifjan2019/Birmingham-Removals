@@ -4,6 +4,7 @@ import { Home, Building2, Truck, Package, Warehouse } from "lucide-react";
 import AreaTemplate from "@/components/AreaTemplate";
 import { makeMeta } from "@/lib/metadata";
 import { getCity, allCitySlugs } from "@/lib/cities";
+import { getAreaPage } from "@/lib/areaPageData";
 
 export async function generateStaticParams() {
   return allCitySlugs.map((area) => ({ area }));
@@ -13,10 +14,14 @@ export async function generateMetadata({ params }) {
   const { area } = await params;
   const city = getCity(area);
   if (!city) return {};
+  const areaPage = getAreaPage(area);
   return makeMeta({
-    title: `Removals ${city.name} | Fixed-Price Movers`,
-    description: `Professional removals in ${city.name}. Fixed-price quotes, DBS-checked crew, full insurance. House, office and man & van moves. Free quote in 30 minutes.`,
+    title: areaPage?.title || `Removals ${city.name} | Fixed-Price Movers | Birmingham Removals`,
+    description:
+      areaPage?.metaDescription ||
+      `Professional removals in ${city.name}. Fixed-price quotes, DBS-checked crew, full insurance. House, office and man & van moves. Free quote in 30 minutes.`,
     path: `/areas/${area}`,
+    absoluteTitle: Boolean(areaPage),
   });
 }
 
@@ -74,10 +79,39 @@ function DefaultLocalArea({ name }) {
   );
 }
 
+function RichLocalArea({ paragraphs }) {
+  return (
+    <>
+      {paragraphs.map((paragraph) => (
+        <p key={paragraph}>{paragraph}</p>
+      ))}
+    </>
+  );
+}
+
 export default async function AreaPage({ params }) {
   const { area } = await params;
   const city = getCity(area);
   if (!city) notFound();
+  const areaPage = getAreaPage(area);
+
+  if (areaPage) {
+    return (
+      <AreaTemplate
+        slug={areaPage.slug}
+        name={areaPage.name}
+        postcodes={areaPage.postcodes}
+        heroIntro={areaPage.intro}
+        openingParagraphs={areaPage.opening}
+        services={areaPage.services}
+        localArea={<RichLocalArea paragraphs={areaPage.localParagraphs} />}
+        whyUs={areaPage.whyUs}
+        faqs={areaPage.faqs}
+        nearbyAreas={areaPage.nearby}
+        isDistantArea={areaPage.isDistantArea}
+      />
+    );
+  }
 
   return (
     <AreaTemplate

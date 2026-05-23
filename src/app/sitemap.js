@@ -1,6 +1,7 @@
 import { BUSINESS } from "@/config/business";
 import { getAllServiceSlugs } from "@/lib/servicesData";
-import { allCitySlugs } from "@/lib/cities";
+import { allCitySlugs, getCity } from "@/lib/cities";
+import { areaPages } from "@/lib/areaPageData";
 
 // Genuine last-modified dates, reflecting when each section's content was last
 // meaningfully updated. Update the relevant date here when you change a page so
@@ -15,7 +16,7 @@ const LASTMOD = {
   htmlSitemap: "2026-05-15",
 };
 
-const NEW_AREAS = new Set(["longbridge", "bournville", "rubery"]);
+const NEW_AREAS = new Set(areaPages.map((area) => area.slug));
 
 function lastModFor(path) {
   if (path === "") return LASTMOD.home;
@@ -44,15 +45,17 @@ export default function sitemap() {
   const servicePaths = getAllServiceSlugs().map((slug) => `/services/${slug}`);
   const areaPaths = allCitySlugs.map((slug) => `/areas/${slug}`);
 
-  // Per-path SEO hints: the homepage ranks highest, primary marketing pages
-  // next, then the service/area landing pages.
   const meta = (path) => {
     if (path === "") return { changeFrequency: "weekly", priority: 1.0 };
     if (path === "/quote") return { changeFrequency: "monthly", priority: 0.9 };
     if (path === "/services" || path === "/areas")
       return { changeFrequency: "weekly", priority: 0.8 };
     if (path === "/sitemap") return { changeFrequency: "monthly", priority: 0.5 };
-    if (path.startsWith("/services/") || path.startsWith("/areas/"))
+    if (path.startsWith("/areas/")) {
+      const slug = path.replace("/areas/", "");
+      return { changeFrequency: "monthly", priority: getCity(slug)?.priority || 0.8 };
+    }
+    if (path.startsWith("/services/"))
       return { changeFrequency: "monthly", priority: 0.8 };
     return { changeFrequency: "monthly", priority: 0.6 };
   };
