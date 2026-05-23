@@ -5,6 +5,8 @@
 // The 10 "primary" cities also have rich static pages under /areas/{slug}/page.js
 // that take precedence over the dynamic [slug] route.
 
+import { areaCityEntries } from "@/lib/areaPageData";
+
 export const cities = {
   edgbaston: {
     name: "Edgbaston",
@@ -187,6 +189,7 @@ export const cities = {
     intro:
       "Coventry and Kenilworth removals delivered with the same Birmingham-standard care. Long-distance moves quoted free.",
   },
+  ...areaCityEntries,
 };
 
 export const allCitySlugs = Object.keys(cities);

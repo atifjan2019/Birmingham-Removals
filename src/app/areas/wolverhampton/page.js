@@ -82,7 +82,11 @@ const LocalArea = (
       it and the towns in between. Customers often relocate between Wolverhampton and{" "}
       <Link href="/areas/dudley" className="text-[#F97316] underline underline-offset-2 hover:text-[#EA580C]">Dudley</Link> or{" "}
       <Link href="/areas/west-bromwich" className="text-[#F97316] underline underline-offset-2 hover:text-[#EA580C]">West Bromwich</Link> along
-      the New Road corridor, while the rail and Metro links make moves to and from Birmingham a
+      the New Road corridor. We now also have local guides for{" "}
+      <Link href="/areas/tettenhall-regis" className="text-[#F97316] underline underline-offset-2 hover:text-[#EA580C]">Tettenhall Regis</Link>,{" "}
+      <Link href="/areas/tettenhall-wightwick" className="text-[#F97316] underline underline-offset-2 hover:text-[#EA580C]">Tettenhall Wightwick</Link>,{" "}
+      <Link href="/areas/penn" className="text-[#F97316] underline underline-offset-2 hover:text-[#EA580C]">Penn</Link> and{" "}
+      <Link href="/areas/oxley" className="text-[#F97316] underline underline-offset-2 hover:text-[#EA580C]">Oxley</Link>, while the rail and Metro links make moves to and from Birmingham a
       daily occurrence for us. The A449 and A454 give us quick, reliable routes in and out of the
       city in any direction, whatever the destination.
     </p>

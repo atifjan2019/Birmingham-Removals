@@ -13,6 +13,14 @@ const primaryAreas = [
   { slug: "erdington", name: "Erdington", postcode: "B23, B24" },
   { slug: "sutton-coldfield", name: "Sutton Coldfield", postcode: "B72–B76" },
   { slug: "solihull", name: "Solihull", postcode: "B91, B92" },
+  { slug: "bromsgrove", name: "Bromsgrove", postcode: "B60, B61" },
+  { slug: "redditch", name: "Redditch", postcode: "B97, B98" },
+  { slug: "tamworth", name: "Tamworth", postcode: "B77–B79" },
+  { slug: "lichfield", name: "Lichfield", postcode: "WS13, WS14" },
+  { slug: "knowle", name: "Knowle", postcode: "B93" },
+  { slug: "stourbridge", name: "Stourbridge", postcode: "DY8" },
+  { slug: "warwick", name: "Warwick", postcode: "CV34" },
+  { slug: "stratford-upon-avon", name: "Stratford-upon-Avon", postcode: "CV37" },
 ];
 
 const surroundingAreas = [

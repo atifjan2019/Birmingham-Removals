@@ -1,6 +1,7 @@
 import { BUSINESS } from "@/config/business";
 import { getAllServiceSlugs } from "@/lib/servicesData";
-import { allCitySlugs } from "@/lib/cities";
+import { allCitySlugs, getCity } from "@/lib/cities";
+import { areaPages } from "@/lib/areaPageData";
 import blogPosts from "@/lib/blogData";
 
 // Genuine last-modified dates, reflecting when each section's content was last
@@ -16,7 +17,7 @@ const LASTMOD = {
   htmlSitemap: "2026-05-15",
 };
 
-const NEW_AREAS = new Set(["longbridge", "bournville", "rubery"]);
+const NEW_AREAS = new Set(areaPages.map((area) => area.slug));
 
 function lastModFor(path) {
   if (path === "") return LASTMOD.home;
@@ -61,7 +62,11 @@ export default function sitemap() {
     if (path === "/services" || path === "/areas")
       return { changeFrequency: "weekly", priority: 0.8 };
     if (path === "/sitemap") return { changeFrequency: "monthly", priority: 0.5 };
-    if (path.startsWith("/services/") || path.startsWith("/areas/"))
+    if (path.startsWith("/areas/")) {
+      const slug = path.replace("/areas/", "");
+      return { changeFrequency: "monthly", priority: getCity(slug)?.priority || 0.8 };
+    }
+    if (path.startsWith("/services/"))
       return { changeFrequency: "monthly", priority: 0.8 };
     return { changeFrequency: "monthly", priority: 0.6 };
   };

@@ -75,7 +75,7 @@ const houseRemovals = {
     {
       heading: "Areas We Cover for House Removals",
       paragraphs: [
-        "We cover the whole of Birmingham and the wider West Midlands for house removals. Popular areas include <a href=\"/areas/edgbaston\">Edgbaston</a>, <a href=\"/areas/harborne\">Harborne</a>, <a href=\"/areas/moseley\">Moseley</a> and <a href=\"/areas/sutton-coldfield\">Sutton Coldfield</a>, along with Kings Heath, Selly Oak, Solihull, Erdington and the city centre. Whether you are moving across the street or across the region, our local knowledge helps us plan faster routes and tackle tight access with confidence.",
+        "We cover the whole of Birmingham and the wider West Midlands for house removals. Popular areas include <a href=\"/areas/edgbaston\">Edgbaston</a>, <a href=\"/areas/harborne\">Harborne</a>, <a href=\"/areas/moseley\">Moseley</a>, <a href=\"/areas/sutton-coldfield\">Sutton Coldfield</a>, <a href=\"/areas/bromsgrove\">Bromsgrove</a>, <a href=\"/areas/knowle\">Knowle</a> and <a href=\"/areas/stourbridge\">Stourbridge</a>. Whether you are moving across the street or across the region, our local knowledge helps us plan faster routes and tackle tight access with confidence.",
       ],
     },
   ],

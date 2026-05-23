@@ -74,7 +74,12 @@ const LocalArea = (
       stock of newer developments and apartments in and around the centre. Earlsdon in particular
       is prized for its Victorian and Edwardian terraces, independent shops and village feel, while
       Tile Hill and Canley to the west mix council-built homes with rapidly expanding student
-      accommodation.
+      accommodation. Our suburb guides now cover{" "}
+      <Link href="/areas/earlsdon" className="text-[#F97316] underline underline-offset-2 hover:text-[#EA580C]">Earlsdon</Link>,{" "}
+      <Link href="/areas/cheylesmore" className="text-[#F97316] underline underline-offset-2 hover:text-[#EA580C]">Cheylesmore</Link>,{" "}
+      <Link href="/areas/wainbody" className="text-[#F97316] underline underline-offset-2 hover:text-[#EA580C]">Wainbody</Link>,{" "}
+      <Link href="/areas/bablake" className="text-[#F97316] underline underline-offset-2 hover:text-[#EA580C]">Bablake</Link> and{" "}
+      <Link href="/areas/whoberley" className="text-[#F97316] underline underline-offset-2 hover:text-[#EA580C]">Whoberley</Link>.
     </p>
     <p>
       Both universities drive a great deal of our Coventry work. Coventry University sits right in

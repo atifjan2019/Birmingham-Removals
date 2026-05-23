@@ -86,7 +86,11 @@ const LocalArea = (
       <Link href="/areas/west-bromwich" className="text-[#F97316] underline underline-offset-2 hover:text-[#EA580C]">West Bromwich</Link>, or
       head north towards{" "}
       <Link href="/areas/wolverhampton" className="text-[#F97316] underline underline-offset-2 hover:text-[#EA580C]">Wolverhampton</Link> along
-      the A4123. We handle these short cross-town moves day in and day out, as well as longer
+      the A4123. We also cover nearby{" "}
+      <Link href="/areas/stourbridge" className="text-[#F97316] underline underline-offset-2 hover:text-[#EA580C]">Stourbridge</Link>,{" "}
+      <Link href="/areas/kingswinford" className="text-[#F97316] underline underline-offset-2 hover:text-[#EA580C]">Kingswinford</Link>,{" "}
+      <Link href="/areas/sedgley" className="text-[#F97316] underline underline-offset-2 hover:text-[#EA580C]">Sedgley</Link> and{" "}
+      <Link href="/areas/brierley-hill" className="text-[#F97316] underline underline-offset-2 hover:text-[#EA580C]">Brierley Hill</Link>. We handle these short cross-town moves day in and day out, as well as longer
       relocations into Birmingham and beyond, all on the same clear fixed pricing.
     </p>
     <p>

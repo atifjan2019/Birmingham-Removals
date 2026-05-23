@@ -66,7 +66,11 @@ const LocalArea = (
       <Link href="/areas/hall-green" className="text-[#F97316] underline underline-offset-2 hover:text-[#EA580C]">Hall Green</Link>,{" "}
       <Link href="/areas/kings-heath" className="text-[#F97316] underline underline-offset-2 hover:text-[#EA580C]">Kings Heath</Link>,{" "}
       <Link href="/areas/sutton-coldfield" className="text-[#F97316] underline underline-offset-2 hover:text-[#EA580C]">Sutton Coldfield</Link> and{" "}
-      <Link href="/areas/erdington" className="text-[#F97316] underline underline-offset-2 hover:text-[#EA580C]">Erdington</Link>{" "}
+      <Link href="/areas/erdington" className="text-[#F97316] underline underline-offset-2 hover:text-[#EA580C]">Erdington</Link>, with extra local pages for{" "}
+      <Link href="/areas/knowle" className="text-[#F97316] underline underline-offset-2 hover:text-[#EA580C]">Knowle</Link>,{" "}
+      <Link href="/areas/dorridge" className="text-[#F97316] underline underline-offset-2 hover:text-[#EA580C]">Dorridge</Link>,{" "}
+      <Link href="/areas/balsall-common" className="text-[#F97316] underline underline-offset-2 hover:text-[#EA580C]">Balsall Common</Link> and{" "}
+      <Link href="/areas/hampton-in-arden" className="text-[#F97316] underline underline-offset-2 hover:text-[#EA580C]">Hampton-in-Arden</Link>{" "}
       are among our most frequent cross-boundary jobs, quoted as a single move with one crew
       and our full insurance cover.
     </p>

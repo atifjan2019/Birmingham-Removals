@@ -66,7 +66,11 @@ const LocalArea = (
       Road as its main arterial routes. We handle frequent cross-boundary moves to{" "}
       <Link href="/areas/erdington" className="text-[#F97316] underline underline-offset-2 hover:text-[#EA580C]">Erdington</Link>,{" "}
       <Link href="/areas/harborne" className="text-[#F97316] underline underline-offset-2 hover:text-[#EA580C]">Harborne</Link> and{" "}
-      <Link href="/areas/solihull" className="text-[#F97316] underline underline-offset-2 hover:text-[#EA580C]">Solihull</Link>.
+      <Link href="/areas/solihull" className="text-[#F97316] underline underline-offset-2 hover:text-[#EA580C]">Solihull</Link>, plus detailed pages for{" "}
+      <Link href="/areas/sutton-four-oaks" className="text-[#F97316] underline underline-offset-2 hover:text-[#EA580C]">Sutton Four Oaks</Link>,{" "}
+      <Link href="/areas/sutton-mere-green" className="text-[#F97316] underline underline-offset-2 hover:text-[#EA580C]">Sutton Mere Green</Link>,{" "}
+      <Link href="/areas/sutton-walmley" className="text-[#F97316] underline underline-offset-2 hover:text-[#EA580C]">Sutton Walmley</Link> and{" "}
+      <Link href="/areas/sutton-trinity" className="text-[#F97316] underline underline-offset-2 hover:text-[#EA580C]">Sutton Trinity</Link>.
     </p>
   </>
 );
