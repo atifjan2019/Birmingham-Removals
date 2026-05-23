@@ -300,10 +300,10 @@ export default async function AreaTemplate({
               </h2>
             </div>
             <div className="space-y-3">
-              {faqs.map(({ q, a }) => (
+              {faqs.map(({ q, a }, i) => (
                 <details
                   key={q}
-                  open
+                  open={i === 0}
                   className="group rounded-2xl border border-slate-200 bg-slate-50 overflow-hidden"
                 >
                   <summary className="flex items-center justify-between gap-4 px-6 py-5 cursor-pointer list-none font-[family-name:var(--font-space)] font-bold text-[#0B1E3F] hover:bg-white transition-colors">
