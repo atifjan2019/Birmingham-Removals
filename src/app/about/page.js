@@ -13,7 +13,7 @@ export const metadata = makeMeta({
   title: "About Us | 5-Star Birmingham Removals Since 2015",
   absoluteTitle: true,
   description:
-    "Family-run Birmingham removals company since 2015. 5,200+ moves delivered, 4.9-star rating from 312+ reviews. Meet the team behind your stress-free move.",
+    "Family run Birmingham removals company since 2015. 5,200+ moves delivered, 4.9-star rating from 312+ reviews. Meet the team behind your stress-free move.",
   path: "/about",
   keywords: [
     "about Birmingham Removals",
