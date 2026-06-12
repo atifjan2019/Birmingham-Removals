@@ -114,8 +114,14 @@ export async function recordWorkerActivity(data) {
 
 export async function getWorkerSettings() {
   // Public, on every page: short timeout so a dead API fails fast to the
-  // fallback, and cached for 10 min so pages aren't blocked per-request.
-  return workerFetch("/settings", {}, { timeoutMs: 1500, revalidate: 600 });
+  // fallback. This fetch lives in the root layout, so its revalidate window
+  // governs ISR regeneration for EVERY public page. Settings change only when
+  // an admin saves them, and that save calls revalidatePath("/", "layout")
+  // (see actions/settings.js) which purges all pages instantly — so we use a
+  // long 24h window here purely as a fallback ceiling. A short window (e.g.
+  // 600s) put the whole site on a 10-min ISR cycle and caused excessive
+  // Vercel ISR write usage.
+  return workerFetch("/settings", {}, { timeoutMs: 1500, revalidate: 86400 });
 }
 
 export async function updateWorkerSettings(patch) {
