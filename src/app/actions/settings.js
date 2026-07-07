@@ -57,6 +57,10 @@ export async function updateSiteSettings(_prevState, formData) {
       if (v != null) patch[f] = String(v).trim();
     }
 
+    // Checkbox: present in the form data only when ticked. Persist as "1"/"0"
+    // so an untick is stored explicitly rather than left unchanged.
+    patch.showPhone = formData.get("showPhone") != null ? "1" : "0";
+
     const logoFile = formData.get("logo");
     const footerLogoFile = formData.get("footerLogo");
     const faviconFile = formData.get("favicon");

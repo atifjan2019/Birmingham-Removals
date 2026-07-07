@@ -40,9 +40,11 @@ export default function Navbar({ settings }) {
             Birmingham&apos;s 5-star removals company, serving the West Midlands since 2015
           </span>
           <div className="flex items-center gap-5">
-            <a href={phoneHref} className="flex items-center gap-1.5 hover:text-[#F97316] transition-colors">
-              <Phone className="w-3 h-3" /> {s.phone}
-            </a>
+            {s.showPhone && (
+              <a href={phoneHref} className="flex items-center gap-1.5 hover:text-[#F97316] transition-colors">
+                <Phone className="w-3 h-3" /> {s.phone}
+              </a>
+            )}
             <a href={mailHref} className="hover:text-[#F97316] transition-colors">
               {s.email}
             </a>
@@ -96,13 +98,15 @@ export default function Navbar({ settings }) {
             </div>
 
             <div className="hidden lg:flex items-center gap-3">
-              <a
-                href={phoneHref}
-                className="flex items-center gap-2 px-4 py-2 rounded-full border border-slate-200 text-[#0B1E3F] text-sm font-semibold hover:border-[#F97316] hover:text-[#F97316] transition-colors"
-              >
-                <Phone className="w-4 h-4" />
-                {s.phone}
-              </a>
+              {s.showPhone && (
+                <a
+                  href={phoneHref}
+                  className="flex items-center gap-2 px-4 py-2 rounded-full border border-slate-200 text-[#0B1E3F] text-sm font-semibold hover:border-[#F97316] hover:text-[#F97316] transition-colors"
+                >
+                  <Phone className="w-4 h-4" />
+                  {s.phone}
+                </a>
+              )}
               {openQuote ? (
                 <button
                   onClick={openQuote}
@@ -124,13 +128,15 @@ export default function Navbar({ settings }) {
 
             {/* Mobile actions */}
             <div className="flex items-center gap-2 lg:hidden">
-              <a
-                href={phoneHref}
-                className="w-10 h-10 rounded-full bg-[#F97316]/10 border border-[#F97316]/20 flex items-center justify-center"
-                aria-label="Call us"
-              >
-                <Phone className="w-4 h-4 text-[#F97316]" />
-              </a>
+              {s.showPhone && (
+                <a
+                  href={phoneHref}
+                  className="w-10 h-10 rounded-full bg-[#F97316]/10 border border-[#F97316]/20 flex items-center justify-center"
+                  aria-label="Call us"
+                >
+                  <Phone className="w-4 h-4 text-[#F97316]" />
+                </a>
+              )}
               <button
                 onClick={() => setMobileOpen(!mobileOpen)}
                 className="p-2 text-slate-700"

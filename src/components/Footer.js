@@ -220,12 +220,14 @@ export default function Footer({ settings }) {
               Contact
             </h3>
             <ul className="space-y-4 text-sm">
-              <li className="flex items-start gap-3">
-                <Phone className="w-4 h-4 text-[#F97316] shrink-0 mt-0.5" />
-                <a href={phoneHref} className="text-white/80 hover:text-white transition-colors">
-                  {s.phone}
-                </a>
-              </li>
+              {s.showPhone && (
+                <li className="flex items-start gap-3">
+                  <Phone className="w-4 h-4 text-[#F97316] shrink-0 mt-0.5" />
+                  <a href={phoneHref} className="text-white/80 hover:text-white transition-colors">
+                    {s.phone}
+                  </a>
+                </li>
+              )}
               <li className="flex items-start gap-3">
                 <Mail className="w-4 h-4 text-[#F97316] shrink-0 mt-0.5" />
                 <a href={mailHref} className="text-white/80 hover:text-white transition-colors">

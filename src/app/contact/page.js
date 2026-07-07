@@ -44,23 +44,26 @@ export const metadata = makeMeta({
 });
 
 function buildChannels(s) {
-  const items = [
-    {
+  const items = [];
+  // Both the call and WhatsApp cards expose the phone number, so both are
+  // suppressed when the admin has hidden the phone in /admin/settings.
+  if (s.showPhone) {
+    items.push({
       icon: Phone,
       title: "Call us",
       value: s.phone,
       href: telHref(s.phone),
       desc: "Mon to Sun, 7am to 9pm",
-    },
-  ];
-  if (s.whatsapp) {
-    items.push({
-      icon: WhatsAppIcon,
-      title: "WhatsApp",
-      value: formatWhatsAppNumber(s.whatsapp) || s.phone,
-      href: s.whatsapp,
-      desc: "Quickest reply, 7 days",
     });
+    if (s.whatsapp) {
+      items.push({
+        icon: WhatsAppIcon,
+        title: "WhatsApp",
+        value: formatWhatsAppNumber(s.whatsapp) || s.phone,
+        href: s.whatsapp,
+        desc: "Quickest reply, 7 days",
+      });
+    }
   }
   items.push({
     icon: Mail,

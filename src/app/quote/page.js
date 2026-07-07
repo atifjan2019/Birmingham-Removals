@@ -72,14 +72,20 @@ export default async function QuotePage() {
             Other ways to reach us
           </h2>
           <p className="mt-3 text-slate-700 leading-relaxed">
-            Prefer to speak to a person? Call{" "}
-            <a
-              href={phoneHref}
-              className="text-[#F97316] font-semibold hover:underline"
-            >
-              {BUSINESS.phoneDisplay}
-            </a>{" "}
-            (Monday to Sunday, 7am–9pm) or email{" "}
+            {settings.showPhone ? (
+              <>
+                Prefer to speak to a person? Call{" "}
+                <a
+                  href={phoneHref}
+                  className="text-[#F97316] font-semibold hover:underline"
+                >
+                  {settings.phone || BUSINESS.phoneDisplay}
+                </a>{" "}
+                (Monday to Sunday, 7am–9pm) or email{" "}
+              </>
+            ) : (
+              <>Prefer email? Reach us at{" "}</>
+            )}
             <a
               href={`mailto:${BUSINESS.email}`}
               className="text-[#F97316] font-semibold hover:underline"

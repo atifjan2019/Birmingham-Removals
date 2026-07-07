@@ -29,13 +29,15 @@ export default function StickyMobileCTA({ settings }) {
       }`}
     >
       <div className="mx-3 mb-3 rounded-2xl bg-white/95 backdrop-blur border border-slate-200 shadow-[0_-8px_24px_rgba(11,30,63,0.18)] p-2 flex items-center gap-2">
-        <a
-          href={phoneHref}
-          className="flex-1 inline-flex items-center justify-center gap-2 px-4 py-3.5 rounded-xl bg-[#0B1E3F] text-white font-bold text-sm"
-        >
-          <Phone className="w-4 h-4" />
-          Call
-        </a>
+        {s.showPhone && (
+          <a
+            href={phoneHref}
+            className="flex-1 inline-flex items-center justify-center gap-2 px-4 py-3.5 rounded-xl bg-[#0B1E3F] text-white font-bold text-sm"
+          >
+            <Phone className="w-4 h-4" />
+            Call
+          </a>
+        )}
         {openQuote ? (
           <button
             onClick={openQuote}

@@ -22,6 +22,10 @@ const FALLBACK = {
   // value in D1 overrides this fallback (some businesses route WhatsApp to a
   // dedicated handset). Without an override, no divergence is possible.
   whatsapp: `https://wa.me/${BUSINESS.phoneE164.replace(/[^\d]/g, "")}`,
+  // Master toggle for showing the business phone number across the public site
+  // (navbar, footer, CTAs, contact & quote pages). Controlled from
+  // /admin/settings. Stored in D1 as "1"/"0"; defaults to shown.
+  showPhone: true,
 };
 
 // Logos uploaded via the admin panel are stored inline as base64 data URLs in
@@ -45,8 +49,12 @@ export async function getSiteSettings() {
     if (!row) return { ...FALLBACK };
     const merged = { ...FALLBACK };
     for (const k of Object.keys(FALLBACK)) {
+      if (k === "showPhone") continue; // boolean flag, coerced below
       if (row[k] != null && String(row[k]).length > 0) merged[k] = row[k];
     }
+    // Stored as a string ("0"/"1"). Only an explicit "0" hides the phone; any
+    // other value (including a missing column on older DBs) keeps it shown.
+    merged.showPhone = String(row.showPhone) !== "0";
     merged.logoUrl = sanitizeImageUrl(merged.logoUrl, FALLBACK.logoUrl);
     merged.footerLogoUrl = sanitizeImageUrl(merged.footerLogoUrl, "");
     merged.faviconUrl = sanitizeImageUrl(merged.faviconUrl, FALLBACK.faviconUrl);

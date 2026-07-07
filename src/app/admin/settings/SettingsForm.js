@@ -229,6 +229,23 @@ export default function SettingsForm({ initial }) {
               multiline
             />
           </div>
+          <div className="md:col-span-2">
+            <label className="flex items-start gap-3 rounded-xl border border-gray-200 bg-gray-50 p-4 cursor-pointer">
+              <input
+                type="checkbox"
+                name="showPhone"
+                defaultChecked={initial.showPhone !== false}
+                className="mt-0.5 h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary/30"
+              />
+              <span className="text-sm">
+                <span className="block font-semibold text-gray-900">Show phone number on the website</span>
+                <span className="block text-muted mt-0.5">
+                  When unticked, the phone number is hidden everywhere (navbar, footer, CTAs, contact
+                  &amp; quote pages) and visitors are directed to email and the booking form instead.
+                </span>
+              </span>
+            </label>
+          </div>
         </div>
       </section>
 

@@ -27,13 +27,15 @@ export default function CTAStrip({ settings }) {
           </p>
         </div>
         <div className="flex flex-col sm:flex-row items-center gap-3 shrink-0">
-          <a
-            href={phoneHref}
-            className="inline-flex items-center gap-2 px-6 py-4 rounded-full bg-white/10 border border-white/20 backdrop-blur font-semibold hover:bg-white/20 transition-colors"
-          >
-            <Phone className="w-5 h-5" />
-            {s.phone}
-          </a>
+          {s.showPhone && (
+            <a
+              href={phoneHref}
+              className="inline-flex items-center gap-2 px-6 py-4 rounded-full bg-white/10 border border-white/20 backdrop-blur font-semibold hover:bg-white/20 transition-colors"
+            >
+              <Phone className="w-5 h-5" />
+              {s.phone}
+            </a>
+          )}
           {openQuote ? (
             <button
               onClick={openQuote}

@@ -177,13 +177,15 @@ export default function QuoteFunnel({ settings }) {
               />
             )}
           </Link>
-          <a
-            href={phoneHref}
-            className="flex items-center gap-1.5 text-muted hover:text-gray-900 transition-colors text-sm"
-          >
-            <Phone className="w-4 h-4" />
-            <span className="hidden sm:inline">{s.phone}</span>
-          </a>
+          {s.showPhone && (
+            <a
+              href={phoneHref}
+              className="flex items-center gap-1.5 text-muted hover:text-gray-900 transition-colors text-sm"
+            >
+              <Phone className="w-4 h-4" />
+              <span className="hidden sm:inline">{s.phone}</span>
+            </a>
+          )}
         </div>
       </header>
 

@@ -69,6 +69,7 @@ CREATE TABLE IF NOT EXISTS SiteSettings (
   youtube     TEXT,
   tiktok      TEXT,
   whatsapp    TEXT,
+  showPhone   TEXT,
   updatedAt   TEXT NOT NULL DEFAULT (datetime('now'))
 );
 INSERT OR IGNORE INTO SiteSettings (id) VALUES (1);

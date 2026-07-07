@@ -104,6 +104,7 @@ interface SiteSettingsRow {
 	youtube: string | null;
 	tiktok: string | null;
 	whatsapp: string | null;
+	showPhone: string | null;
 	updatedAt: string;
 }
 
@@ -121,6 +122,7 @@ const SITE_SETTINGS_FIELDS = [
 	"youtube",
 	"tiktok",
 	"whatsapp",
+	"showPhone",
 ] as const;
 type SiteSettingsField = (typeof SITE_SETTINGS_FIELDS)[number];
 type SiteSettingsUpdate = Partial<Record<SiteSettingsField, string | null>>;
@@ -475,7 +477,7 @@ async function getSettings(env: Env, corsHeaders?: HeadersInit): Promise<Respons
 	await env.DB.prepare("INSERT OR IGNORE INTO SiteSettings (id) VALUES (1)").run();
 	const row = await env.DB.prepare(
 		`SELECT id, logoUrl, footerLogoUrl, faviconUrl, phone, email, address,
-			facebook, instagram, twitter, linkedin, youtube, tiktok, whatsapp, updatedAt
+			facebook, instagram, twitter, linkedin, youtube, tiktok, whatsapp, showPhone, updatedAt
 		 FROM SiteSettings WHERE id = 1`,
 	).first<SiteSettingsRow>();
 
@@ -520,7 +522,7 @@ async function updateSettings(request: Request, env: Env, corsHeaders?: HeadersI
 
 	const row = await env.DB.prepare(
 		`SELECT id, logoUrl, footerLogoUrl, faviconUrl, phone, email, address,
-			facebook, instagram, twitter, linkedin, youtube, tiktok, whatsapp, updatedAt
+			facebook, instagram, twitter, linkedin, youtube, tiktok, whatsapp, showPhone, updatedAt
 		 FROM SiteSettings WHERE id = 1`,
 	).first<SiteSettingsRow>();
 
