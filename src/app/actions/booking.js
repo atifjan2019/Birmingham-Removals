@@ -116,7 +116,30 @@ function buildBookingPayload(formData, fallbackStatus = "New") {
 export async function createBooking(formData) {
   try {
     const payload = buildBookingPayload(formData);
-    const booking = await createWorkerBooking(payload);
+    const abandonedBookingId = String(formData?.abandonedBookingId || "").trim();
+    let booking;
+
+    if (abandonedBookingId) {
+      try {
+        booking = await updateWorkerBooking(abandonedBookingId, payload);
+        await recordWorkerActivity({
+          action: "lead.abandoned_converted",
+          entityId: booking.id,
+          actor: "app",
+          details: JSON.stringify({
+            summary: `Abandoned lead converted to booking for ${payload.fullName}`,
+            customer: { fullName: payload.fullName, phone: payload.phone, email: payload.email },
+            moveType: payload.moveType,
+            route: `${payload.fromPostcode} to ${payload.toPostcode}`,
+          }),
+        });
+      } catch (error) {
+        console.error("Failed converting abandoned booking, creating a new booking instead:", error);
+        booking = await createWorkerBooking(payload);
+      }
+    } else {
+      booking = await createWorkerBooking(payload);
+    }
 
     const emailData = {
       email: payload.email,
@@ -219,27 +242,74 @@ export async function deleteBooking(id) {
 
 export async function captureAbandonedLead(formData) {
   try {
-    const { moveType, fromPostcode, toPostcode, moveDate, bedrooms, extras, fullName, phone, email } = formData;
+    const {
+      abandonedLeadId,
+      abandonedBookingId,
+      moveType,
+      fromPostcode,
+      toPostcode,
+      moveDate,
+      bedrooms,
+      extras,
+      fullName,
+      phone,
+      email,
+    } = formData || {};
 
-    if (!email && !phone) return { success: false };
+    const leadId = String(abandonedLeadId || "").replace(/[^a-zA-Z0-9_-]/g, "").slice(0, 80);
+    if (!leadId) return { success: false };
 
-    const estimatedPrice = calculateQuote(moveType || "house", bedrooms || 1, extras || []).min || 0;
+    const safeMoveType = String(moveType || "Unknown").trim() || "Unknown";
+    const safeExtras = Array.isArray(extras) ? extras : [];
+    const estimatedPrice = calculateQuote(safeMoveType, bedrooms || 1, safeExtras).min || 0;
+    const validEmail = typeof email === "string" && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim());
+    const validPhone = typeof phone === "string" && phone.trim().length >= 10;
+    const validFullName = typeof fullName === "string" && fullName.trim().length >= 2;
+    const validMoveDate = typeof moveDate === "string" && /^\d{4}-\d{2}-\d{2}$/.test(moveDate);
 
-    const payload = {
-      fullName: fullName || "Partial Lead",
-      phone: phone || "",
-      email: email || `abandoned_${Date.now()}@pending.com`,
-      moveType: moveType || "Unknown",
-      fromPostcode: fromPostcode || "Unknown",
-      toPostcode: toPostcode || "Unknown",
-      moveDate: moveDate || new Date().toISOString().slice(0, 10),
+    const createPayload = {
+      fullName: validFullName ? fullName.trim() : "Partial Lead",
+      phone: validPhone ? phone.trim() : "Not provided",
+      email: validEmail ? email.trim().toLowerCase() : `abandoned_${leadId}@pending.com`,
+      moveType: safeMoveType,
+      fromPostcode: String(fromPostcode || "Unknown").trim() || "Unknown",
+      toPostcode: String(toPostcode || "Unknown").trim() || "Unknown",
+      moveDate: validMoveDate ? moveDate : new Date().toISOString().slice(0, 10),
       bedrooms: parseInt(bedrooms) || 0,
-      extras: extras || [],
+      extras: safeExtras,
       status: "Abandoned",
       price: estimatedPrice,
     };
 
-    const booking = await createWorkerBooking(payload);
+    if (abandonedBookingId) {
+      const patch = {
+        status: "Abandoned",
+        price: estimatedPrice,
+        extras: safeExtras,
+      };
+
+      if (safeMoveType !== "Unknown") patch.moveType = safeMoveType;
+      if (fromPostcode) patch.fromPostcode = String(fromPostcode).trim();
+      if (toPostcode) patch.toPostcode = String(toPostcode).trim();
+      if (validMoveDate) patch.moveDate = moveDate;
+      if (bedrooms !== undefined && bedrooms !== null && bedrooms !== "") patch.bedrooms = parseInt(bedrooms) || 0;
+      if (validFullName) patch.fullName = fullName.trim();
+      if (validPhone) patch.phone = phone.trim();
+      if (validEmail) patch.email = email.trim().toLowerCase();
+
+      let booking;
+      try {
+        booking = await updateWorkerBooking(abandonedBookingId, patch);
+      } catch (error) {
+        console.error("Failed updating abandoned lead, creating a fresh abandoned lead instead:", error);
+        booking = await createWorkerBooking(createPayload);
+      }
+
+      refreshAdminData();
+      return { success: true, bookingId: booking.id };
+    }
+
+    const booking = await createWorkerBooking(createPayload);
 
     refreshAdminData();
     return { success: true, bookingId: booking.id };

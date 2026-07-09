@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { Phone, Shield, Star, Award } from "lucide-react";
@@ -15,6 +15,7 @@ import Step5Loading from "./Step5Loading";
 import Step6LeadCapture from "./Step6LeadCapture";
 import Step7Success from "./Step7Success";
 import { SITE_SETTINGS_FALLBACK, telHref } from "@/lib/siteSettings";
+import { captureAbandonedLead } from "@/app/actions/booking";
 
 // Steps: 1=MoveType, 2=Bedrooms(conditional), 3=FromPostcode, 4=ToPostcode, 5=MoveDate, 6=Loading, 7=LeadCapture, 8=Success
 const TOTAL_VISIBLE_STEPS = 7; // excluding loading & success
@@ -33,6 +34,49 @@ const trustItems = [
 
 function normalizePostcodeParam(value) {
   return String(value || "").trim().toUpperCase();
+}
+
+function getStoredQuoteLead(key) {
+  if (typeof window === "undefined") return "";
+  return window.sessionStorage.getItem(key) || "";
+}
+
+function setStoredQuoteLead(key, value) {
+  if (typeof window === "undefined") return;
+  if (value) window.sessionStorage.setItem(key, value);
+  else window.sessionStorage.removeItem(key);
+}
+
+function createLeadId() {
+  if (typeof crypto !== "undefined" && crypto.randomUUID) return crypto.randomUUID();
+  return `${Date.now()}_${Math.random().toString(36).slice(2)}`;
+}
+
+function hasMeaningfulField(data) {
+  return Boolean(
+    data.moveType ||
+      data.fromPostcode ||
+      data.toPostcode ||
+      data.moveDate ||
+      data.fullName ||
+      data.phone ||
+      data.email ||
+      data.flexibleDates,
+  );
+}
+
+function abandonedSignature(data) {
+  return JSON.stringify({
+    moveType: data.moveType || "",
+    bedrooms: data.bedrooms || 0,
+    fromPostcode: data.fromPostcode || "",
+    toPostcode: data.toPostcode || "",
+    moveDate: data.moveDate || "",
+    flexibleDates: Boolean(data.flexibleDates),
+    fullName: data.fullName || "",
+    phone: data.phone || "",
+    email: data.email || "",
+  });
 }
 
 export default function QuoteFunnel({ settings }) {
@@ -61,6 +105,16 @@ export default function QuoteFunnel({ settings }) {
 
   const [step, setStep] = useState(getInitialStep());
   const [direction, setDirection] = useState(1);
+  const [abandonedLeadId] = useState(() => {
+    const existing = getStoredQuoteLead("br_quote_abandoned_lead_id");
+    const next = existing || createLeadId();
+    setStoredQuoteLead("br_quote_abandoned_lead_id", next);
+    return next;
+  });
+  const [abandonedBookingId, setAbandonedBookingId] = useState(() =>
+    getStoredQuoteLead("br_quote_abandoned_booking_id"),
+  );
+  const [isCompletingBooking, setIsCompletingBooking] = useState(false);
   const [data, setData] = useState({
     moveType: hasValidType ? typeParam : "",
     bedrooms: 1,
@@ -70,7 +124,11 @@ export default function QuoteFunnel({ settings }) {
     flexibleDates: false,
     fullName: "",
     phone: "",
+    email: "",
   });
+  const hasUserInteracted = useRef(false);
+  const captureDisabled = useRef(false);
+  const lastCapturedSignature = useRef("");
 
   const needsBedrooms = data.moveType === "house" || data.moveType === "flat";
 
@@ -132,7 +190,56 @@ export default function QuoteFunnel({ settings }) {
     setStep(previousStep);
   };
 
-  const update = (fields) => setData((prev) => ({ ...prev, ...fields }));
+  const completeBooking = () => {
+    captureDisabled.current = true;
+    setIsCompletingBooking(true);
+    setStoredQuoteLead("br_quote_abandoned_lead_id", "");
+    setStoredQuoteLead("br_quote_abandoned_booking_id", "");
+    setDirection(1);
+    setStep(getNextStep(step));
+  };
+
+  const update = (fields) => {
+    hasUserInteracted.current = true;
+    setData((prev) => ({ ...prev, ...fields }));
+  };
+
+  useEffect(() => {
+    if (
+      captureDisabled.current ||
+      isCompletingBooking ||
+      !hasUserInteracted.current ||
+      step >= 8 ||
+      !hasMeaningfulField(data)
+    ) {
+      return undefined;
+    }
+
+    const signature = abandonedSignature(data);
+    if (signature === lastCapturedSignature.current) return undefined;
+
+    const timeout = setTimeout(async () => {
+      try {
+        const result = await captureAbandonedLead({
+          ...data,
+          abandonedLeadId,
+          abandonedBookingId,
+        });
+
+        if (result?.success && result.bookingId) {
+          lastCapturedSignature.current = signature;
+          if (!abandonedBookingId || abandonedBookingId !== result.bookingId) {
+            setAbandonedBookingId(result.bookingId);
+            setStoredQuoteLead("br_quote_abandoned_booking_id", result.bookingId);
+          }
+        }
+      } catch (error) {
+        console.error("Failed to capture abandoned quote:", error);
+      }
+    }, 1200);
+
+    return () => clearTimeout(timeout);
+  }, [data, step, abandonedLeadId, abandonedBookingId, isCompletingBooking]);
 
   // Calculate progress (exclude loading step from count)
   const getProgressPercent = () => {
@@ -279,8 +386,11 @@ export default function QuoteFunnel({ settings }) {
                   {step === 7 && (
                     <Step6LeadCapture
                       data={data}
+                      abandonedBookingId={abandonedBookingId}
                       onChange={update}
-                      onSubmit={goNext}
+                      onSubmitStart={() => setIsCompletingBooking(true)}
+                      onSubmitError={() => setIsCompletingBooking(false)}
+                      onSubmit={completeBooking}
                       onBack={goBack}
                     />
                   )}

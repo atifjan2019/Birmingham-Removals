@@ -1,43 +1,24 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import { motion } from "framer-motion";
-import { Zap, Lock, User, Phone, ArrowLeft, Loader2, Mail } from "lucide-react";
-import { createBooking, captureAbandonedLead } from "@/app/actions/booking";
+import { Zap, User, Phone, ArrowLeft, Loader2, Mail } from "lucide-react";
+import { createBooking } from "@/app/actions/booking";
 
 const UK_MOBILE_REGEX = /^07\d{3}\s?\d{3}\s?\d{3}$/;
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-export default function Step6LeadCapture({ data, onChange, onSubmit, onBack }) {
+export default function Step6LeadCapture({
+  data,
+  abandonedBookingId,
+  onChange,
+  onSubmitStart,
+  onSubmitError,
+  onSubmit,
+  onBack,
+}) {
   const [errors, setErrors] = useState({});
   const [submitting, setSubmitting] = useState(false);
-  const captureTimeout = useRef(null);
-  const hasCaptured = useRef(false);
-
-  // Auto-capture abandoned lead when user types contact info
-  // Use primitive deps to avoid infinite re-render from object reference changes
-  const phone = data.phone || "";
-  const email = data.email || "";
-  const fullName = data.fullName || "";
-
-  useEffect(() => {
-    const hasContact = (phone.length >= 8) || (email.includes("@"));
-    if (hasContact && !submitting && !hasCaptured.current) {
-      if (captureTimeout.current) clearTimeout(captureTimeout.current);
-      captureTimeout.current = setTimeout(async () => {
-        try {
-          await captureAbandonedLead(data);
-          hasCaptured.current = true;
-          console.log("[Abandoned Lead Captured]");
-        } catch (e) {
-          console.error("Failed to capture abandoned lead:", e);
-        }
-      }, 3000); // 3 seconds after they stop typing
-    }
-    return () => {
-      if (captureTimeout.current) clearTimeout(captureTimeout.current);
-    };
-  }, [data, phone, email, fullName, submitting]);
 
   const formattedDate = data.moveDate
     ? new Date(data.moveDate).toLocaleDateString("en-GB", {
@@ -72,10 +53,12 @@ export default function Step6LeadCapture({ data, onChange, onSubmit, onBack }) {
   const handleSubmit = async () => {
     if (!validate()) return;
     setErrors({});
+    onSubmitStart?.();
     setSubmitting(true);
     
     const submissionData = {
       ...data,
+      abandonedBookingId,
       extras: data.extras || []
     };
 
@@ -86,9 +69,11 @@ export default function Step6LeadCapture({ data, onChange, onSubmit, onBack }) {
       if (result?.success) {
         onSubmit();
       } else {
+        onSubmitError?.();
         setErrors({ submit: result?.error || "System error. Please try again or call us." });
       }
     } catch (err) {
+      onSubmitError?.();
       setSubmitting(false);
       setErrors({ submit: "Network error submitting quote. Please try again or call us." });
     }
