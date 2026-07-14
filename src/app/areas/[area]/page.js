@@ -10,6 +10,13 @@ export async function generateStaticParams() {
   return allCitySlugs.map((area) => ({ area }));
 }
 
+// allCitySlugs enumerates every valid area (cities.js merges in all
+// areaPageData entries), so reject unknown slugs at the router instead of
+// rendering them. Without this, every bot-probed junk URL under /areas/
+// triggered a full on-demand render whose 404 result was written to the ISR
+// cache — wasted Vercel ISR write units for pages that don't exist.
+export const dynamicParams = false;
+
 export async function generateMetadata({ params }) {
   const { area } = await params;
   const city = getCity(area);

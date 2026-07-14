@@ -12,7 +12,7 @@ function adminPin() {
 async function workerFetch(
   path,
   options = {},
-  { admin = false, timeoutMs = 8000, revalidate } = {}
+  { admin = false, timeoutMs = 8000, revalidate, tags } = {}
 ) {
   const headers = new Headers(options.headers);
   headers.set("Accept", "application/json");
@@ -30,7 +30,7 @@ async function workerFetch(
   // public pages don't hit the API on every request.
   const cacheOpts =
     typeof revalidate === "number"
-      ? { next: { revalidate } }
+      ? { next: { revalidate, ...(tags ? { tags } : {}) } }
       : { cache: "no-store" };
 
   const response = await fetch(`${apiBase()}${path}`, {
@@ -116,12 +116,26 @@ export async function getWorkerSettings() {
   // Public, on every page: short timeout so a dead API fails fast to the
   // fallback. This fetch lives in the root layout, so its revalidate window
   // governs ISR regeneration for EVERY public page. Settings change only when
-  // an admin saves them, and that save calls revalidatePath("/", "layout")
-  // (see actions/settings.js) which purges all pages instantly — so we use a
-  // long 24h window here purely as a fallback ceiling. A short window (e.g.
-  // 600s) put the whole site on a 10-min ISR cycle and caused excessive
-  // Vercel ISR write usage.
-  return workerFetch("/settings", {}, { timeoutMs: 1500, revalidate: 86400 });
+  // an admin saves them, and that save calls revalidateTag("site-settings") +
+  // revalidatePath("/", "layout") (see actions/settings.js) which propagates
+  // the change instantly — so we use a long 24h window here purely as a
+  // fallback ceiling. A short window (e.g. 600s) put the whole site on a
+  // 10-min ISR cycle and caused excessive Vercel ISR write usage.
+  // The tag lets the settings save bust this single shared data-cache entry
+  // (used by every page AND /api/site-image/*) without touching anything else.
+  return workerFetch("/settings", {}, {
+    timeoutMs: 1500,
+    revalidate: 86400,
+    tags: ["site-settings"],
+  });
+}
+
+export async function getWorkerSettingsFresh() {
+  // Uncached read, used only by the settings server action to diff a save
+  // against what is actually stored so no-op saves can skip the (expensive)
+  // full-site revalidation. Never use this on public pages — the no-store
+  // fetch would make them dynamic.
+  return workerFetch("/settings", {}, { admin: true, timeoutMs: 5000 });
 }
 
 export async function updateWorkerSettings(patch) {

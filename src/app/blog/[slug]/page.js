@@ -20,6 +20,11 @@ export function generateStaticParams() {
   return getAllPostSlugs().map((slug) => ({ slug }));
 }
 
+// All posts live in lib/blog — the list above is exhaustive, so 404 unknown
+// slugs at the router rather than rendering + ISR-caching them (bot-probed
+// junk URLs were burning Vercel ISR write units).
+export const dynamicParams = false;
+
 export async function generateMetadata({ params }) {
   const { slug } = await params;
   const post = getPostBySlug(slug);

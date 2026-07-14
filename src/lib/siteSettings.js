@@ -29,18 +29,18 @@ const FALLBACK = {
 };
 
 // Logos uploaded via the admin panel are stored inline as base64 data URLs in
-// D1. We allow them to render, but cap their size so a stray oversized upload
-// can't balloon every page's HTML. The admin uploader already enforces 500 KB
-// per image; this is a defensive backstop for any historical/large value.
-// (JSON-LD uses BUSINESS.logo, a static URL, so data URLs never reach schema.)
-const MAX_INLINE_IMAGE_CHARS = 800 * 1024; // ~500 KB binary + base64 overhead
-
-function sanitizeImageUrl(value, fallback) {
+// D1 (~530 KB combined for logo + footer logo + favicon). They must NEVER be
+// passed through to page markup: each embedded copy is duplicated into every
+// page's HTML and RSC payload, which pushed pages to ~3.4 MB apiece and
+// multiplied Vercel ISR write units ~6× across all ~230 pages. Instead pages
+// get a tiny URL to /api/site-image/[kind], which decodes and serves the
+// image from the same shared, cached settings fetch. The ?v= param (the
+// settings row's updatedAt) busts CDN/browser caches when an admin uploads a
+// new image, so the route can serve with immutable cache headers.
+function toImageRoute(value, kind, version, fallback) {
   if (typeof value !== "string" || value.length === 0) return fallback;
-  if (value.startsWith("data:") && value.length > MAX_INLINE_IMAGE_CHARS) {
-    return fallback;
-  }
-  return value;
+  if (!value.startsWith("data:")) return value; // already a plain URL/path
+  return `/api/site-image/${kind}?v=${encodeURIComponent(version)}`;
 }
 
 export async function getSiteSettings() {
@@ -55,9 +55,10 @@ export async function getSiteSettings() {
     // Stored as a string ("0"/"1"). Only an explicit "0" hides the phone; any
     // other value (including a missing column on older DBs) keeps it shown.
     merged.showPhone = String(row.showPhone) !== "0";
-    merged.logoUrl = sanitizeImageUrl(merged.logoUrl, FALLBACK.logoUrl);
-    merged.footerLogoUrl = sanitizeImageUrl(merged.footerLogoUrl, "");
-    merged.faviconUrl = sanitizeImageUrl(merged.faviconUrl, FALLBACK.faviconUrl);
+    const version = row.updatedAt || "";
+    merged.logoUrl = toImageRoute(merged.logoUrl, "logo", version, FALLBACK.logoUrl);
+    merged.footerLogoUrl = toImageRoute(merged.footerLogoUrl, "footer-logo", version, "");
+    merged.faviconUrl = toImageRoute(merged.faviconUrl, "favicon", version, FALLBACK.faviconUrl);
     return merged;
   } catch (e) {
     console.error("[siteSettings] read failed, using fallback:", e?.message);

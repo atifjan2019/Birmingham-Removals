@@ -1,7 +1,7 @@
 "use server";
 
-import { updateWorkerSettings } from "@/lib/workerApi";
-import { revalidatePath } from "next/cache";
+import { updateWorkerSettings, getWorkerSettingsFresh } from "@/lib/workerApi";
+import { revalidatePath, revalidateTag } from "next/cache";
 import { cookies } from "next/headers";
 import { decrypt } from "@/lib/session";
 
@@ -78,9 +78,32 @@ export async function updateSiteSettings(_prevState, formData) {
     if (formData.get("removeFooterLogo") === "1") patch.footerLogoUrl = null;
     if (formData.get("removeFavicon") === "1") patch.faviconUrl = null;
 
+    // Snapshot what's stored BEFORE writing, so we can tell whether this save
+    // actually changes anything. Settings render in the navbar/footer of every
+    // page, so a real change must purge the whole site — but that purge makes
+    // every one of the ~230 public pages regenerate (and re-write to Vercel's
+    // ISR cache) on its next hit. Skipping it for no-op saves (admin clicks
+    // Save without editing, double submits, re-uploads the identical file)
+    // avoids full-site regeneration cycles that cost thousands of ISR write
+    // units each. If the pre-read fails we assume "changed" — correctness
+    // beats saving writes.
+    const current = await getWorkerSettingsFresh().catch(() => null);
+
     await updateWorkerSettings(patch);
 
-    revalidatePath("/", "layout");
+    const norm = (v) => (v == null ? "" : String(v));
+    const changed =
+      !current ||
+      Object.keys(patch).some((k) => norm(patch[k]) !== norm(current[k]));
+
+    if (changed) {
+      // Bust the single shared settings fetch (used by every page and by
+      // /api/site-image/*) first, then mark every page stale. Pages regenerate
+      // lazily on their next request — with images no longer inlined this
+      // costs ~10 write units per page instead of ~420.
+      revalidateTag("site-settings");
+      revalidatePath("/", "layout");
+    }
     revalidatePath("/admin/settings");
 
     return { success: true, savedAt: Date.now() };
