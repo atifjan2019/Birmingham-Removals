@@ -81,7 +81,10 @@ function baseLayout(content) {
         <!-- Header with Logo -->
         <tr>
           <td style="background-color:#ffffff;padding:28px 32px;text-align:center;border-bottom:3px solid #F97316;">
-            <img src="${LOGO_URL}" alt="Birmingham Removals" width="200" style="display:block;margin:0 auto;max-width:200px;height:auto;" />
+            <!-- The logo PNG is transparent; a white background + padding on the
+                 image keeps it readable in dark-mode email clients (which would
+                 otherwise composite it onto black). -->
+            <img src="${LOGO_URL}" alt="Birmingham Removals" width="200" style="display:block;margin:0 auto;max-width:200px;height:auto;background-color:#ffffff;padding:14px 18px;border-radius:8px;" />
           </td>
         </tr>
         <!-- Body -->
