@@ -1,12 +1,14 @@
 const DEFAULT_WORKER_API_URL = "https://birmingham-removals-api.webspires.workers.dev";
-const DEFAULT_ADMIN_PIN = "524862";
 
 function apiBase() {
   return (process.env.WORKER_API_URL || DEFAULT_WORKER_API_URL).replace(/\/+$/, "");
 }
 
+// No hardcoded fallback — the admin PIN must come from the environment. An
+// empty value will be rejected by the worker (fail closed) rather than using a
+// known default.
 function adminPin() {
-  return process.env.ADMIN_PIN || process.env.WORKER_ADMIN_PIN || DEFAULT_ADMIN_PIN;
+  return process.env.ADMIN_PIN || process.env.WORKER_ADMIN_PIN || "";
 }
 
 async function workerFetch(

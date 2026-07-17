@@ -1,20 +1,28 @@
 import { SignJWT, jwtVerify } from "jose";
 import { cookies } from "next/headers";
 
-const secretKey = process.env.SESSION_SECRET || "super-secret-key-for-birmingham-removals";
-const encodedKey = new TextEncoder().encode(secretKey);
+// No fallback: the session secret MUST come from the environment. Resolved
+// lazily so a missing var fails only where sessions are actually used (admin
+// auth) rather than crashing every page at import time.
+function getEncodedKey() {
+  const secretKey = process.env.SESSION_SECRET;
+  if (!secretKey) {
+    throw new Error("SESSION_SECRET is not set");
+  }
+  return new TextEncoder().encode(secretKey);
+}
 
 export async function encrypt(payload) {
   return new SignJWT(payload)
     .setProtectedHeader({ alg: "HS256" })
     .setIssuedAt()
     .setExpirationTime("7d")
-    .sign(encodedKey);
+    .sign(getEncodedKey());
 }
 
 export async function decrypt(session) {
   try {
-    const { payload } = await jwtVerify(session, encodedKey, {
+    const { payload } = await jwtVerify(session, getEncodedKey(), {
       algorithms: ["HS256"],
     });
     return payload;
