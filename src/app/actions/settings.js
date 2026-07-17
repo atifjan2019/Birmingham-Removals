@@ -30,6 +30,20 @@ async function requireAdmin() {
   return session;
 }
 
+// Accept whatever an admin types for WhatsApp — a bare number, a number with
+// spaces/dashes, or a full link — and store a canonical https://wa.me/<digits>
+// URL. A UK number entered with a leading 0 is converted to the 44 country
+// code. An existing http(s) link is kept as-is.
+function normalizeWhatsApp(value) {
+  const s = String(value || "").trim();
+  if (!s) return "";
+  if (/^https?:\/\//i.test(s)) return s;
+  let digits = s.replace(/[^\d]/g, "");
+  if (!digits) return s;
+  if (digits.startsWith("0")) digits = `44${digits.slice(1)}`;
+  return `https://wa.me/${digits}`;
+}
+
 async function fileToDataUrl(file, maxBytes, label) {
   if (!file || typeof file === "string" || !file.size) return null;
   if (!ALLOWED_IMAGE_TYPES.includes(file.type)) {
@@ -56,6 +70,9 @@ export async function updateSiteSettings(_prevState, formData) {
       const v = formData.get(f);
       if (v != null) patch[f] = String(v).trim();
     }
+
+    // Turn a plain WhatsApp number into a wa.me link before persisting.
+    if (patch.whatsapp != null) patch.whatsapp = normalizeWhatsApp(patch.whatsapp);
 
     // Checkbox: present in the form data only when ticked. Persist as "1"/"0"
     // so an untick is stored explicitly rather than left unchanged.

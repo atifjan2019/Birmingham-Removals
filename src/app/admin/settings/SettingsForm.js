@@ -56,7 +56,11 @@ const SOCIALS = [
   { key: "linkedin", label: "LinkedIn", icon: Linkedin, placeholder: "https://linkedin.com/company/..." },
   { key: "youtube", label: "YouTube", icon: Youtube, placeholder: "https://youtube.com/@yourchannel" },
   { key: "tiktok", label: "TikTok", icon: Music2, placeholder: "https://tiktok.com/@yourhandle" },
-  { key: "whatsapp", label: "WhatsApp", icon: MessageCircle, placeholder: "https://wa.me/447365380090" },
+  // WhatsApp is a plain text field (not type="url"): admins naturally enter a
+  // phone number, and a bare number in a url-type input fails HTML5 validation,
+  // which silently blocks the whole form from saving. The server normalises a
+  // number into a wa.me link.
+  { key: "whatsapp", label: "WhatsApp", icon: MessageCircle, type: "text", placeholder: "07360 544819 or https://wa.me/447360544819" },
 ];
 
 function ImageUploader({ name, label, currentSrc, accept, hint, onRemove, removeName }) {
@@ -261,7 +265,7 @@ export default function SettingsForm({ initial }) {
               name={s.key}
               label={s.label}
               icon={s.icon}
-              type="url"
+              type={s.type || "url"}
               defaultValue={initial[s.key]}
               placeholder={s.placeholder}
             />
