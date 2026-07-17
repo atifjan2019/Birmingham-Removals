@@ -8,9 +8,18 @@ import { loadGoogleMaps } from "@/lib/googleMaps";
  * A styled postcode input backed by Google Places Autocomplete.
  *
  * Restricted to UK (country: "gb"). As the user types an address or postcode,
- * Google renders its own suggestion dropdown. When a suggestion is picked we
- * pull the postal_code component out of the result and push it up via onChange
- * (falling back to the formatted address if no postcode is present).
+ * Google renders its own suggestion dropdown; picking one pulls the postcode
+ * out of the result and reports it via onChange.
+ *
+ * The input is UNCONTROLLED (defaultValue, not value). Google Autocomplete
+ * writes directly to the input's DOM value, and a React-controlled value fights
+ * that — it suppresses the prediction dropdown. Keeping it uncontrolled lets
+ * Google work while onChange still keeps the parent's state in sync for
+ * validation and the next step.
+ *
+ * Attachment polls until both the input and the Places library are ready, which
+ * avoids load/mount ordering races (and React StrictMode's double-invoke in
+ * dev) that could otherwise leave the widget unattached.
  */
 export default function PostcodeAutocomplete({
   value,
@@ -26,40 +35,54 @@ export default function PostcodeAutocomplete({
   }, [onChange]);
 
   useEffect(() => {
-    let autocomplete;
-    let listener;
+    const node = inputRef.current;
     let cancelled = false;
+    let listener;
+    let pollTimer;
+    let tries = 0;
 
-    loadGoogleMaps()
-      .then((google) => {
-        if (cancelled || !google || !inputRef.current) return;
+    const attach = () => {
+      if (cancelled) return;
+      const el = inputRef.current;
+      const places = window.google?.maps?.places;
+      if (!el || !places) {
+        if (tries++ < 100) pollTimer = setTimeout(attach, 100);
+        return;
+      }
+      if (el.dataset.acReady === "1") return;
+      el.dataset.acReady = "1";
 
-        autocomplete = new google.maps.places.Autocomplete(inputRef.current, {
-          componentRestrictions: { country: "gb" },
-          fields: ["address_components", "formatted_address"],
-          types: ["geocode"],
-        });
-
-        listener = autocomplete.addListener("place_changed", () => {
-          const place = autocomplete.getPlace();
-          const postcode = place?.address_components?.find((c) =>
-            c.types.includes("postal_code")
-          )?.long_name;
-          const next = postcode || place?.formatted_address || "";
-          if (next) onChangeRef.current(next.toUpperCase());
-        });
-      })
-      .catch(() => {
-        // If the API fails to load the field still works as a plain text input.
+      const autocomplete = new places.Autocomplete(el, {
+        componentRestrictions: { country: "gb" },
+        fields: ["address_components", "formatted_address"],
+        types: ["geocode"],
       });
+
+      listener = autocomplete.addListener("place_changed", () => {
+        const place = autocomplete.getPlace();
+        const postcode = place?.address_components?.find((c) =>
+          c.types.includes("postal_code")
+        )?.long_name;
+        const next = (
+          postcode ||
+          place?.formatted_address ||
+          el.value ||
+          ""
+        ).toUpperCase();
+        el.value = next;
+        onChangeRef.current(next);
+      });
+    };
+
+    // Kick off the script load, then poll for readiness regardless of how the
+    // promise settles (a resolved-but-already-loaded script never re-fires).
+    loadGoogleMaps().finally(attach);
 
     return () => {
       cancelled = true;
+      if (pollTimer) clearTimeout(pollTimer);
       if (listener) listener.remove();
-      // Remove any leftover Google dropdown containers on unmount.
-      document
-        .querySelectorAll(".pac-container")
-        .forEach((el) => el.remove());
+      if (node) delete node.dataset.acReady;
     };
   }, []);
 
@@ -70,7 +93,7 @@ export default function PostcodeAutocomplete({
         ref={inputRef}
         type="text"
         placeholder={placeholder}
-        value={value}
+        defaultValue={value}
         autoFocus={autoFocus}
         onChange={(e) => onChange(e.target.value.toUpperCase())}
         className="w-full bg-gray-50 border border-gray-200 rounded-xl py-4 pl-12 pr-4 text-gray-900 text-lg placeholder:text-gray-400 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/30 transition-all"
