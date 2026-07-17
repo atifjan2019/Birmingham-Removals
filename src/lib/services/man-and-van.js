@@ -13,7 +13,7 @@ const manAndVan = {
     {
       heading: "Need a Van Today?",
       paragraphs: [
-        "Stuck for a van at short notice? Call <strong>07365 380090</strong> before 10am and we can usually arrange same-day man and van in Birmingham, often reaching you within a couple of hours. The earlier you ring, the more slots we have free, so do not leave it until the afternoon if your move has to happen today.",
+        "Stuck for a van at short notice? Call <strong>0736 054 4819</strong> before 10am and we can usually arrange same-day man and van in Birmingham, often reaching you within a couple of hours. The earlier you ring, the more slots we have free, so do not leave it until the afternoon if your move has to happen today.",
       ],
     },
     {

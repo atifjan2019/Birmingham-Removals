@@ -105,7 +105,7 @@ const furnitureRemovals = {
     },
     {
       q: "What if I do not know the dimensions of the item?",
-      a: "Send us a photo on WhatsApp at <strong>0738 515 0381</strong> and we can usually estimate from the picture. For showroom items, the model name is enough to look up the dimensions.",
+      a: "Send us a photo on WhatsApp at <strong>0736 054 4819</strong> and we can usually estimate from the picture. For showroom items, the model name is enough to look up the dimensions.",
     },
     {
       q: "How do I pay?",

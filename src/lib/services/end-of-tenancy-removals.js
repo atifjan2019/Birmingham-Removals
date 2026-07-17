@@ -54,7 +54,7 @@ const endOfTenancyRemovals = {
     {
       heading: "Same-Day and Short-Notice Moves",
       paragraphs: [
-        "If your tenancy is ending tomorrow and you have only just realised you need a removals firm, do not panic. Call <strong>07365 380090</strong> and we will tell you within minutes whether we can fit you in. Same-day and next-day end-of-tenancy moves are something we plan capacity around, particularly Friday afternoons and Saturday mornings which see the highest demand in the rental market.",
+        "If your tenancy is ending tomorrow and you have only just realised you need a removals firm, do not panic. Call <strong>0736 054 4819</strong> and we will tell you within minutes whether we can fit you in. Same-day and next-day end-of-tenancy moves are something we plan capacity around, particularly Friday afternoons and Saturday mornings which see the highest demand in the rental market.",
         "The earlier you call, the more options you have. A 9am call has far more chance of getting a same-day slot than a 4pm one, simply because the available crews are still in the depot rather than mid-job. There is no premium charge for short notice on standard end-of-tenancy moves.",
       ],
     },
@@ -78,7 +78,7 @@ const endOfTenancyRemovals = {
   faqs: [
     {
       q: "Can you move me out today?",
-      a: "Often yes, particularly if you call before lunchtime. Same-day end-of-tenancy moves are something we plan capacity around. Ring us at 07365 380090 and we will tell you straight away whether we have a slot.",
+      a: "Often yes, particularly if you call before lunchtime. Same-day end-of-tenancy moves are something we plan capacity around. Ring us at 0736 054 4819 and we will tell you straight away whether we have a slot.",
     },
     {
       q: "Do you charge extra for short-notice or weekend moves?",

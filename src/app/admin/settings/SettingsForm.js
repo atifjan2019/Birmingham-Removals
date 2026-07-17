@@ -261,7 +261,7 @@ export default function SettingsForm({ initial }) {
             icon={Phone}
             type="tel"
             defaultValue={initial.phone}
-            placeholder="07365 380090"
+            placeholder="0736 054 4819"
           />
           <TextInput
             name="email"
