@@ -3,6 +3,7 @@
 import { useActionState, useState, useRef } from "react";
 import { Phone, Mail, MapPin, Loader2, AlertCircle } from "lucide-react";
 import { updateSiteSettings } from "@/app/actions/settings";
+import { BUSINESS } from "@/config/business";
 
 const svg = (props) => ({
   xmlns: "http://www.w3.org/2000/svg",
@@ -66,6 +67,7 @@ const SOCIALS = [
 function ImageUploader({ name, label, currentSrc, accept, hint, onRemove, removeName }) {
   const [preview, setPreview] = useState(currentSrc || "");
   const [removed, setRemoved] = useState(false);
+  const [copied, setCopied] = useState(false);
   const inputRef = useRef(null);
 
   const handleFile = (e) => {
@@ -81,6 +83,27 @@ function ImageUploader({ name, label, currentSrc, accept, hint, onRemove, remove
     setPreview("");
     setRemoved(true);
     if (inputRef.current) inputRef.current.value = "";
+  };
+
+  // The saved image link (not the local preview of a not-yet-saved upload).
+  // currentSrc is already a plain URL/path (e.g. /api/site-image/logo?v=…);
+  // absolutise it against the public site URL unless it is already absolute.
+  const imageLink =
+    currentSrc && !removed
+      ? /^https?:\/\//.test(currentSrc)
+        ? currentSrc
+        : `${BUSINESS.url}${currentSrc}`
+      : "";
+
+  const copyLink = async () => {
+    if (!imageLink) return;
+    try {
+      await navigator.clipboard.writeText(imageLink);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 1500);
+    } catch {
+      // Clipboard blocked — user can still select the link text manually.
+    }
   };
 
   return (
@@ -121,6 +144,31 @@ function ImageUploader({ name, label, currentSrc, accept, hint, onRemove, remove
           <p className="text-xs text-muted mt-2">{hint}</p>
         </div>
       </div>
+
+      {imageLink && (
+        <div className="mt-3">
+          <span className="block text-xs font-medium text-gray-500 mb-1">Image link</span>
+          <div className="flex items-center gap-2">
+            <a
+              href={imageLink}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex-1 min-w-0 truncate text-sm text-primary hover:underline bg-gray-50 border border-gray-200 rounded-lg px-3 py-2"
+              title={imageLink}
+            >
+              {imageLink}
+            </a>
+            <button
+              type="button"
+              onClick={copyLink}
+              className="shrink-0 inline-flex items-center px-3 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors"
+            >
+              {copied ? "Copied" : "Copy"}
+            </button>
+          </div>
+        </div>
+      )}
+
       <input type="hidden" name={removeName} value={removed ? "1" : ""} />
     </div>
   );
