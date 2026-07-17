@@ -32,7 +32,7 @@ export const metadata = makeMeta({
   title: "Contact Us | Free Quote in 30 Mins | Birmingham Removals",
   absoluteTitle: true,
   description:
-    "Call 07365 380090, email hello@birminghamremovals.uk or send a message. Free, fixed-price removals quote within 30 minutes. Birmingham & West Midlands.",
+    "Call or WhatsApp us, or send a message. Free, fixed-price removals quote within 30 minutes. Birmingham & West Midlands.",
   path: "/contact",
   keywords: [
     "contact Birmingham Removals",
