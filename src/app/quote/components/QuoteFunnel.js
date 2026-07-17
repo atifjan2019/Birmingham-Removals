@@ -4,7 +4,6 @@ import { useEffect, useRef, useState } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { Phone, Shield, Star, Award } from "lucide-react";
-import Image from "next/image";
 import Link from "next/link";
 import Step1MoveType from "./Step1MoveType";
 import Step2Bedrooms from "./Step2Bedrooms";
@@ -270,19 +269,18 @@ export default function QuoteFunnel({ settings }) {
       <header className="sticky top-0 z-50 bg-white/80 backdrop-blur-xl border-b border-gray-200/60 shadow-sm">
         <div className="max-w-2xl mx-auto px-4 flex items-center justify-between h-14">
           <Link href="/" className="flex items-center">
-            {s.logoUrl && s.logoUrl.startsWith("data:") ? (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img src={s.logoUrl} alt="Birmingham Removals" className="h-10 w-auto" />
-            ) : (
-              <Image
-                src={s.logoUrl || "/images/logo.webp"}
-                alt="Birmingham Removals"
-                width={180}
-                height={58}
-                className="h-10 w-auto"
-                priority
-              />
-            )}
+            {/* Plain <img> (not next/image) so the versioned
+                /api/site-image/logo?v=… route works — next/image rejects a
+                local src with a query string unless images.localPatterns is
+                configured, which crashed this page. Matches Navbar/AdminShell. */}
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={s.logoUrl || "/images/logo.webp"}
+              alt="Birmingham Removals"
+              width={180}
+              height={58}
+              className="h-10 w-auto"
+            />
           </Link>
           {s.showPhone && (
             <a

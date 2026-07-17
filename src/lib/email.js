@@ -54,7 +54,10 @@ export async function sendEmail({ to, subject, html, text }) {
 /* ─── Pre-built templates ─── */
 
 const BRAND_COLOR = "#F97316";
-const LOGO_URL = "https://www.birminghamremovals.uk/images/logo.webp";
+// Served by /api/site-image/logo (public, returns a PNG) so the email header
+// always matches the current admin-uploaded logo. The old /images/logo.webp
+// path 404'd (no such file) and webp is poorly supported in email clients.
+const LOGO_URL = "https://www.birminghamremovals.uk/api/site-image/logo";
 const BOOKING_NOTIFICATION_EMAIL = "atifjan2019@gmail.com";
 
 function baseLayout(content) {

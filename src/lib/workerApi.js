@@ -123,8 +123,17 @@ export async function getWorkerSettings() {
   // 10-min ISR cycle and caused excessive Vercel ISR write usage.
   // The tag lets the settings save bust this single shared data-cache entry
   // (used by every page AND /api/site-image/*) without touching anything else.
+  //
+  // Timeout: the /settings payload embeds the logo, footer logo and favicon as
+  // base64 (~515 KB total), which takes ~1s warm and more from a cold worker.
+  // A 1.5s timeout aborted that transfer often enough that force-dynamic admin
+  // pages fell back to defaults — showing the OLD phone (BUSINESS.phoneDisplay)
+  // and an empty logoUrl (→ broken /images/logo.webp). 8s tolerates the large
+  // payload; public pages are ISR-cached so the longer ceiling only affects
+  // rare cache-miss regenerations, and correct data beats failing fast to wrong
+  // data. (Fix the root cause later by not embedding images in this payload.)
   return workerFetch("/settings", {}, {
-    timeoutMs: 1500,
+    timeoutMs: 8000,
     revalidate: 86400,
     tags: ["site-settings"],
   });

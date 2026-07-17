@@ -3,17 +3,17 @@
 // client component — concurrent callers share a single script tag / promise.
 //
 // The key is a browser-side key (Maps JS always exposes it), so it MUST be
-// restricted by HTTP referrer in the Google Cloud console. Configure it via
-// NEXT_PUBLIC_GOOGLE_MAPS_API_KEY; the fallback keeps the feature working if
-// the env var is not set on a given environment.
-const GOOGLE_MAPS_API_KEY =
-  process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY ||
-  "AIzaSyDJM-Z-nXJXpu8WXV_s4TQ_Bt7SkRb87QY";
+// restricted by HTTP referrer in the Google Cloud console. It is read from
+// NEXT_PUBLIC_GOOGLE_MAPS_API_KEY (set it in .env.local for dev and in the
+// Vercel project env for production). If it is unset the loader no-ops and the
+// postcode fields degrade to plain text inputs.
+const GOOGLE_MAPS_API_KEY = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
 
 let loadPromise = null;
 
 export function loadGoogleMaps() {
   if (typeof window === "undefined") return Promise.resolve(null);
+  if (!GOOGLE_MAPS_API_KEY) return Promise.resolve(null);
   if (window.google?.maps?.places) return Promise.resolve(window.google);
   if (loadPromise) return loadPromise;
 
