@@ -48,7 +48,10 @@ export default function Step4MoveDate({
   const formatDate = (d) => d.getDate();
   const formatMonth = (d) =>
     d.toLocaleDateString("en-GB", { month: "short" });
-  const toValue = (d) => d.toISOString().split("T")[0];
+  // Format from local date parts, not toISOString() (which converts to UTC and
+  // shifts the day back an hour under BST — booking the wrong date).
+  const toValue = (d) =>
+    `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
 
   return (
     <div>

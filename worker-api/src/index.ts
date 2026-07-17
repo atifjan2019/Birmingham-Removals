@@ -862,7 +862,9 @@ function toBooking(row: BookingRow): Booking {
 		price: row.price,
 		jobCost: row.jobCost,
 		expenses: row.expenses,
-		profit: row.profit,
+		// Derive profit from the current cost/expenses rather than the stored
+		// column, which could be stale when only one side was updated.
+		profit: (row.jobCost ?? 0) - (row.expenses ?? 0),
 		createdAt: row.createdAt,
 		updatedAt: row.updatedAt,
 		customer: {

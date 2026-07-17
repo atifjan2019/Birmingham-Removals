@@ -62,6 +62,9 @@ export async function listBookings() {
 
   while (true) {
     const page = await workerFetch(`/bookings?limit=${limit}&offset=${offset}`, {}, { admin: true });
+    // A 204/empty response returns null — guard so the admin pages degrade
+    // gracefully instead of throwing on `...null`.
+    if (!Array.isArray(page) || page.length === 0) break;
     all.push(...page);
 
     if (page.length < limit) break;

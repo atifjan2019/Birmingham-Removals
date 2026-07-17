@@ -43,7 +43,11 @@ const FALLBACK = {
 function toImageRoute(value, kind, version, fallback) {
   if (typeof value !== "string" || value.length === 0) return fallback;
   if (!value.startsWith("data:")) return value; // already a plain URL/path
-  return `/api/site-image/${kind}?v=${encodeURIComponent(version)}`;
+  // Never emit a versionless URL: the route serves `immutable`, so an empty
+  // ?v= would let a stale image stick forever after the next upload. Fall back
+  // to a short-lived bucket derived from the kind when updatedAt is missing.
+  const v = version && String(version).length > 0 ? version : `no-ts-${kind}`;
+  return `/api/site-image/${kind}?v=${encodeURIComponent(v)}`;
 }
 
 export async function getSiteSettings() {

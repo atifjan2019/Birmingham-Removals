@@ -155,7 +155,7 @@ export default function Navbar({ settings }) {
             <div className="px-4 py-6 space-y-1">
                 {navLinks.map((link) => (
                   <Link
-                    key={link.href}
+                    key={link.label}
                     href={link.href}
                     prefetch={link.prefetch}
                     onClick={() => setMobileOpen(false)}

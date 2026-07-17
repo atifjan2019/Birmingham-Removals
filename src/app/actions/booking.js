@@ -2,6 +2,7 @@
 
 import { calculateQuote } from "@/lib/quoteCalculator";
 import { revalidatePath } from "next/cache";
+import { after } from "next/server";
 import { sendBookingConfirmation, sendAdminNotification } from "@/lib/email";
 import {
   createWorkerBooking,
@@ -141,6 +142,12 @@ export async function createBooking(formData) {
       booking = await createWorkerBooking(payload);
     }
 
+    // The worker returns the created row; guard against a null/id-less response
+    // so we surface a clean error instead of throwing on booking.id below.
+    if (!booking || !booking.id) {
+      throw new Error("Booking was not saved (empty response from API).");
+    }
+
     const emailData = {
       email: payload.email,
       fullName: payload.fullName,
@@ -155,11 +162,28 @@ export async function createBooking(formData) {
       bookingId: booking.id,
     };
 
-    const emailStatus = await sendBookingEmails(emailData);
-    await recordEmailStatus(booking.id, emailStatus, "booking_created");
+    // Send emails AFTER the response so a slow SMTP handshake never delays the
+    // booking confirmation — and, critically, so the serverless function is not
+    // frozen mid-send (the old 1.5s race silently dropped slow emails). after()
+    // keeps the invocation alive until the sends complete.
+    after(async () => {
+      try {
+        const results = await Promise.allSettled([
+          sendBookingConfirmation(emailData),
+          sendAdminNotification(emailData),
+        ]);
+        const emailStatus = {
+          customer: normalizeEmailResult(results[0]),
+          admin: normalizeEmailResult(results[1]),
+        };
+        await recordEmailStatus(booking.id, emailStatus, "booking_created");
+      } catch (err) {
+        console.error("[EMAIL] post-response send failed:", err?.message);
+      }
+    });
 
     refreshAdminData();
-    return { success: true, bookingId: booking.id, emailStatus };
+    return { success: true, bookingId: booking.id };
   } catch (error) {
     console.error("Failed storing booking:", error);
     return { success: false, error: error.message || "System failed to save booking right now." };

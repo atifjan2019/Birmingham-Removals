@@ -168,7 +168,9 @@ export function serviceAreaSchema(city, slug, postcodes) {
       address: {
         "@type": "PostalAddress",
         addressLocality: city,
-        ...(postcodes ? { postalCode: postcodes } : {}),
+        // schema.org postalCode is a single code; take the primary one if a
+        // comma-separated list was passed.
+        ...(postcodes ? { postalCode: String(postcodes).split(",")[0].trim() } : {}),
         addressRegion: "West Midlands",
         addressCountry: "GB",
       },
