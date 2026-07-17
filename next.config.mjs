@@ -111,11 +111,11 @@ const nextConfig = {
             key: "Content-Security-Policy",
             value: [
               "default-src 'self'",
-              "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://web-sdk.smartlook.com",
+              "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://web-sdk.smartlook.com https://maps.googleapis.com https://maps.gstatic.com",
               "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
               "font-src 'self' https://fonts.gstatic.com",
-              "img-src 'self' data: https://images.unsplash.com https://www.birminghamremovals.uk",
-              "connect-src 'self' https://web-sdk.smartlook.com",
+              "img-src 'self' data: https://images.unsplash.com https://www.birminghamremovals.uk https://maps.googleapis.com https://maps.gstatic.com",
+              "connect-src 'self' https://web-sdk.smartlook.com https://maps.googleapis.com",
               // Google Maps embed (keyless iframe on area pages + future /contact).
               "frame-src https://www.google.com https://maps.google.com",
               "frame-ancestors 'none'",

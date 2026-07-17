@@ -168,3 +168,31 @@ input[type="number"] {
   pointer-events: none;
   z-index: 0;
 }
+
+/* Google Places Autocomplete dropdown — must sit above the quote funnel card */
+.pac-container {
+  z-index: 99999 !important;
+  border-radius: 12px;
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
+  margin-top: 6px;
+  font-family: inherit;
+}
+.pac-item {
+  padding: 8px 14px;
+  font-size: 14px;
+  color: #111827;
+  cursor: pointer;
+  border-top: 1px solid #f3f4f6;
+}
+.pac-item:first-child {
+  border-top: none;
+}
+.pac-item:hover,
+.pac-item-selected {
+  background-color: #f9fafb;
+}
+.pac-item-query {
+  font-size: 14px;
+  color: #111827;
+}
