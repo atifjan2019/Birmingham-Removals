@@ -87,7 +87,7 @@ export default function Navbar({ settings }) {
             <div className="hidden lg:flex items-center gap-7">
               {navLinks.map((link) => (
                 <Link
-                  key={link.href}
+                  key={link.label}
                   href={link.href}
                   prefetch={link.prefetch}
                   className="text-sm font-medium text-slate-700 hover:text-[#F97316] transition-colors"
