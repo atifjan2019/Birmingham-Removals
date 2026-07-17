@@ -59,7 +59,10 @@ const BRAND_COLOR = "#F97316";
 // always matches the current admin-uploaded logo. The old /images/logo.webp
 // path 404'd (no such file) and webp is poorly supported in email clients.
 const LOGO_URL = "https://www.birminghamremovals.uk/api/site-image/logo";
-const BOOKING_NOTIFICATION_EMAIL = "atifjan2019@gmail.com";
+// Where new-booking notifications go. Set BOOKING_NOTIFICATION_EMAIL in the env
+// to change it without a code change; falls back to the current address.
+const BOOKING_NOTIFICATION_EMAIL =
+  process.env.BOOKING_NOTIFICATION_EMAIL || "atifjan2019@gmail.com";
 
 function baseLayout(content, contact = {}) {
   // Footer line is composed from whatever contact details exist, so a removed

@@ -4,8 +4,18 @@ import bcrypt from "bcryptjs";
 const prisma = new PrismaClient();
 
 async function main() {
-  const email = "webspires@gmail.com";
-  const password = "Asjd2ds7@$1sdjs";
+  // Never hardcode credentials in source. Provide them at run time:
+  //   ADMIN_EMAIL=you@example.com ADMIN_PASSWORD='…' node scripts/create-admin.mjs
+  const email = process.env.ADMIN_EMAIL;
+  const password = process.env.ADMIN_PASSWORD;
+
+  if (!email || !password) {
+    console.error(
+      "Set ADMIN_EMAIL and ADMIN_PASSWORD env vars, e.g.\n" +
+        "  ADMIN_EMAIL=you@example.com ADMIN_PASSWORD='strong-pass' node scripts/create-admin.mjs"
+    );
+    process.exit(1);
+  }
 
   const hashedPassword = await bcrypt.hash(password, 10);
 
