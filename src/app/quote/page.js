@@ -67,7 +67,7 @@ export default async function QuotePage() {
             Other ways to reach us
           </h2>
           <p className="mt-3 text-slate-700 leading-relaxed">
-            {settings.showPhone ? (
+            {settings.showPhone && (
               <>
                 Prefer to speak to a person? Call{" "}
                 <a
@@ -76,18 +76,22 @@ export default async function QuotePage() {
                 >
                   {settings.phone || BUSINESS.phoneDisplay}
                 </a>{" "}
-                (Monday to Sunday, 7am–9pm) or email{" "}
+                (Monday to Sunday, 7am–9pm){settings.email ? " or email " : ". "}
               </>
-            ) : (
-              <>Prefer email? Reach us at{" "}</>
             )}
-            <a
-              href={`mailto:${BUSINESS.email}`}
-              className="text-[#F97316] font-semibold hover:underline"
-            >
-              {BUSINESS.email}
-            </a>
-            . You can also browse{" "}
+            {!settings.showPhone && settings.email && "Prefer email? Reach us at "}
+            {settings.email && (
+              <>
+                <a
+                  href={`mailto:${settings.email}`}
+                  className="text-[#F97316] font-semibold hover:underline"
+                >
+                  {settings.email}
+                </a>
+                .{" "}
+              </>
+            )}
+            You can also browse{" "}
             <Link href="/services" className="text-[#F97316] font-semibold hover:underline">
               our services
             </Link>{" "}

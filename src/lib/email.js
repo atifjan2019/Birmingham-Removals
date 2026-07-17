@@ -1,4 +1,5 @@
 import nodemailer from "nodemailer";
+import { getSiteSettings } from "@/lib/siteSettings";
 
 let _transporter = null;
 
@@ -60,7 +61,12 @@ const BRAND_COLOR = "#F97316";
 const LOGO_URL = "https://www.birminghamremovals.uk/api/site-image/logo";
 const BOOKING_NOTIFICATION_EMAIL = "atifjan2019@gmail.com";
 
-function baseLayout(content) {
+function baseLayout(content, contact = {}) {
+  // Footer line is composed from whatever contact details exist, so a removed
+  // phone or email simply drops out instead of leaving a dangling separator.
+  const footerLine = ["Birmingham Removals", contact.phone, contact.email]
+    .filter((part) => part && String(part).trim().length > 0)
+    .join(" &bull; ");
   return `
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml">
@@ -97,7 +103,7 @@ function baseLayout(content) {
         <tr>
           <td style="background-color:#f9fafb;padding:20px 32px;border-top:1px solid #e5e7eb;">
             <p style="margin:0;font-size:12px;color:#6b7280;text-align:center;">
-              Birmingham Removals &bull; 07365 380090 &bull; hello@birminghamremovals.uk
+              ${footerLine}
             </p>
           </td>
         </tr>
@@ -114,6 +120,14 @@ function baseLayout(content) {
 export async function sendBookingConfirmation({ email, fullName, moveType, fromPostcode, toPostcode, moveDate, bedrooms, extras }) {
   const formattedDate = new Date(moveDate).toLocaleDateString("en-GB", { weekday: "long", day: "numeric", month: "long", year: "numeric" });
   const extrasList = extras && extras.length > 0 ? extras.join(", ") : "None";
+
+  // Pull the current phone/email from Settings so the email never hardcodes an
+  // out-of-date number. Fail soft to no contact details if the read fails.
+  const settings = await getSiteSettings().catch(() => ({}));
+  const contactPhone = settings.showPhone === false ? "" : settings.phone || "";
+  const callLine = contactPhone
+    ? ` If you have any questions, feel free to call us on <strong>${contactPhone}</strong>.`
+    : "";
 
   const html = baseLayout(`
     <h2 style="margin:0 0 8px;font-size:20px;color:#111827;">Booking Confirmed!</h2>
@@ -148,9 +162,9 @@ export async function sendBookingConfirmation({ email, fullName, moveType, fromP
 
     <div style="margin-top:24px;padding:16px;background-color:#f0f9ff;border-radius:8px;border-left:4px solid ${BRAND_COLOR};">
       <p style="margin:0;font-size:14px;color:#1e40af;font-weight:600;">What happens next?</p>
-      <p style="margin:8px 0 0;font-size:13px;color:#374151;">Our team will review your booking and call you to confirm the final details and price. If you have any questions, feel free to call us on <strong>07365 380090</strong>.</p>
+      <p style="margin:8px 0 0;font-size:13px;color:#374151;">Our team will review your booking and call you to confirm the final details and price.${callLine}</p>
     </div>
-  `);
+  `, { phone: contactPhone, email: settings.email });
 
   return sendEmail({
     to: email,
@@ -165,6 +179,10 @@ export async function sendBookingConfirmation({ email, fullName, moveType, fromP
 export async function sendAdminNotification({ fullName, email, phone, moveType, fromPostcode, toPostcode, moveDate, bedrooms, extras, bookingId }) {
   const formattedDate = new Date(moveDate).toLocaleDateString("en-GB", { weekday: "short", day: "numeric", month: "short", year: "numeric" });
   const extrasList = extras && extras.length > 0 ? extras.join(", ") : "None";
+
+  // Site contact details for the footer (independent of the customer's phone).
+  const settings = await getSiteSettings().catch(() => ({}));
+  const contactPhone = settings.showPhone === false ? "" : settings.phone || "";
 
   const html = baseLayout(`
     <h2 style="margin:0 0 8px;font-size:20px;color:#111827;">New Booking Received</h2>
@@ -206,7 +224,7 @@ export async function sendAdminNotification({ fullName, email, phone, moveType, 
     </table>
 
     <p style="margin:24px 0 0;font-size:13px;color:#6b7280;">Booking ID: ${bookingId}</p>
-  `);
+  `, { phone: contactPhone, email: settings.email });
 
   return sendEmail({
     to: BOOKING_NOTIFICATION_EMAIL,

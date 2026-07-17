@@ -228,12 +228,14 @@ export default function Footer({ settings }) {
                   </a>
                 </li>
               )}
-              <li className="flex items-start gap-3">
-                <Mail className="w-4 h-4 text-[#F97316] shrink-0 mt-0.5" />
-                <a href={mailHref} className="text-white/80 hover:text-white transition-colors">
-                  {s.email}
-                </a>
-              </li>
+              {s.email && (
+                <li className="flex items-start gap-3">
+                  <Mail className="w-4 h-4 text-[#F97316] shrink-0 mt-0.5" />
+                  <a href={mailHref} className="text-white/80 hover:text-white transition-colors">
+                    {s.email}
+                  </a>
+                </li>
+              )}
               <li className="flex items-start gap-3">
                 <MapPin className="w-4 h-4 text-[#F97316] shrink-0 mt-0.5" />
                 <span className="text-white/80 whitespace-pre-line">{BUSINESS.addressDisplay}</span>

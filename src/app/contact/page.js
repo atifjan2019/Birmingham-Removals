@@ -65,13 +65,15 @@ function buildChannels(s) {
       });
     }
   }
-  items.push({
-    icon: Mail,
-    title: "Email",
-    value: s.email,
-    href: `mailto:${s.email}`,
-    desc: "Replies within 1 hour",
-  });
+  if (s.email) {
+    items.push({
+      icon: Mail,
+      title: "Email",
+      value: s.email,
+      href: `mailto:${s.email}`,
+      desc: "Replies within 1 hour",
+    });
+  }
   return items;
 }
 
@@ -83,7 +85,7 @@ export default async function ContactPage() {
     path: "/contact",
     name: "Contact Birmingham Removals | Free Quote in 30 Minutes",
     description:
-      "Call 07365 380090, WhatsApp or email hello@birminghamremovals.uk. Free fixed-price removals quote in 30 minutes. Open Monday to Sunday, 7am to 9pm.",
+      "Call or WhatsApp us for a free fixed-price removals quote in 30 minutes. Open Monday to Sunday, 7am to 9pm.",
     breadcrumb: [
       { name: "Home", url: BUSINESS.url },
       { name: "Contact", url: `${BUSINESS.url}/contact` },

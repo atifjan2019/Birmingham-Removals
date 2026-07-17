@@ -9,7 +9,10 @@ const FALLBACK = {
   footerLogoUrl: "",
   faviconUrl: "/favicon.ico",
   phone: BUSINESS.phoneDisplay,
-  email: BUSINESS.email,
+  // No default contact email: when the admin clears it, it stays empty and is
+  // hidden everywhere (navbar, footer, contact page, schema, emails) rather
+  // than reverting to a hardcoded address.
+  email: "",
   address: BUSINESS.addressDisplay,
   facebook: "",
   instagram: "",

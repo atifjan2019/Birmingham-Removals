@@ -45,9 +45,11 @@ export default function Navbar({ settings }) {
                 <Phone className="w-3 h-3" /> {s.phone}
               </a>
             )}
-            <a href={mailHref} className="hover:text-[#F97316] transition-colors">
-              {s.email}
-            </a>
+            {s.email && (
+              <a href={mailHref} className="hover:text-[#F97316] transition-colors">
+                {s.email}
+              </a>
+            )}
           </div>
         </div>
       </div>

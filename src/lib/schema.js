@@ -29,7 +29,6 @@ export const movingCompanySchema = {
   image: BUSINESS.logo,
   logo: BUSINESS.logo,
   telephone: BUSINESS.phoneE164,
-  email: BUSINESS.email,
   priceRange: BUSINESS.priceRange,
   foundingDate: String(BUSINESS.foundingYear),
   numberOfEmployees: {
