@@ -53,6 +53,12 @@ const ACTION_CONFIG = {
     bg: "bg-amber-50 border-amber-200",
     label: "Abandoned Lead",
   },
+  "lead.abandoned_purged": {
+    icon: Trash2,
+    color: "text-red-600",
+    bg: "bg-red-50 border-red-200",
+    label: "Abandoned Leads Purged",
+  },
   "customer.deleted": {
     icon: Trash2,
     color: "text-orange-600",

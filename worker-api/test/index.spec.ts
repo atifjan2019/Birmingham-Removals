@@ -172,6 +172,55 @@ describe("Birmingham Removals API", () => {
 		expect(payload.data.toPostcode).toBe("CITY CENTRE NEAR STATION");
 	});
 
+	it("purges abandoned leads older than 30 days but keeps recent ones and real bookings", async () => {
+		// Stale abandoned lead (40 days old) — should be deleted along with its customer.
+		await env.DB.prepare("INSERT INTO Customer (id, fullName, phone, email, createdAt) VALUES (?1, ?2, ?3, ?4, datetime('now', '-40 days'))")
+			.bind("cust-stale", "Partial Lead", "Not provided", "abandoned_111@pending.com")
+			.run();
+		await env.DB.prepare(
+			`INSERT INTO Booking (id, customerId, moveType, fromPostcode, toPostcode, moveDate, status, createdAt)
+			 VALUES (?1, ?2, 'House', 'M6', 'M2', '2026-01-01', 'Abandoned', datetime('now', '-40 days'))`,
+		)
+			.bind("book-stale", "cust-stale")
+			.run();
+
+		// Recent abandoned lead (5 days old) — should be kept.
+		await env.DB.prepare("INSERT INTO Customer (id, fullName, phone, email, createdAt) VALUES (?1, ?2, ?3, ?4, datetime('now', '-5 days'))")
+			.bind("cust-recent", "Partial Lead", "Not provided", "abandoned_222@pending.com")
+			.run();
+		await env.DB.prepare(
+			`INSERT INTO Booking (id, customerId, moveType, fromPostcode, toPostcode, moveDate, status, createdAt)
+			 VALUES (?1, ?2, 'House', 'M6', 'M2', '2026-01-01', 'Abandoned', datetime('now', '-5 days'))`,
+		)
+			.bind("book-recent", "cust-recent")
+			.run();
+
+		// A real (old) booking — must never be touched by the purge.
+		await env.DB.prepare("INSERT INTO Customer (id, fullName, phone, email, createdAt) VALUES (?1, ?2, ?3, ?4, datetime('now', '-40 days'))")
+			.bind("cust-real", "Atif Jan", "07786738432", "atif@example.com")
+			.run();
+		await env.DB.prepare(
+			`INSERT INTO Booking (id, customerId, moveType, fromPostcode, toPostcode, moveDate, status, createdAt)
+			 VALUES (?1, ?2, 'House', 'M6', 'M2', '2026-01-01', 'New', datetime('now', '-40 days'))`,
+		)
+			.bind("book-real", "cust-real")
+			.run();
+
+		const ctx = createExecutionContext();
+		await worker.scheduled!({ scheduledTime: 0, cron: "0 3 * * *", noRetry() {} }, env, ctx);
+		await waitOnExecutionContext(ctx);
+
+		const { results: bookings } = await env.DB.prepare("SELECT id FROM Booking ORDER BY id").all<{ id: string }>();
+		expect(bookings.map((row) => row.id)).toEqual(["book-real", "book-recent"]);
+
+		const { results: customers } = await env.DB.prepare("SELECT id FROM Customer ORDER BY id").all<{ id: string }>();
+		expect(customers.map((row) => row.id)).toEqual(["cust-real", "cust-recent"]);
+
+		const purge = await env.DB.prepare("SELECT details FROM ActivityLog WHERE action = 'lead.abandoned_purged'").first<{ details: string }>();
+		expect(purge).not.toBeNull();
+		expect(JSON.parse(purge!.details)).toMatchObject({ leads: 1, customers: 1 });
+	});
+
 	it("records email status activity entries", async () => {
 		const ctx = createExecutionContext();
 		const testEnv = { ...env, ADMIN_API_PIN: "524862" };

@@ -8,6 +8,10 @@
 		"enabled": true
 	},
 	"upload_source_maps": true,
+	"triggers": {
+		// Daily at 03:00 UTC — purge abandoned leads older than 30 days.
+		"crons": ["0 3 * * *"]
+	},
 	"d1_databases": [
 		{
 			"binding": "DB",

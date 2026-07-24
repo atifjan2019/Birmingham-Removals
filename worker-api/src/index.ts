@@ -141,6 +141,10 @@ const DEFAULT_ALLOWED_ORIGINS = [
 ];
 const BOOKING_STATUSES: BookingStatus[] = ["New", "Upcoming", "Completed", "Abandoned"];
 const MAX_LIMIT = 100;
+// Abandoned leads are captured automatically as the quote funnel is filled in and
+// never followed up, so they accumulate. The cron trigger below deletes any that
+// have sat untouched for this many days.
+const PURGE_ABANDONED_AFTER_DAYS = 30;
 
 export default {
 	async fetch(request: Request, env: Env): Promise<Response> {
@@ -236,6 +240,10 @@ export default {
 			console.error(error);
 			return json({ error: { message: "Internal server error" } }, 500, getCorsHeaders(requestOrigin, env));
 		}
+	},
+
+	async scheduled(_controller: ScheduledController, env: Env): Promise<void> {
+		await purgeStaleAbandonedLeads(env);
 	},
 } satisfies ExportedHandler<Env>;
 
@@ -397,6 +405,63 @@ async function deleteBooking(id: string, env: Env, corsHeaders?: HeadersInit): P
 	});
 
 	return new Response(null, { status: 204, headers: corsHeaders });
+}
+
+// Runs on the daily cron trigger: remove abandoned leads that have been sitting
+// untouched past the retention window, then drop any customer rows they leave
+// behind with no remaining bookings.
+async function purgeStaleAbandonedLeads(env: Env): Promise<{ leads: number; customers: number }> {
+	const { results: stale } = await env.DB.prepare(
+		`SELECT id, customerId FROM Booking
+		 WHERE status = 'Abandoned' AND createdAt < datetime('now', ?1)`,
+	)
+		.bind(`-${PURGE_ABANDONED_AFTER_DAYS} days`)
+		.all<{ id: string; customerId: string }>();
+
+	if (stale.length === 0) {
+		return { leads: 0, customers: 0 };
+	}
+
+	const ids = stale.map((row) => row.id);
+	const customerIds = [...new Set(stale.map((row) => row.customerId))];
+
+	// Delete exactly the rows we selected (by id) so the orphan check below stays
+	// consistent regardless of the clock advancing mid-run. Chunked to stay within
+	// D1's bound-parameter limit.
+	for (let i = 0; i < ids.length; i += 50) {
+		const chunk = ids.slice(i, i + 50);
+		const placeholders = chunk.map((_, index) => `?${index + 1}`).join(", ");
+		await env.DB.prepare(`DELETE FROM Booking WHERE id IN (${placeholders})`)
+			.bind(...chunk)
+			.run();
+	}
+
+	// A customer row is created per lead (placeholder-email rows are unique), so
+	// tidy up any that no longer have a booking attached.
+	let customers = 0;
+	for (const customerId of customerIds) {
+		const remaining = await env.DB.prepare("SELECT COUNT(*) AS count FROM Booking WHERE customerId = ?1")
+			.bind(customerId)
+			.first<{ count: number }>();
+
+		if ((remaining?.count ?? 0) === 0) {
+			await env.DB.prepare("DELETE FROM Customer WHERE id = ?1").bind(customerId).run();
+			customers += 1;
+		}
+	}
+
+	await logActivity(env, {
+		action: "lead.abandoned_purged",
+		details: JSON.stringify({
+			summary: `Purged ${ids.length} abandoned lead(s) older than ${PURGE_ABANDONED_AFTER_DAYS} days`,
+			leads: ids.length,
+			customers,
+		}),
+		entityId: "system",
+		actor: "cron",
+	});
+
+	return { leads: ids.length, customers };
 }
 
 async function listCustomers(env: Env, corsHeaders?: HeadersInit): Promise<Response> {
