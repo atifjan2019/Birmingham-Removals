@@ -6,6 +6,21 @@ import { Search, Filter, MoreVertical, CheckCircle2, Clock, CalendarDays, Trash2
 import { updateBookingDetails, updateBookingStatus, deleteBooking, updateBookingFinancials, resendBookingEmails } from "@/app/actions/booking";
 import { PoundSterling } from "lucide-react";
 
+// Tabs shown on the list. "All" is a virtual tab that shows only the active
+// pipeline (New + Upcoming); finished/dead jobs live under their own tab.
+const STATUS_TABS = ["All", "New", "Upcoming", "Completed", "Abandoned", "Lost"];
+const ACTIVE_STATUSES = ["New", "Upcoming"];
+
+// Single source of truth for status pill colours across the card and modal.
+const STATUS_BADGE = {
+  New: "bg-amber-50 text-amber-700 border-amber-200",
+  Upcoming: "bg-blue-50 text-blue-700 border-blue-200",
+  Completed: "bg-emerald-50 text-emerald-700 border-emerald-200",
+  Abandoned: "bg-gray-100 text-gray-500 border-gray-200",
+  Lost: "bg-rose-50 text-rose-700 border-rose-200",
+};
+const statusBadgeClass = (status) => STATUS_BADGE[status] || STATUS_BADGE.New;
+
 function ActionButton({ bookingId, currentStatus }) {
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -144,16 +159,22 @@ function BookingDetailsModal({ booking, emailStatus, onEmailStatusChange, onClos
     moveDate: booking?.moveDate ? String(booking.moveDate).slice(0, 10) : "",
     bedrooms: booking?.bedrooms ?? 1,
     price: booking?.price ?? "",
+    notes: booking?.notes || "",
   });
   const [savingFinancials, setSavingFinancials] = useState(false);
   const [financialsSaved, setFinancialsSaved] = useState(false);
   const saveTimeout = useRef(null);
+  const detailsTimeout = useRef(null);
+  const detailsDirty = useRef(false);
 
   const calculatedProfit = (parseFloat(jobCost) || 0) - (parseFloat(expenses) || 0);
+  // Financials apply to real jobs — hide them for dead leads (Abandoned / Lost)
+  // but keep them for New, Upcoming and Completed.
+  const showFinancials = !["Abandoned", "Lost"].includes(status);
 
   // Auto-save financials with debounce
   useEffect(() => {
-    if (status !== "Completed") return;
+    if (!showFinancials) return;
     const jc = parseFloat(jobCost);
     const ex = parseFloat(expenses);
     if (isNaN(jc) && isNaN(ex)) return;
@@ -169,7 +190,31 @@ function BookingDetailsModal({ booking, emailStatus, onEmailStatusChange, onClos
     }, 1000);
 
     return () => { if (saveTimeout.current) clearTimeout(saveTimeout.current); };
-  }, [booking?.id, jobCost, expenses, onChanged, status]);
+  }, [booking?.id, jobCost, expenses, onChanged, status, showFinancials]);
+
+  // Auto-save the editable booking/customer details (incl. Notes) with debounce.
+  useEffect(() => {
+    if (!detailsDirty.current) return;
+    if (detailsTimeout.current) clearTimeout(detailsTimeout.current);
+    detailsTimeout.current = setTimeout(async () => {
+      setSavingDetails(true);
+      setDetailsError("");
+      const result = await updateBookingDetails(booking?.id, {
+        ...details,
+        bedrooms: parseInt(details.bedrooms) || 0,
+        price: details.price === "" ? null : parseFloat(details.price),
+      });
+      setSavingDetails(false);
+      if (!result?.success) {
+        setDetailsError(result?.error || "Failed to save details.");
+        return;
+      }
+      setDetailsSaved(true);
+      onChanged();
+      setTimeout(() => setDetailsSaved(false), 2000);
+    }, 900);
+    return () => { if (detailsTimeout.current) clearTimeout(detailsTimeout.current); };
+  }, [details, booking?.id, onChanged]);
 
   if (!booking) return null;
 
@@ -182,29 +227,10 @@ function BookingDetailsModal({ booking, emailStatus, onEmailStatusChange, onClos
   };
 
   const handleDetailChange = (field, value) => {
+    detailsDirty.current = true;
     setDetails((current) => ({ ...current, [field]: value }));
     setDetailsSaved(false);
     setDetailsError("");
-  };
-
-  const handleDetailsSave = async () => {
-    setSavingDetails(true);
-    setDetailsError("");
-    const result = await updateBookingDetails(booking.id, {
-      ...details,
-      bedrooms: parseInt(details.bedrooms) || 0,
-      price: details.price === "" ? null : parseFloat(details.price),
-    });
-    setSavingDetails(false);
-
-    if (!result.success) {
-      setDetailsError(result.error || "Failed to save details.");
-      return;
-    }
-
-    setDetailsSaved(true);
-    onChanged();
-    setTimeout(() => setDetailsSaved(false), 2000);
   };
 
   const handleDelete = async () => {
@@ -307,18 +333,21 @@ function BookingDetailsModal({ booking, emailStatus, onEmailStatusChange, onClos
                 </div>
               </div>
             </div>
-            <div className="mt-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-              <div className="text-sm min-h-5">
-                {detailsError && <span className="text-red-600 font-medium">{detailsError}</span>}
-                {detailsSaved && <span className="text-emerald-600 font-medium">Details saved</span>}
-              </div>
-              <button
-                onClick={handleDetailsSave}
-                disabled={savingDetails}
-                className="px-5 py-2.5 bg-primary text-white rounded-xl shadow-lg shadow-primary/20 hover:bg-primary/90 transition-colors font-semibold text-sm disabled:opacity-60"
-              >
-                {savingDetails ? "Saving..." : "Save Changes"}
-              </button>
+            <div className="mt-4">
+              <label className="block text-xs text-gray-500 font-semibold uppercase tracking-wider mb-1.5">Notes</label>
+              <textarea
+                value={details.notes}
+                onChange={(e) => handleDetailChange("notes", e.target.value)}
+                rows={3}
+                placeholder="Internal notes about this job…"
+                className="w-full px-3 py-2.5 border-2 border-gray-200 rounded-xl focus:border-primary focus:ring-1 focus:ring-primary/20 outline-none text-sm text-gray-900 resize-y"
+              />
+            </div>
+
+            <div className="mt-3 h-5 flex items-center gap-2 text-xs">
+              {savingDetails && <span className="text-amber-500 font-medium animate-pulse">Saving…</span>}
+              {detailsSaved && <span className="text-emerald-500 font-medium">✓ Saved automatically</span>}
+              {detailsError && <span className="text-red-600 font-medium">{detailsError}</span>}
             </div>
           </div>
 
@@ -396,13 +425,14 @@ function BookingDetailsModal({ booking, emailStatus, onEmailStatusChange, onClos
           <div>
             <h3 className="text-lg font-bold text-gray-900 mb-4 border-b border-gray-100 pb-2">Status</h3>
             <div className="flex flex-wrap gap-2">
-              {["New", "Upcoming", "Completed", "Abandoned"].map((s) => {
+              {["New", "Upcoming", "Completed", "Abandoned", "Lost"].map((s) => {
                 const active = status === s;
                 const colors = {
                   New: active ? "bg-amber-500 text-white border-amber-500 shadow-amber-200" : "bg-white text-amber-700 border-amber-200 hover:bg-amber-50",
                   Upcoming: active ? "bg-blue-500 text-white border-blue-500 shadow-blue-200" : "bg-white text-blue-700 border-blue-200 hover:bg-blue-50",
                   Completed: active ? "bg-emerald-500 text-white border-emerald-500 shadow-emerald-200" : "bg-white text-emerald-700 border-emerald-200 hover:bg-emerald-50",
                   Abandoned: active ? "bg-gray-500 text-white border-gray-500 shadow-gray-200" : "bg-white text-gray-500 border-gray-200 hover:bg-gray-50",
+                  Lost: active ? "bg-rose-500 text-white border-rose-500 shadow-rose-200" : "bg-white text-rose-700 border-rose-200 hover:bg-rose-50",
                 };
                 return (
                   <button
@@ -418,8 +448,8 @@ function BookingDetailsModal({ booking, emailStatus, onEmailStatusChange, onClos
             </div>
           </div>
 
-          {/* Financial Section - shown when Completed */}
-          {status === "Completed" && (
+          {/* Financials — available for active and completed jobs (hidden for dead leads) */}
+          {showFinancials && (
             <div className="animate-in fade-in slide-in-from-top-2 duration-300">
               <h3 className="text-lg font-bold text-gray-900 mb-4 border-b border-gray-100 pb-2 flex items-center gap-2">
                 <PoundSterling className="w-5 h-5 text-emerald-500" /> Job Financials
@@ -434,7 +464,19 @@ function BookingDetailsModal({ booking, emailStatus, onEmailStatusChange, onClos
                       step="0.01"
                       min="0"
                       value={jobCost}
-                      onChange={(e) => { setJobCost(e.target.value); setFinancialsSaved(false); }}
+                      onChange={(e) => {
+                        const value = e.target.value;
+                        setJobCost(value);
+                        setFinancialsSaved(false);
+                        // Quote and Total Job Cost are the same figure — mirror the
+                        // cost into the Quote field only when it's still empty.
+                        const quoteEmpty = details.price === "" || details.price === null || details.price === undefined;
+                        if (value !== "" && quoteEmpty) {
+                          detailsDirty.current = true;
+                          setDetails((current) => ({ ...current, price: value }));
+                          setDetailsSaved(false);
+                        }
+                      }}
                       placeholder="0.00"
                       className="w-full pl-8 pr-3 py-2.5 border-2 border-gray-200 rounded-xl focus:border-emerald-400 focus:ring-1 focus:ring-emerald-200 outline-none text-sm font-semibold text-gray-900 transition-all"
                     />
@@ -534,7 +576,10 @@ export default function BookingsClient({ initialBookings, initialEmailStatusByBo
       booking.id.toLowerCase().includes(searchTerm.toLowerCase()) ||
       customerEmail.toLowerCase().includes(searchTerm.toLowerCase());
 
-    const matchesStatus = statusFilter === "All" || booking.status === statusFilter;
+    const matchesStatus =
+      statusFilter === "All"
+        ? ACTIVE_STATUSES.includes(booking.status)
+        : booking.status === statusFilter;
     return matchesSearch && matchesStatus;
   });
 
@@ -567,7 +612,7 @@ export default function BookingsClient({ initialBookings, initialEmailStatusByBo
           </div>
           <div className="flex items-center gap-2 overflow-x-auto">
             <div className="bg-gray-50 p-1 rounded-lg border border-gray-200 flex text-sm font-medium">
-              {["All", "New", "Upcoming", "Completed", "Abandoned"].map((status) => (
+              {STATUS_TABS.map((status) => (
                 <button
                   key={status}
                   onClick={() => setStatusFilter(status)}
@@ -591,7 +636,6 @@ export default function BookingsClient({ initialBookings, initialEmailStatusByBo
               const formattedDate = booking.moveDate
                 ? new Date(booking.moveDate).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })
                 : "N/A";
-              const shortId = booking.id.split('-')[0];
 
               return (
                 <div
@@ -599,76 +643,25 @@ export default function BookingsClient({ initialBookings, initialEmailStatusByBo
                   onClick={() => setSelectedBooking(booking)}
                   className="group bg-white rounded-xl border border-gray-100 shadow-[0_1px_4px_-1px_rgba(0,0,0,0.04)] hover:border-primary/30 hover:shadow-[0_4px_20px_-4px_rgba(227,30,36,0.1)] transition-all duration-300 cursor-pointer overflow-hidden"
                 >
-                  {/* Mobile: stacked | Desktop: single row */}
-                  <div className="flex flex-col lg:flex-row lg:items-center gap-0 lg:gap-6 p-4">
-                    
-                    {/* Row 1: Avatar + Name + Status (always visible) */}
-                    <div className="flex items-center justify-between lg:justify-start gap-3 lg:w-[220px] shrink-0">
-                      <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 rounded-full bg-gradient-to-br from-primary/10 to-accent/10 border border-primary/20 flex items-center justify-center text-primary font-bold text-sm shrink-0">
-                          {firstLetter}
-                        </div>
-                        <div>
-                          <div className="font-semibold text-gray-900 text-sm">{booking.customer?.fullName || "Unknown"}</div>
-                          <div className="text-[11px] text-gray-400 font-mono tracking-wider">#{shortId}</div>
-                        </div>
+                  {/* Minimal row: Name · Route · Date · Status */}
+                  <div className="flex items-center gap-4 p-4">
+                    <div className="flex items-center gap-3 w-40 sm:w-48 shrink-0 min-w-0">
+                      <div className="w-9 h-9 rounded-full bg-gradient-to-br from-primary/10 to-accent/10 border border-primary/20 flex items-center justify-center text-primary font-bold text-sm shrink-0">
+                        {firstLetter}
                       </div>
-                      {/* Status badge - visible on mobile next to name, hidden on lg */}
-                      <div className="flex items-center gap-2 lg:hidden">
-                        <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider ${
-                          booking.status === "Completed" ? "bg-emerald-50 text-emerald-700 border border-emerald-200" :
-                          booking.status === "Upcoming" ? "bg-blue-50 text-blue-700 border border-blue-200" :
-                          booking.status === "Abandoned" ? "bg-gray-100 text-gray-500 border border-gray-200" :
-                          "bg-amber-50 text-amber-700 border border-amber-200"
-                        }`}>
-                          {(booking.status === "New" || booking.status === "Abandoned") && <span className={`w-1.5 h-1.5 rounded-full ${booking.status === "New" ? "bg-amber-500 animate-pulse" : "bg-gray-400"}`} />}
-                          {booking.status}
-                        </span>
-                      </div>
+                      <div className="font-semibold text-gray-900 text-sm truncate">{booking.customer?.fullName || "Unknown"}</div>
                     </div>
 
-                    {/* Row 2 (mobile) / inline (desktop): Details grid */}
-                    <div className="flex-1 grid grid-cols-2 sm:grid-cols-3 gap-3 mt-3 lg:mt-0 pt-3 lg:pt-0 border-t lg:border-t-0 lg:border-l border-gray-100 lg:pl-6">
-                      <div>
-                        <div className="text-[10px] text-gray-400 font-semibold uppercase tracking-wider mb-1">Route</div>
-                        <div className="text-sm font-medium text-gray-900 truncate">
-                          {booking.fromPostcode} <span className="text-gray-300">→</span> {booking.toPostcode}
-                        </div>
-                        <div className="text-[11px] text-gray-400 mt-0.5 capitalize">
-                          {booking.moveType?.replace(/-/g, ' ')}{booking.bedrooms > 0 ? ` • ${booking.bedrooms} Bed` : ''}
-                        </div>
-                      </div>
-
-                      <div>
-                        <div className="text-[10px] text-gray-400 font-semibold uppercase tracking-wider mb-1">Date</div>
-                        <div className="text-sm font-medium text-gray-900">{formattedDate}</div>
-                      </div>
-
-                      <div className="col-span-2 sm:col-span-1">
-                        <div className="text-[10px] text-gray-400 font-semibold uppercase tracking-wider mb-1">Contact</div>
-                        <div className="text-sm font-medium text-gray-900">{booking.customer?.phone || "—"}</div>
-                        <div className="text-[11px] text-gray-400 mt-0.5 truncate">{booking.customer?.email || "—"}</div>
-                      </div>
+                    <div className="flex-1 min-w-0 text-sm font-medium text-gray-700 truncate">
+                      {booking.fromPostcode} <span className="text-gray-300">→</span> {booking.toPostcode}
                     </div>
 
-                    {/* Status (desktop only) */}
-                    <div className="hidden lg:flex items-center shrink-0">
-                      <div className="flex flex-col items-end gap-1">
-                        <span className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[11px] font-bold uppercase tracking-wider ${
-                          booking.status === "Completed" ? "bg-emerald-50 text-emerald-700 border border-emerald-200" :
-                          booking.status === "Upcoming" ? "bg-blue-50 text-blue-700 border border-blue-200" :
-                          booking.status === "Abandoned" ? "bg-gray-100 text-gray-500 border border-gray-200" :
-                          "bg-amber-50 text-amber-700 border border-amber-200"
-                        }`}>
-                          {(booking.status === "New" || booking.status === "Abandoned") && <span className={`w-1.5 h-1.5 rounded-full ${booking.status === "New" ? "bg-amber-500 animate-pulse" : "bg-gray-400"}`} />}
-                          {booking.status}
-                        </span>
-                        {booking.status === "Completed" && booking.profit != null && (
-                          <span className={`text-[11px] font-bold ${booking.profit >= 0 ? "text-emerald-600" : "text-red-500"}`}>
-                            £{booking.profit.toFixed(2)} profit
-                          </span>
-                        )}
-                      </div>
+                    <div className="hidden sm:block text-sm text-gray-500 shrink-0 w-28 text-right">{formattedDate}</div>
+
+                    <div className="shrink-0">
+                      <span className={`inline-flex items-center px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider border ${statusBadgeClass(booking.status)}`}>
+                        {booking.status}
+                      </span>
                     </div>
                   </div>
                 </div>

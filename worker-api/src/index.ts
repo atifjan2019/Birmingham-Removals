@@ -1,4 +1,4 @@
-type BookingStatus = "New" | "Upcoming" | "Completed" | "Abandoned";
+type BookingStatus = "New" | "Upcoming" | "Completed" | "Abandoned" | "Lost";
 
 interface BookingRow {
 	id: string;
@@ -14,6 +14,7 @@ interface BookingRow {
 	jobCost: number | null;
 	expenses: number | null;
 	profit: number | null;
+	notes: string | null;
 	createdAt: string;
 	updatedAt: string;
 	customerFullName: string;
@@ -34,6 +35,7 @@ interface Booking {
 	jobCost: number | null;
 	expenses: number | null;
 	profit: number | null;
+	notes: string | null;
 	createdAt: string;
 	updatedAt: string;
 	customer: {
@@ -80,6 +82,7 @@ interface CreateBookingRequest {
 type UpdateBookingRequest = Partial<CreateBookingRequest> & {
 	jobCost?: number | string | null;
 	expenses?: number | string | null;
+	notes?: string | null;
 };
 
 interface CreateActivityRequest {
@@ -139,7 +142,7 @@ const DEFAULT_ALLOWED_ORIGINS = [
 	"http://127.0.0.1:3000",
 	"https://birmingham-removals.vercel.app",
 ];
-const BOOKING_STATUSES: BookingStatus[] = ["New", "Upcoming", "Completed", "Abandoned"];
+const BOOKING_STATUSES: BookingStatus[] = ["New", "Upcoming", "Completed", "Abandoned", "Lost"];
 const MAX_LIMIT = 100;
 // Abandoned leads are captured automatically as the quote funnel is filled in and
 // never followed up, so they accumulate. The cron trigger below deletes any that
@@ -260,7 +263,7 @@ async function listBookings(request: Request, env: Env, corsHeaders?: HeadersIni
 	const { results } = await env.DB.prepare(
 		`SELECT
 			b.id, b.customerId, b.moveType, b.fromPostcode, b.toPostcode, b.moveDate,
-			b.bedrooms, b.extras, b.status, b.price, b.jobCost, b.expenses, b.profit,
+			b.bedrooms, b.extras, b.status, b.price, b.jobCost, b.expenses, b.profit, b.notes,
 			b.createdAt, b.updatedAt,
 			c.fullName AS customerFullName, c.phone AS customerPhone, c.email AS customerEmail
 		FROM Booking b
@@ -605,7 +608,7 @@ async function findBooking(id: string, env: Env): Promise<BookingRow | null> {
 	return env.DB.prepare(
 		`SELECT
 			b.id, b.customerId, b.moveType, b.fromPostcode, b.toPostcode, b.moveDate,
-			b.bedrooms, b.extras, b.status, b.price, b.jobCost, b.expenses, b.profit,
+			b.bedrooms, b.extras, b.status, b.price, b.jobCost, b.expenses, b.profit, b.notes,
 			b.createdAt, b.updatedAt,
 			c.fullName AS customerFullName, c.phone AS customerPhone, c.email AS customerEmail
 		FROM Booking b
@@ -620,7 +623,7 @@ async function findMatchingAbandonedBooking(booking: NormalizedBookingRequest, e
 	const { results } = await env.DB.prepare(
 		`SELECT
 			b.id, b.customerId, b.moveType, b.fromPostcode, b.toPostcode, b.moveDate,
-			b.bedrooms, b.extras, b.status, b.price, b.jobCost, b.expenses, b.profit,
+			b.bedrooms, b.extras, b.status, b.price, b.jobCost, b.expenses, b.profit, b.notes,
 			b.createdAt, b.updatedAt,
 			c.fullName AS customerFullName, c.phone AS customerPhone, c.email AS customerEmail
 		FROM Booking b
@@ -851,6 +854,7 @@ function validateUpdateBooking(body: unknown): { valid: boolean; errors: Record<
 	if ("price" in body) validateMoney(body.price, "price", errors);
 	if ("jobCost" in body) validateMoney(body.jobCost, "jobCost", errors);
 	if ("expenses" in body) validateMoney(body.expenses, "expenses", errors);
+	if ("notes" in body && body.notes !== null) validateText(body.notes, "notes", errors, { required: false, max: 4000 });
 	if ("status" in body && !isBookingStatus(body.status)) {
 		errors.status = `Status must be one of: ${BOOKING_STATUSES.join(", ")}`;
 	}
@@ -904,6 +908,7 @@ function getBookingUpdateFields(body: UpdateBookingRequest): { column: string; v
 	if (body.price !== undefined) fields.push({ column: "price", value: normalizeNullableNumber(body.price) });
 	if (body.jobCost !== undefined) fields.push({ column: "jobCost", value: normalizeNullableNumber(body.jobCost) });
 	if (body.expenses !== undefined) fields.push({ column: "expenses", value: normalizeNullableNumber(body.expenses) });
+	if (body.notes !== undefined) fields.push({ column: "notes", value: typeof body.notes === "string" ? body.notes : null });
 
 	if (body.jobCost !== undefined || body.expenses !== undefined) {
 		const jobCost = normalizeNullableNumber(body.jobCost);
@@ -930,6 +935,7 @@ function toBooking(row: BookingRow): Booking {
 		// Derive profit from the current cost/expenses rather than the stored
 		// column, which could be stale when only one side was updated.
 		profit: (row.jobCost ?? 0) - (row.expenses ?? 0),
+		notes: row.notes,
 		createdAt: row.createdAt,
 		updatedAt: row.updatedAt,
 		customer: {

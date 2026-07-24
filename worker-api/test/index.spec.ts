@@ -30,11 +30,12 @@ async function resetDatabase() {
 			moveDate TEXT NOT NULL,
 			bedrooms INTEGER NOT NULL DEFAULT 1 CHECK (bedrooms >= 0 AND bedrooms <= 10),
 			extras TEXT,
-			status TEXT NOT NULL DEFAULT 'New' CHECK (status IN ('New', 'Upcoming', 'Completed', 'Abandoned')),
+			status TEXT NOT NULL DEFAULT 'New' CHECK (status IN ('New', 'Upcoming', 'Completed', 'Abandoned', 'Lost')),
 			price REAL,
 			jobCost REAL,
 			expenses REAL,
 			profit REAL,
+			notes TEXT,
 			createdAt TEXT NOT NULL DEFAULT (datetime('now')),
 			updatedAt TEXT NOT NULL DEFAULT (datetime('now')),
 			FOREIGN KEY (customerId) REFERENCES Customer(id) ON DELETE CASCADE

@@ -239,6 +239,7 @@ export default function ReportsClient({ completedBookings, allBookings }) {
                           b.status === "Completed" ? "bg-emerald-50 text-emerald-700 border border-emerald-200" :
                           b.status === "Upcoming" ? "bg-blue-50 text-blue-700 border border-blue-200" :
                           b.status === "Abandoned" ? "bg-gray-100 text-gray-500 border border-gray-200" :
+                          b.status === "Lost" ? "bg-rose-50 text-rose-700 border border-rose-200" :
                           "bg-amber-50 text-amber-700 border border-amber-200"
                         }`}>
                           {b.status}
