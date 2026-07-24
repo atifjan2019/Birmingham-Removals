@@ -13,6 +13,10 @@
 
 PRAGMA defer_foreign_keys = TRUE;
 
+-- Clean up a half-finished rebuild from an earlier interrupted attempt so this
+-- file is safe to re-run. (Harmless first time; no Booking_new exists yet.)
+DROP TABLE IF EXISTS Booking_new;
+
 CREATE TABLE Booking_new (
   id            TEXT PRIMARY KEY,
   customerId    TEXT NOT NULL,
