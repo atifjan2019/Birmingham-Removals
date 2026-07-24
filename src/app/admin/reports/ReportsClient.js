@@ -236,13 +236,14 @@ export default function ReportsClient({ completedBookings, allBookings }) {
                       <td className="px-5 py-3 text-gray-600">{b.fromPostcode} → {b.toPostcode}</td>
                       <td className="px-5 py-3">
                         <span className={`inline-flex px-2.5 py-1 rounded-full text-[11px] font-bold uppercase tracking-wider ${
+                          b.status === "New" && b.price > 0 ? "bg-violet-50 text-violet-700 border border-violet-200" :
                           b.status === "Completed" ? "bg-emerald-50 text-emerald-700 border border-emerald-200" :
                           b.status === "Upcoming" ? "bg-blue-50 text-blue-700 border border-blue-200" :
                           b.status === "Abandoned" ? "bg-gray-100 text-gray-500 border border-gray-200" :
                           b.status === "Lost" ? "bg-rose-50 text-rose-700 border border-rose-200" :
                           "bg-amber-50 text-amber-700 border border-amber-200"
                         }`}>
-                          {b.status}
+                          {b.status === "New" && b.price > 0 ? "Quoted" : b.status}
                         </span>
                       </td>
                       <td className="px-5 py-3 text-gray-600">

@@ -14,12 +14,18 @@ const ACTIVE_STATUSES = ["New", "Upcoming"];
 // Single source of truth for status pill colours across the card and modal.
 const STATUS_BADGE = {
   New: "bg-amber-50 text-amber-700 border-amber-200",
+  Quoted: "bg-violet-50 text-violet-700 border-violet-200",
   Upcoming: "bg-blue-50 text-blue-700 border-blue-200",
   Completed: "bg-emerald-50 text-emerald-700 border-emerald-200",
   Abandoned: "bg-gray-100 text-gray-500 border-gray-200",
   Lost: "bg-rose-50 text-rose-700 border-rose-200",
 };
 const statusBadgeClass = (status) => STATUS_BADGE[status] || STATUS_BADGE.New;
+
+// Display-only: a New lead that already has a quote (price) shows as "Quoted".
+// It's still status "New" in the database — this only changes the badge.
+const displayStatus = (booking) =>
+  booking.status === "New" && Number(booking.price) > 0 ? "Quoted" : booking.status;
 
 function ActionButton({ bookingId, currentStatus }) {
   const [open, setOpen] = useState(false);
@@ -659,8 +665,8 @@ export default function BookingsClient({ initialBookings, initialEmailStatusByBo
                     <div className="hidden sm:block text-sm text-gray-500 shrink-0 w-28 text-right">{formattedDate}</div>
 
                     <div className="shrink-0">
-                      <span className={`inline-flex items-center px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider border ${statusBadgeClass(booking.status)}`}>
-                        {booking.status}
+                      <span className={`inline-flex items-center px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider border ${statusBadgeClass(displayStatus(booking))}`}>
+                        {displayStatus(booking)}
                       </span>
                     </div>
                   </div>

@@ -126,13 +126,14 @@ export default async function AdminDashboard() {
                     </td>
                     <td className="px-6 py-3">
                       <span className={`px-2.5 py-1 rounded-full text-xs font-medium ${
+                        booking.status === "New" && booking.price > 0 ? "bg-violet-50 text-violet-600" :
                         booking.status === "Completed" ? "bg-emerald-50 text-emerald-600" :
                         booking.status === "Upcoming" ? "bg-blue-50 text-blue-600" :
                         booking.status === "Abandoned" ? "bg-gray-100 text-gray-500" :
                         booking.status === "Lost" ? "bg-rose-50 text-rose-600" :
                         "bg-amber-50 text-amber-600"
                       }`}>
-                        {booking.status}
+                        {booking.status === "New" && booking.price > 0 ? "Quoted" : booking.status}
                       </span>
                     </td>
                     <td className="px-6 py-3 text-right font-semibold text-gray-900">
