@@ -471,10 +471,13 @@ async function listCustomers(env: Env, corsHeaders?: HeadersInit): Promise<Respo
 	const { results } = await env.DB.prepare(
 		`SELECT
 			c.id, c.fullName, c.phone, c.email, c.createdAt, c.updatedAt,
-			COUNT(b.id) AS bookingCount
+			SUM(CASE WHEN b.status <> 'Abandoned' THEN 1 ELSE 0 END) AS bookingCount
 		FROM Customer c
 		LEFT JOIN Booking b ON b.customerId = c.id
 		GROUP BY c.id, c.fullName, c.phone, c.email, c.createdAt, c.updatedAt
+		-- Hide partial/abandoned leads: only surface customers who have at least
+		-- one real (non-Abandoned) booking.
+		HAVING bookingCount > 0
 		ORDER BY c.createdAt DESC`,
 	).all<CustomerRow>();
 
