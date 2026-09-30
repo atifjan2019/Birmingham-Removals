@@ -5,6 +5,136 @@ on the `main` branch. Dates use the session date noted in each section.
 
 ---
 
+## 2026-09-30 - Move details form, enquiry wording, admin and API hardening
+
+A customer who sends the quote form has made an enquiry, not a booking. The
+emails and the success screen now say so, and the customer is given a private
+link to a form that collects what the office used to ask for over WhatsApp.
+
+**Wording**
+
+- Customer email: "We have received your enquiry", with "This is not a booking
+  yet: we confirm your price and your date with you first". Office email:
+  "New enquiry".
+- Quote success screen: "We have your enquiry", with the link to the form.
+- The email HTML now lives in `src/lib/emailTemplates.js` (no sending code, so
+  it can be rendered and checked without SMTP). Everything a customer typed is
+  escaped. `src/lib/email.js` no longer writes recipient addresses to the log.
+
+**The move details form** (`/move-details/<token>`)
+
+- Asks: flat or house at each end, which floor and whether there is a lift,
+  what is being moved (tap counts, a typed list, or photos and documents),
+  whether anything needs dismantling or reassembling, and how many people.
+- Every answer is saved on the device at once and on the API about a second
+  later, so a refresh, a closed tab or a dropped connection loses nothing, and
+  the form can be finished on another device. The device keeps only the
+  answers the API has not confirmed, and deletes anything a week old.
+- The answers carry a version. A save names the version it started from; if
+  they have been changed elsewhere since, the API sends back its copy and the
+  page merges answer by answer, each ticked item counting as an answer of its
+  own (`src/lib/moveDetailsMerge.js`): an answer changed only on this page is
+  kept, one changed only elsewhere is taken, and where both changed the same
+  answer the other one is kept (it may already have gone to the office) and
+  the page says which, showing what was typed on it. A page left open on a
+  second device can therefore not overwrite newer answers, and a send from
+  one is held back until the customer has seen the two together. An older
+  copy of the answers is never taken in over a newer one.
+- Tabs open on the same link share the device's copy, so one tab never
+  deletes another's unconfirmed answers, and picks them up when it comes into
+  view. A change that never reached the office on an enquiry already sent is
+  shown on the form, with a reminder to send again, rather than saved behind
+  the thank-you message; so is any change made after sending.
+- Photos are shrunk in the browser and uploaded straight to the API, two at a
+  time, each under an id of the form's own, so a retry after a lost reply is
+  not stored twice. One that has not finished uploading waits on the device
+  and is sent on the next visit.
+- A removed photo stays removed. The API notes the form's id of every file a
+  customer removes (table `BookingFileRemoved`) before deleting anything, and
+  refuses an upload under a removed id with 410. So a photo removed while its
+  upload was still landing, or removed on one device while a copy waited on
+  another, never reaches the office. The form drops such a photo and says so.
+- A send stops, and says why, if a photo was turned away on the way (the
+  enquiry already has twelve, or it was removed elsewhere), and if an answer
+  turned out to have been changed elsewhere while the send was getting ready.
+- A customer who changed answers after sending, and did not send again, gets
+  the form with a reminder to send, not the thank-you message, when they come
+  back (the admin already shows such an enquiry as "Edited since").
+- "Send my move details" goes through a server action
+  (`src/app/actions/moveDetails.js`), which marks the details as sent and then
+  emails the office. The API decides when an email is due (`notify`): for a
+  send with something new in it, or a repeat of one the office was never
+  emailed about. A sixth send with something new in one day is refused.
+- The page is private: `noindex`, `Cache-Control: private, no-store`,
+  `Referrer-Policy: no-referrer`, and the session recorder does not load on it
+  (or on `/admin`). It shows nothing from the customer record (no name, phone
+  or email).
+
+**Admin**
+
+- A booking's modal has a "Move details from customer" section: progress, the
+  customer's link (with Copy link, for WhatsApp), the answers, and the photos
+  and files, each opened through a link that works for five minutes.
+- The list shows a "Details in" or "Details started" pill.
+- The office email's button opens `/admin/bookings?booking=<id>`.
+- The admin-only server actions in `src/app/actions/booking.js` (update,
+  status, financials, delete, resend emails) now check the admin session
+  themselves. Before this they could be called from any public page.
+
+**API (worker-api)**
+
+- `Booking` gains `detailsToken`, `details`, `detailsVersion`,
+  `detailsSaveId`, `detailsUpdatedAt`, `detailsSubmittedAt` and `leadKey`;
+  new tables `BookingFileRemoved`,
+  `BookingFile` and `FileLink` (`migrations/2026-09-add-move-details.sql`,
+  already applied to the live database; do not re-run the 2026-07 migration
+  after it).
+- Files live in the private R2 bucket `birmingham-removals-uploads` (EU
+  jurisdiction), bound as `UPLOADS`.
+- New routes: `GET/PUT /move-details/:token`,
+  `POST /move-details/:token/files`, `DELETE /move-details/:token/files/:id`
+  (authorised by the token); `POST /move-details/:token/submit`,
+  `GET /bookings/:id/move-details`, `POST /files/:id/link` (admin PIN);
+  `GET /file/:token` (the short-lived link).
+- Limits: 12 files per enquiry, 15 MB each, photos and common document types
+  only (no SVG); 1,500 files and 2 GB of uploads a day across the whole
+  service; previews are small JPEGs checked by the size they declare.
+- Deleting a booking or a customer, and the daily purge of old abandoned
+  leads, remove the files from R2 as well as the rows.
+- A details link is only given to an enquiry, not to an abandoned lead, and
+  only told to a caller that sends the admin PIN (the website's server).
+- `POST /bookings` no longer carries on from an existing abandoned lead that
+  has the same phone number or email: those are not secrets, and it handed
+  one person's lead to another. It always makes a new booking. The quote form
+  finishes its own lead by id, with `onlyIfLead`, which the API refuses once
+  the booking is no longer an untouched lead; the lead's id is kept as
+  `leadKey`, so the same browser repeating the finishing call gets the same
+  enquiry back rather than a second one. The visible cost: a lead whose
+  customer later starts again is left in the Abandoned tab until the 30-day
+  purge.
+- Each enquiry from the public quote form gets a customer record of its own,
+  and the customer's details on a lead are only ever written together with
+  the lead itself (one D1 batch). Before, the record was found by email and
+  shared, so one person could overwrite another's name and phone. Only a
+  booking made in the admin reuses an existing customer. A repeat customer
+  therefore shows more than once on the Customers page. Deleting a booking
+  deletes its customer record too when no other booking uses it.
+- "Resend emails" in the admin reads the booking afresh, and waits while a
+  correction to the customer's name, email or phone is still being saved, so
+  the corrected address is the one used. The customer delete action now
+  checks the admin session.
+- Every request body is read up to a limit, and every handler's errors come
+  back as JSON with CORS headers.
+
+**Deploying**
+
+- The site deploys from `main` on Vercel. The worker does not: run
+  `npx wrangler deploy` in `worker-api/`, signed in to the Cloudflare account
+  that owns `birmingham-removals-api`. Schema changes go to the database
+  first, the worker second, the site last.
+
+---
+
 ## 2026-05-23 - E6 build: Google Maps embeds on 10 primary area pages
 
 The 10 static primary-city area pages now render a keyless Google Maps

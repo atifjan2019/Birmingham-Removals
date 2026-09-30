@@ -22,6 +22,8 @@ interface D1PreparedStatement {
 
 interface D1Database {
 	prepare(query: string): D1PreparedStatement;
+	// Runs the statements in order as one transaction: all of them or none.
+	batch(statements: D1PreparedStatement[]): Promise<D1Result[]>;
 }
 
 interface ExecutionContext {

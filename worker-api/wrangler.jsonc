@@ -9,7 +9,8 @@
 	},
 	"upload_source_maps": true,
 	"triggers": {
-		// Daily at 03:00 UTC — purge abandoned leads older than 30 days.
+		// Daily at 03:00 UTC: purge abandoned leads older than 30 days, and file
+		// links that have expired.
 		"crons": ["0 3 * * *"]
 	},
 	"d1_databases": [
@@ -17,6 +18,17 @@
 			"binding": "DB",
 			"database_name": "birmingham-removals",
 			"database_id": "f3ec2aa5-5198-415a-b5d6-77e64d16b02e"
+		}
+	],
+	// Photos and documents customers attach to their move details. The bucket
+	// is private: files are only ever read back through this Worker. It was
+	// created in the EU jurisdiction, so these files are stored in the EU and
+	// nowhere else, and the binding has to name that jurisdiction to find it.
+	"r2_buckets": [
+		{
+			"binding": "UPLOADS",
+			"bucket_name": "birmingham-removals-uploads",
+			"jurisdiction": "eu"
 		}
 	]
 }

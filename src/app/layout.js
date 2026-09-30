@@ -93,6 +93,10 @@ export default function RootLayout({ children }) {
         <Script id="smartlook" strategy="lazyOnload">
           {`
             (function(){
+              // No session recording on the admin or on a customer's move
+              // details page: both show personal data, and the second has the
+              // key to an enquiry in its address.
+              if (/^\\/(admin|move-details)(\\/|$)/.test(location.pathname)) return;
               if (typeof window.smartlook !== 'function') {
                 var sl = function(){ sl.api.push(arguments); };
                 sl.api = [];

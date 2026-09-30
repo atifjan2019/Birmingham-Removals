@@ -33,6 +33,18 @@ const AREA_SLUG_REDIRECTS = [
   ["coleshill", "north-warwickshire"],
 ];
 
+// The bookings API's origin. The move details form calls it straight from the
+// browser (saving answers, uploading photos), so the content security policy
+// has to allow it. Same default as src/lib/workerApi.js.
+const WORKER_API_ORIGIN = (() => {
+  const fallback = "https://birmingham-removals-api.webspires.workers.dev";
+  try {
+    return new URL(process.env.WORKER_API_URL || fallback).origin;
+  } catch {
+    return fallback;
+  }
+})();
+
 const nextConfig = {
   // Modern-browser target is driven by .browserslistrc, which Next.js + SWC
   // respect automatically — SWC stops emitting ES5 polyfills/transforms for
@@ -84,9 +96,13 @@ const nextConfig = {
           { key: "Cache-Control", value: "public, max-age=86400" },
         ],
       },
-      // Short, edge-cacheable HTML defaults
+      // Short, edge-cacheable HTML defaults. Two exclusions beyond the API and
+      // the admin. /_next/: the dev server's script URLs carry no hash, so a
+      // browser that cached one kept running old code after an edit (production
+      // hashes them and sets its own header). /move-details/: a customer's
+      // private page, which no shared cache may keep (its headers are below).
       {
-        source: "/((?!api/|admin/).*)",
+        source: "/((?!api/|admin/|_next/|move-details/).*)",
         headers: [
           { key: "Cache-Control", value: "public, max-age=300, s-maxage=86400, stale-while-revalidate=604800" },
         ],
@@ -115,12 +131,24 @@ const nextConfig = {
               "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
               "font-src 'self' https://fonts.gstatic.com",
               "img-src 'self' data: https://images.unsplash.com https://www.birminghamremovals.uk https://maps.googleapis.com https://maps.gstatic.com",
-              "connect-src 'self' https://web-sdk.smartlook.com https://maps.googleapis.com",
+              `connect-src 'self' https://web-sdk.smartlook.com https://maps.googleapis.com ${WORKER_API_ORIGIN}`,
               // Google Maps embed (keyless iframe on area pages + future /contact).
               "frame-src https://www.google.com https://maps.google.com",
               "frame-ancestors 'none'",
             ].join("; "),
           },
+        ],
+      },
+      // A customer's private page. Its address holds the key to their enquiry,
+      // so it is never cached, never indexed and never sent on as a referrer.
+      // Listed after the site-wide rule because the last rule to set a header
+      // is the one that applies.
+      {
+        source: "/move-details/:path*",
+        headers: [
+          { key: "Cache-Control", value: "private, no-store" },
+          { key: "Referrer-Policy", value: "no-referrer" },
+          { key: "X-Robots-Tag", value: "noindex, nofollow" },
         ],
       },
     ];

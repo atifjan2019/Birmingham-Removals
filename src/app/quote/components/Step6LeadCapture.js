@@ -11,6 +11,7 @@ const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 export default function Step6LeadCapture({
   data,
   abandonedBookingId,
+  abandonedLeadId,
   onChange,
   onSubmitStart,
   onSubmitError,
@@ -59,6 +60,8 @@ export default function Step6LeadCapture({
     const submissionData = {
       ...data,
       abandonedBookingId,
+      // Lets this browser repeat the submit if the answer to it is lost.
+      abandonedLeadId,
       extras: data.extras || []
     };
 
@@ -67,7 +70,7 @@ export default function Step6LeadCapture({
       setSubmitting(false);
       
       if (result?.success) {
-        onSubmit();
+        onSubmit(result);
       } else {
         onSubmitError?.();
         setErrors({ submit: result?.error || "System error. Please try again or call us." });

@@ -51,7 +51,15 @@ async function workerFetch(
   if (!response.ok) {
     const details = payload?.error?.details ? `: ${Object.values(payload.error.details).join(", ")}` : "";
     const message = `${payload?.error?.message || `Worker API request failed with ${response.status}`}${details}`;
-    throw new Error(message);
+    // The status and any per-field details travel with the error, so a caller
+    // can tell "not found" from a failure without reading the message.
+    const error = new Error(message);
+    error.status = response.status;
+    error.details = payload?.error?.details || null;
+    // A refusal can come with data: the current answers, when a save is turned
+    // away because they were changed somewhere else.
+    error.data = payload?.data ?? null;
+    throw error;
   }
 
   return payload.data;
@@ -76,11 +84,18 @@ export async function listBookings() {
   return all;
 }
 
+// Sent with the admin PIN, although the route is open to anyone: the API only
+// tells the enquiry's details link to a caller that has it.
 export async function createWorkerBooking(data) {
   return workerFetch("/bookings", {
     method: "POST",
     body: JSON.stringify(data),
-  });
+  }, { admin: true });
+}
+
+/** Admin: one booking as the API holds it now. */
+export async function getWorkerBooking(id) {
+  return workerFetch(`/bookings/${encodeURIComponent(id)}`, {}, { admin: true });
 }
 
 export async function updateWorkerBooking(id, data) {
@@ -157,4 +172,48 @@ export async function updateWorkerSettings(patch) {
     method: "PUT",
     body: JSON.stringify(patch),
   }, { admin: true });
+}
+
+/* ─── Move details: the customer's follow-up form ─── */
+
+/**
+ * The API's public address, for the browser's own calls from the move details
+ * form (saving answers as they are typed, and uploading photos and files,
+ * which are too large to pass through a server action).
+ */
+export function workerPublicBase() {
+  return apiBase();
+}
+
+/** The enquiry, saved answers and files behind a customer's link, or null for an unknown link. */
+export async function getMoveDetails(token) {
+  try {
+    return await workerFetch(`/move-details/${encodeURIComponent(token)}`);
+  } catch (error) {
+    if (error.status === 404) return null;
+    throw error;
+  }
+}
+
+/**
+ * Marks the customer's answers as sent. `payload` is { details, baseVersion,
+ * saveId, sentIds }. Returns what the office email needs, and `notify`:
+ * whether the office is due that email.
+ */
+export async function submitWorkerMoveDetails(token, payload) {
+  return workerFetch(
+    `/move-details/${encodeURIComponent(token)}/submit`,
+    { method: "POST", body: JSON.stringify(payload) },
+    { admin: true }
+  );
+}
+
+/** Admin: a booking's link, answers and files. Creates the link if the booking predates it. */
+export async function getBookingMoveDetails(bookingId) {
+  return workerFetch(`/bookings/${encodeURIComponent(bookingId)}/move-details`, {}, { admin: true });
+}
+
+/** Admin: a short-lived address for opening one uploaded file. */
+export async function createWorkerFileLink(fileId) {
+  return workerFetch(`/files/${encodeURIComponent(fileId)}/link`, { method: "POST" }, { admin: true });
 }

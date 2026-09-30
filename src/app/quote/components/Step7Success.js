@@ -2,7 +2,7 @@
 
 import { useEffect } from "react";
 import { motion } from "framer-motion";
-import { MapPin, Calendar, Phone, User } from "lucide-react";
+import { MapPin, Calendar, Phone, User, ArrowRight } from "lucide-react";
 
 const moveTypeLabels = {
   house: "House Move",
@@ -11,7 +11,7 @@ const moveTypeLabels = {
   items: "Single Items",
 };
 
-export default function Step7Success({ data }) {
+export default function Step7Success({ data, detailsToken }) {
   const firstName = data.fullName ? data.fullName.split(" ")[0] : "there";
 
   const formattedDate = data.moveDate
@@ -68,7 +68,7 @@ export default function Step7Success({ data }) {
         transition={{ delay: 0.5 }}
         className="font-[family-name:var(--font-space)] text-2xl font-bold text-gray-900 mb-2"
       >
-        You&apos;re booked in, {firstName}!
+        Thanks, {firstName}. We have your enquiry.
       </motion.h2>
 
       <motion.p
@@ -77,9 +77,35 @@ export default function Step7Success({ data }) {
         transition={{ delay: 0.65 }}
         className="text-muted text-sm mb-8"
       >
-        Our team will call you on{" "}
-        <strong className="text-gray-900">{data.phone}</strong> within 2 hours.
+        This is not a booking yet. We will call you on{" "}
+        <strong className="text-gray-900">{data.phone}</strong> within 2 hours to agree your price and date.
       </motion.p>
+
+      {/* One more step: the move details form, on the enquiry's own link. */}
+      {detailsToken ? (
+        <motion.div
+          initial={{ opacity: 0, y: 15 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.72 }}
+          className="mb-6 rounded-xl border border-orange-200 bg-orange-50 p-5 text-left"
+        >
+          <p className="text-sm font-bold text-gray-900">One more step: tell us what you are moving</p>
+          <p className="mt-1 text-sm text-gray-600">
+            Add a list or photos of your items, whether it is a flat or a house, and how many people you need.
+            It takes a couple of minutes and saves the back and forth on WhatsApp.
+          </p>
+          {/* A plain link, so the form opens with a full page load: the session
+              recorder running on this page is then not carried into a private one. */}
+          <a
+            href={`/move-details/${detailsToken}`}
+            className="mt-4 inline-flex items-center gap-2 rounded-xl bg-accent px-5 py-3 text-sm font-bold text-white shadow-lg shadow-accent/25 transition-colors hover:bg-accent-dark"
+          >
+            Add your move details
+            <ArrowRight className="h-4 w-4" aria-hidden="true" />
+          </a>
+          <p className="mt-3 text-xs text-gray-500">We are emailing you this link as well, so you can do it later.</p>
+        </motion.div>
+      ) : null}
 
       {/* Summary card */}
       <motion.div
@@ -89,7 +115,7 @@ export default function Step7Success({ data }) {
         className="bg-gray-50 border border-gray-200 rounded-xl p-5 text-left space-y-3"
       >
         <div className="text-xs text-muted uppercase tracking-wide font-medium mb-3">
-          Your Quote Summary
+          Your Enquiry Summary
         </div>
 
         <div className="flex items-center gap-3">

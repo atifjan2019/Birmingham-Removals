@@ -103,6 +103,7 @@ export default function QuoteFunnel({ settings }) {
   };
 
   const [step, setStep] = useState(getInitialStep());
+  const [detailsToken, setDetailsToken] = useState("");
   const [direction, setDirection] = useState(1);
   const [abandonedLeadId] = useState(() => {
     const existing = getStoredQuoteLead("br_quote_abandoned_lead_id");
@@ -189,9 +190,11 @@ export default function QuoteFunnel({ settings }) {
     setStep(previousStep);
   };
 
-  const completeBooking = () => {
+  const completeBooking = (result) => {
     captureDisabled.current = true;
     setIsCompletingBooking(true);
+    // The enquiry's own link to the move details form, shown on the success step.
+    setDetailsToken(result?.detailsToken || "");
     setStoredQuoteLead("br_quote_abandoned_lead_id", "");
     setStoredQuoteLead("br_quote_abandoned_booking_id", "");
     setDirection(1);
@@ -385,6 +388,7 @@ export default function QuoteFunnel({ settings }) {
                     <Step6LeadCapture
                       data={data}
                       abandonedBookingId={abandonedBookingId}
+                      abandonedLeadId={abandonedLeadId}
                       onChange={update}
                       onSubmitStart={() => setIsCompletingBooking(true)}
                       onSubmitError={() => setIsCompletingBooking(false)}
@@ -392,7 +396,7 @@ export default function QuoteFunnel({ settings }) {
                       onBack={goBack}
                     />
                   )}
-                  {step === 8 && <Step7Success data={data} />}
+                  {step === 8 && <Step7Success data={data} detailsToken={detailsToken} />}
                 </motion.div>
               </AnimatePresence>
             </div>

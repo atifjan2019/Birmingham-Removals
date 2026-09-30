@@ -1,5 +1,7 @@
 import nodemailer from "nodemailer";
 import { getSiteSettings } from "@/lib/siteSettings";
+import { BUSINESS } from "@/config/business";
+import { enquiryReceivedEmail, adminEnquiryEmail, moveDetailsReceivedEmail } from "@/lib/emailTemplates";
 
 let _transporter = null;
 
@@ -34,204 +36,69 @@ function getTransporter() {
  * Send an email
  */
 export async function sendEmail({ to, subject, html, text }) {
-  console.log("[EMAIL] Attempting to send email to:", to);
+  // The recipient is often a customer, and a log is no place to keep their
+  // address, so only which kind it is gets printed.
+  const recipient = to === BOOKING_NOTIFICATION_EMAIL ? "the office" : "a customer";
+  console.log("[EMAIL] Attempting to send email to", recipient);
   const transporter = getTransporter();
   if (!transporter) {
-    console.warn("[EMAIL SKIP] No transporter available, skipping email to", to);
+    console.warn("[EMAIL SKIP] No transporter available, skipping email to", recipient);
     return { success: false, error: "SMTP not configured" };
   }
   try {
     const from = `"Birmingham Removals" <${process.env.SMTP_FROM}>`;
     console.log("[EMAIL] Sending from:", from);
     const info = await transporter.sendMail({ from, to, subject, html, text: text || "" });
-    console.log(`[EMAIL SENT] to=${to} messageId=${info.messageId}`);
+    console.log(`[EMAIL SENT] to=${recipient} messageId=${info.messageId}`);
     return { success: true, messageId: info.messageId };
   } catch (error) {
-    console.error(`[EMAIL ERROR] to=${to}`, error.message, error.stack);
+    console.error(`[EMAIL ERROR] to=${recipient}`, error.message, error.stack);
     return { success: false, error: error.message };
   }
 }
 
-/* ─── Pre-built templates ─── */
+/* ─── The emails ─── */
 
-const BRAND_COLOR = "#F97316";
-// Served by /api/site-image/logo (public, returns a PNG) so the email header
-// always matches the current admin-uploaded logo. The old /images/logo.webp
-// path 404'd (no such file) and webp is poorly supported in email clients.
-const LOGO_URL = "https://www.birminghamremovals.uk/api/site-image/logo";
-// Where new-booking notifications go. Set BOOKING_NOTIFICATION_EMAIL in the env
+// Where new-enquiry notifications go. Set BOOKING_NOTIFICATION_EMAIL in the env
 // to change it without a code change; falls back to the current address.
 const BOOKING_NOTIFICATION_EMAIL =
   process.env.BOOKING_NOTIFICATION_EMAIL || "atifjan2019@gmail.com";
 
-function baseLayout(content, contact = {}) {
-  // Footer line is composed from whatever contact details exist, so a removed
-  // phone or email simply drops out instead of leaving a dangling separator.
-  const footerLine = ["Birmingham Removals", contact.phone, contact.email]
-    .filter((part) => part && String(part).trim().length > 0)
-    .join(" &bull; ");
-  return `
-<!DOCTYPE html>
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1.0">
-  <meta name="color-scheme" content="light only">
-  <meta name="supported-color-schemes" content="light only">
-  <style>
-    :root { color-scheme: light only; }
-    body, table, td, div, p, h1, h2, h3 { color: #111827 !important; }
-  </style>
-</head>
-<body style="margin:0;padding:0;background-color:#f4f6f8;font-family:'Segoe UI',Arial,sans-serif;color:#111827;">
-  <table width="100%" cellpadding="0" cellspacing="0" role="presentation" style="background-color:#f4f6f8;padding:32px 0;">
-    <tr><td align="center">
-      <table width="600" cellpadding="0" cellspacing="0" role="presentation" style="background-color:#ffffff;border-radius:12px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,0.06);">
-        <!-- Header with Logo -->
-        <tr>
-          <td style="background-color:#ffffff;padding:28px 32px;text-align:center;border-bottom:3px solid #F97316;">
-            <!-- The logo PNG is transparent; a white background + padding on the
-                 image keeps it readable in dark-mode email clients (which would
-                 otherwise composite it onto black). -->
-            <img src="${LOGO_URL}" alt="Birmingham Removals" width="200" style="display:block;margin:0 auto;max-width:200px;height:auto;background-color:#ffffff;padding:14px 18px;border-radius:8px;" />
-          </td>
-        </tr>
-        <!-- Body -->
-        <tr>
-          <td style="padding:32px;background-color:#ffffff;color:#111827;">
-            ${content}
-          </td>
-        </tr>
-        <!-- Footer -->
-        <tr>
-          <td style="background-color:#f9fafb;padding:20px 32px;border-top:1px solid #e5e7eb;">
-            <p style="margin:0;font-size:12px;color:#6b7280;text-align:center;">
-              ${footerLine}
-            </p>
-          </td>
-        </tr>
-      </table>
-    </td></tr>
-  </table>
-</body>
-</html>`;
+// Pull the current phone/email from Settings so an email never hardcodes an
+// out-of-date number. Fail soft to no contact details if the read fails.
+async function siteContact() {
+  const settings = await getSiteSettings().catch(() => ({}));
+  return {
+    phone: settings.showPhone === false ? "" : settings.phone || "",
+    email: settings.email,
+  };
 }
 
 /**
- * Booking confirmation email to the customer
+ * "We have received your enquiry", to the customer. The quote form is an
+ * enquiry, not a booking, and the email says so.
  */
-export async function sendBookingConfirmation({ email, fullName, moveType, fromPostcode, toPostcode, moveDate, bedrooms, extras }) {
-  const formattedDate = new Date(moveDate).toLocaleDateString("en-GB", { weekday: "long", day: "numeric", month: "long", year: "numeric" });
-  const extrasList = extras && extras.length > 0 ? extras.join(", ") : "None";
+export async function sendEnquiryReceived(data) {
+  const { subject, html } = enquiryReceivedEmail(data, await siteContact());
+  return sendEmail({ to: data.email, subject, html });
+}
 
-  // Pull the current phone/email from Settings so the email never hardcodes an
-  // out-of-date number. Fail soft to no contact details if the read fails.
-  const settings = await getSiteSettings().catch(() => ({}));
-  const contactPhone = settings.showPhone === false ? "" : settings.phone || "";
-  const callLine = contactPhone
-    ? ` If you have any questions, feel free to call us on <strong>${contactPhone}</strong>.`
-    : "";
-
-  const html = baseLayout(`
-    <h2 style="margin:0 0 8px;font-size:20px;color:#111827;">Booking Confirmed!</h2>
-    <p style="margin:0 0 24px;font-size:15px;color:#4b5563;">Hi ${fullName}, thank you for choosing Birmingham Removals. Here are your booking details:</p>
-
-    <table width="100%" cellpadding="0" cellspacing="0" style="border:1px solid #e5e7eb;border-radius:8px;overflow:hidden;">
-      <tr>
-        <td style="padding:12px 16px;font-size:13px;color:#6b7280;background-color:#f9fafb;width:140px;">Move Type</td>
-        <td style="padding:12px 16px;font-size:14px;color:#111827;background-color:#f9fafb;font-weight:600;">${moveType}</td>
-      </tr>
-      <tr>
-        <td style="padding:12px 16px;font-size:13px;color:#6b7280;background-color:#ffffff;border-top:1px solid #f3f4f6;">From</td>
-        <td style="padding:12px 16px;font-size:14px;color:#111827;background-color:#ffffff;border-top:1px solid #f3f4f6;">${fromPostcode}</td>
-      </tr>
-      <tr>
-        <td style="padding:12px 16px;font-size:13px;color:#6b7280;background-color:#f9fafb;">To</td>
-        <td style="padding:12px 16px;font-size:14px;color:#111827;background-color:#f9fafb;">${toPostcode}</td>
-      </tr>
-      <tr>
-        <td style="padding:12px 16px;font-size:13px;color:#6b7280;background-color:#ffffff;border-top:1px solid #f3f4f6;">Date</td>
-        <td style="padding:12px 16px;font-size:14px;color:#111827;background-color:#ffffff;border-top:1px solid #f3f4f6;">${formattedDate}</td>
-      </tr>
-      <tr>
-        <td style="padding:12px 16px;font-size:13px;color:#6b7280;background-color:#f9fafb;">Bedrooms</td>
-        <td style="padding:12px 16px;font-size:14px;color:#111827;background-color:#f9fafb;">${bedrooms || "N/A"}</td>
-      </tr>
-      <tr>
-        <td style="padding:12px 16px;font-size:13px;color:#6b7280;background-color:#ffffff;border-top:1px solid #f3f4f6;">Extras</td>
-        <td style="padding:12px 16px;font-size:14px;color:#111827;background-color:#ffffff;border-top:1px solid #f3f4f6;">${extrasList}</td>
-      </tr>
-    </table>
-
-    <div style="margin-top:24px;padding:16px;background-color:#f0f9ff;border-radius:8px;border-left:4px solid ${BRAND_COLOR};">
-      <p style="margin:0;font-size:14px;color:#1e40af;font-weight:600;">What happens next?</p>
-      <p style="margin:8px 0 0;font-size:13px;color:#374151;">Our team will review your booking and call you to confirm the final details and price.${callLine}</p>
-    </div>
-  `, { phone: contactPhone, email: settings.email });
-
-  return sendEmail({
-    to: email,
-    subject: `Booking Confirmed - ${moveType} Move on ${formattedDate}`,
-    html,
-  });
+/** The same enquiry, to the office. */
+export async function sendAdminNotification(data) {
+  const { subject, html } = adminEnquiryEmail(data, await siteContact());
+  return sendEmail({ to: BOOKING_NOTIFICATION_EMAIL, subject, html });
 }
 
 /**
- * New booking notification email to admin
+ * "Move details received", to the office, when a customer sends the move
+ * details form or sends it again. `data` is what the API returns for the
+ * submission. The email's button opens the admin with that enquiry showing.
  */
-export async function sendAdminNotification({ fullName, email, phone, moveType, fromPostcode, toPostcode, moveDate, bedrooms, extras, bookingId }) {
-  const formattedDate = new Date(moveDate).toLocaleDateString("en-GB", { weekday: "short", day: "numeric", month: "short", year: "numeric" });
-  const extrasList = extras && extras.length > 0 ? extras.join(", ") : "None";
-
-  // Site contact details for the footer (independent of the customer's phone).
-  const settings = await getSiteSettings().catch(() => ({}));
-  const contactPhone = settings.showPhone === false ? "" : settings.phone || "";
-
-  const html = baseLayout(`
-    <h2 style="margin:0 0 8px;font-size:20px;color:#111827;">New Booking Received</h2>
-    <p style="margin:0 0 24px;font-size:15px;color:#4b5563;">A new booking has just been submitted.</p>
-
-    <table width="100%" cellpadding="0" cellspacing="0" style="border:1px solid #e5e7eb;border-radius:8px;overflow:hidden;">
-      <tr>
-        <td style="padding:12px 16px;font-size:13px;color:#6b7280;background-color:#f9fafb;width:140px;">Customer</td>
-        <td style="padding:12px 16px;font-size:14px;color:#111827;background-color:#f9fafb;font-weight:600;">${fullName}</td>
-      </tr>
-      <tr>
-        <td style="padding:12px 16px;font-size:13px;color:#6b7280;background-color:#ffffff;border-top:1px solid #f3f4f6;">Email</td>
-        <td style="padding:12px 16px;font-size:14px;color:#111827;background-color:#ffffff;border-top:1px solid #f3f4f6;">${email}</td>
-      </tr>
-      <tr>
-        <td style="padding:12px 16px;font-size:13px;color:#6b7280;background-color:#f9fafb;">Phone</td>
-        <td style="padding:12px 16px;font-size:14px;color:#111827;background-color:#f9fafb;">${phone}</td>
-      </tr>
-      <tr>
-        <td style="padding:12px 16px;font-size:13px;color:#6b7280;background-color:#ffffff;border-top:1px solid #f3f4f6;">Move Type</td>
-        <td style="padding:12px 16px;font-size:14px;color:#111827;background-color:#ffffff;border-top:1px solid #f3f4f6;">${moveType}</td>
-      </tr>
-      <tr>
-        <td style="padding:12px 16px;font-size:13px;color:#6b7280;background-color:#f9fafb;">Route</td>
-        <td style="padding:12px 16px;font-size:14px;color:#111827;background-color:#f9fafb;">${fromPostcode} &rarr; ${toPostcode}</td>
-      </tr>
-      <tr>
-        <td style="padding:12px 16px;font-size:13px;color:#6b7280;background-color:#ffffff;border-top:1px solid #f3f4f6;">Date</td>
-        <td style="padding:12px 16px;font-size:14px;color:#111827;background-color:#ffffff;border-top:1px solid #f3f4f6;">${formattedDate}</td>
-      </tr>
-      <tr>
-        <td style="padding:12px 16px;font-size:13px;color:#6b7280;background-color:#f9fafb;">Bedrooms</td>
-        <td style="padding:12px 16px;font-size:14px;color:#111827;background-color:#f9fafb;">${bedrooms || "N/A"}</td>
-      </tr>
-      <tr>
-        <td style="padding:12px 16px;font-size:13px;color:#6b7280;background-color:#ffffff;border-top:1px solid #f3f4f6;">Extras</td>
-        <td style="padding:12px 16px;font-size:14px;color:#111827;background-color:#ffffff;border-top:1px solid #f3f4f6;">${extrasList}</td>
-      </tr>
-    </table>
-
-    <p style="margin:24px 0 0;font-size:13px;color:#6b7280;">Booking ID: ${bookingId}</p>
-  `, { phone: contactPhone, email: settings.email });
-
-  return sendEmail({
-    to: BOOKING_NOTIFICATION_EMAIL,
-    subject: `New Booking - ${fullName} (${moveType}, ${formattedDate})`,
-    html,
-  });
+export async function sendMoveDetailsReceived(data) {
+  const adminUrl = `${BUSINESS.url}/admin/bookings?booking=${encodeURIComponent(data.booking.id)}`;
+  const { subject, html } = moveDetailsReceivedEmail(
+    { booking: data.booking, details: data.details, files: data.files, resubmitted: data.resubmitted, adminUrl },
+    await siteContact()
+  );
+  return sendEmail({ to: BOOKING_NOTIFICATION_EMAIL, subject, html });
 }

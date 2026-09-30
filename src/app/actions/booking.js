@@ -3,15 +3,49 @@
 import { calculateQuote } from "@/lib/quoteCalculator";
 import { revalidatePath } from "next/cache";
 import { after } from "next/server";
-import { sendBookingConfirmation, sendAdminNotification } from "@/lib/email";
+import { sendEnquiryReceived, sendAdminNotification } from "@/lib/email";
 import {
   createWorkerBooking,
+  getBookingMoveDetails,
+  getWorkerBooking,
   recordWorkerActivity,
   updateWorkerBooking,
   deleteWorkerBooking,
 } from "@/lib/workerApi";
+import { cookies } from "next/headers";
+import { decrypt } from "@/lib/session";
+import { BUSINESS } from "@/config/business";
 
 const EMAIL_WAIT_TIMEOUT_MS = 1500;
+
+// A server action can be called by anyone who posts to any page with its id,
+// so the middleware's /admin guard is not enough: each admin-only action below
+// checks the session itself. createBooking and captureAbandonedLead stay open,
+// because the public quote form calls them.
+async function isAdmin() {
+  try {
+    const cookieStore = await cookies();
+    const token = cookieStore.get("admin_session")?.value;
+    const session = token ? await decrypt(token) : null;
+    return Boolean(session?.userId);
+  } catch {
+    return false;
+  }
+}
+
+const UNAUTHORIZED = { success: false, error: "Unauthorized" };
+
+/** A customer's own link to the move details form for their enquiry. */
+function detailsUrlFor(booking) {
+  return booking?.detailsToken ? `${BUSINESS.url}/move-details/${booking.detailsToken}` : undefined;
+}
+
+// The quote form's own id for the lead it is filling in, kept in the visitor's
+// browser. The API stores it with the lead, and it is what lets that browser
+// repeat the call that finishes the lead when the first answer is lost.
+function leadKeyFrom(formData) {
+  return String(formData?.abandonedLeadId || "").replace(/[^a-zA-Z0-9_-]/g, "").slice(0, 80);
+}
 
 function refreshAdminData() {
   revalidatePath("/admin");
@@ -36,7 +70,7 @@ async function sendBookingEmails(emailData, timeoutMs = EMAIL_WAIT_TIMEOUT_MS) {
     setTimeout(() => resolve("timeout"), timeoutMs);
   });
   const emailPromise = Promise.allSettled([
-    sendBookingConfirmation(emailData),
+    sendEnquiryReceived(emailData),
     sendAdminNotification(emailData),
   ]);
 
@@ -118,28 +152,56 @@ export async function createBooking(formData) {
   try {
     const payload = buildBookingPayload(formData);
     const abandonedBookingId = String(formData?.abandonedBookingId || "").trim();
+    // Only a booking the office adds (a signed-in admin, from the manual booking
+    // form) joins the customer record that already has the same email. The
+    // public quote form always gets a record of its own, so nobody can change
+    // another customer's details by typing their address.
+    const newBooking = { ...payload, reuseCustomer: await isAdmin() };
     let booking;
 
     if (abandonedBookingId) {
+      let converted = false;
       try {
-        booking = await updateWorkerBooking(abandonedBookingId, payload);
-        await recordWorkerActivity({
-          action: "lead.abandoned_converted",
-          entityId: booking.id,
-          actor: "app",
-          details: JSON.stringify({
-            summary: `Abandoned lead converted to booking for ${payload.fullName}`,
-            customer: { fullName: payload.fullName, phone: payload.phone, email: payload.email },
-            moveType: payload.moveType,
-            route: `${payload.fromPostcode} to ${payload.toPostcode}`,
-          }),
+        // The id comes from the visitor's browser, so this may only ever finish
+        // a booking that is still an untouched lead (onlyIfLead). Anything
+        // else is refused by the API, and the enquiry is made afresh below.
+        booking = await updateWorkerBooking(abandonedBookingId, {
+          ...payload,
+          onlyIfLead: true,
+          leadKey: leadKeyFrom(formData),
         });
+        // A second press of submit after the answer to the first was lost: the
+        // enquiry was made and its emails sent the first time round.
+        if (booking?.alreadyFinished) {
+          return { success: true, bookingId: booking.id, detailsToken: booking.detailsToken || null };
+        }
+        converted = true;
       } catch (error) {
         console.error("Failed converting abandoned booking, creating a new booking instead:", error);
-        booking = await createWorkerBooking(payload);
+        booking = await createWorkerBooking(newBooking);
+      }
+
+      // On its own, so that a log entry that fails cannot be mistaken for a
+      // failed enquiry and make a second one.
+      if (converted) {
+        try {
+          await recordWorkerActivity({
+            action: "lead.abandoned_converted",
+            entityId: booking.id,
+            actor: "app",
+            details: JSON.stringify({
+              summary: `Abandoned lead converted to booking for ${payload.fullName}`,
+              customer: { fullName: payload.fullName, phone: payload.phone, email: payload.email },
+              moveType: payload.moveType,
+              route: `${payload.fromPostcode} to ${payload.toPostcode}`,
+            }),
+          });
+        } catch (error) {
+          console.error("Failed recording the converted lead:", error.message);
+        }
       }
     } else {
-      booking = await createWorkerBooking(payload);
+      booking = await createWorkerBooking(newBooking);
     }
 
     // The worker returns the created row; guard against a null/id-less response
@@ -149,7 +211,8 @@ export async function createBooking(formData) {
     }
 
     const emailData = {
-      email: payload.email,
+      // The address as the API stored it (checked and trimmed), not as typed.
+      email: booking.customer?.email || payload.email,
       fullName: payload.fullName,
       phone: payload.phone,
       moveType: payload.moveType,
@@ -160,6 +223,7 @@ export async function createBooking(formData) {
       extras: payload.extras,
       estimatedPrice: payload.price,
       bookingId: booking.id,
+      detailsUrl: detailsUrlFor(booking),
     };
 
     // Send emails AFTER the response so a slow SMTP handshake never delays the
@@ -169,7 +233,7 @@ export async function createBooking(formData) {
     after(async () => {
       try {
         const results = await Promise.allSettled([
-          sendBookingConfirmation(emailData),
+          sendEnquiryReceived(emailData),
           sendAdminNotification(emailData),
         ]);
         const emailStatus = {
@@ -183,15 +247,31 @@ export async function createBooking(formData) {
     });
 
     refreshAdminData();
-    return { success: true, bookingId: booking.id };
+    return { success: true, bookingId: booking.id, detailsToken: booking.detailsToken || null };
   } catch (error) {
     console.error("Failed storing booking:", error);
     return { success: false, error: error.message || "System failed to save booking right now." };
   }
 }
 
-export async function resendBookingEmails(booking) {
+/**
+ * Sends the enquiry emails again. Takes the booking's id and reads the booking
+ * afresh: the copy in the office's browser can be behind (an email address
+ * corrected a moment ago, a details link made since the list loaded), and the
+ * customer's email carries their private link, so it has to go to the address
+ * on record now.
+ */
+export async function resendBookingEmails(bookingOrId) {
+  if (!(await isAdmin())) return UNAUTHORIZED;
   try {
+    const id = typeof bookingOrId === "string" ? bookingOrId : bookingOrId?.id;
+    if (!id || typeof id !== "string") return { success: false, error: "Booking not found" };
+
+    const booking = await getWorkerBooking(id);
+    // Also gives an enquiry from before details links existed its link. A lead has none.
+    const moveDetails = await getBookingMoveDetails(id);
+    booking.detailsToken = moveDetails?.token || null;
+
     const emailData = {
       email: booking.customer?.email,
       fullName: booking.customer?.fullName,
@@ -204,6 +284,7 @@ export async function resendBookingEmails(booking) {
       extras: booking.extras || [],
       estimatedPrice: booking.price,
       bookingId: booking.id,
+      detailsUrl: detailsUrlFor(booking),
     };
 
     const emailStatus = await sendBookingEmails(emailData, 10000);
@@ -218,6 +299,7 @@ export async function resendBookingEmails(booking) {
 }
 
 export async function updateBookingDetails(id, data) {
+  if (!(await isAdmin())) return UNAUTHORIZED;
   try {
     await updateWorkerBooking(id, data);
     refreshAdminData();
@@ -229,6 +311,7 @@ export async function updateBookingDetails(id, data) {
 }
 
 export async function updateBookingStatus(id, status) {
+  if (!(await isAdmin())) return UNAUTHORIZED;
   try {
     await updateWorkerBooking(id, { status });
     refreshAdminData();
@@ -240,6 +323,7 @@ export async function updateBookingStatus(id, status) {
 }
 
 export async function updateBookingFinancials(id, jobCost, expenses) {
+  if (!(await isAdmin())) return UNAUTHORIZED;
   try {
     await updateWorkerBooking(id, {
       jobCost: parseFloat(jobCost) || 0,
@@ -254,6 +338,7 @@ export async function updateBookingFinancials(id, jobCost, expenses) {
 }
 
 export async function deleteBooking(id) {
+  if (!(await isAdmin())) return UNAUTHORIZED;
   try {
     await deleteWorkerBooking(id);
     refreshAdminData();
@@ -310,6 +395,9 @@ export async function captureAbandonedLead(formData) {
         status: "Abandoned",
         price: estimatedPrice,
         extras: safeExtras,
+        // The id comes from the visitor's browser: only a booking that is
+        // still an untouched lead may be changed by it.
+        onlyIfLead: true,
       };
 
       if (safeMoveType !== "Unknown") patch.moveType = safeMoveType;
@@ -325,15 +413,20 @@ export async function captureAbandonedLead(formData) {
       try {
         booking = await updateWorkerBooking(abandonedBookingId, patch);
       } catch (error) {
+        // The booking is no longer a lead: the visitor has finished the form,
+        // and this is a save that set off before they did. There is no lead to
+        // keep up to date, and making another would show the office a lead for
+        // somebody who has already sent an enquiry.
+        if (error.status === 409) return { success: true, bookingId: abandonedBookingId };
         console.error("Failed updating abandoned lead, creating a fresh abandoned lead instead:", error);
-        booking = await createWorkerBooking(createPayload);
+        booking = await createWorkerBooking({ ...createPayload, leadKey: leadId });
       }
 
       refreshAdminData();
       return { success: true, bookingId: booking.id };
     }
 
-    const booking = await createWorkerBooking(createPayload);
+    const booking = await createWorkerBooking({ ...createPayload, leadKey: leadId });
 
     refreshAdminData();
     return { success: true, bookingId: booking.id };

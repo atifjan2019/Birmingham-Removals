@@ -1,10 +1,11 @@
 "use client";
 
-import { useState, useRef, useEffect, useCallback } from "react";
+import { useState, useRef, useEffect, useCallback, useSyncExternalStore } from "react";
 import { useRouter } from "next/navigation";
 import { Search, Filter, MoreVertical, CheckCircle2, Clock, CalendarDays, Trash2, ChevronRight, Mail, RefreshCw } from "lucide-react";
 import { updateBookingDetails, updateBookingStatus, deleteBooking, updateBookingFinancials, resendBookingEmails } from "@/app/actions/booking";
 import { PoundSterling } from "lucide-react";
+import MoveDetailsPanel from "./MoveDetailsPanel";
 
 // Tabs shown on the list. "All" is a virtual tab that shows only the active
 // pipeline (New + Upcoming); finished/dead jobs live under their own tab.
@@ -26,6 +27,33 @@ const statusBadgeClass = (status) => STATUS_BADGE[status] || STATUS_BADGE.New;
 // It's still status "New" in the database — this only changes the badge.
 const displayStatus = (booking) =>
   booking.status === "New" && Number(booking.price) > 0 ? "Quoted" : booking.status;
+
+// A second pill on the list, for the customer's move details form: sent, or
+// started and not yet sent. Teal keeps it apart from the status colours, and
+// the started one is left plain so it reads as the fainter of the two.
+const DETAILS_BADGE = {
+  in: { label: "Details in", className: "bg-teal-50 text-teal-700 border-teal-200" },
+  started: { label: "Details started", className: "bg-white text-gray-500 border-gray-200" },
+};
+const detailsBadgeFor = (booking) =>
+  booking.detailsSubmittedAt ? DETAILS_BADGE.in : booking.detailsUpdatedAt ? DETAILS_BADGE.started : null;
+
+function DetailsBadge({ badge, className }) {
+  return (
+    <span className={`items-center px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider border whitespace-nowrap ${badge.className} ${className}`}>
+      {badge.label}
+    </span>
+  );
+}
+
+// The "move details received" email links to /admin/bookings?booking=<id>.
+// Only the browser knows the address, so it is read with useSyncExternalStore:
+// the server and the first browser render both see no id, and the browser
+// then draws again with the real one. There is nothing to subscribe to, as
+// the address does not change while the list is open.
+const subscribeToNothing = () => () => {};
+const bookingIdInAddress = () => new URLSearchParams(window.location.search).get("booking");
+const noBookingId = () => null;
 
 function ActionButton({ bookingId, currentStatus }) {
   const [open, setOpen] = useState(false);
@@ -153,6 +181,10 @@ function BookingDetailsModal({ booking, emailStatus, onEmailStatusChange, onClos
   const [jobCost, setJobCost] = useState(booking?.jobCost || "");
   const [expenses, setExpenses] = useState(booking?.expenses || "");
   const [savingDetails, setSavingDetails] = useState(false);
+  // True from the first keystroke of an edit until its save has come back.
+  // "Resend emails" reads the booking from the server, so it waits for this:
+  // an address corrected a moment ago has to be stored before it is used.
+  const [detailsPending, setDetailsPending] = useState(false);
   const [detailsError, setDetailsError] = useState("");
   const [detailsSaved, setDetailsSaved] = useState(false);
   const [details, setDetails] = useState({
@@ -211,6 +243,7 @@ function BookingDetailsModal({ booking, emailStatus, onEmailStatusChange, onClos
         price: details.price === "" ? null : parseFloat(details.price),
       });
       setSavingDetails(false);
+      setDetailsPending(false);
       if (!result?.success) {
         setDetailsError(result?.error || "Failed to save details.");
         return;
@@ -234,6 +267,7 @@ function BookingDetailsModal({ booking, emailStatus, onEmailStatusChange, onClos
 
   const handleDetailChange = (field, value) => {
     detailsDirty.current = true;
+    setDetailsPending(true);
     setDetails((current) => ({ ...current, [field]: value }));
     setDetailsSaved(false);
     setDetailsError("");
@@ -252,7 +286,7 @@ function BookingDetailsModal({ booking, emailStatus, onEmailStatusChange, onClos
   const handleResendEmails = async () => {
     setResendingEmails(true);
     setEmailError("");
-    const result = await resendBookingEmails(booking);
+    const result = await resendBookingEmails(booking.id);
     setResendingEmails(false);
 
     if (!result.success) {
@@ -390,6 +424,10 @@ function BookingDetailsModal({ booking, emailStatus, onEmailStatusChange, onClos
             </div>
           </div>
 
+          {/* Loads on its own and keeps its failures to itself, so a fault in
+              the move details cannot take the rest of the booking down. */}
+          <MoveDetailsPanel bookingId={booking.id} />
+
           <div>
             <div className="mb-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-gray-100 pb-2">
               <div>
@@ -410,7 +448,7 @@ function BookingDetailsModal({ booking, emailStatus, onEmailStatusChange, onClos
               </div>
               <button
                 onClick={handleResendEmails}
-                disabled={resendingEmails}
+                disabled={resendingEmails || detailsPending}
                 className="inline-flex items-center justify-center gap-2 rounded-xl border border-primary/20 bg-primary/5 px-4 py-2 text-sm font-semibold text-primary hover:bg-primary/10 transition-colors disabled:opacity-60"
               >
                 <RefreshCw className={`w-4 h-4 ${resendingEmails ? "animate-spin" : ""}`} />
@@ -563,7 +601,23 @@ export default function BookingsClient({ initialBookings, initialEmailStatusByBo
   const router = useRouter();
   const [searchTerm, setSearchTerm] = useState("");
   const [statusFilter, setStatusFilter] = useState("All");
-  const [selectedBooking, setSelectedBooking] = useState(null);
+  // The open booking is kept by id and read from the list each time, so after
+  // a save refreshes the list the modal shows the booking as it now is.
+  const [selectedId, setSelectedId] = useState(null);
+  const selectedBooking = selectedId ? initialBookings.find((booking) => booking.id === selectedId) || null : null;
+  // The booking named in the address opens on arrival, if it is in the list,
+  // and stops applying once the office has closed it.
+  const linkedBookingId = useSyncExternalStore(subscribeToNothing, bookingIdInAddress, noBookingId);
+  const [linkClosed, setLinkClosed] = useState(false);
+  const linkedBooking =
+    linkedBookingId && !linkClosed
+      ? initialBookings.find((booking) => booking.id === linkedBookingId) || null
+      : null;
+  const openBooking = selectedBooking || linkedBooking;
+  const closeBooking = () => {
+    setSelectedId(null);
+    setLinkClosed(true);
+  };
   const [isAddingManual, setIsAddingManual] = useState(false);
   const [emailStatusByBooking, setEmailStatusByBooking] = useState(initialEmailStatusByBooking);
   const refreshData = useCallback(() => router.refresh(), [router]);
@@ -642,11 +696,12 @@ export default function BookingsClient({ initialBookings, initialEmailStatusByBo
               const formattedDate = booking.moveDate
                 ? new Date(booking.moveDate).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })
                 : "N/A";
+              const badge = detailsBadgeFor(booking);
 
               return (
                 <div
                   key={booking.id}
-                  onClick={() => setSelectedBooking(booking)}
+                  onClick={() => setSelectedId(booking.id)}
                   className="group bg-white rounded-xl border border-gray-100 shadow-[0_1px_4px_-1px_rgba(0,0,0,0.04)] hover:border-primary/30 hover:shadow-[0_4px_20px_-4px_rgba(227,30,36,0.1)] transition-all duration-300 cursor-pointer overflow-hidden"
                 >
                   {/* Minimal row: Name · Route · Date · Status */}
@@ -664,12 +719,23 @@ export default function BookingsClient({ initialBookings, initialEmailStatusByBo
 
                     <div className="hidden sm:block text-sm text-gray-500 shrink-0 w-28 text-right">{formattedDate}</div>
 
-                    <div className="shrink-0">
+                    <div className="shrink-0 flex items-center gap-2">
+                      {badge && <DetailsBadge badge={badge} className="hidden xl:inline-flex" />}
                       <span className={`inline-flex items-center px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider border ${statusBadgeClass(displayStatus(booking))}`}>
                         {displayStatus(booking)}
                       </span>
                     </div>
                   </div>
+
+                  {/* The move details pill sits beside the status pill only on a
+                      wide screen. Anywhere narrower, and above all on a phone,
+                      the row has no width to spare, so it goes on a line of
+                      its own underneath and leaves the row as it was. */}
+                  {badge && (
+                    <div className="xl:hidden -mt-3.5 flex justify-end px-4 pb-3">
+                      <DetailsBadge badge={badge} className="inline-flex" />
+                    </div>
+                  )}
                 </div>
               );
             })
@@ -691,11 +757,11 @@ export default function BookingsClient({ initialBookings, initialEmailStatusByBo
       </div>
 
       <BookingDetailsModal
-        key={selectedBooking?.id}
-        booking={selectedBooking}
-        emailStatus={selectedBooking ? emailStatusByBooking[selectedBooking.id] : null}
+        key={openBooking?.id}
+        booking={openBooking}
+        emailStatus={openBooking ? emailStatusByBooking[openBooking.id] : null}
         onEmailStatusChange={handleEmailStatusChange}
-        onClose={() => setSelectedBooking(null)}
+        onClose={closeBooking}
         onChanged={refreshData}
       />
       {isAddingManual && <ManualBookingModal onClose={() => { setIsAddingManual(false); refreshData(); }} />}
