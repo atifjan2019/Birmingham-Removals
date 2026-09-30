@@ -1,8 +1,8 @@
 "use client";
 
 import { Component, useEffect, useId, useRef, useState } from "react";
-import { Check, ClipboardList, Copy, FileText, ImageIcon, Loader2, RefreshCw } from "lucide-react";
-import { loadBookingMoveDetails, openBookingFile } from "@/app/actions/moveDetailsAdmin";
+import { Check, ClipboardList, Copy, FileText, ImageIcon, Loader2, Mail, RefreshCw } from "lucide-react";
+import { loadBookingMoveDetails, openBookingFile, emailMoveDetailsLink } from "@/app/actions/moveDetailsAdmin";
 import { describeDetails } from "@/lib/moveDetails";
 
 const LOAD_FAILED = "The move details could not be loaded.";
@@ -137,6 +137,70 @@ function ProgressLine({ progress, busy, onRefresh }) {
         <RefreshCw aria-hidden="true" className={`w-3.5 h-3.5 ${busy ? "animate-spin" : ""}`} />
         <span className="hidden sm:inline">Refresh</span>
       </button>
+    </div>
+  );
+}
+
+/**
+ * Emails the customer their link, after a second press that names the
+ * address, so a slip of the mouse sends nothing.
+ */
+export function EmailLinkButton({ bookingId, email }) {
+  const [step, setStep] = useState("idle"); // idle, confirm, sending, sent, failed
+  const [message, setMessage] = useState("");
+
+  const send = async () => {
+    setStep("sending");
+    const result = await emailMoveDetailsLink(bookingId).catch(() => null);
+    if (result?.success) {
+      setStep("sent");
+      setMessage(`Sent to ${result.to}.`);
+    } else {
+      setStep("failed");
+      setMessage(result?.error || "The email was not sent. Try again in a moment.");
+    }
+  };
+
+  if (!email) return null;
+  return (
+    <div className="flex flex-wrap items-center gap-2 text-sm">
+      {step === "confirm" ? (
+        <>
+          <span className="text-gray-700">
+            Email the link to <strong className="break-all">{email}</strong>?
+          </span>
+          <button
+            type="button"
+            onClick={send}
+            className="inline-flex items-center gap-2 rounded-lg bg-primary px-3 py-1.5 font-semibold text-white hover:bg-primary/90"
+          >
+            <Mail aria-hidden="true" className="w-4 h-4" />
+            Send email
+          </button>
+          <button
+            type="button"
+            onClick={() => setStep("idle")}
+            className="rounded-lg px-3 py-1.5 font-semibold text-gray-600 hover:bg-gray-100"
+          >
+            Cancel
+          </button>
+        </>
+      ) : (
+        <button
+          type="button"
+          onClick={() => setStep("confirm")}
+          disabled={step === "sending"}
+          className="inline-flex items-center gap-2 rounded-lg border border-primary/20 bg-primary/5 px-3 py-1.5 font-semibold text-primary hover:bg-primary/10 disabled:opacity-60"
+        >
+          {step === "sending" ? <Loader2 aria-hidden="true" className="w-4 h-4 animate-spin" /> : <Mail aria-hidden="true" className="w-4 h-4" />}
+          {step === "sending" ? "Sending" : step === "sent" ? "Email it again" : "Email the link to the customer"}
+        </button>
+      )}
+      {message && step !== "confirm" ? (
+        <span role="status" className={step === "failed" ? "font-medium text-red-600" : "font-medium text-emerald-700"}>
+          {message}
+        </span>
+      ) : null}
     </div>
   );
 }

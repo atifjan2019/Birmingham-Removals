@@ -1,7 +1,12 @@
 import nodemailer from "nodemailer";
 import { getSiteSettings } from "@/lib/siteSettings";
 import { BUSINESS } from "@/config/business";
-import { enquiryReceivedEmail, adminEnquiryEmail, moveDetailsReceivedEmail } from "@/lib/emailTemplates";
+import {
+  enquiryReceivedEmail,
+  adminEnquiryEmail,
+  moveDetailsReceivedEmail,
+  moveDetailsLinkEmail,
+} from "@/lib/emailTemplates";
 
 let _transporter = null;
 
@@ -87,6 +92,22 @@ export async function sendEnquiryReceived(data) {
 export async function sendAdminNotification(data) {
   const { subject, html } = adminEnquiryEmail(data, await siteContact());
   return sendEmail({ to: BOOKING_NOTIFICATION_EMAIL, subject, html });
+}
+
+/** The customer's move details link, sent from Booking Details. */
+export async function sendMoveDetailsLink({ booking, detailsUrl }) {
+  const { subject, html } = moveDetailsLinkEmail(
+    {
+      fullName: booking.customer?.fullName,
+      moveType: booking.moveType,
+      fromPostcode: booking.fromPostcode,
+      toPostcode: booking.toPostcode,
+      moveDate: booking.moveDate,
+      detailsUrl,
+    },
+    await siteContact()
+  );
+  return sendEmail({ to: booking.customer?.email, subject, html });
 }
 
 /**

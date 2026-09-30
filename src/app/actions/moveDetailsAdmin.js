@@ -2,7 +2,9 @@
 
 import { cookies } from "next/headers";
 import { decrypt } from "@/lib/session";
-import { getBookingMoveDetails, createWorkerFileLink } from "@/lib/workerApi";
+import { getBookingMoveDetails, createWorkerFileLink, getWorkerBooking, recordWorkerActivity } from "@/lib/workerApi";
+import { sendMoveDetailsLink } from "@/lib/email";
+import { BUSINESS } from "@/config/business";
 
 // A server action can be called by anyone who can reach the site, from any
 // page, so the login on the /admin pages does not cover it: each action
@@ -53,6 +55,55 @@ export async function loadBookingMoveDetails(bookingId) {
     return { success: true, data };
   } catch (error) {
     console.error("Failed loading move details:", error?.message);
+    return { success: false, error: plainMessage(error) };
+  }
+}
+
+/**
+ * Emails the customer their move details link, from Booking Details. The link
+ * is made if the enquiry has none yet (an enquiry from before the emails
+ * carried it). An unfinished quote has no link and is refused. The email is
+ * recorded in the activity log, without the link, which is the key to it.
+ */
+export async function emailMoveDetailsLink(bookingId) {
+  try {
+    await requireAdmin();
+  } catch {
+    return { success: false, error: "Unauthorized" };
+  }
+
+  try {
+    const id = cleanId(bookingId);
+    if (!id) return { success: false, error: "Booking not found" };
+
+    const booking = await getWorkerBooking(id);
+    if (!booking?.customer?.email) return { success: false, error: "This customer has no email address." };
+    if (booking.status === "Abandoned") {
+      return { success: false, error: "This quote was not finished, so it has no move details link." };
+    }
+    const details = await getBookingMoveDetails(id);
+    if (typeof details?.token !== "string" || !details.token) {
+      return { success: false, error: "The bookings system did not give a link for this enquiry." };
+    }
+
+    const detailsUrl = `${BUSINESS.url}/move-details/${encodeURIComponent(details.token)}`;
+    const sent = await sendMoveDetailsLink({ booking, detailsUrl });
+    if (!sent?.success) return { success: false, error: `The email was not sent: ${sent?.error || "unknown error"}.` };
+
+    try {
+      await recordWorkerActivity({
+        action: "booking.details_link_emailed",
+        entityId: id,
+        actor: "admin",
+        details: JSON.stringify({ summary: `Emailed ${booking.customer.fullName || "the customer"} their move details link` }),
+      });
+    } catch (error) {
+      // The email has gone; a missing log line is not worth reporting as a failure.
+      console.error("Failed recording the link email:", error?.message);
+    }
+    return { success: true, to: booking.customer.email };
+  } catch (error) {
+    console.error("Failed emailing the move details link:", error?.message);
     return { success: false, error: plainMessage(error) };
   }
 }

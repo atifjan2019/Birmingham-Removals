@@ -155,6 +155,38 @@ export function enquiryReceivedEmail(
   };
 }
 
+/**
+ * The customer's move details link, sent by the office from Booking Details:
+ * for an enquiry whose confirmation email predates the link, or a customer
+ * who has not filled the form in yet.
+ */
+export function moveDetailsLinkEmail({ fullName, moveType, fromPostcode, toPostcode, moveDate, detailsUrl }, contact = {}) {
+  const firstName = String(fullName || "").trim().split(/\s+/)[0] || "there";
+  const date = new Date(moveDate);
+  const when = Number.isNaN(date.getTime()) ? "" : ` on ${longDate(moveDate)}`;
+  const route = fromPostcode && toPostcode ? ` from ${esc(fromPostcode)} to ${esc(toPostcode)}` : "";
+  const callLine = contact.phone
+    ? ` If you would rather talk it through, call us on <strong>${esc(contact.phone)}</strong>.`
+    : "";
+
+  const html = baseLayout(
+    `
+    <h2 style="margin:0 0 8px;font-size:20px;color:#111827;">One more step for your quote</h2>
+    <p style="margin:0 0 16px;font-size:15px;color:#4b5563;line-height:1.5;">Hi ${esc(firstName)}, thank you for your enquiry about your move${route}${esc(when)}.</p>
+    <p style="margin:0 0 20px;font-size:15px;color:#4b5563;line-height:1.5;">To give you a fixed price without the back and forth on WhatsApp, please tell us a little about the move: whether it is a flat or a house at each end and if there is a lift, what we are moving (tap the items, type a list, or add photos), anything that needs taking apart, and how many people you need.</p>
+    <a href="${esc(detailsUrl)}" style="display:inline-block;background-color:${BRAND_COLOR};color:#ffffff !important;font-size:15px;font-weight:700;text-decoration:none;padding:13px 24px;border-radius:8px;">Add your move details</a>
+    <p style="margin:20px 0 0;font-size:13px;color:#6b7280;line-height:1.5;">It takes a couple of minutes. Everything saves as you go, so you can come back to it on the same link, which is private to your enquiry.</p>
+
+    <div style="margin-top:24px;padding:16px;background-color:#f0f9ff;border-radius:8px;border-left:4px solid ${BRAND_COLOR};">
+      <p style="margin:0;font-size:13px;color:#374151;line-height:1.5;">This is not a booking yet: we confirm the price and the date with you first.${callLine}</p>
+    </div>
+  `,
+    contact
+  );
+
+  return { subject: `One more step for your ${moveLabel(moveType).toLowerCase()} quote`, html };
+}
+
 /** The notification the office gets for the same enquiry. */
 export function adminEnquiryEmail(
   { fullName, email, phone, moveType, fromPostcode, toPostcode, moveDate, bedrooms, extras, bookingId },

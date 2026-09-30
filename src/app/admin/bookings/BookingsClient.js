@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { Search, Filter, MoreVertical, CheckCircle2, Clock, CalendarDays, Trash2, ChevronRight, Mail, RefreshCw } from "lucide-react";
 import { updateBookingDetails, updateBookingStatus, deleteBooking, updateBookingFinancials, resendBookingEmails } from "@/app/actions/booking";
 import { PoundSterling } from "lucide-react";
-import MoveDetailsPanel, { CustomerLink } from "./MoveDetailsPanel";
+import MoveDetailsPanel, { CustomerLink, EmailLinkButton } from "./MoveDetailsPanel";
 
 // Tabs shown on the list. "All" is a virtual tab that shows only the active
 // pipeline (New + Upcoming); finished/dead jobs live under their own tab.
@@ -366,7 +366,10 @@ function BookingDetailsModal({ booking, emailStatus, onEmailStatusChange, onClos
               </dl>
             </div>
             {detailsLink ? (
-              <CustomerLink link={detailsLink} />
+              <>
+                <CustomerLink link={detailsLink} />
+                <EmailLinkButton bookingId={booking.id} email={booking.customer?.email} />
+              </>
             ) : booking.status === "Abandoned" ? (
               <p className="text-sm text-gray-500">
                 No move details link: this quote was not finished, so no email or link was sent.
