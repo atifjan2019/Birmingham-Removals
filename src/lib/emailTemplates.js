@@ -150,7 +150,10 @@ export function enquiryReceivedEmail(
   );
 
   return {
-    subject: `We have received your enquiry: ${moveLabel(moveType).toLowerCase()} on ${formattedDate}`,
+    // A flexible date reads "studio or flat, date to be agreed", not "on Date to be agreed".
+    subject: `We have received your enquiry: ${moveLabel(moveType).toLowerCase()}${
+      Number.isNaN(new Date(moveDate).getTime()) ? ", date to be agreed" : ` on ${formattedDate}`
+    }`,
     html,
   };
 }

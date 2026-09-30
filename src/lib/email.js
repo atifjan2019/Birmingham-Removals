@@ -53,7 +53,8 @@ export async function sendEmail({ to, subject, html, text }) {
   try {
     const from = `"Birmingham Removals" <${process.env.SMTP_FROM}>`;
     console.log("[EMAIL] Sending from:", from);
-    const info = await transporter.sendMail({ from, to, subject, html, text: text || "" });
+    // Replies come to the office's own inbox, not the sending account.
+    const info = await transporter.sendMail({ from, to, replyTo: REPLY_TO, subject, html, text: text || "" });
     console.log(`[EMAIL SENT] to=${recipient} messageId=${info.messageId}`);
     return { success: true, messageId: info.messageId };
   } catch (error) {
@@ -71,6 +72,10 @@ const BOOKING_NOTIFICATION_EMAIL =
 
 /** Where the office's emails go, for the previews in Settings. */
 export const OFFICE_EMAIL = BOOKING_NOTIFICATION_EMAIL;
+
+// Where a reply to any email the site sends goes. Set EMAIL_REPLY_TO in the
+// env to change it without a code change.
+export const REPLY_TO = process.env.EMAIL_REPLY_TO || "atifjan2019@gmail.com";
 
 // Pull the current phone/email from Settings so an email never hardcodes an
 // out-of-date number. Fail soft to no contact details if the read fails.

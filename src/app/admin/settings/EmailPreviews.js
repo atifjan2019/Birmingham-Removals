@@ -6,7 +6,7 @@ import {
   moveDetailsLinkEmail,
 } from "@/lib/emailTemplates";
 import { BUSINESS } from "@/config/business";
-import { OFFICE_EMAIL } from "@/lib/email";
+import { OFFICE_EMAIL, REPLY_TO } from "@/lib/email";
 
 // A made-up customer and move, so every preview shows what a real email looks
 // like without showing anyone's details. The link goes nowhere real.
@@ -96,6 +96,7 @@ export default function EmailPreviews({ contact }) {
       </h2>
       <p className="mt-1 text-sm text-gray-500">
         Every email the site sends, as it looks now, with a made-up customer. Nothing is sent from here.
+        Replies to any of them go to <span className="font-medium text-gray-700">{REPLY_TO}</span>.
       </p>
 
       <div className="mt-6 space-y-8">
