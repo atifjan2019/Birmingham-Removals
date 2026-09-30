@@ -23,10 +23,9 @@ const STATUS_BADGE = {
 };
 const statusBadgeClass = (status) => STATUS_BADGE[status] || STATUS_BADGE.New;
 
-// Display-only: a New lead that already has a quote (price) shows as "Quoted".
-// It's still status "New" in the database — this only changes the badge.
-const displayStatus = (booking) =>
-  booking.status === "New" && Number(booking.price) > 0 ? "Quoted" : booking.status;
+// The status as saved. A price alone does not make an enquiry "Quoted": the
+// quote form saves the estimate it showed the customer as the price.
+const displayStatus = (booking) => booking.status;
 
 // A second pill on the list, for the customer's move details form: sent, or
 // started and not yet sent. Teal keeps it apart from the status colours, and
@@ -172,7 +171,7 @@ function EmailStatusBadge({ label, status }) {
   );
 }
 
-function BookingDetailsModal({ booking, emailStatus, onEmailStatusChange, onClose, onChanged }) {
+function BookingDetailsModal({ booking, emailStatus, linkEmails, onEmailStatusChange, onClose, onChanged }) {
   const [status, setStatus] = useState(booking?.status || "New");
   // The customer's move details link, as in their enquiry email. The list has
   // it for any enquiry that has one; an older enquiry gets one when the move
@@ -368,7 +367,7 @@ function BookingDetailsModal({ booking, emailStatus, onEmailStatusChange, onClos
             {detailsLink ? (
               <>
                 <CustomerLink link={detailsLink} />
-                <EmailLinkButton bookingId={booking.id} email={booking.customer?.email} />
+                <EmailLinkButton bookingId={booking.id} email={booking.customer?.email} sentBefore={linkEmails} />
               </>
             ) : booking.status === "Abandoned" ? (
               <p className="text-sm text-gray-500">
@@ -424,6 +423,7 @@ function BookingDetailsModal({ booking, emailStatus, onEmailStatusChange, onClos
                 </div>
                 <div>
                   <label className="block text-xs text-gray-500 font-semibold uppercase tracking-wider mb-1.5">Quote</label>
+                  <p className="-mt-1 mb-1.5 text-[11px] text-gray-400">The website&apos;s estimate until you change it</p>
                   <input type="number" step="0.01" min="0" value={details.price} onChange={(e) => handleDetailChange("price", e.target.value)} className="w-full px-3 py-2.5 border-2 border-gray-200 rounded-xl focus:border-primary focus:ring-1 focus:ring-primary/20 outline-none text-sm text-gray-900" />
                 </div>
               </div>
@@ -645,7 +645,7 @@ function BookingDetailsModal({ booking, emailStatus, onEmailStatusChange, onClos
 
 import ManualBookingModal from "./ManualBookingModal";
 
-export default function BookingsClient({ initialBookings, initialEmailStatusByBooking = {} }) {
+export default function BookingsClient({ initialBookings, initialEmailStatusByBooking = {}, linkEmailsByBooking = {} }) {
   const router = useRouter();
   const [searchTerm, setSearchTerm] = useState("");
   const [statusFilter, setStatusFilter] = useState("All");
@@ -808,6 +808,7 @@ export default function BookingsClient({ initialBookings, initialEmailStatusByBo
         key={openBooking?.id}
         booking={openBooking}
         emailStatus={openBooking ? emailStatusByBooking[openBooking.id] : null}
+        linkEmails={openBooking ? linkEmailsByBooking[openBooking.id] : null}
         onEmailStatusChange={handleEmailStatusChange}
         onClose={closeBooking}
         onChanged={refreshData}

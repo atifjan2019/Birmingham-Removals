@@ -243,7 +243,7 @@ export default function ReportsClient({ completedBookings, allBookings }) {
                           b.status === "Lost" ? "bg-rose-50 text-rose-700 border border-rose-200" :
                           "bg-amber-50 text-amber-700 border border-amber-200"
                         }`}>
-                          {b.status === "New" && b.price > 0 ? "Quoted" : b.status}
+                          {b.status}
                         </span>
                       </td>
                       <td className="px-5 py-3 text-gray-600">

@@ -133,7 +133,7 @@ export default async function AdminDashboard() {
                         booking.status === "Lost" ? "bg-rose-50 text-rose-600" :
                         "bg-amber-50 text-amber-600"
                       }`}>
-                        {booking.status === "New" && booking.price > 0 ? "Quoted" : booking.status}
+                        {booking.status}
                       </span>
                     </td>
                     <td className="px-6 py-3 text-right font-semibold text-gray-900">

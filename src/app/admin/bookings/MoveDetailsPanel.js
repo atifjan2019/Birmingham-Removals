@@ -141,13 +141,23 @@ function ProgressLine({ progress, busy, onRefresh }) {
   );
 }
 
+// Whether the line under the button says the link has gone before.
+const sentAlready = (message) => /^(Sent to|Link emailed)/.test(message);
+
 /**
  * Emails the customer their link, after a second press that names the
  * address, so a slip of the mouse sends nothing.
  */
-export function EmailLinkButton({ bookingId, email }) {
-  const [step, setStep] = useState("idle"); // idle, confirm, sending, sent, failed
-  const [message, setMessage] = useState("");
+export function EmailLinkButton({ bookingId, email, sentBefore }) {
+  // Sent before, by anyone, as the activity log records it: the button says
+  // so, and asks again before a repeat.
+  const earlier = sentBefore?.count ? { count: sentBefore.count, at: parseApiDate(sentBefore.lastAt) } : null;
+  const [step, setStep] = useState(earlier ? "sent" : "idle"); // idle, confirm, sending, sent, failed
+  const [message, setMessage] = useState(
+    earlier
+      ? `Link emailed${earlier.count > 1 ? ` ${earlier.count} times` : ""}${earlier.at ? `, last on ${formatWhen(earlier.at)}` : ""}.`
+      : ""
+  );
 
   const send = async () => {
     setStep("sending");
@@ -167,7 +177,8 @@ export function EmailLinkButton({ bookingId, email }) {
       {step === "confirm" ? (
         <>
           <span className="text-gray-700">
-            Email the link to <strong className="break-all">{email}</strong>?
+            {sentAlready(message) ? "Already emailed. Send it again to " : "Email the link to "}
+            <strong className="break-all">{email}</strong>?
           </span>
           <button
             type="button"
@@ -193,10 +204,10 @@ export function EmailLinkButton({ bookingId, email }) {
           className="inline-flex items-center gap-2 rounded-lg border border-primary/20 bg-primary/5 px-3 py-1.5 font-semibold text-primary hover:bg-primary/10 disabled:opacity-60"
         >
           {step === "sending" ? <Loader2 aria-hidden="true" className="w-4 h-4 animate-spin" /> : <Mail aria-hidden="true" className="w-4 h-4" />}
-          {step === "sending" ? "Sending" : step === "sent" ? "Email it again" : "Email the link to the customer"}
+          {step === "sending" ? "Sending" : step === "sent" ? "Send email again" : "Email the link to the customer"}
         </button>
       )}
-      {message && step !== "confirm" ? (
+      {message && step !== "confirm" && step !== "sending" ? (
         <span role="status" className={step === "failed" ? "font-medium text-red-600" : "font-medium text-emerald-700"}>
           {message}
         </span>
