@@ -69,6 +69,9 @@ export async function sendEmail({ to, subject, html, text }) {
 const BOOKING_NOTIFICATION_EMAIL =
   process.env.BOOKING_NOTIFICATION_EMAIL || "atifjan2019@gmail.com";
 
+/** Where the office's emails go, for the previews in Settings. */
+export const OFFICE_EMAIL = BOOKING_NOTIFICATION_EMAIL;
+
 // Pull the current phone/email from Settings so an email never hardcodes an
 // out-of-date number. Fail soft to no contact details if the read fails.
 async function siteContact() {

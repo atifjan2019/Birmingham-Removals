@@ -4,6 +4,7 @@ import { cookies } from "next/headers";
 import { decrypt } from "@/lib/session";
 import { getSiteSettings } from "@/lib/siteSettings";
 import SettingsForm from "./SettingsForm";
+import EmailPreviews from "./EmailPreviews";
 
 export const dynamic = "force-dynamic";
 
@@ -80,6 +81,10 @@ export default async function SettingsPage() {
           </div>
         </div>
       </div>
+
+      <EmailPreviews
+        contact={{ phone: settings.showPhone === false ? "" : settings.phone || "", email: settings.email }}
+      />
     </div>
   );
 }
