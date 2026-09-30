@@ -142,10 +142,11 @@ function ProgressLine({ progress, busy, onRefresh }) {
 }
 
 /**
- * The customer's own link to the form, to paste into WhatsApp or an email.
- * An enquiry from before the emails carried the link has no other way to get it.
+ * The customer's own link to the form, the one in their enquiry email, to
+ * paste into WhatsApp or an email. An enquiry from before the emails carried
+ * the link has no other way to get it. Shown at the top of Booking Details.
  */
-function CustomerLink({ link }) {
+export function CustomerLink({ link }) {
   const fieldId = useId();
   const fieldRef = useRef(null);
   const [copied, setCopied] = useState(false);
@@ -160,26 +161,29 @@ function CustomerLink({ link }) {
     } catch {
       // Some browsers refuse the clipboard. The link is selected instead, so
       // it can still be copied by hand.
-      fieldRef.current?.select();
+      const range = document.createRange();
+      if (fieldRef.current) range.selectNodeContents(fieldRef.current);
+      window.getSelection()?.removeAllRanges();
+      window.getSelection()?.addRange(range);
       setCopyFailed(true);
     }
   };
 
   return (
     <div className="bg-gray-50 rounded-xl p-4 border border-gray-100">
-      <label htmlFor={fieldId} className="block text-xs text-muted font-semibold uppercase tracking-wider mb-2">
-        Link for the customer
-      </label>
-      <div className="flex flex-col sm:flex-row gap-2">
-        <input
-          id={fieldId}
+      <div id={fieldId} className="block text-xs text-muted font-semibold uppercase tracking-wider mb-2">
+        Move details link (the one in their email)
+      </div>
+      <div className="flex flex-col sm:flex-row sm:items-start gap-2">
+        {/* The whole address, wrapped, so it can be read and checked; a click
+            selects all of it. */}
+        <p
           ref={fieldRef}
-          type="text"
-          readOnly
-          value={link}
-          onFocus={(e) => e.target.select()}
-          className="w-full min-w-0 flex-1 px-3 py-2.5 border-2 border-gray-200 rounded-xl bg-white outline-none focus:border-primary text-sm text-gray-700"
-        />
+          aria-labelledby={fieldId}
+          className="w-full min-w-0 flex-1 px-3 py-2.5 border-2 border-gray-200 rounded-xl bg-white text-sm text-gray-700 font-mono break-all select-all"
+        >
+          {link}
+        </p>
         <button
           type="button"
           onClick={copyLink}
@@ -320,7 +324,7 @@ function Files({ files }) {
   );
 }
 
-function MoveDetails({ bookingId }) {
+function MoveDetails({ bookingId, onLink }) {
   const [view, setView] = useState({ load: "loading" });
   const [busy, setBusy] = useState(true);
   const [reloads, setReloads] = useState(0);
@@ -331,11 +335,11 @@ function MoveDetails({ bookingId }) {
     loadBookingMoveDetails(bookingId)
       .then((result) => {
         if (cancelled) return;
-        setView(
-          result?.success
-            ? { load: "ready", ...readMoveDetails(result.data) }
-            : { load: "error", error: explain(result?.error, LOAD_FAILED) }
-        );
+        const ready = result?.success ? readMoveDetails(result.data) : null;
+        setView(ready ? { load: "ready", ...ready } : { load: "error", error: explain(result?.error, LOAD_FAILED) });
+        // An older enquiry gets its link when it is first opened here, so the
+        // top of Booking Details learns it from this answer.
+        if (ready?.link) onLink?.(ready.link);
         setBusy(false);
       })
       .catch(() => {
@@ -347,7 +351,7 @@ function MoveDetails({ bookingId }) {
     return () => {
       cancelled = true;
     };
-  }, [bookingId, reloads]);
+  }, [bookingId, reloads, onLink]);
 
   const reload = () => {
     setBusy(true);
@@ -386,7 +390,6 @@ function MoveDetails({ bookingId }) {
       {view.load === "ready" && (
         <div className="space-y-4">
           <ProgressLine progress={view.progress} busy={busy} onRefresh={reload} />
-          {view.link && <CustomerLink link={view.link} />}
           {view.rows.length > 0 && <Answers rows={view.rows} />}
           {view.files.length > 0 ? (
             <Files files={view.files} />
@@ -424,10 +427,10 @@ class PanelBoundary extends Component {
  * got, their link, their answers and their photos and files. It loads on its
  * own and keeps its failures to itself.
  */
-export default function MoveDetailsPanel({ bookingId }) {
+export default function MoveDetailsPanel({ bookingId, onLink }) {
   return (
     <PanelBoundary>
-      <MoveDetails bookingId={bookingId} />
+      <MoveDetails bookingId={bookingId} onLink={onLink} />
     </PanelBoundary>
   );
 }

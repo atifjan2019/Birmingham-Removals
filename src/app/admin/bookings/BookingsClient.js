@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { Search, Filter, MoreVertical, CheckCircle2, Clock, CalendarDays, Trash2, ChevronRight, Mail, RefreshCw } from "lucide-react";
 import { updateBookingDetails, updateBookingStatus, deleteBooking, updateBookingFinancials, resendBookingEmails } from "@/app/actions/booking";
 import { PoundSterling } from "lucide-react";
-import MoveDetailsPanel from "./MoveDetailsPanel";
+import MoveDetailsPanel, { CustomerLink } from "./MoveDetailsPanel";
 
 // Tabs shown on the list. "All" is a virtual tab that shows only the active
 // pipeline (New + Upcoming); finished/dead jobs live under their own tab.
@@ -174,6 +174,14 @@ function EmailStatusBadge({ label, status }) {
 
 function BookingDetailsModal({ booking, emailStatus, onEmailStatusChange, onClose, onChanged }) {
   const [status, setStatus] = useState(booking?.status || "New");
+  // The customer's move details link, as in their enquiry email. The list has
+  // it for any enquiry that has one; an older enquiry gets one when the move
+  // details below first load, and the panel passes it up.
+  const [detailsLink, setDetailsLink] = useState(() =>
+    booking?.detailsToken && typeof window !== "undefined"
+      ? `${window.location.origin}/move-details/${encodeURIComponent(booking.detailsToken)}`
+      : ""
+  );
   const [updating, setUpdating] = useState(false);
   const [deleting, setDeleting] = useState(false);
   const [resendingEmails, setResendingEmails] = useState(false);
@@ -324,6 +332,50 @@ function BookingDetailsModal({ booking, emailStatus, onEmailStatusChange, onClos
         </div>
 
         <div className="p-6 overflow-y-auto space-y-8">
+          {/* Who the customer is and how to reach them, first: their email, and
+              the move details link they were sent in it. */}
+          <div className="space-y-3">
+            <div className="bg-gray-50 rounded-xl p-4 border border-gray-100">
+              <div className="text-xs text-muted font-semibold uppercase tracking-wider mb-2">Customer</div>
+              <div className="font-semibold text-gray-900">{booking.customer?.fullName}</div>
+              <dl className="mt-2 space-y-1.5 text-sm">
+                <div className="flex gap-3">
+                  <dt className="w-14 shrink-0 text-gray-500">Email</dt>
+                  <dd className="min-w-0 break-all">
+                    {booking.customer?.email ? (
+                      <a href={`mailto:${booking.customer.email}`} className="font-medium text-primary underline underline-offset-2 hover:text-accent">
+                        {booking.customer.email}
+                      </a>
+                    ) : (
+                      <span className="text-gray-500">Not given</span>
+                    )}
+                  </dd>
+                </div>
+                <div className="flex gap-3">
+                  <dt className="w-14 shrink-0 text-gray-500">Phone</dt>
+                  <dd className="min-w-0">
+                    {booking.customer?.phone ? (
+                      <a href={`tel:${booking.customer.phone.replace(/\s+/g, "")}`} className="font-medium text-primary underline underline-offset-2 hover:text-accent">
+                        {booking.customer.phone}
+                      </a>
+                    ) : (
+                      <span className="text-gray-500">Not given</span>
+                    )}
+                  </dd>
+                </div>
+              </dl>
+            </div>
+            {detailsLink ? (
+              <CustomerLink link={detailsLink} />
+            ) : booking.status === "Abandoned" ? (
+              <p className="text-sm text-gray-500">
+                No move details link: this quote was not finished, so no email or link was sent.
+              </p>
+            ) : (
+              <p className="text-sm text-gray-500">Getting the move details link…</p>
+            )}
+          </div>
+
           <div>
             <h3 className="text-lg font-bold text-gray-900 mb-4 border-b border-gray-100 pb-2">Edit Booking</h3>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -391,14 +443,7 @@ function BookingDetailsModal({ booking, emailStatus, onEmailStatusChange, onClos
             </div>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-            <div className="bg-gray-50 rounded-xl p-4 border border-gray-100">
-              <div className="text-xs text-muted font-semibold uppercase tracking-wider mb-2">Customer</div>
-              <div className="font-semibold text-gray-900">{booking.customer?.fullName}</div>
-              <div className="text-sm text-gray-600 mt-1">{booking.customer?.phone}</div>
-              <div className="text-sm text-gray-600">{booking.customer?.email}</div>
-            </div>
-
+          <div className="grid grid-cols-1 gap-6">
             <div className="bg-gray-50 rounded-xl p-4 border border-gray-100">
               <div className="text-xs text-muted font-semibold uppercase tracking-wider mb-2">Move Details</div>
               <div className="font-semibold text-gray-900 capitalize">{booking.moveType?.replace(/-/g, ' ')}{booking.bedrooms > 0 ? ` • ${booking.bedrooms} Bed` : ''}</div>
@@ -426,7 +471,7 @@ function BookingDetailsModal({ booking, emailStatus, onEmailStatusChange, onClos
 
           {/* Loads on its own and keeps its failures to itself, so a fault in
               the move details cannot take the rest of the booking down. */}
-          <MoveDetailsPanel bookingId={booking.id} />
+          <MoveDetailsPanel bookingId={booking.id} onLink={setDetailsLink} />
 
           <div>
             <div className="mb-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-gray-100 pb-2">
