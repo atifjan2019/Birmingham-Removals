@@ -94,15 +94,18 @@ export default function Step7Success({ data, detailsToken }) {
             Add a list or photos of your items, whether it is a flat or a house, and how many people you need.
             It takes a couple of minutes and saves the back and forth on WhatsApp.
           </p>
-          {/* A plain link, so the form opens with a full page load: the session
-              recorder running on this page is then not carried into a private one. */}
-          <a
-            href={`/move-details/${detailsToken}`}
+          {/* A button, not a link, so the private address is never in the page:
+              a session recording copies the page, links and all, and the address
+              holds the key to the enquiry. It opens the form with a full page
+              load, so the recorder on this page is not carried into it. */}
+          <button
+            type="button"
+            onClick={() => window.location.assign(`/move-details/${detailsToken}`)}
             className="mt-4 inline-flex items-center gap-2 rounded-xl bg-accent px-5 py-3 text-sm font-bold text-white shadow-lg shadow-accent/25 transition-colors hover:bg-accent-dark"
           >
             Add your move details
             <ArrowRight className="h-4 w-4" aria-hidden="true" />
-          </a>
+          </button>
           <p className="mt-3 text-xs text-gray-500">We are emailing you this link as well, so you can do it later.</p>
         </motion.div>
       ) : null}

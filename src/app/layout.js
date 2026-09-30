@@ -1,10 +1,12 @@
 import { Inter, Plus_Jakarta_Sans } from "next/font/google";
-import Script from "next/script";
 import "./globals.css";
 import { BUSINESS } from "@/config/business";
 import JsonLd from "@/components/seo/JsonLd";
 import { movingCompanySchema, websiteSchema } from "@/lib/schema";
 import { getSiteSettings } from "@/lib/siteSettings";
+import ConsentDefault from "@/components/analytics/ConsentDefault";
+import AnalyticsLoader from "@/components/analytics/AnalyticsLoader";
+import CookieBanner from "@/components/consent/CookieBanner";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -85,31 +87,14 @@ export default function RootLayout({ children }) {
       className={`${inter.variable} ${jakarta.variable} antialiased`}
     >
       <head>
+        {/* First, while the page is parsed: Google's consent defaults, all denied
+            until the visitor accepts. Nothing contacts Google Analytics or
+            Smartlook before then (see AnalyticsLoader), so neither is
+            preconnected either. */}
+        <ConsentDefault />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link rel="dns-prefetch" href="https://fonts.gstatic.com" />
-        <link rel="preconnect" href="https://web-sdk.smartlook.com" crossOrigin="anonymous" />
-        <link rel="dns-prefetch" href="https://web-sdk.smartlook.com" />
         <JsonLd data={[movingCompanySchema, websiteSchema]} />
-        <Script id="smartlook" strategy="lazyOnload">
-          {`
-            (function(){
-              // No session recording on the admin or on a customer's move
-              // details page: both show personal data, and the second has the
-              // key to an enquiry in its address.
-              if (/^\\/(admin|move-details)(\\/|$)/.test(location.pathname)) return;
-              if (typeof window.smartlook !== 'function') {
-                var sl = function(){ sl.api.push(arguments); };
-                sl.api = [];
-                window.smartlook = sl;
-                var c = document.createElement('script');
-                c.async = true; c.defer = true; c.type = 'text/javascript'; c.charset = 'utf-8';
-                c.src = 'https://web-sdk.smartlook.com/recorder.js';
-                document.head.appendChild(c);
-              }
-              window.smartlook('init', '46b85b47fc8859eeb693f5a26240894d74e9edd7', { region: 'eu' });
-            })();
-          `}
-        </Script>
       </head>
       <body className="min-h-screen bg-white text-[#0B1E3F]" suppressHydrationWarning>
         <a
@@ -118,7 +103,11 @@ export default function RootLayout({ children }) {
         >
           Skip to main content
         </a>
-        <div id="main-content">{children}</div>
+        {/* Early in the page, so keyboard and screen reader users meet the
+            question first; it is fixed in place, so it still sits above the page. */}
+        <CookieBanner />
+        <div id="main-content" className="outline-none">{children}</div>
+        <AnalyticsLoader />
       </body>
     </html>
   );

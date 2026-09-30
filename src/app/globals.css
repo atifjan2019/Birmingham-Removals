@@ -196,3 +196,22 @@ input[type="number"] {
   font-size: 14px;
   color: #111827;
 }
+
+/* The cookie banner sits above the phone bar at the foot of the home page on
+   mobile, which publishes its height as --sticky-cta-h (StickyMobileCTA). */
+.cookie-banner {
+  bottom: 0.75rem;
+  /* Moved with a transform, which is not a layout shift. */
+  transform: translateY(calc(-1 * var(--sticky-cta-h, 0px)));
+  transition: transform 0.3s ease;
+}
+/* Room below the page while the banner shows, published by CookieBanner. */
+body {
+  padding-bottom: var(--cookie-banner-h, 0px);
+}
+@media (min-width: 1024px) {
+  .cookie-banner {
+    bottom: 1.5rem;
+    transform: none;
+  }
+}

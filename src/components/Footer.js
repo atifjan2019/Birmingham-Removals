@@ -1,5 +1,6 @@
 import { Phone, Mail, MapPin, Clock } from "lucide-react";
 import Link from "next/link";
+import CookieSettingsButton from "@/components/consent/CookieSettingsButton";
 import { SITE_SETTINGS_FALLBACK, telHref } from "@/lib/siteSettings";
 import { BUSINESS } from "@/config/business";
 
@@ -254,6 +255,12 @@ export default function Footer({ settings }) {
           <p className="text-white/60 text-xs">
             &copy; {new Date().getFullYear()} Birmingham Removals. All rights reserved.
           </p>
+          <div className="flex items-center gap-4">
+            <Link href="/cookies" className="text-white/60 text-xs underline-offset-4 hover:text-white hover:underline">
+              Cookies
+            </Link>
+            <CookieSettingsButton id="cookie-settings" />
+          </div>
           <p className="text-white/60 text-xs">
             Developed with <span className="text-[#F97316]">&hearts;</span> by{" "}
             <a

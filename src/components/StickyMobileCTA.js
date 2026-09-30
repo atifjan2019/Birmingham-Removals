@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Phone, ArrowRight } from "lucide-react";
 import Link from "next/link";
 import { SITE_SETTINGS_FALLBACK, telHref } from "@/lib/siteSettings";
@@ -11,6 +11,7 @@ export default function StickyMobileCTA({ settings }) {
   const s = { ...SITE_SETTINGS_FALLBACK, ...(settings || {}) };
   const phoneHref = telHref(s.phone);
   const [visible, setVisible] = useState(false);
+  const bar = useRef(null);
 
   useEffect(() => {
     const onScroll = () => {
@@ -21,8 +22,16 @@ export default function StickyMobileCTA({ settings }) {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  // Its height while it shows, for the cookie banner to sit above (globals.css).
+  useEffect(() => {
+    const root = document.documentElement;
+    root.style.setProperty("--sticky-cta-h", visible && bar.current ? `${bar.current.offsetHeight}px` : "0px");
+    return () => root.style.setProperty("--sticky-cta-h", "0px");
+  }, [visible]);
+
   return (
     <div
+      ref={bar}
       aria-hidden={!visible}
       className={`fixed bottom-0 inset-x-0 z-40 lg:hidden transition-transform duration-300 ${
         visible ? "translate-y-0" : "translate-y-full"

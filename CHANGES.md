@@ -5,6 +5,52 @@ on the `main` branch. Dates use the session date noted in each section.
 
 ---
 
+## 2026-09-30 - Google Analytics, behind a cookie banner
+
+The site now reports to its own Google Analytics 4 property, "Birmingham
+Removals" (account Atif, reporting in United Kingdom time and pounds). Both
+measuring tools, Google Analytics and the Smartlook recorder, now wait for a
+visitor's consent, as on the TN Mobile Tyre Fitting site.
+
+- A cookie banner asks once, with Accept and Decline side by side and equal.
+  Until a visitor accepts, nothing is requested from Google or Smartlook
+  (Google's "basic" consent mode). Accepting loads both on the page already
+  open. The answer is kept for six months in a `br_consent` cookie.
+- Smartlook used to load for every visitor with no question asked. It now
+  loads only after Accept, so recordings will cover fewer visits than before.
+- Neither tool, nor the banner, is ever on the admin or on a customer's move
+  details page: that page's address holds the key to the enquiry, and would
+  otherwise be sent to Google with every page view.
+- Nothing is sent from a preview deployment or a local build: the tools only
+  load on www.birminghamremovals.uk.
+- "Cookie settings" in the footer takes an answer back: it clears the
+  Analytics and Smartlook cookies, reloads the page and asks again.
+- New page `/cookies` lists every cookie and piece of browser storage the site
+  uses. It is linked from the banner and the footer.
+- The content security policy now allows Google Analytics, and the hosts and
+  the worker Smartlook needs to record. Before this it allowed only
+  web-sdk.smartlook.com, which may have stopped recordings being saved.
+- On the home page on mobile the banner sits above the Call / Get Quote bar
+  rather than over it; on desktop it sits in the bottom-right corner, clear of
+  the hero's quote form. While it shows, the page has room below it, so the
+  quote form's buttons can always be scrolled clear. It comes first in the
+  page for keyboard and screen reader users.
+- Going Back or Forward onto an admin or move details page on a page that has
+  loaded the tools turns into a full page load, which never has them.
+- The quote success screen's "Add your move details" is now a button that
+  opens the customer's link, not a link carrying it: a session recording
+  copies the page, links and all, and that address holds the key to the
+  enquiry. Google's own off switch (`ga-disable-<ID>`) is also set on the
+  private pages, in case one is ever reached without a full page load.
+
+Files: `src/lib/consent.js`, `src/components/analytics/ConsentDefault.js`,
+`src/components/analytics/AnalyticsLoader.js`,
+`src/components/consent/CookieBanner.js`,
+`src/components/consent/CookieSettingsButton.js`, `src/app/cookies/page.js`;
+the measurement ID is `BUSINESS.gaMeasurementId` in `src/config/business.js`.
+
+---
+
 ## 2026-09-30 - Move details form, enquiry wording, admin and API hardening
 
 A customer who sends the quote form has made an enquiry, not a booking. The

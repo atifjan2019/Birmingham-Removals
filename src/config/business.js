@@ -5,6 +5,9 @@ export const BUSINESS = {
   name: "Birmingham Removals",
   legalName: "Birmingham Removals",
   url: "https://www.birminghamremovals.uk",
+  // Google Analytics 4 property "Birmingham Removals" (account Atif). Loaded only
+  // after cookie consent, and only on this host: see AnalyticsLoader.
+  gaMeasurementId: "G-8LD8CSPZYE",
   logo: "https://www.birminghamremovals.uk/images/logo.webp",
   ogImage: "https://www.birminghamremovals.uk/og-image.jpg",
   phoneDisplay: "0736 054 4819",
