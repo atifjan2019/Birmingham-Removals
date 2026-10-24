@@ -1,14 +1,15 @@
 import Link from "next/link";
 import { Home, Building2, Truck, Package, Warehouse } from "lucide-react";
 import AreaTemplate from "@/components/AreaTemplate";
-import { makeMeta } from "@/lib/metadata";
+import { makeMeta, areaTitle } from "@/lib/metadata";
 
 const NAME = "Bournville";
 const SLUG = "bournville";
 const POSTCODES = "B30";
 
 export const metadata = makeMeta({
-  title: `Removals ${NAME} | Fixed-Price Movers`,
+  title: areaTitle(NAME),
+  absoluteTitle: true,
   description: `Careful removals in Bournville B30, the Cadbury model village. We know the Bournville Village Trust streets, conservation rules and the closes around the Green.`,
   path: `/areas/${SLUG}`,
   keywords: [

@@ -65,6 +65,7 @@ export default async function AreaTemplate({
       <JsonLd data={schemas} />
       <Navbar settings={settings} />
 
+      <main>
       <BreadcrumbBar
         items={[
           { name: "Home", href: "/" },
@@ -359,6 +360,7 @@ export default async function AreaTemplate({
           </div>
         </div>
       </section>
+      </main>
 
       <CTAStrip settings={settings} />
       <Footer settings={settings} />

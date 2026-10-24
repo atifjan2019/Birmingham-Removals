@@ -1,15 +1,16 @@
 import Link from "next/link";
 import { Home, Building2, Truck, Package, Warehouse } from "lucide-react";
 import AreaTemplate from "@/components/AreaTemplate";
-import { makeMeta } from "@/lib/metadata";
+import { makeMeta, areaTitle } from "@/lib/metadata";
 
 const NAME = "Wolverhampton";
 const SLUG = "wolverhampton";
 const POSTCODES = "WV1, WV2, WV3";
 
 export const metadata = makeMeta({
-  title: `Removals ${NAME} | Fixed-Price Movers`,
-  description: `Fixed-price Wolverhampton removals across WV1, WV2 and WV3, from city ring road flats to Tettenhall family homes. Insured Birmingham crews, free 30-minute quote.`,
+  title: areaTitle(NAME),
+  absoluteTitle: true,
+  description: `Fixed-price Wolverhampton removals across WV1 to WV3, from ring road flats to Tettenhall family homes. Insured Birmingham crews, free 30-minute quote.`,
   path: `/areas/${SLUG}`,
   keywords: [
     "removals wolverhampton",

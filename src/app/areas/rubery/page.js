@@ -1,14 +1,15 @@
 import Link from "next/link";
 import { Home, Building2, Truck, Package, Warehouse } from "lucide-react";
 import AreaTemplate from "@/components/AreaTemplate";
-import { makeMeta } from "@/lib/metadata";
+import { makeMeta, areaTitle } from "@/lib/metadata";
 
 const NAME = "Rubery";
 const SLUG = "rubery";
 const POSTCODES = "B45";
 
 export const metadata = makeMeta({
-  title: `Removals ${NAME} | Fixed-Price Movers`,
+  title: areaTitle(NAME),
+  absoluteTitle: true,
   description: `Reliable removals in Rubery and Rednal B45, on the Birmingham and Worcestershire border by the Lickey Hills. Interwar semis, new estates and Great Park covered.`,
   path: `/areas/${SLUG}`,
   keywords: [

@@ -57,6 +57,7 @@ export default function ServicePageClient({ service, settings }) {
     <>
       <Navbar settings={settings} />
 
+      <main>
       <BreadcrumbBar
         items={[
           { name: "Home", href: "/" },
@@ -248,6 +249,7 @@ export default function ServicePageClient({ service, settings }) {
           </div>
         </section>
       )}
+      </main>
 
       <CTAStrip settings={settings} />
       <Footer settings={settings} />

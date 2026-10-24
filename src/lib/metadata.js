@@ -1,5 +1,16 @@
 import { BUSINESS } from "@/config/business";
 
+/**
+ * An area page title that fits a search result: the keyword, the fixed-price
+ * promise and the brand when they fit in about 65 characters (Google cuts the
+ * brand first), otherwise the keyword and the brand. Rendered as an absolute
+ * title, because the brand is already in it.
+ */
+export function areaTitle(name) {
+  const full = `Removals ${name} | Fixed-Price Movers | Birmingham Removals`;
+  return full.length <= 65 ? full : `Removals ${name} | Birmingham Removals`;
+}
+
 export function makeMeta({ title, description, path, image, noindex, keywords, absoluteTitle }) {
   const url = `${BUSINESS.url}${path}`;
   const ogImage = image || BUSINESS.ogImage;

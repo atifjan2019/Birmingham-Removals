@@ -1,4 +1,5 @@
 import { BUSINESS } from "@/config/business";
+import { areaTitle } from "@/lib/metadata";
 import { batch1 } from "@/lib/areaContent/batch1";
 import { batch2 } from "@/lib/areaContent/batch2";
 import { batch3 } from "@/lib/areaContent/batch3";
@@ -361,7 +362,7 @@ function buildNearby(area) {
 
 export const areaPages = rawAreaPages.map((area) => ({
   ...area,
-  title: `Removals ${area.name} | Fixed-Price Movers | Birmingham Removals`,
+  title: areaTitle(area.name),
   metaDescription: buildMetaDescription(area),
   canonical: `${BUSINESS.url}/areas/${area.slug}`,
   shortDescription: buildShortDescription(area),

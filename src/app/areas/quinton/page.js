@@ -1,15 +1,16 @@
 import Link from "next/link";
 import { Home, Building2, Truck, Package, Warehouse } from "lucide-react";
 import AreaTemplate from "@/components/AreaTemplate";
-import { makeMeta } from "@/lib/metadata";
+import { makeMeta, areaTitle } from "@/lib/metadata";
 
 const NAME = "Quinton";
 const SLUG = "quinton";
 const POSTCODES = "B32";
 
 export const metadata = makeMeta({
-  title: `Removals ${NAME} | Fixed-Price Movers`,
-  description: `Reliable removals across Quinton B32, from 1930s semis on Quinton Road to homes near the Hagley Road West and the M5. Fixed prices and a free quote in 30 minutes.`,
+  title: areaTitle(NAME),
+  absoluteTitle: true,
+  description: `Reliable removals across Quinton B32, from 1930s semis on Quinton Road to homes near Hagley Road West and the M5. Fixed prices, free quote in 30 minutes.`,
   path: `/areas/${SLUG}`,
   keywords: [
     "removals quinton",

@@ -52,7 +52,8 @@ export default async function Home() {
     <QuoteModalProvider>
       <JsonLd data={[bookingHowTo, homepageReviews]} />
       <Navbar settings={settings} />
-      <Hero />
+      <main>
+        <Hero />
       <TrustBar />
       <ProblemAware />
       <Services />
@@ -64,6 +65,7 @@ export default async function Home() {
       <WhyUs />
       <Testimonials />
       <FAQ />
+      </main>
       <CTAStrip settings={settings} />
       <Footer settings={settings} />
       <StickyMobileCTA settings={settings} />

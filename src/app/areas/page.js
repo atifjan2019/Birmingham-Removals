@@ -40,6 +40,7 @@ const groupedAreas = groupOrder
 
 export const metadata = makeMeta({
   title: "Removal Areas We Cover | Birmingham & West Midlands",
+  absoluteTitle: true,
   description:
     "Birmingham Removals covers Birmingham, the West Midlands and surrounding counties. Choose your area for local removal advice and a fixed quote.",
   path: "/areas",

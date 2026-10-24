@@ -30,7 +30,8 @@ export async function generateMetadata({ params }) {
   const post = getPostBySlug(slug);
   if (!post) return {};
   return makeMeta({
-    title: `${post.title} | Birmingham Removals`,
+    title: post.title,
+    absoluteTitle: true,
     absoluteTitle: true,
     description: post.description,
     path: `/blog/${slug}`,

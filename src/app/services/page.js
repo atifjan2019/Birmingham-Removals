@@ -13,6 +13,7 @@ import { BUSINESS } from "@/config/business";
 
 export const metadata = makeMeta({
   title: "Removal Services Birmingham | House, Office, Man & Van",
+  absoluteTitle: true,
   description:
     "Full range of Birmingham removals: house moves, office relocations, man & van, packing and storage. Fixed quotes, fully insured. Free quote in 30 minutes.",
   path: "/services",

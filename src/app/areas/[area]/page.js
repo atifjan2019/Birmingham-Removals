@@ -2,7 +2,7 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import { Home, Building2, Truck, Package, Warehouse } from "lucide-react";
 import AreaTemplate from "@/components/AreaTemplate";
-import { makeMeta } from "@/lib/metadata";
+import { makeMeta, areaTitle } from "@/lib/metadata";
 import { getCity, allCitySlugs } from "@/lib/cities";
 import { getAreaPage } from "@/lib/areaPageData";
 
@@ -23,12 +23,12 @@ export async function generateMetadata({ params }) {
   if (!city) return {};
   const areaPage = getAreaPage(area);
   return makeMeta({
-    title: areaPage?.title || `Removals ${city.name} | Fixed-Price Movers | Birmingham Removals`,
+    title: areaPage?.title || areaTitle(city.name),
     description:
       areaPage?.metaDescription ||
       `Professional removals in ${city.name}. Fixed-price quotes, DBS-checked crew, full insurance. House, office and man & van moves. Free quote in 30 minutes.`,
     path: `/areas/${area}`,
-    absoluteTitle: Boolean(areaPage),
+    absoluteTitle: true,
   });
 }
 

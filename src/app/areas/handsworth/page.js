@@ -1,14 +1,15 @@
 import Link from "next/link";
 import { Home, Building2, Truck, Package, Warehouse } from "lucide-react";
 import AreaTemplate from "@/components/AreaTemplate";
-import { makeMeta } from "@/lib/metadata";
+import { makeMeta, areaTitle } from "@/lib/metadata";
 
 const NAME = "Handsworth";
 const SLUG = "handsworth";
 const POSTCODES = "B20, B21";
 
 export const metadata = makeMeta({
-  title: `Removals ${NAME} | Fixed-Price Movers`,
+  title: areaTitle(NAME),
+  absoluteTitle: true,
   description: `Affordable removals in Handsworth B20 and B21, from terraces off Soho Road to large family homes near Handsworth Park. Fixed prices, free quote in 30 minutes.`,
   path: `/areas/${SLUG}`,
   keywords: [

@@ -1,15 +1,16 @@
 import Link from "next/link";
 import { Home, Building2, Truck, Package, Warehouse } from "lucide-react";
 import AreaTemplate from "@/components/AreaTemplate";
-import { makeMeta } from "@/lib/metadata";
+import { makeMeta, areaTitle } from "@/lib/metadata";
 
 const NAME = "Dudley";
 const SLUG = "dudley";
 const POSTCODES = "DY1, DY2, DY3";
 
 export const metadata = makeMeta({
-  title: `Removals ${NAME} | Fixed-Price Movers`,
-  description: `Black Country removals across Dudley DY1 to DY3, covering Brierley Hill, Netherton and Sedgley. Affordable fixed prices, same-day quotes and a free quote in 30 minutes.`,
+  title: areaTitle(NAME),
+  absoluteTitle: true,
+  description: `Black Country removals across Dudley DY1 to DY3, covering Brierley Hill, Netherton and Sedgley. Affordable fixed prices and a free quote in 30 minutes.`,
   path: `/areas/${SLUG}`,
   keywords: [
     "removals dudley",

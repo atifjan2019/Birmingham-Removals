@@ -57,7 +57,7 @@ export default function Testimonials() {
               className="relative bg-white border border-slate-200 rounded-2xl p-7 hover:shadow-lg hover:border-[#F97316]/40 transition-all"
             >
               <Quote className="absolute top-6 right-6 w-10 h-10 text-[#F97316]/10" aria-hidden="true" />
-              <div className="flex text-[#F97316] mb-3" aria-label={`Rated ${t.rating} out of 5`}>
+              <div className="flex text-[#F97316] mb-3" role="img" aria-label={`Rated ${t.rating} out of 5`}>
                 {[...Array(t.rating)].map((_, k) => (
                   <Star key={k} className="w-4 h-4 fill-current" aria-hidden="true" />
                 ))}

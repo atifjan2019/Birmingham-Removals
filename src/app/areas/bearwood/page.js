@@ -1,15 +1,16 @@
 import Link from "next/link";
 import { Home, Building2, Truck, Package, Warehouse } from "lucide-react";
 import AreaTemplate from "@/components/AreaTemplate";
-import { makeMeta } from "@/lib/metadata";
+import { makeMeta, areaTitle } from "@/lib/metadata";
 
 const NAME = "Bearwood";
 const SLUG = "bearwood";
 const POSTCODES = "B66, B67";
 
 export const metadata = makeMeta({
-  title: `Removals ${NAME} | Fixed-Price Movers`,
-  description: `Fixed-price removals across Bearwood B66 and B67. House, office and man & van moves from the Bearwood Road shops to the Lightwoods Park streets. Free 30-minute quote.`,
+  title: areaTitle(NAME),
+  absoluteTitle: true,
+  description: `Fixed-price removals across Bearwood B66 and B67. House, office and man & van moves from Bearwood Road to Lightwoods Park. Free quote in 30 minutes.`,
   path: `/areas/${SLUG}`,
   keywords: [
     "removals bearwood",

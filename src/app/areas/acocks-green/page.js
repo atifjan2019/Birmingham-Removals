@@ -1,14 +1,15 @@
 import Link from "next/link";
 import { Home, Building2, Truck, Package, Warehouse } from "lucide-react";
 import AreaTemplate from "@/components/AreaTemplate";
-import { makeMeta } from "@/lib/metadata";
+import { makeMeta, areaTitle } from "@/lib/metadata";
 
 const NAME = "Acocks Green";
 const SLUG = "acocks-green";
 const POSTCODES = "B27";
 
 export const metadata = makeMeta({
-  title: `Removals ${NAME} | Fixed-Price Movers`,
+  title: areaTitle(NAME),
+  absoluteTitle: true,
   description: `Fixed-price removals across Acocks Green B27. House, office and man & van moves from the Village to the Westley Road terraces. Free quote in 30 minutes.`,
   path: `/areas/${SLUG}`,
   keywords: [

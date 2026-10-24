@@ -164,6 +164,7 @@ export async function generateMetadata({ params }) {
     title: meta.title,
     description: meta.description,
     path: `/services/${slug}`,
+    absoluteTitle: true,
   });
 }
 

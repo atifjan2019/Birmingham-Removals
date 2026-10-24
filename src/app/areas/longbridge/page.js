@@ -1,14 +1,15 @@
 import Link from "next/link";
 import { Home, Building2, Truck, Package, Warehouse } from "lucide-react";
 import AreaTemplate from "@/components/AreaTemplate";
-import { makeMeta } from "@/lib/metadata";
+import { makeMeta, areaTitle } from "@/lib/metadata";
 
 const NAME = "Longbridge";
 const SLUG = "longbridge";
 const POSTCODES = "B31";
 
 export const metadata = makeMeta({
-  title: `Removals ${NAME} | Fixed-Price Movers`,
+  title: areaTitle(NAME),
+  absoluteTitle: true,
   description: `Fixed-price removals in Longbridge B31, from new-build apartments on the former Rover site to family homes near Cofton Park. DBS crew, full cover, free quote.`,
   path: `/areas/${SLUG}`,
   keywords: [
