@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ArrowUpRight } from "lucide-react";
+import SpriteIcon from "@/components/SpriteIcon";
 import servicesData from "@/lib/servicesData";
 
 export default function Services() {
@@ -36,7 +36,7 @@ export default function Services() {
                   <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-[#0B1E3F] to-[#1E3A8A] flex items-center justify-center">
                     <service.icon className="w-7 h-7 text-white" />
                   </div>
-                  <ArrowUpRight className="w-5 h-5 text-slate-300 group-hover:text-[#F97316] group-hover:rotate-45 transition-all duration-300" />
+                  <SpriteIcon name="arrow-up-right" className="w-5 h-5 text-slate-300 group-hover:text-[#F97316] group-hover:rotate-45 transition-all duration-300" />
                 </div>
                 <h3 className="font-[family-name:var(--font-space)] text-xl font-bold text-[#0B1E3F] mb-3 group-hover:text-[#F97316] transition-colors">
                   {service.title}

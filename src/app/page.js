@@ -2,6 +2,7 @@ import { getSiteSettings } from "@/lib/siteSettings";
 import QuoteModalProvider from "@/components/QuoteModalProvider";
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
+import { IconSprite } from "@/components/SpriteIcon";
 import TrustBar from "@/components/TrustBar";
 import ProblemAware from "@/components/ProblemAware";
 import Services from "@/components/Services";
@@ -53,6 +54,7 @@ export default async function Home() {
       <JsonLd data={[bookingHowTo, homepageReviews]} />
       <Navbar settings={settings} />
       <main>
+        <IconSprite />
         <Hero />
       <TrustBar />
       <ProblemAware />

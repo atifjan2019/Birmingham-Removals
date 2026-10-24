@@ -1,5 +1,6 @@
 import Link from "next/link";
-import { Star, Quote, ArrowRight } from "lucide-react";
+import { Quote } from "lucide-react";
+import SpriteIcon from "@/components/SpriteIcon";
 
 // Three featured reviews surfaced on the homepage. Rendered server-side so the
 // quotes ship in the initial HTML for crawlers, with matching Review schema
@@ -42,7 +43,7 @@ export default function Testimonials() {
           <div className="flex items-center justify-center gap-2 mt-5">
             <div className="flex text-[#F97316]" aria-hidden="true">
               {[...Array(5)].map((_, k) => (
-                <Star key={k} className="w-5 h-5 fill-current" />
+                <SpriteIcon name="star" key={k} className="w-5 h-5 fill-current" />
               ))}
             </div>
             <span className="font-bold text-[#0B1E3F]">4.9 / 5</span>
@@ -59,7 +60,7 @@ export default function Testimonials() {
               <Quote className="absolute top-6 right-6 w-10 h-10 text-[#F97316]/10" aria-hidden="true" />
               <div className="flex text-[#F97316] mb-3" role="img" aria-label={`Rated ${t.rating} out of 5`}>
                 {[...Array(t.rating)].map((_, k) => (
-                  <Star key={k} className="w-4 h-4 fill-current" aria-hidden="true" />
+                  <SpriteIcon name="star" key={k} className="w-4 h-4 fill-current" aria-hidden="true" />
                 ))}
               </div>
               <blockquote className="text-slate-700 text-sm leading-relaxed mb-6">
@@ -84,7 +85,7 @@ export default function Testimonials() {
             className="inline-flex items-center gap-2 px-6 py-3 rounded-full border border-slate-300 bg-white text-[#0B1E3F] font-semibold hover:border-[#F97316] hover:text-[#F97316] transition-colors"
           >
             Read all reviews
-            <ArrowRight className="w-4 h-4" />
+            <SpriteIcon name="arrow-right" className="w-4 h-4" />
           </Link>
         </div>
       </div>

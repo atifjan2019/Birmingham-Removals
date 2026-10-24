@@ -215,3 +215,17 @@ body {
     transform: none;
   }
 }
+
+/* Sprite icons (src/components/SpriteIcon.js): the attributes lucide puts on every
+   icon, once. In the base layer, so utilities such as w-5 and fill-current still win. */
+@layer base {
+  .ico {
+    width: 1.5rem;
+    height: 1.5rem;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+}

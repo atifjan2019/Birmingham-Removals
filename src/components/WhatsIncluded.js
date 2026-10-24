@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { CheckCircle2, ArrowRight } from "lucide-react";
+import SpriteIcon from "@/components/SpriteIcon";
 
 const included = [
   {
@@ -73,7 +73,7 @@ export default function WhatsIncluded() {
               className="flex items-start gap-4 bg-slate-50 border border-slate-200 rounded-2xl p-5 hover:border-[#F97316] hover:bg-white hover:shadow-md transition-all"
             >
               <div className="w-9 h-9 rounded-lg bg-[#F97316]/10 flex items-center justify-center shrink-0">
-                <CheckCircle2 className="w-5 h-5 text-[#F97316]" />
+                <SpriteIcon name="circle-check" className="w-5 h-5 text-[#F97316]" />
               </div>
               <div className="min-w-0">
                 <h3 className="font-[family-name:var(--font-space)] text-base font-bold text-[#0B1E3F] leading-snug">
@@ -93,7 +93,7 @@ export default function WhatsIncluded() {
             className="btn-accent inline-flex items-center gap-2 px-7 py-4 rounded-full font-bold shadow-lg"
           >
             Get a fixed-price quote
-            <ArrowRight className="w-5 h-5" />
+            <SpriteIcon name="arrow-right" className="w-5 h-5" />
           </Link>
         </div>
       </div>

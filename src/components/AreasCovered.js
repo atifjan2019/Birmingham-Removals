@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { MapPin, ArrowRight } from "lucide-react";
+import SpriteIcon from "@/components/SpriteIcon";
 
 const areaHref = (slug) => `/areas/${slug}`;
 
@@ -73,7 +73,7 @@ export default function AreasCovered() {
                 className="group flex items-center gap-4 bg-white border border-slate-200 rounded-2xl p-5 hover:border-[#F97316] hover:shadow-md hover:-translate-y-0.5 transition-all"
               >
                 <div className="w-11 h-11 rounded-xl bg-[#F97316]/10 flex items-center justify-center shrink-0 group-hover:bg-[#F97316] transition-colors">
-                  <MapPin className="w-5 h-5 text-[#F97316] group-hover:text-white transition-colors" />
+                  <SpriteIcon name="map-pin" className="w-5 h-5 text-[#F97316] group-hover:text-white transition-colors" />
                 </div>
                 <div className="flex-1 min-w-0">
                   <div className="font-[family-name:var(--font-space)] font-bold text-[#0B1E3F] text-base group-hover:text-[#F97316] transition-colors">
@@ -81,7 +81,7 @@ export default function AreasCovered() {
                   </div>
                   <div className="text-xs text-slate-500 mt-0.5">{a.postcode}</div>
                 </div>
-                <ArrowRight className="w-4 h-4 text-slate-300 group-hover:text-[#F97316] group-hover:translate-x-0.5 transition-all" />
+                <SpriteIcon name="arrow-right" className="w-4 h-4 text-slate-300 group-hover:text-[#F97316] group-hover:translate-x-0.5 transition-all" />
               </Link>
             </div>
           ))}
@@ -99,7 +99,7 @@ export default function AreasCovered() {
               className="inline-flex items-center gap-1 text-sm font-bold text-[#F97316] hover:gap-2 transition-all"
             >
               See all areas
-              <ArrowRight className="w-4 h-4" />
+              <SpriteIcon name="arrow-right" className="w-4 h-4" />
             </Link>
           </div>
           <div className="flex flex-wrap gap-2">
@@ -109,7 +109,7 @@ export default function AreasCovered() {
                 href={areaHref(a.slug)}
                 className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-slate-50 border border-slate-200 text-sm font-semibold text-[#0B1E3F] hover:bg-[#F97316] hover:text-white hover:border-[#F97316] transition-colors"
               >
-                <MapPin className="w-3.5 h-3.5" />
+                <SpriteIcon name="map-pin" className="w-3.5 h-3.5" />
                 {a.name}
               </Link>
             ))}
