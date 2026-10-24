@@ -261,17 +261,6 @@ export default function Footer({ settings }) {
             </Link>
             <CookieSettingsButton id="cookie-settings" />
           </div>
-          <p className="text-white/60 text-xs">
-            Developed with <span className="text-[#F97316]">&hearts;</span> by{" "}
-            <a
-              href="https://webspires.co.uk?utm_source=birminghamremovals"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="font-bold text-white hover:text-[#F97316] transition-colors"
-            >
-              Webspires
-            </a>
-          </p>
         </div>
       </div>
     </footer>

@@ -113,8 +113,8 @@ export default async function AboutPage() {
               <div className="aspect-[4/5] rounded-3xl overflow-hidden shadow-xl">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
-                  src="/images/about-birmingham.jpg"
-                  alt="Birmingham street scene"
+                  src="/images/hero-team.webp"
+                  alt="A family home on moving day"
                   width="640"
                   height="800"
                   loading="lazy"

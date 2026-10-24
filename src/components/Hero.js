@@ -111,7 +111,7 @@ export default function Hero() {
           {floatingStats.map((s) => (
             <div
               key={s.label}
-              className="bg-white/5 backdrop-blur border border-white/10 rounded-2xl px-4 py-4 flex items-center gap-3"
+              className="bg-white/5 backdrop-blur border border-white/10 rounded-2xl px-3 sm:px-4 py-4 flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-3 min-w-0"
             >
               <div className="w-10 h-10 rounded-xl bg-[#F97316]/15 flex items-center justify-center shrink-0">
                 <s.icon className="w-5 h-5 text-[#F97316]" />
