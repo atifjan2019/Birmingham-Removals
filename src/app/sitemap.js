@@ -19,6 +19,12 @@ const LASTMOD = {
 };
 
 const NEW_AREAS = new Set(areaPages.map((area) => area.slug));
+// Areas added after the May content pass, with the date each batch went live.
+const AREA_ADDED = Object.fromEntries(
+  ["handsworth-wood", "boldmere", "wylde-green", "selly-park", "rednal", "winson-green", "hockley", "stockland-green", "maypole",
+    "hamstead", "perry-beeches", "hay-mills", "solihull-lodge", "water-orton", "hagley", "kinver", "wombourne", "codsall",
+    "old-hill", "styvechale"].map((slug) => [slug, "2026-10-24"])
+);
 const BLOG_LASTMOD = new Map(blogPosts.map((p) => [p.slug, p.updated || p.date]));
 
 function lastModFor(path) {
@@ -33,6 +39,7 @@ function lastModFor(path) {
   if (path.startsWith("/services/")) return LASTMOD.service;
   if (path.startsWith("/areas/")) {
     const slug = path.replace("/areas/", "");
+    if (AREA_ADDED[slug]) return AREA_ADDED[slug];
     return NEW_AREAS.has(slug) ? LASTMOD.areaNew : LASTMOD.area;
   }
   return LASTMOD.marketing;
