@@ -128,14 +128,8 @@ export const websiteSchema = {
   description:
     "Fixed-price house and office removals across Birmingham and the West Midlands since 2015.",
   publisher: { "@id": ORG_ID },
-  potentialAction: {
-    "@type": "SearchAction",
-    target: {
-      "@type": "EntryPoint",
-      urlTemplate: `${BUSINESS.url}/areas/{search_term_string}`,
-    },
-    "query-input": "required name=search_term_string",
-  },
+  // No SearchAction: the site has no search page, and Google crawled the
+  // template URL /areas/{search_term_string} as a 404.
 };
 
 export function breadcrumbSchema(items) {

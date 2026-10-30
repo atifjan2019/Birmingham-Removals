@@ -25,6 +25,10 @@ const AREA_ADDED = Object.fromEntries(
     "hamstead", "perry-beeches", "hay-mills", "solihull-lodge", "water-orton", "hagley", "kinver", "wombourne", "codsall",
     "old-hill", "styvechale"].map((slug) => [slug, "2026-10-24"])
 );
+// Area pages whose content was rewritten after they went live.
+const AREA_UPDATED = Object.fromEntries(
+  ["longford-coventry", "brandwood-end", "cheswick-green", "nechells", "olton"].map((slug) => [slug, "2026-10-30"])
+);
 const BLOG_LASTMOD = new Map(blogPosts.map((p) => [p.slug, p.updated || p.date]));
 
 function lastModFor(path) {
@@ -39,6 +43,7 @@ function lastModFor(path) {
   if (path.startsWith("/services/")) return LASTMOD.service;
   if (path.startsWith("/areas/")) {
     const slug = path.replace("/areas/", "");
+    if (AREA_UPDATED[slug]) return AREA_UPDATED[slug];
     if (AREA_ADDED[slug]) return AREA_ADDED[slug];
     return NEW_AREAS.has(slug) ? LASTMOD.areaNew : LASTMOD.area;
   }
