@@ -30,8 +30,7 @@ export async function generateMetadata({ params }) {
   const post = getPostBySlug(slug);
   if (!post) return {};
   return makeMeta({
-    title: post.title,
-    absoluteTitle: true,
+    title: post.metaTitle || post.title,
     absoluteTitle: true,
     description: post.description,
     path: `/blog/${slug}`,

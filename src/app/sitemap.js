@@ -27,8 +27,27 @@ const AREA_ADDED = Object.fromEntries(
 );
 // Area pages whose content was rewritten after they went live.
 const AREA_UPDATED = Object.fromEntries(
-  ["longford-coventry", "brandwood-end", "cheswick-green", "nechells", "olton"].map((slug) => [slug, "2026-10-30"])
+  [
+    "longford-coventry", "brandwood-end", "cheswick-green", "nechells", "olton", "stourbridge", "bromsgrove",
+    "redditch", "tamworth", "lichfield", "warwick", "solihull", "sutton-coldfield", "wolverhampton", "dudley",
+    "yardley", "stechford", "sheldon", "ward-end", "hodge-hill", "small-heath", "sparkhill", "sparkbrook",
+    "bordesley-green", "aston", "ladywood", "lozells", "perry-barr", "kingstanding", "yardley-wood", "shirley",
+    "marston-green", "chelmsley-wood", "smiths-wood", "bartley-green", "weoley-castle", "stirchley", "cotteridge",
+    "billesley", "tyseley", "digbeth", "jewellery-quarter", "washwood-heath", "alum-rock", "witton", "saltley",
+    "oldbury", "smethwick", "tipton", "wednesbury", "rowley-regis", "blackheath", "cradley-heath", "langley",
+    "tividale", "walsall", "willenhall", "bloxwich", "darlaston", "bentley-walsall", "short-heath", "bilston",
+    "wednesfield", "coseley", "fallings-park", "blakenhall", "finham", "tile-hill", "canley", "stoke-coventry",
+    "foleshill", "radford-coventry", "wyken", "binley", "allesley", "keresley", "monkspath", "dickens-heath",
+    "hockley-heath", "lyndon", "elmdon", "five-ways", "highgate-birmingham", "bordesley", "balsall-heath",
+    "druids-heath", "west-heath-birmingham", "garretts-green", "lea-hall", "tile-cross", "kitts-green", "new-oscott",
+    "pype-hayes", "lye", "wordsley", "wall-heath", "netherton-dudley", "amblecote", "caldmore", "palfrey",
+    "pleck", "leamore", "birchills", "walsall-wood", "essington", "compton-wolverhampton", "whitmore-reans",
+    "heath-town", "low-hill", "fordhouses", "pendeford", "coundon-coventry", "holbrooks", "hillfields-coventry",
+    "whitley-coventry", "walsgrave", "potters-green", "bell-green-coventry", "kingshurst", "fordbridge", "meriden-village",
+  ].map((slug) => [slug, "2026-10-30"])
 );
+// Service pages added or rewritten after the May pass.
+const SERVICE_UPDATED = { "flat-removals": "2026-10-30", "piano-and-specialist-items": "2026-10-30" };
 const BLOG_LASTMOD = new Map(blogPosts.map((p) => [p.slug, p.updated || p.date]));
 
 function lastModFor(path) {
@@ -40,7 +59,7 @@ function lastModFor(path) {
     const slug = path.replace("/blog/", "");
     return BLOG_LASTMOD.get(slug) || LASTMOD.blogIndex;
   }
-  if (path.startsWith("/services/")) return LASTMOD.service;
+  if (path.startsWith("/services/")) return SERVICE_UPDATED[path.replace("/services/", "")] || LASTMOD.service;
   if (path.startsWith("/areas/")) {
     const slug = path.replace("/areas/", "");
     if (AREA_UPDATED[slug]) return AREA_UPDATED[slug];

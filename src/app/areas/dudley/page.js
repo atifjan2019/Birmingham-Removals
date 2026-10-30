@@ -47,6 +47,8 @@ const faqs = [
   { q: "Is parking and access difficult on the Dudley hills?", a: "Some Sedgley and Netherton streets are steep and narrow, so we plan the van position carefully and use stair-slides and straps for tricky inclines. Around the Waterfront at Brierley Hill there is usually room to park close, which we confirm before the day." },
   { q: "Do you offer same-day removals in Dudley?", a: "Yes, subject to availability. Same-day man and van jobs around Brierley Hill and Netherton are common, so call before 10 am and we will try to fit you in. Larger full-house moves need at least 48 hours so we can send the right van and crew." },
   { q: "Can you move us from Dudley into Birmingham or further across the Black Country?", a: "Of course. We handle plenty of moves between Dudley and Birmingham as well as across to Wolverhampton and West Bromwich. Longer moves are quoted by the job with a fixed price, so there are no surprises on mileage or time." },
+  { q: "Can you move on the steep roads in Sedgley and Gornal?", a: "Yes. The crew looks at the gradient and the drive on the survey. Where a lorry cannot back up safely we park it on the nearest level stretch and use a smaller van or a trolley run for the last part, and we load heavy items first so the lorry sits level. The price covers that planning, not an extra on the day." },
+  { q: "Do you move the terraces around Netherton and Dudley town centre?", a: "Yes, often. Those terraces have narrow front doors, tight stairs and no off-street parking, so we send a Luton van, bring door-frame protection and dismantling tools, and start early to have the kerb before the street fills. Flats above the shops in the centre are loaded from the back where there is access." },
 ];
 
 const LocalArea = (
@@ -76,6 +78,15 @@ const LocalArea = (
       <Link href="/areas/brierley-hill" className="text-[#F97316] underline underline-offset-2 hover:text-[#EA580C]">Brierley Hill</Link>. Whether
       you are moving up to a Sedgley semi or relocating a family home near Russells Hall, the
       removal company Dudley residents trust will keep the move affordable and on time.
+    </p>
+    <p>
+      Dudley's hills decide how a move goes. The town sits on a ridge, so <Link href="/areas/sedgley" className="text-[#F97316] underline underline-offset-2 hover:text-[#EA580C]">Sedgley</Link>, Upper Gornal and the Himley side have steep roads and drives where a lorry cannot always back up to the garage and the crew carries downhill. The Victorian terraces in <Link href="/areas/netherton-dudley" className="text-[#F97316] underline underline-offset-2 hover:text-[#EA580C]">Netherton</Link>, Woodside and around the town centre have on-street parking only and narrow doors, so we send a Luton and extra protection. The post-war estates at Priory, Wrens Nest and Russells Hall have wider roads but parking courts that fill, and the newer houses off the Birmingham New Road have drives where a lorry sits all day.
+    </p>
+    <p>
+      Dudley has no railway station, so the roads matter more than anywhere else we cover. The A461 and the A4123 Birmingham New Road carry the traffic, and Castle Gate and the Merry Hill approaches at <Link href="/areas/brierley-hill" className="text-[#F97316] underline underline-offset-2 hover:text-[#EA580C]">Brierley Hill</Link> queue from mid-afternoon. The M5 at Junction 2 is the quickest way to the motorway network, and the town-centre one-way system around the market and the castle is slow, so we plan loading in the centre for mid-morning once the buses thin out.
+    </p>
+    <p>
+      Most Dudley jobs are moves within the Black Country, between Dudley, <Link href="/areas/tipton" className="text-[#F97316] underline underline-offset-2 hover:text-[#EA580C]">Tipton</Link>, Sedgley and <Link href="/areas/kingswinford" className="text-[#F97316] underline underline-offset-2 hover:text-[#EA580C]">Kingswinford</Link>, or in from Birmingham and Wolverhampton for the bigger gardens and lower prices. Many of those houses have garages and lofts full of years of storage, so we survey first and send a crew sized for the whole house rather than guessing.
     </p>
   </>
 );

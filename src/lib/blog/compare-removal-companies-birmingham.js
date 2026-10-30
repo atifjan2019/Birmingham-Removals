@@ -1,7 +1,8 @@
 const post = {
   slug: "compare-removal-companies-birmingham",
+  metaTitle: "How to Compare Removal Companies in Birmingham",
   title:
-    "How to Choose and Compare Removal Companies in Birmingham (Without Getting Burned)",
+    "How to Compare Removal Companies in Birmingham Without Getting Burned",
   description:
     "How to compare Birmingham removal companies safely: check BAR membership, insurance, DBS crews, reviews and fixed quotes, and spot the red flags.",
   date: "2026-05-02",

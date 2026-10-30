@@ -6,7 +6,7 @@ import { makeMeta } from "@/lib/metadata";
 import { getSiteSettings } from "@/lib/siteSettings";
 
 export const metadata = makeMeta({
-  title: "Cookies",
+  title: "Cookies and Browser Storage",
   description: "The cookies and browser storage birminghamremovals.uk uses, and how to change your answer.",
   path: "/cookies",
 });

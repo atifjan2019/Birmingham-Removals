@@ -1,5 +1,6 @@
 const post = {
   slug: "packing-tips-moving-house",
+  metaTitle: "25 Expert Packing Tips for Moving House",
   title: "25 Expert Packing Tips for Moving House (From Professional Removers)",
   description:
     "25 expert packing tips for moving house, straight from professional Birmingham removers, covering boxes, fragile items, labelling and room-by-room advice.",

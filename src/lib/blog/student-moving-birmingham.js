@@ -1,6 +1,7 @@
 // Blog post: student moving guide for Birmingham universities.
 const post = {
   slug: "student-moving-birmingham",
+  metaTitle: "Student Moving Guide for Birmingham (2026)",
   title: "Student Moving Guide: Birmingham Universities, HMOs and Halls (2026)",
   description:
     "A student guide to moving in Birmingham. Areas, halls vs HMOs, beating the end-of-term rush, packing light and splitting man and van costs.",

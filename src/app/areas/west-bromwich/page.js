@@ -10,7 +10,7 @@ const POSTCODES = "B70, B71";
 export const metadata = makeMeta({
   title: areaTitle(NAME),
   absoluteTitle: true,
-  description: `Fixed-price removals in West Bromwich B70 and B71, from terraces near the Hawthorns to New Square flats. Insured Birmingham crews, free quote in 30 minutes.`,
+  description: `Fixed-price removals in West Bromwich B70 and B71, from terraces near the Hawthorns to New Square flats. Insured crews, free quote in 30 minutes.`,
   path: `/areas/${SLUG}`,
   keywords: [
     "removals west bromwich",

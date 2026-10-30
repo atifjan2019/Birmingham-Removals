@@ -10,7 +10,7 @@ const POSTCODES = "B20, B21";
 export const metadata = makeMeta({
   title: areaTitle(NAME),
   absoluteTitle: true,
-  description: `Affordable removals in Handsworth B20 and B21, from terraces off Soho Road to large family homes near Handsworth Park. Fixed prices, free quote in 30 minutes.`,
+  description: `Affordable removals in Handsworth B20 and B21, from terraces off Soho Road to large family homes near Handsworth Park. Fixed prices, free quote.`,
   path: `/areas/${SLUG}`,
   keywords: [
     "removals handsworth",

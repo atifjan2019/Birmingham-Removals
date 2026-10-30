@@ -8,6 +8,13 @@ import { batch5 } from "@/lib/areaContent/batch5";
 import { batch6 } from "@/lib/areaContent/batch6";
 import { batch7 } from "@/lib/areaContent/batch7";
 import { batch8 } from "@/lib/areaContent/batch8";
+import { batch9 } from "@/lib/areaContent/batch9";
+import { batch10 } from "@/lib/areaContent/batch10";
+import { batch11 } from "@/lib/areaContent/batch11";
+import { batch12 } from "@/lib/areaContent/batch12";
+import { batch13 } from "@/lib/areaContent/batch13";
+import { batch14 } from "@/lib/areaContent/batch14";
+import { deepen } from "@/lib/areaContent/deepen";
 
 // Hand-written per-area unique content. Each batch file exports an object
 // keyed by slug with shape: { metaDescription, openingHook, localUnique,
@@ -21,6 +28,12 @@ const uniqueContent = {
   ...batch6,
   ...batch7,
   ...batch8,
+  ...batch9,
+  ...batch10,
+  ...batch11,
+  ...batch12,
+  ...batch13,
+  ...batch14,
 };
 
 const rawAreaPages = [
@@ -338,6 +351,8 @@ function buildLocalParagraphs(area) {
   ];
   if (unique?.localUnique) {
     paragraphs.push(unique.localUnique);
+    // Extra depth for the high-demand towns (see areaContent/deepen.js).
+    paragraphs.push(...(deepen[area.slug]?.localExtra || []));
   } else {
     paragraphs.push(
       `Access usually comes down to ${area.access}. ${accessDetail} This is the difference between a smooth load and a van parked too far away for a heavy wardrobe or American fridge freezer.`,
@@ -373,7 +388,8 @@ function buildFaqs(area) {
   ];
   if (Array.isArray(unique?.uniqueFaqs) && unique.uniqueFaqs.length >= 2) {
     // Lead with two hand-written area-specific FAQs, then three generic ones.
-    return [unique.uniqueFaqs[0], unique.uniqueFaqs[1], generic[0], generic[1], generic[4]];
+    const extra = deepen[area.slug]?.extraFaqs || [];
+    return [unique.uniqueFaqs[0], unique.uniqueFaqs[1], ...extra, generic[0], generic[1], generic[4]];
   }
   return generic;
 }

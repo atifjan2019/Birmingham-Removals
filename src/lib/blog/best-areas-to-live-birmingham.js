@@ -3,6 +3,7 @@
 
 const post = {
   slug: "best-areas-to-live-birmingham",
+  metaTitle: "Best Areas to Live in Birmingham (2026 Guide)",
   title: "Best Areas to Live in Birmingham: A Neighbourhood Guide for 2026",
   description:
     "A neighbourhood guide to the best areas to live in Birmingham in 2026, covering schools, transport, housing and who each suburb suits.",

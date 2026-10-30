@@ -36,6 +36,8 @@ const faqs = [
   { q: "Can you move from a new-build estate in Monkspath, Solihull?", a: "Yes, Monkspath is one of Solihull's most active areas for us. The estates here (including Monkspath Hall Road, the Stratford Road corridor and the newer Bellway and Redrow sites) have specific access arrangements including shared drives, allocated visitor parking and sometimes lift or stair-only access. We co-ordinate with your developer or estate management in advance." },
   { q: "Do you offer same-day removals in Solihull?", a: "For man and van moves in B91–B93, same-day availability is possible, so call before midday. Full house removals in Solihull typically require 48–72 hours' planning to assign the appropriate crew size, vehicle and access arrangements." },
   { q: "Can you move us near Birmingham Airport (BHX) or the NEC in Solihull?", a: "Yes, the Birmingham Airport (BHX) area (B26/B40) and the National Exhibition Centre sit just outside the core B91–B93 postcodes but are within our standard coverage area. We move clients in and around the airport employment corridor, the NEC catchment and the B37 Birmingham Business Park area with no surcharge." },
+  { q: "Can you load from Warwick Road or Stratford Road in Solihull?", a: "No, and we would not try. Both are bus routes with yellow lines and steady traffic, so for any property fronting them we load from the nearest side road, a drive or the service area behind, and the crew carries. We agree the loading position with you on the survey, so the price already includes it." },
+  { q: "Do you handle corporate relocations into Solihull?", a: "Yes. We move staff joining Jaguar Land Rover, Birmingham Airport and the Blythe Valley and Birmingham Business Park employers, often from elsewhere in the UK. We can invoice an employer directly, provide an inventory for the relocation agent, and hold goods in storage if the new house is not ready on the date the job starts." },
 ];
 
 const LocalArea = (
@@ -73,6 +75,15 @@ const LocalArea = (
       <Link href="/areas/balsall-common" className="text-[#F97316] underline underline-offset-2 hover:text-[#EA580C]">Balsall Common</Link>{" "}
       are among our most frequent cross-boundary jobs, quoted as a single move with one crew
       and our full insurance cover.
+    </p>
+    <p>
+      Solihull's own districts need different handling, and we quote them differently. Olton and Lyndon, on the Birmingham side, are Edwardian and inter-war semis with short drives and on-street parking around <Link href="/areas/olton" className="text-[#F97316] underline underline-offset-2 hover:text-[#EA580C]">Olton station</Link>, so we plan the kerb and carry a little. Shirley and Monkspath are post-war and modern estates where a lorry sits on the drive. <Link href="/areas/knowle" className="text-[#F97316] underline underline-offset-2 hover:text-[#EA580C]">Knowle</Link>, <Link href="/areas/dorridge" className="text-[#F97316] underline underline-offset-2 hover:text-[#EA580C]">Dorridge</Link> and Bentley Heath have the largest houses, often with long drives, gated entrances and outbuildings that add a second load, and the town centre has apartment blocks around Touchwood and Homer Road with service-yard loading and lifts we book in advance.
+    </p>
+    <p>
+      Traffic is the main thing we plan around. Warwick Road and Stratford Road are bus routes with yellow lines, so we never load from them; the Solihull Hospital and school runs clog Lode Lane and Streetsbrook Road before nine; and the M42 between Junctions 4 and 6 queues from four o'clock. A Solihull move therefore starts early, loads from the side roads and drives, and is on the motorway before the afternoon rush. For onward moves the M42 and the airport corridor give fast routes north, south and towards London.
+    </p>
+    <p>
+      The work itself is a mix we see nowhere else in the region: corporate relocations for people joining Jaguar Land Rover, the airport and the Blythe Valley firms, families trading up from south Birmingham into the Tudor Grange and Arden school catchments, and downsizers leaving large Dorridge and Knowle houses for apartments in the town centre. Many of those moves use our <Link href="/services/storage-solutions" className="text-[#F97316] underline underline-offset-2 hover:text-[#EA580C]">storage</Link> for a few weeks while a chain completes, and our <Link href="/services/packing-service" className="text-[#F97316] underline underline-offset-2 hover:text-[#EA580C]">packing service</Link> for houses full of glassware, art and antiques.
     </p>
   </>
 );

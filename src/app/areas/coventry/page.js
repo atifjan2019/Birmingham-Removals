@@ -10,7 +10,7 @@ const POSTCODES = "CV1, CV2, CV3";
 export const metadata = makeMeta({
   title: areaTitle(NAME),
   absoluteTitle: true,
-  description: `Fixed-price Coventry removals across CV1 to CV3, from city-centre student flats to Cheylesmore family homes. Insured Birmingham crews, free 30-minute quote.`,
+  description: `Fixed-price Coventry removals across CV1 to CV3, from city-centre student flats to Cheylesmore family homes. Insured crews, free 30-minute quote.`,
   path: `/areas/${SLUG}`,
   keywords: [
     "removals coventry",

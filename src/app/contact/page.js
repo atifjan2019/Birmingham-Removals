@@ -138,9 +138,9 @@ export default async function ContactPage() {
 
             <div className="grid lg:grid-cols-5 gap-10 items-start">
               <div className="lg:col-span-2 bg-[#0B1E3F] text-white rounded-3xl p-8 sm:p-10">
-                <h3 className="font-[family-name:var(--font-space)] font-extrabold text-2xl mb-6">
+                <h2 className="font-[family-name:var(--font-space)] font-extrabold text-2xl mb-6">
                   Visit or write to us
-                </h3>
+                </h2>
                 <ul className="space-y-5">
                   <li className="flex gap-4">
                     <MapPin className="w-5 h-5 text-[#F97316] shrink-0 mt-1" />

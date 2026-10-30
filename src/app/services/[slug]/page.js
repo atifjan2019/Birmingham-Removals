@@ -34,9 +34,14 @@ const SERVICE_META = {
       "Short and long-term storage in Birmingham. Secure, CCTV-monitored, climate-controlled units. Ideal for chain breaks and renovations. Free quote.",
   },
   "piano-and-specialist-items": {
-    title: "Piano & Specialist Item Removals Birmingham",
+    title: "Piano Removals Birmingham | Upright & Grand Piano Movers",
     description:
-      "Expert piano, antique and high-value item removals across Birmingham. Specialist crews, full insurance, careful handling guaranteed. Free quote today.",
+      "Piano removals across Birmingham and the Midlands: uprights, grands and digital pianos moved by trained crews with skids and straps. Antiques too. Free quote.",
+  },
+  "flat-removals": {
+    title: "Flat Removals Birmingham | Apartment Movers, No Stair Fees",
+    description:
+      "Flat and apartment removals across Birmingham. Lifts, loading bays and parking permits booked for you, no stair charges, fixed prices. Free quote in 30 minutes.",
   },
   "student-removals": {
     title: "Student Removals Birmingham | Affordable Moves",

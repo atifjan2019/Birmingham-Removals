@@ -15,7 +15,7 @@ export const metadata = makeMeta({
   title: "Removals & Moving Advice Blog | Birmingham Removals",
   absoluteTitle: true,
   description:
-    "Moving house in Birmingham? Expert guides on removal costs, packing, checklists, storage and the best areas to live, from Birmingham's 5-star removals team.",
+    "Moving house in Birmingham? Expert guides on removal costs, packing, checklists, storage and the best areas to live, from a 5-star removals team.",
   path: "/blog",
 });
 

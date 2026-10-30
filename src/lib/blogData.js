@@ -12,6 +12,9 @@ import movingDayTips from "./blog/moving-day-tips-birmingham";
 import storageSolutions from "./blog/storage-solutions-birmingham";
 import compareCompanies from "./blog/compare-removal-companies-birmingham";
 import conveyancingTimeline from "./blog/moving-house-birmingham-conveyancing-timeline";
+import bestAreasSolihull from "./blog/best-areas-to-live-solihull";
+import bestAreasSutton from "./blog/best-areas-to-live-sutton-coldfield";
+import bestAreasCoventry from "./blog/best-areas-to-live-coventry";
 
 const posts = [
   houseRemovalCosts,
@@ -26,6 +29,9 @@ const posts = [
   storageSolutions,
   compareCompanies,
   conveyancingTimeline,
+  bestAreasSolihull,
+  bestAreasSutton,
+  bestAreasCoventry,
 ];
 
 // Newest first by ISO date.

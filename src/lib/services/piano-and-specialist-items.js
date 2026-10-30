@@ -3,12 +3,12 @@ import { Piano } from "lucide-react";
 const pianoSpecialist = {
   slug: "piano-and-specialist-items",
   icon: Piano,
-  title: "Piano & Specialist Items",
+  title: "Piano Removals",
   shortDesc:
-    "Heavy, awkward or priceless items? Our specialist team moves pianos, antiques and fragile goods with expert care.",
-  heroHeading: "Piano & Specialist Item Removals",
+    "Upright and grand piano removals across Birmingham and the Midlands, plus antiques, artwork and other specialist items moved with expert care.",
+  heroHeading: "Piano Removals in Birmingham",
   heroSubtext:
-    "Trust our trained specialists to safely move pianos, antiques, artwork and high-value items across Birmingham and the Midlands.",
+    "Trained piano movers with skids, straps and the right vehicle for uprights, grands and digital pianos, plus antiques, artwork and high-value items across Birmingham and the Midlands.",
   sections: [
     {
       heading: "Specialist Handling for Precious Items",

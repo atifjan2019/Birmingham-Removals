@@ -10,7 +10,7 @@ const POSTCODES = "B1, B2, B3, B4, B5";
 export const metadata = makeMeta({
   title: areaTitle(NAME),
   absoluteTitle: true,
-  description: `Apartment removals across Birmingham City Centre B1 to B5, from the Jewellery Quarter to Digbeth. Lifts, loading bays and permits handled. Free 30-min quote.`,
+  description: `Apartment removals across Birmingham City Centre B1 to B5, from the Jewellery Quarter to Digbeth. Lifts, loading bays and permits handled. Free quote.`,
   path: `/areas/${SLUG}`,
   keywords: [
     "removals city centre birmingham",

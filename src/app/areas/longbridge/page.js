@@ -10,7 +10,7 @@ const POSTCODES = "B31";
 export const metadata = makeMeta({
   title: areaTitle(NAME),
   absoluteTitle: true,
-  description: `Fixed-price removals in Longbridge B31, from new-build apartments on the former Rover site to family homes near Cofton Park. DBS crew, full cover, free quote.`,
+  description: `Fixed-price removals in Longbridge B31, from new-build apartments on the former Rover site to family homes near Cofton Park. DBS crew, free quote.`,
   path: `/areas/${SLUG}`,
   keywords: [
     "removals longbridge",

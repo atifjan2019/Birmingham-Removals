@@ -3,6 +3,7 @@
 // same interface the rest of the app already relies on.
 import houseRemovals from "./services/house-removals";
 import officeRemovals from "./services/office-removals";
+import flatRemovals from "./services/flat-removals";
 import manAndVan from "./services/man-and-van";
 import packingService from "./services/packing-service";
 import storageSolutions from "./services/storage-solutions";
@@ -15,6 +16,7 @@ import endOfTenancyRemovals from "./services/end-of-tenancy-removals";
 const servicesData = [
   houseRemovals,
   officeRemovals,
+  flatRemovals,
   manAndVan,
   packingService,
   storageSolutions,

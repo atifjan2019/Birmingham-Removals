@@ -10,7 +10,7 @@ const POSTCODES = "B72, B73, B74, B75, B76";
 export const metadata = makeMeta({
   title: areaTitle(NAME),
   absoluteTitle: true,
-  description: `Professional removals in ${NAME}. Fixed-price quotes, DBS-checked crew, full insurance. House, office and man & van moves. Free quote in 30 minutes.`,
+  description: `Removals in Sutton Coldfield B72 to B76, from Four Oaks to Walmley. Fixed-price house and office movers, DBS-checked crew, free quote in 30 minutes.`,
   path: `/areas/${SLUG}`,
 });
 
@@ -36,6 +36,8 @@ const faqs = [
   { q: "Can you move a grand piano or antique furniture in Sutton Coldfield?", a: "Yes, specialist handling of pianos, antiques, fine art and high-value furniture is a core part of our Sutton Coldfield service. We use bespoke piano boards, crating materials and furniture blankets. High-value items are logged with photographs before loading and we can arrange additional insurance cover on request." },
   { q: "Do you offer same-day removals in Sutton Coldfield?", a: "For man and van jobs in Sutton Coldfield, same-day availability is possible, so call before midday. Full house moves in B72–B76 typically need 48–72 hours' planning to allocate the right van, crew size and access arrangements, particularly for larger detached properties." },
   { q: "Can you handle gated property access in Four Oaks, Sutton Coldfield?", a: "Yes, we work with gated properties throughout Sutton Coldfield regularly. Before move day we confirm access codes, intercom procedures and any size restrictions on entry vehicles. Our crews are briefed to be discreet, punctual and respectful of security arrangements throughout." },
+  { q: "Which Sutton Coldfield streets are hardest for a removal lorry?", a: "The Victorian terraces in Boldmere and Wylde Green, where parking is on-street only and the roads are narrow, and the streets around the stations once commuter parking fills them. For those we use a Luton van, start early and, where needed, arrange a bay suspension. Four Oaks, Walmley and Mere Green are mostly drives and wide roads, which is straightforward." },
+  { q: "Do you move people into Sutton Coldfield for the grammar schools?", a: "Yes, it is one of our most common Sutton jobs. Families moving in from Erdington, Great Barr, Kingstanding and across Birmingham for the Bishop Vesey, Sutton Girls and Arthur Terry catchments are priced as a local fixed move, and we can time the move around the start of term and hold goods in storage if the sale completes early." },
 ];
 
 const LocalArea = (
@@ -71,6 +73,15 @@ const LocalArea = (
       <Link href="/areas/sutton-four-oaks" className="text-[#F97316] underline underline-offset-2 hover:text-[#EA580C]">Sutton Four Oaks</Link>,{" "}
       <Link href="/areas/sutton-mere-green" className="text-[#F97316] underline underline-offset-2 hover:text-[#EA580C]">Sutton Mere Green</Link> and{" "}
       <Link href="/areas/sutton-walmley" className="text-[#F97316] underline underline-offset-2 hover:text-[#EA580C]">Sutton Walmley</Link>.
+    </p>
+    <p>
+      Each part of Sutton moves differently. <Link href="/areas/sutton-four-oaks" className="text-[#F97316] underline underline-offset-2 hover:text-[#EA580C]">Four Oaks</Link> and the roads around Sutton Park are the biggest houses, gated and set back on long drives, usually a two-vehicle job with a full day booked. <Link href="/areas/boldmere" className="text-[#F97316] underline underline-offset-2 hover:text-[#EA580C]">Boldmere</Link> and <Link href="/areas/wylde-green" className="text-[#F97316] underline underline-offset-2 hover:text-[#EA580C]">Wylde Green</Link> are Victorian terraces and 1930s semis with on-street parking, where the crew claims the kerb early and carries from the road. <Link href="/areas/sutton-walmley" className="text-[#F97316] underline underline-offset-2 hover:text-[#EA580C]">Walmley</Link> and Minworth are 1990s and newer estates with drives and parking courts, and the town centre has apartments above The Parade and along the Birmingham Road with lifts and loading bays we book ahead.
+    </p>
+    <p>
+      The A5127 Birmingham Road and the Lichfield Road carry traffic through the town all day, and Sutton Park's gates close at dusk, which matters if a route uses the park roads. The Cross-City line stations at Sutton Coldfield, Four Oaks, Wylde Green and Butlers Lane fill the surrounding streets with commuter parking from early morning, so for a house near a station we aim to have the lorry positioned before eight. The A38 and the M6 Toll at Junction T3 give quick routes north to Lichfield and Tamworth, and the A452 and A38 run into Birmingham.
+    </p>
+    <p>
+      Most of our Sutton Coldfield work is families moving in from Erdington, Kingstanding and the city for the grammar schools and the park, people moving between Sutton's own districts as their families grow, and retirees leaving large Four Oaks houses for apartments in Mere Green and the town centre. The larger houses mean more <Link href="/services/piano-and-specialist-items" className="text-[#F97316] underline underline-offset-2 hover:text-[#EA580C]">pianos, antiques and art</Link> than anywhere else we cover, and many moves use our <Link href="/services/storage-solutions" className="text-[#F97316] underline underline-offset-2 hover:text-[#EA580C]">storage</Link> while a chain completes.
     </p>
   </>
 );

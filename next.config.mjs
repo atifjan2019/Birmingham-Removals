@@ -28,7 +28,6 @@ const AREA_SLUG_REDIRECTS = [
   ["hereford", "herefordshire"],
   ["malvern", "malvern-hills"],
   ["evesham", "wychavon"],
-  ["wombourne", "south-staffordshire"],
   ["leek", "staffordshire-moorlands"],
   ["coleshill", "north-warwickshire"],
 ];

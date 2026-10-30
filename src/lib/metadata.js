@@ -8,7 +8,7 @@ import { BUSINESS } from "@/config/business";
  */
 export function areaTitle(name) {
   const full = `Removals ${name} | Fixed-Price Movers | Birmingham Removals`;
-  return full.length <= 65 ? full : `Removals ${name} | Birmingham Removals`;
+  return full.length <= 60 ? full : `Removals ${name} | Birmingham Removals`;
 }
 
 export function makeMeta({ title, description, path, image, noindex, keywords, absoluteTitle }) {

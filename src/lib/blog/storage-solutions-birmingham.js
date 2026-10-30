@@ -1,6 +1,7 @@
 // Blog post: short and long-term storage options in Birmingham.
 const post = {
   slug: "storage-solutions-birmingham",
+  metaTitle: "Short and Long-Term Storage in Birmingham",
   title: "Short and Long-Term Storage in Birmingham: What You Need to Know",
   description:
     "Your guide to storage in Birmingham. When you need it, container vs room units, security and insurance, pricing from £20 a week and combined removals.",

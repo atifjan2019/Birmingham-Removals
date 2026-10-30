@@ -1,5 +1,6 @@
 const post = {
   slug: "office-relocation-guide-birmingham",
+  metaTitle: "Office Relocation in Birmingham Without Downtime",
   title: "How to Plan an Office Relocation in Birmingham Without Any Downtime",
   description:
     "A practical guide for Birmingham facilities managers and SME directors on planning an office move with zero downtime, from timeline to IT migration.",

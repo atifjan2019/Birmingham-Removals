@@ -45,6 +45,8 @@ const faqs = [
   { q: "How do you handle parking and access in the city centre?", a: "The pedestrianised areas around Queen Square and Dudley Street, plus the ring road, mean loading needs planning. We book early-morning slots or arrange a bay suspension with the City of Wolverhampton Council where access is restricted." },
   { q: "Can you do a same-day removal in Wolverhampton?", a: "Frequently, yes, depending on van availability. Same-day man and van work across WV1 to WV3 is common, so call before 10 am. Full-house moves are best booked at least 48 hours ahead so we can assign the right crew." },
   { q: "Do you handle inter-city moves between Wolverhampton and Birmingham?", a: "Yes, that corridor is one of our busiest. Moves between Wolverhampton and Birmingham, or onward to other cities, are quoted at a fixed price with full wrapping and protection for the journey. No hidden mileage charges apply." },
+  { q: "Can you move a flat near Molineux or the ring road on a match day?", a: "We can, but we would rather not. Streets around Waterloo Road and the ground close or fill hours before kick-off, so we check the fixture list when we quote and offer a different day or an early start that has the van loaded and gone before the roads shut." },
+  { q: "Do you cover Tettenhall, Penn, Codsall and Wombourne from the Wolverhampton page?", a: "Yes. The western suburbs and the villages over the Staffordshire border are inside our Wolverhampton coverage, and each has its own page with local detail. The quote is a fixed price wherever in WV you start or finish, with no mileage surcharge for the villages." },
 ];
 
 const LocalArea = (
@@ -73,6 +75,15 @@ const LocalArea = (
       <Link href="/areas/penn" className="text-[#F97316] underline underline-offset-2 hover:text-[#EA580C]">Penn</Link> and{" "}
       <Link href="/areas/oxley" className="text-[#F97316] underline underline-offset-2 hover:text-[#EA580C]">Oxley</Link>. Whether you&apos;re moving into a city-centre flat or out to a Tettenhall
       villa, our Wolverhampton crews manage the packing, lifting and paperwork end to end.
+    </p>
+    <p>
+      The housing dictates the vehicle. In <Link href="/areas/tettenhall-regis" className="text-[#F97316] underline underline-offset-2 hover:text-[#EA580C]">Tettenhall</Link>, <Link href="/areas/penn" className="text-[#F97316] underline underline-offset-2 hover:text-[#EA580C]">Penn</Link> and Compton the villas and large semis have drives and wide roads, so a 7.5-tonne lorry parks at the door and a full crew does the job in a day. In Whitmore Reans, All Saints, Blakenhall and Heath Town the terraces have on-street parking only, and the flats around the ring road, Molineux and the university have lifts and loading bays we book, so we send a Luton and start early. The Bilston Road and Willenhall Road sides are post-war estates and newer housing-association homes with parking courts that can be too tight for a lorry.
+    </p>
+    <p>
+      Wolverhampton's ring road is quick but one-way and busy, and the city centre bus and Metro corridors on Bilston Street and Pipers Row are no-go for loading. Match days at Molineux close streets around Waterloo Road, so we check the fixture list when a move is anywhere near the ground. For onward journeys the A449 and A41 reach the M54 and M6 at Junction 10 or Junction 10A in minutes, which makes Wolverhampton a quick base for moves to Shropshire, Staffordshire and the north.
+    </p>
+    <p>
+      The work is the full spread: student and graduate flats near the university that suit a <Link href="/services/man-and-van" className="text-[#F97316] underline underline-offset-2 hover:text-[#EA580C]">man and van</Link> job, family moves between the Black Country towns and Wolverhampton's suburbs, and large houses in Tettenhall and Penn with antiques and pianos. We also regularly move households out to Codsall, Wombourne and Albrighton and in from Dudley, Walsall and Birmingham, all as a single fixed price with mileage included.
     </p>
   </>
 );

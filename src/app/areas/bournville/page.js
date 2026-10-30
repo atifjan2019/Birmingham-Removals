@@ -10,7 +10,7 @@ const POSTCODES = "B30";
 export const metadata = makeMeta({
   title: areaTitle(NAME),
   absoluteTitle: true,
-  description: `Careful removals in Bournville B30, the Cadbury model village. We know the Bournville Village Trust streets, conservation rules and the closes around the Green.`,
+  description: `Careful removals in Bournville B30, the Cadbury model village. We know the Village Trust streets, conservation rules and the closes around the Green.`,
   path: `/areas/${SLUG}`,
   keywords: [
     "removals bournville",

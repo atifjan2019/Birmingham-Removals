@@ -1,5 +1,6 @@
 const post = {
   slug: "moving-day-tips-birmingham",
+  metaTitle: "Moving Day Timeline and Tips for Birmingham",
   title:
     "Moving Day: A Complete Timeline and Tips for Birmingham Homeowners",
   description:
