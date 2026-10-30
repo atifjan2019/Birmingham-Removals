@@ -36,12 +36,12 @@ const SERVICE_META = {
   "piano-and-specialist-items": {
     title: "Piano Removals Birmingham | Upright & Grand Piano Movers",
     description:
-      "Piano removals across Birmingham and the Midlands: uprights, grands and digital pianos moved by trained crews with skids and straps. Antiques too. Free quote.",
+      "Piano removals across Birmingham and the Midlands: uprights, grands and digital pianos moved by trained crews with skids and straps. Free quote.",
   },
   "flat-removals": {
     title: "Flat Removals Birmingham | Apartment Movers, No Stair Fees",
     description:
-      "Flat and apartment removals across Birmingham. Lifts, loading bays and parking permits booked for you, no stair charges, fixed prices. Free quote in 30 minutes.",
+      "Flat and apartment removals across Birmingham. Lifts, loading bays and parking permits booked for you, no stair charges, fixed prices. Free quote.",
   },
   "student-removals": {
     title: "Student Removals Birmingham | Affordable Moves",
