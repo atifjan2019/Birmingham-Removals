@@ -132,6 +132,28 @@ export const websiteSchema = {
   // template URL /areas/{search_term_string} as a 404.
 };
 
+const SITE_NAVIGATION = [
+  ["Services", "/services"],
+  ["Areas", "/areas"],
+  ["Reviews", "/reviews"],
+  ["Blog", "/blog"],
+  ["About", "/about"],
+  ["Contact", "/contact"],
+  ["Get a Quote", "/quote"],
+];
+
+export const siteNavigationSchema = {
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  name: "Main navigation",
+  itemListElement: SITE_NAVIGATION.map(([name, path], i) => ({
+    "@type": "SiteNavigationElement",
+    position: i + 1,
+    name,
+    url: `${BUSINESS.url}${path}`,
+  })),
+};
+
 export function breadcrumbSchema(items) {
   return {
     "@context": "https://schema.org",

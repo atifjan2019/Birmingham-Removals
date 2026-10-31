@@ -2,7 +2,7 @@ import { Inter, Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
 import { BUSINESS } from "@/config/business";
 import JsonLd from "@/components/seo/JsonLd";
-import { movingCompanySchema, websiteSchema } from "@/lib/schema";
+import { movingCompanySchema, siteNavigationSchema, websiteSchema } from "@/lib/schema";
 import { getSiteSettings } from "@/lib/siteSettings";
 import ConsentDefault from "@/components/analytics/ConsentDefault";
 import AnalyticsLoader from "@/components/analytics/AnalyticsLoader";
@@ -94,7 +94,8 @@ export default function RootLayout({ children }) {
         <ConsentDefault />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link rel="dns-prefetch" href="https://fonts.gstatic.com" />
-        <JsonLd data={[movingCompanySchema, websiteSchema]} />
+        <link rel="alternate" type="application/rss+xml" title="Birmingham Removals Moving Guides" href="/feed.xml" />
+        <JsonLd data={[movingCompanySchema, websiteSchema, siteNavigationSchema]} />
       </head>
       <body className="min-h-screen bg-white text-[#0B1E3F]" suppressHydrationWarning>
         <a

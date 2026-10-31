@@ -1,5 +1,6 @@
 const post = {
   slug: "moving-checklist-birmingham",
+  metaTitle: "Moving House Checklist for Birmingham Residents",
   title: "The Ultimate Moving House Checklist for Birmingham Residents",
   description:
     "A complete time-based moving house checklist for Birmingham residents, from eight weeks out to after you move, covering council, utilities and removals.",

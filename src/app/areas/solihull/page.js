@@ -37,7 +37,7 @@ const faqs = [
   { q: "Do you offer same-day removals in Solihull?", a: "For man and van moves in B91–B93, same-day availability is possible, so call before midday. Full house removals in Solihull typically require 48–72 hours' planning to assign the appropriate crew size, vehicle and access arrangements." },
   { q: "Can you move us near Birmingham Airport (BHX) or the NEC in Solihull?", a: "Yes, the Birmingham Airport (BHX) area (B26/B40) and the National Exhibition Centre sit just outside the core B91–B93 postcodes but are within our standard coverage area. We move clients in and around the airport employment corridor, the NEC catchment and the B37 Birmingham Business Park area with no surcharge." },
   { q: "Can you load from Warwick Road or Stratford Road in Solihull?", a: "No, and we would not try. Both are bus routes with yellow lines and steady traffic, so for any property fronting them we load from the nearest side road, a drive or the service area behind, and the crew carries. We agree the loading position with you on the survey, so the price already includes it." },
-  { q: "Do you handle corporate relocations into Solihull?", a: "Yes. We move staff joining Jaguar Land Rover, Birmingham Airport and the Blythe Valley and Birmingham Business Park employers, often from elsewhere in the UK. We can invoice an employer directly, provide an inventory for the relocation agent, and hold goods in storage if the new house is not ready on the date the job starts." },
+  { q: "Do you handle corporate relocations into Solihull?", a: "Yes. We move people relocating to Solihull for work, often from elsewhere in the UK, around Birmingham Airport, Blythe Valley and the M42 corridor. We can fit the move around your start date and hold goods in storage if the new house is not ready in time." },
 ];
 
 const LocalArea = (
@@ -84,6 +84,10 @@ const LocalArea = (
     </p>
     <p>
       The work itself is a mix we see nowhere else in the region: corporate relocations for people joining Jaguar Land Rover, the airport and the Blythe Valley firms, families trading up from south Birmingham into the Tudor Grange and Arden school catchments, and downsizers leaving large Dorridge and Knowle houses for apartments in the town centre. Many of those moves use our <Link href="/services/storage-solutions" className="text-[#F97316] underline underline-offset-2 hover:text-[#EA580C]">storage</Link> for a few weeks while a chain completes, and our <Link href="/services/packing-service" className="text-[#F97316] underline underline-offset-2 hover:text-[#EA580C]">packing service</Link> for houses full of glassware, art and antiques.
+    </p>
+    <p>
+      Still choosing where to live? Read our{" "}
+      <Link href="/blog/best-areas-to-live-solihull" className="text-[#F97316] underline underline-offset-2 hover:text-[#EA580C]">guide to the best areas to live in Solihull</Link>.
     </p>
   </>
 );

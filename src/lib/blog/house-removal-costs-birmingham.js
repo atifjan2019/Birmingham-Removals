@@ -1,5 +1,6 @@
 const post = {
   slug: "house-removal-costs-birmingham",
+  metaTitle: "House Removal Costs in Birmingham (2026 Prices)",
   title: "How Much Does a House Removal Cost in Birmingham in 2026?",
   description:
     "House removal costs in Birmingham in 2026 explained, with clear price ranges by property size, what affects the cost and how to compare quotes.",

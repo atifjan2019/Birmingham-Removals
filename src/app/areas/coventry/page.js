@@ -75,6 +75,10 @@ const LocalArea = (
       flat near the cathedral or out to a Cheylesmore semi, our Coventry crews handle the packing,
       lifting and paperwork from door to door.
     </p>
+    <p>
+      Still choosing where to live? Read our{" "}
+      <Link href="/blog/best-areas-to-live-coventry" className="text-[#F97316] underline underline-offset-2 hover:text-[#EA580C]">guide to the best areas to live in Coventry</Link>.
+    </p>
   </>
 );
 

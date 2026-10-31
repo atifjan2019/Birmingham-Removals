@@ -3,6 +3,7 @@
 
 const post = {
   slug: "best-areas-to-live-coventry",
+  metaTitle: "Best Areas to Live in Coventry (2026 Guide)",
   title: "Best Areas to Live in Coventry: A Neighbourhood Guide",
   description:
     "The best areas to live in Coventry in 2026, from Earlsdon and Styvechale to Finham, Coundon and Binley, compared for families, commuters and students.",

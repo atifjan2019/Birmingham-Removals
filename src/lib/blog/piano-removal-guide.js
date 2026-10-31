@@ -1,5 +1,6 @@
 const post = {
   slug: "piano-removal-guide",
+  metaTitle: "How to Move a Piano Safely: A Removers' Guide",
   title: "How to Move a Piano Safely: Everything You Need to Know",
   description:
     "A complete guide to moving a piano safely in Birmingham, covering piano types, professional equipment, costs, preparation and tuning after a move.",

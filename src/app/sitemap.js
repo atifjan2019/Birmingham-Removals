@@ -8,8 +8,8 @@ import blogPosts from "@/lib/blogData";
 // meaningfully updated. Update the relevant date here when you change a page so
 // the sitemap stays honest (avoid stamping every URL with the same build time).
 const LASTMOD = {
-  home: "2026-05-23",
-  marketing: "2026-05-23", // /about, /contact, /faq, /reviews, /services, /areas
+  home: "2026-10-30",
+  marketing: "2026-10-30", // /about, /contact, /faq, /reviews, /services, /areas
   quote: "2026-05-22",
   service: "2026-05-23", // /services/[slug]
   area: "2026-05-23", // established /areas/[slug]
@@ -81,6 +81,9 @@ export default function sitemap() {
     "/blog",
     "/quote",
     "/sitemap",
+    "/privacy",
+    "/terms",
+    "/editorial-policy",
   ];
   const servicePaths = getAllServiceSlugs().map((slug) => `/services/${slug}`);
   const areaPaths = allCitySlugs.map((slug) => `/areas/${slug}`);

@@ -58,11 +58,8 @@ export const BUSINESS = {
     "Wolverhampton",
     "West Midlands",
   ],
-  // Social / review profile URLs emitted as schema `sameAs`. Confirm each of
-  // these profiles actually exists and matches the brand; replace or remove any
-  // that do not (a wrong/unverified URL hurts trust more than an omission).
-  sameAs: [
-    "https://www.facebook.com/birminghamremovals",
-    "https://www.trustpilot.com/review/birminghamremovals.uk",
-  ],
+  // Social or review profile URLs emitted as schema `sameAs`. Empty on purpose:
+  // the business has no social accounts yet. Add a URL here only once the
+  // profile really exists and belongs to the business.
+  sameAs: [],
 };

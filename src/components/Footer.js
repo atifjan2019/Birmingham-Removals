@@ -1,4 +1,4 @@
-import { Phone, Mail, MapPin, Clock } from "lucide-react";
+import { ArrowUp, Phone, Mail, MapPin, Clock } from "lucide-react";
 import Link from "next/link";
 import CookieSettingsButton from "@/components/consent/CookieSettingsButton";
 import { SITE_SETTINGS_FALLBACK, telHref } from "@/lib/siteSettings";
@@ -7,10 +7,11 @@ import { BUSINESS } from "@/config/business";
 const serviceLinks = [
   { label: "House Removals", href: "/services/house-removals" },
   { label: "Office Removals", href: "/services/office-removals" },
+  { label: "Flat Removals", href: "/services/flat-removals" },
   { label: "Man & Van", href: "/services/man-and-van" },
   { label: "Packing Service", href: "/services/packing-service" },
   { label: "Storage Solutions", href: "/services/storage-solutions" },
-  { label: "Piano & Specialist", href: "/services/piano-and-specialist-items" },
+  { label: "Piano Removals", href: "/services/piano-and-specialist-items" },
   { label: "Student Removals", href: "/services/student-removals" },
   { label: "Long-Distance Removals", href: "/services/long-distance-removals" },
   { label: "Furniture Removals", href: "/services/furniture-removals" },
@@ -31,11 +32,13 @@ const areaLinks = [
 
 const companyLinks = [
   { label: "About Us", href: "/about" },
+  { label: "Our Team", href: "/about#team" },
   { label: "Contact", href: "/contact" },
   { label: "Reviews", href: "/reviews" },
   { label: "Blog", href: "/blog" },
   { label: "FAQ", href: "/faq" },
   { label: "Get a Quote", href: "/quote" },
+  { label: "Editorial Policy", href: "/editorial-policy" },
   { label: "Sitemap", href: "/sitemap" },
 ];
 
@@ -255,11 +258,26 @@ export default function Footer({ settings }) {
           <p className="text-white/60 text-xs">
             &copy; {new Date().getFullYear()} Birmingham Removals. All rights reserved.
           </p>
-          <div className="flex items-center gap-4">
+          <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-2">
+            <Link href="/privacy" className="text-white/60 text-xs underline-offset-4 hover:text-white hover:underline">
+              Privacy
+            </Link>
+            <Link href="/terms" className="text-white/60 text-xs underline-offset-4 hover:text-white hover:underline">
+              Terms
+            </Link>
             <Link href="/cookies" className="text-white/60 text-xs underline-offset-4 hover:text-white hover:underline">
               Cookies
             </Link>
             <CookieSettingsButton id="cookie-settings" />
+            {/* A plain anchor to the page's top: no script, and it cannot sit on
+                top of the sticky mobile call bar the way a floating button would. */}
+            <a
+              href="#main-content"
+              className="back-to-top inline-flex items-center gap-1 text-white/60 text-xs underline-offset-4 hover:text-white hover:underline"
+            >
+              <ArrowUp className="w-3.5 h-3.5" aria-hidden="true" />
+              Back to top
+            </a>
           </div>
         </div>
       </div>

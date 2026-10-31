@@ -3,6 +3,7 @@
 
 const post = {
   slug: "moving-to-birmingham-guide",
+  metaTitle: "Moving to Birmingham: A 2026 Relocation Guide",
   title: "Moving to Birmingham: Everything You Need to Know (2026 Guide)",
   description:
     "Thinking of moving to Birmingham? Our 2026 guide covers jobs, neighbourhoods, transport, cost of living, schools and how to plan your relocation.",

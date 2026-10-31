@@ -8,7 +8,7 @@ const post = {
   description:
     "A neighbourhood guide to the best areas to live in Birmingham in 2026, covering schools, transport, housing and who each suburb suits.",
   date: "2026-05-18",
-  updated: "2026-05-18",
+  updated: "2026-10-30",
   author: "The Birmingham Removals Team",
   readTime: "13 min read",
   excerpt:
@@ -66,6 +66,7 @@ const post = {
         "Housing ranges widely, from substantial detached homes and leafy executive estates in sought after pockets like Four Oaks to more affordable semis and modern developments closer to the centre. <strong>The most desirable parts of Sutton Coldfield are among the priciest in the wider Birmingham area</strong>, while other neighbourhoods offer better value while keeping the same access to the park and schools.",
         "Schools are a headline attraction, with several strong and well known secondary options that drive a lot of family demand. Transport is good, with a direct rail line into Birmingham city centre and easy access to motorway links for those commuting further afield.",
         "<strong>Who it suits:</strong> families and professionals who want space, greenery and strong schools, and are happy to trade a longer journey into the centre for a more suburban, town like lifestyle.",
+        "For a closer look at each neighbourhood, from Four Oaks to Walmley, read our guide to the <a href=\"/blog/best-areas-to-live-sutton-coldfield\">best areas to live in Sutton Coldfield</a>.",
       ],
     },
     {
@@ -75,6 +76,7 @@ const post = {
         "The housing is varied and generally well kept, from period homes and mature suburban semis to large detached properties and newer estates. <strong>Solihull is one of the more expensive areas covered in this guide</strong>, and the leafier residential roads carry a notable premium, though the borough is large enough to include more accessible options too.",
         "Schools are a major part of the appeal, with a reputation for strong state and independent provision that keeps family demand high. Transport is excellent: Solihull station offers fast trains into the centre, the M42 is on the doorstep, and Birmingham Airport and the NEC are both very close.",
         "<strong>Who it suits:</strong> families and professionals who want excellent schools, strong transport links and a refined suburban lifestyle, especially anyone commuting via the airport or motorway network.",
+        "Our guide to the <a href=\"/blog/best-areas-to-live-solihull\">best areas to live in Solihull</a> compares Knowle, Dorridge, Shirley and the rest of the borough. If you are also looking east of the city, we have a guide to the <a href=\"/blog/best-areas-to-live-coventry\">best areas to live in Coventry</a> too.",
       ],
     },
     {

@@ -3,6 +3,7 @@
 
 const post = {
   slug: "best-areas-to-live-sutton-coldfield",
+  metaTitle: "Best Areas to Live in Sutton Coldfield (2026)",
   title: "Best Areas to Live in Sutton Coldfield: A 2026 Guide",
   description:
     "A guide to the best areas to live in Sutton Coldfield in 2026, from Four Oaks and Mere Green to Boldmere and Walmley, with schools, transport and housing.",

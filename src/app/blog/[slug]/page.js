@@ -127,9 +127,9 @@ export default async function BlogPostPage({ params }) {
 
             {showToc && (
               <nav aria-label="Table of contents" className="mb-10 p-6 rounded-2xl bg-slate-50 border border-slate-200">
-                <h2 className="font-[family-name:var(--font-space)] font-bold text-[#0B1E3F] text-sm uppercase tracking-wider mb-3">
+                <p className="font-[family-name:var(--font-space)] font-bold text-[#0B1E3F] text-sm uppercase tracking-wider mb-3">
                   On this page
-                </h2>
+                </p>
                 <ol className="space-y-2 text-sm">
                   {headings.map((h) => (
                     <li key={h.id}>

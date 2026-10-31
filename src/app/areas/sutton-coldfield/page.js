@@ -83,6 +83,10 @@ const LocalArea = (
     <p>
       Most of our Sutton Coldfield work is families moving in from Erdington, Kingstanding and the city for the grammar schools and the park, people moving between Sutton's own districts as their families grow, and retirees leaving large Four Oaks houses for apartments in Mere Green and the town centre. The larger houses mean more <Link href="/services/piano-and-specialist-items" className="text-[#F97316] underline underline-offset-2 hover:text-[#EA580C]">pianos, antiques and art</Link> than anywhere else we cover, and many moves use our <Link href="/services/storage-solutions" className="text-[#F97316] underline underline-offset-2 hover:text-[#EA580C]">storage</Link> while a chain completes.
     </p>
+    <p>
+      Still choosing where to live? Read our{" "}
+      <Link href="/blog/best-areas-to-live-sutton-coldfield" className="text-[#F97316] underline underline-offset-2 hover:text-[#EA580C]">guide to the best areas to live in Sutton Coldfield</Link>.
+    </p>
   </>
 );
 

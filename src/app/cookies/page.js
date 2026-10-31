@@ -98,8 +98,15 @@ export default async function CookiesPage() {
           <div className="mt-4">
             <CookieSettingsButton className="rounded-xl bg-[#0B1E3F] px-4 py-2.5 text-sm font-bold text-white transition-colors hover:bg-[#1E3A8A]" />
           </div>
+          <p className="mt-8 text-slate-600">
+            How we handle the details you give us is explained in our{" "}
+            <a href="/privacy" className="font-semibold text-[#0B1E3F] underline underline-offset-4">
+              privacy notice
+            </a>
+            .
+          </p>
           {settings.email ? (
-            <p className="mt-8 text-slate-600">
+            <p className="mt-4 text-slate-600">
               Questions about any of this:{" "}
               <a href={`mailto:${settings.email}`} className="font-semibold text-[#0B1E3F] underline underline-offset-4">
                 {settings.email}

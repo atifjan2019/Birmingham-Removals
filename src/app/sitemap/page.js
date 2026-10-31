@@ -24,6 +24,10 @@ const mainPages = [
   { href: "/contact", label: "Contact" },
   { href: "/faq", label: "FAQ" },
   { href: "/reviews", label: "Customer Reviews" },
+  { href: "/privacy", label: "Privacy Notice" },
+  { href: "/terms", label: "Terms of Use" },
+  { href: "/cookies", label: "Cookies" },
+  { href: "/editorial-policy", label: "Editorial Policy" },
 ];
 
 export default async function SitemapPage() {

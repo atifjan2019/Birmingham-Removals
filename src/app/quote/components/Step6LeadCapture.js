@@ -190,7 +190,11 @@ export default function Step6LeadCapture({
 
       {/* Small print */}
       <p className="text-muted/60 text-xs text-center mt-3">
-        No spam. We&apos;ll call within 2 hours.
+        No spam. We&apos;ll call within 2 hours. See our{" "}
+        <a href="/privacy" target="_blank" rel="noopener" className="underline underline-offset-2">
+          privacy notice
+        </a>
+        .
       </p>
 
       <div className="mt-4">

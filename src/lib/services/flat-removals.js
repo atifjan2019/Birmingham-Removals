@@ -30,15 +30,16 @@ const flatRemovals = {
     {
       heading: "Flat Removal Prices",
       table: {
-        headers: ["Flat size", "Typical crew and van", "From"],
+        headers: ["Flat size", "Typical price", "Typical crew and van"],
         rows: [
-          ["Studio or one-bed", "2 movers, Luton van", "£180"],
-          ["Two-bed", "2 to 3 movers, Luton or 3.5t", "£280"],
-          ["Three-bed or large duplex", "3 movers, 7.5t lorry", "£420"],
+          ["Studio", "from £150", "1 van, 2 crew"],
+          ["1-bed flat", "£250 to £450", "1 van, 2 crew, 4 hrs"],
+          ["2-bed flat", "£350 to £650", "1 van, 2 crew, 6 hrs"],
+          ["3-bed flat", "£550 to £900", "1 Luton, 3 crew, 7 hrs"],
         ],
       },
       paragraphs: [
-        "These are typical starting prices for a flat move within Birmingham. Your fixed quote depends on the volume, the floor, whether there is a lift, the distance to the loading point and where you are moving to. Everything is agreed in writing before the day, and the price includes blankets, straps, a trolley, dismantling and reassembly of standard furniture, and goods-in-transit insurance. <a href=\"/quote\">Get a free fixed quote</a> in 30 minutes.",
+        "These are typical prices for a flat move within Birmingham. Your fixed quote depends on the volume, the floor, whether there is a lift, the distance to the loading point and where you are moving to. Everything is agreed in writing before the day, and the price includes blankets, straps, a trolley, dismantling and reassembly of standard furniture, and goods-in-transit insurance. <a href=\"/quote\">Get a free fixed quote</a> in 30 minutes.",
       ],
     },
     {

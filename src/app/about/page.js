@@ -1,13 +1,15 @@
 import Navbar from "@/components/NavbarServer";
 import Footer from "@/components/FooterServer";
 import CTAStrip from "@/components/CTAStrip";
-import { Award, Heart, Clock, ShieldCheck } from "lucide-react";
-import { getSiteSettings } from "@/lib/siteSettings";
+import Link from "next/link";
+import { ArrowRight, Award, Clock, Heart, MapPin, Phone, ShieldCheck, Star } from "lucide-react";
+import { getSiteSettings, telHref } from "@/lib/siteSettings";
 import { makeMeta } from "@/lib/metadata";
 import JsonLd from "@/components/seo/JsonLd";
 import { BreadcrumbBar } from "@/components/Breadcrumbs";
 import { webPageSchema } from "@/lib/schema";
 import { BUSINESS } from "@/config/business";
+import servicesData from "@/lib/servicesData";
 
 export const metadata = makeMeta({
   title: "About Us | 5-Star Birmingham Removals Since 2015",
@@ -51,6 +53,7 @@ export default async function AboutPage() {
       { name: "About", url: `${BUSINESS.url}/about` },
     ],
   });
+  const phone = settings.phone || BUSINESS.phoneDisplay;
   // The full Organization (MovingCompany) schema with foundingDate,
   // numberOfEmployees and aggregateRating is emitted site-wide in
   // src/app/layout.js, so /about inherits it. Add a Person schema for the
@@ -80,15 +83,40 @@ export default async function AboutPage() {
           </div>
         </section>
 
+        {/* Who we are */}
+        <section id="team" className="py-20 bg-white scroll-mt-24">
+          <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+            <span className="inline-block px-3 py-1 rounded-full bg-[#F97316]/10 text-[#9A3412] text-xs font-bold uppercase tracking-wider mb-4">
+              Our Team
+            </span>
+            <h2 className="font-[family-name:var(--font-space)] text-3xl sm:text-4xl font-extrabold text-[#0B1E3F] mb-6 leading-tight">
+              Who We Are
+            </h2>
+            <div className="space-y-4 text-slate-600 leading-relaxed">
+              <p>
+                {BUSINESS.name} is an independent, family-run removals company based in Birmingham, moving homes and
+                businesses across the West Midlands since {BUSINESS.foundingYear}. We are a local team, not a booking
+                site that passes your job to whoever is free.
+              </p>
+              <p>
+                There are two sides to the team. The office takes your call, works out what your move needs and
+                gives you a written, fixed quote. The crews do the lifting: every mover is directly employed,
+                DBS-checked and trained in-house, so the people who turn up on the day are ours rather than day-rate
+                agency staff.
+              </p>
+            </div>
+          </div>
+        </section>
+
         {/* Story */}
-        <section className="py-24 bg-white">
+        <section className="py-24 bg-slate-50">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid lg:grid-cols-2 gap-14 items-center">
             <div>
               <span className="inline-block px-3 py-1 rounded-full bg-[#F97316]/10 text-[#9A3412] text-xs font-bold uppercase tracking-wider mb-4">
-                Our Story
+                Built in Birmingham, for Birmingham
               </span>
               <h2 className="font-[family-name:var(--font-space)] text-3xl sm:text-4xl font-extrabold text-[#0B1E3F] mb-6 leading-tight">
-                Built in Birmingham, for Birmingham
+                Our Story
               </h2>
               <div className="space-y-4 text-slate-600 leading-relaxed">
                 <p>
@@ -126,6 +154,36 @@ export default async function AboutPage() {
           </div>
         </section>
 
+        {/* What we do */}
+        <section className="py-24 bg-white">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="text-center mb-12 max-w-2xl mx-auto">
+              <h2 className="font-[family-name:var(--font-space)] text-3xl sm:text-4xl font-extrabold text-[#0B1E3F] leading-tight">
+                What We Do
+              </h2>
+              <p className="mt-4 text-slate-600 leading-relaxed">
+                We move homes, flats, offices and single items across Birmingham and the West Midlands, and anywhere
+                in the UK from here. Packing and storage are handled by the same team, so one quote covers the whole
+                job.
+              </p>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              {servicesData.map((service) => (
+                <Link
+                  key={service.slug}
+                  href={`/services/${service.slug}`}
+                  className="group block bg-slate-50 border border-slate-200 rounded-2xl p-6 hover:border-[#F97316] transition-colors"
+                >
+                  <h3 className="font-[family-name:var(--font-space)] font-bold text-[#0B1E3F] group-hover:text-[#9A3412] transition-colors">
+                    {service.title}
+                  </h3>
+                  <p className="mt-2 text-sm text-slate-600 leading-relaxed">{service.shortDesc}</p>
+                </Link>
+              ))}
+            </div>
+          </div>
+        </section>
+
         {/* Stats */}
         <section className="py-16 bg-[#0B1E3F] text-white">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-2 lg:grid-cols-4 gap-6">
@@ -159,6 +217,52 @@ export default async function AboutPage() {
                   <p className="text-slate-600 text-sm leading-relaxed">{v.desc}</p>
                 </div>
               ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Reviews and where to find us */}
+        <section className="py-24 bg-white">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid lg:grid-cols-2 gap-8">
+            <div className="bg-slate-50 border border-slate-200 rounded-2xl p-8">
+              <div className="w-12 h-12 rounded-xl bg-[#F97316]/10 flex items-center justify-center mb-5">
+                <Star className="w-6 h-6 text-[#F97316]" />
+              </div>
+              <h2 className="font-[family-name:var(--font-space)] text-2xl font-extrabold text-[#0B1E3F] mb-3">
+                What Our Customers Say
+              </h2>
+              <p className="text-slate-600 leading-relaxed">
+                Our customers rate us {BUSINESS.rating.value} out of 5 from {BUSINESS.rating.count} reviews. Read what
+                they say about their moves, from single items to full family homes.
+              </p>
+              <Link
+                href="/reviews"
+                className="mt-5 inline-flex items-center gap-2 font-semibold text-[#9A3412] hover:text-[#EA580C] transition-colors"
+              >
+                Read our customer reviews
+                <ArrowRight className="w-4 h-4" aria-hidden="true" />
+              </Link>
+            </div>
+            <div className="bg-slate-50 border border-slate-200 rounded-2xl p-8">
+              <div className="w-12 h-12 rounded-xl bg-[#F97316]/10 flex items-center justify-center mb-5">
+                <MapPin className="w-6 h-6 text-[#F97316]" />
+              </div>
+              <h2 className="font-[family-name:var(--font-space)] text-2xl font-extrabold text-[#0B1E3F] mb-3">
+                Where to Find Us
+              </h2>
+              <address className="not-italic text-slate-600 leading-relaxed">
+                {BUSINESS.legalName}
+                <br />
+                {BUSINESS.addressDisplay}
+              </address>
+              <p className="mt-3 text-slate-600">Open Mon to Sun, 7am to 9pm</p>
+              <a
+                href={telHref(phone)}
+                className="mt-5 inline-flex items-center gap-2 font-semibold text-[#9A3412] hover:text-[#EA580C] transition-colors"
+              >
+                <Phone className="w-4 h-4" aria-hidden="true" />
+                {phone}
+              </a>
             </div>
           </div>
         </section>

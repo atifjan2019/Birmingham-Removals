@@ -3,6 +3,7 @@
 
 const post = {
   slug: "best-areas-to-live-solihull",
+  metaTitle: "Best Areas to Live in Solihull (2026 Guide)",
   title: "Best Areas to Live in Solihull: A 2026 Neighbourhood Guide",
   description:
     "Our guide to the best areas to live in Solihull in 2026, from Olton and Shirley to Knowle and Dorridge: housing, schools, transport and who suits each.",

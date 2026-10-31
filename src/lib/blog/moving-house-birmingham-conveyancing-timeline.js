@@ -1,5 +1,6 @@
 const post = {
   slug: "moving-house-birmingham-conveyancing-timeline",
+  metaTitle: "Birmingham Conveyancing Timeline for Home Movers",
   title: "Birmingham Conveyancing Timeline: When to Book Your Removals",
   description:
     "A clear Birmingham conveyancing timeline showing where removals fit, why you should wait for exchange of contracts and how to hold a date early.",
