@@ -7,7 +7,7 @@ export const metadata = makeMeta({
   title: "Terms of Use | Birmingham Removals",
   absoluteTitle: true,
   description:
-    "The terms for using the Birmingham Removals website, including how online estimates, quotes and enquiries work and what to do if you need to change your move.",
+    "The terms for using the Birmingham Removals website, including how online estimates, quotes and enquiries work and what to do if your move changes.",
   path: "/terms",
 });
 

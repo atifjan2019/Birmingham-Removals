@@ -6,7 +6,7 @@ import { getSiteSettings } from "@/lib/siteSettings";
 import { makeMeta } from "@/lib/metadata";
 
 export const metadata = makeMeta({
-  title: "Removals FAQ: Prices, Insurance & Booking | Birmingham Removals",
+  title: "Removals FAQ: Prices and Insurance | Birmingham Removals",
   absoluteTitle: true,
   description:
     "Common questions about Birmingham removals: pricing, booking lead time, insurance, packing, storage and same-day moves. Still unsure? Call us today.",
