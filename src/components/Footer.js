@@ -253,7 +253,12 @@ export default function Footer({ settings }) {
         </div>
       </div>
 
-      <div className="border-t border-white/10 py-6">
+      {/* --sticky-cta-h is the height of the sticky mobile call bar while it shows.
+          Without this space the bar covers the links in this row at the page end. */}
+      <div
+        className="border-t border-white/10 pt-6"
+        style={{ paddingBottom: "calc(1.5rem + var(--sticky-cta-h, 0px))" }}
+      >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
           <p className="text-white/60 text-xs">
             &copy; {new Date().getFullYear()} Birmingham Removals. All rights reserved.
