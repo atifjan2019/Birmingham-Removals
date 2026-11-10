@@ -240,12 +240,14 @@ function countFiles(files) {
 
 /**
  * The notification the office gets when a customer sends the move details
- * form, or sends it again after changing an answer. The photos and files are
+ * form, or sends it again after changing an answer. It names the customer but
+ * leaves out their phone and email, which stay in the admin. `hasPdf` says
+ * whether the PDF of the details is attached. The photos and files are
  * not attached to the email: they stay with the enquiry, and the button opens
  * the admin at it. `booking`, `details` and `files` are what the API returns
  * for the submission.
  */
-export function moveDetailsReceivedEmail({ booking, details, files, resubmitted, adminUrl }, contact = {}) {
+export function moveDetailsReceivedEmail({ booking, details, files, resubmitted, adminUrl, hasPdf = true }, contact = {}) {
   const customer = booking?.customer || {};
   // On one line however it was typed, because it goes in the subject as well.
   const fullName = String(customer.fullName || "").replace(/\s+/g, " ").trim() || "A customer";
@@ -255,13 +257,6 @@ export function moveDetailsReceivedEmail({ booking, details, files, resubmitted,
     `${esc(booking?.fromPostcode)} to ${esc(booking?.toPostcode)}`,
     esc(longDate(booking?.moveDate)),
   ].join(", ");
-
-  const contactLines = [
-    customer.phone ? `Phone: <strong>${esc(customer.phone)}</strong>` : "",
-    customer.email ? `Email: <strong>${esc(customer.email)}</strong>` : "",
-  ]
-    .filter(Boolean)
-    .join("<br>");
 
   // The items the customer tapped read better one to a line, and anything
   // they typed keeps its own line breaks. A value of several lines gets a
@@ -279,7 +274,11 @@ export function moveDetailsReceivedEmail({ booking, details, files, resubmitted,
     <p style="margin:0 0 12px;font-size:15px;color:#4b5563;line-height:1.5;"><strong>${esc(fullName)}</strong> ${
       resubmitted ? "has changed the details of their move and sent them again" : "has sent the details of their move"
     } (${move}).</p>
-    ${contactLines ? `<p style="margin:0 0 24px;font-size:14px;color:#4b5563;line-height:1.6;">${contactLines}</p>` : ""}
+    <p style="margin:0 0 24px;font-size:14px;color:#4b5563;line-height:1.5;">${
+      hasPdf
+        ? "The attached PDF has the full move and these answers without the customer's phone or email, ready to pass on."
+        : "The customer's phone and email are in the admin."
+    }</p>
 
     ${summaryTable(rows)}
 

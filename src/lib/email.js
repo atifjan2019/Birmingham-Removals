@@ -1,5 +1,6 @@
 import nodemailer from "nodemailer";
 import { getSiteSettings } from "@/lib/siteSettings";
+import { getWorkerBooking } from "@/lib/workerApi";
 import { BUSINESS } from "@/config/business";
 import {
   enquiryReceivedEmail,
@@ -7,6 +8,7 @@ import {
   moveDetailsReceivedEmail,
   moveDetailsLinkEmail,
 } from "@/lib/emailTemplates";
+import { moveDetailsPdf, moveDetailsPdfName } from "@/lib/moveDetailsPdf";
 
 let _transporter = null;
 
@@ -40,7 +42,7 @@ function getTransporter() {
 /**
  * Send an email
  */
-export async function sendEmail({ to, subject, html, text }) {
+export async function sendEmail({ to, subject, html, text, attachments }) {
   // The recipient is often a customer, and a log is no place to keep their
   // address, so only which kind it is gets printed.
   const recipient = to === BOOKING_NOTIFICATION_EMAIL ? "the office" : "a customer";
@@ -54,7 +56,7 @@ export async function sendEmail({ to, subject, html, text }) {
     const from = `"Birmingham Removals" <${process.env.SMTP_FROM}>`;
     console.log("[EMAIL] Sending from:", from);
     // Replies come to the office's own inbox, not the sending account.
-    const info = await transporter.sendMail({ from, to, replyTo: REPLY_TO, subject, html, text: text || "" });
+    const info = await transporter.sendMail({ from, to, replyTo: REPLY_TO, subject, html, text: text || "", attachments });
     console.log(`[EMAIL SENT] to=${recipient} messageId=${info.messageId}`);
     return { success: true, messageId: info.messageId };
   } catch (error) {
@@ -122,12 +124,34 @@ export async function sendMoveDetailsLink({ booking, detailsUrl }) {
  * "Move details received", to the office, when a customer sends the move
  * details form or sends it again. `data` is what the API returns for the
  * submission. The email's button opens the admin with that enquiry showing.
+ * It leaves out the customer's phone and email, and so does the PDF of the
+ * details it attaches.
  */
 export async function sendMoveDetailsReceived(data) {
   const adminUrl = `${BUSINESS.url}/admin/bookings?booking=${encodeURIComponent(data.booking.id)}`;
+  // The details as a PDF named after the customer, with the whole move and
+  // their answers but not their phone or email, for passing on. The bedrooms
+  // and extras come from the enquiry itself; if that read fails the PDF goes
+  // without them, and if the PDF cannot be built the email still goes.
+  let attachments;
+  try {
+    const enquiry = await getWorkerBooking(data.booking.id).catch(() => null);
+    const booking = { ...data.booking, bedrooms: enquiry?.bedrooms, extras: enquiry?.extras };
+    const pdf = await moveDetailsPdf({ ...data, booking });
+    attachments = [{ filename: moveDetailsPdfName(data.booking), content: Buffer.from(pdf), contentType: "application/pdf" }];
+  } catch (error) {
+    console.error("[EMAIL] Move details PDF failed:", error.message);
+  }
   const { subject, html } = moveDetailsReceivedEmail(
-    { booking: data.booking, details: data.details, files: data.files, resubmitted: data.resubmitted, adminUrl },
+    {
+      booking: data.booking,
+      details: data.details,
+      files: data.files,
+      resubmitted: data.resubmitted,
+      adminUrl,
+      hasPdf: Boolean(attachments),
+    },
     await siteContact()
   );
-  return sendEmail({ to: BOOKING_NOTIFICATION_EMAIL, subject, html });
+  return sendEmail({ to: BOOKING_NOTIFICATION_EMAIL, subject, html, attachments });
 }

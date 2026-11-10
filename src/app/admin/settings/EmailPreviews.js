@@ -76,13 +76,13 @@ export default function EmailPreviews({ contact }) {
         {
           name: "Move details received",
           to: OFFICE_EMAIL,
-          when: "When a customer sends their move details form.",
+          when: "When a customer sends their move details form. A PDF of the full move and their answers, without their phone or email, is attached.",
           ...moveDetailsReceivedEmail({ booking, details, files, resubmitted: false, adminUrl }, contact),
         },
         {
           name: "Move details updated",
           to: OFFICE_EMAIL,
-          when: "When a customer changes their answers and sends the form again.",
+          when: "When a customer changes their answers and sends the form again. The PDF is attached again.",
           ...moveDetailsReceivedEmail({ booking, details, files, resubmitted: true, adminUrl }, contact),
         },
       ],
