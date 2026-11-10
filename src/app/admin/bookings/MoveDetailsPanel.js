@@ -217,8 +217,8 @@ export function EmailLinkButton({ bookingId, email, sentBefore }) {
 }
 
 /**
- * Downloads the move details as a PDF to pass on: the customer's name, the
- * move and their answers so far, without their phone or email.
+ * Downloads the move details as a PDF to pass on: the move and the
+ * customer's answers so far, without their name, phone or email.
  */
 export function DownloadPdfButton({ bookingId }) {
   const [busy, setBusy] = useState(false);
@@ -266,7 +266,7 @@ export function DownloadPdfButton({ bookingId }) {
           {error}
         </span>
       ) : (
-        <span className="text-gray-500">No phone or email in it.</span>
+        <span className="text-gray-500">No name, phone or email in it.</span>
       )}
     </div>
   );

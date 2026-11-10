@@ -130,7 +130,7 @@ export async function sendMoveDetailsLink({ booking, detailsUrl }) {
 export async function sendMoveDetailsReceived(data) {
   const adminUrl = `${BUSINESS.url}/admin/bookings?booking=${encodeURIComponent(data.booking.id)}`;
   // The details as a PDF named after the customer, with the whole move and
-  // their answers but not their phone or email, for passing on. The bedrooms
+  // their answers but not their name, phone or email, for passing on. The bedrooms
   // and extras come from the enquiry itself; if that read fails the PDF goes
   // without them, and if the PDF cannot be built the email still goes.
   let attachments;

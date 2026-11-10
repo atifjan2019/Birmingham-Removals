@@ -1,6 +1,7 @@
 // The move details as a PDF, for passing on to the people doing the move. It
-// carries the customer's name, the whole move and their answers, and never
-// their phone or email. Kept free of any sending code, like the
+// carries the whole move and the customer's answers, and nothing about who
+// they are: no name, phone, email or enquiry id, and no business name. Only
+// the file is named after the customer. Kept free of any sending code, like the
 // email templates, so it can be built and checked on its own.
 
 import { PDFDocument, StandardFonts, rgb } from "pdf-lib";
@@ -97,15 +98,14 @@ export function moveDetailsPdfName(booking) {
 /**
  * Build the PDF. `booking`, `details` and `files` are what the API returns for
  * a submission; `booking` may also carry `bedrooms` and `extras` from the
- * enquiry. Of the customer only the name is read: the phone and email are
- * never touched. Returns the PDF's bytes.
+ * enquiry. Nothing of the customer is read here: their name is only in the
+ * file name. Returns the PDF's bytes.
  */
 export async function moveDetailsPdf({ booking, details, files, resubmitted }) {
   const doc = await PDFDocument.create();
   const regular = await doc.embedFont(StandardFonts.Helvetica);
   const bold = await doc.embedFont(StandardFonts.HelveticaBold);
   doc.setTitle("Move details");
-  doc.setAuthor("Birmingham Removals");
 
   let page = doc.addPage([PAGE.width, PAGE.height]);
   let y = PAGE.height - MARGIN;
@@ -119,13 +119,12 @@ export async function moveDetailsPdf({ booking, details, files, resubmitted }) {
   const text = (value, { x = MARGIN, font = regular, size = 11, color = INK } = {}) =>
     page.drawText(value, { x, y, font, size, color });
 
-  // Header
-  y -= 16;
-  text("Birmingham Removals", { font: bold, size: 16 });
+  // Header. No business name and, below, no customer name or enquiry id: the
+  // page says only what the move is.
+  y -= 20;
+  text(resubmitted ? "Move details (updated)" : "Move details", { font: bold, size: 20 });
   y -= 12;
   page.drawRectangle({ x: MARGIN, y, width: contentWidth, height: 2.5, color: ORANGE });
-  y -= 30;
-  text(resubmitted ? "Move details (updated)" : "Move details", { font: bold, size: 20 });
   y -= 28;
   text("The move", { font: bold, size: 13 });
   y -= 22;
@@ -134,14 +133,12 @@ export async function moveDetailsPdf({ booking, details, files, resubmitted }) {
   const moveType = MOVE_TYPE_LABELS[booking?.moveType] || booking?.moveType || "Move";
   const extras = Array.isArray(booking?.extras) ? booking.extras.filter(Boolean) : null;
   const summary = [
-    ["Customer", nameOf(booking)],
     ["Move type", moveType],
     ["Moving from", booking?.fromPostcode || ""],
     ["Moving to", booking?.toPostcode || ""],
     ["Move date", longDate(booking?.moveDate)],
     ["Bedrooms", booking?.bedrooms != null ? String(booking.bedrooms) : ""],
     ["Extras", extras ? extras.join(", ") || "None" : ""],
-    ["Enquiry ID", booking?.id || ""],
   ].filter(([, value]) => value);
 
   const row = ([label, value, list]) => {

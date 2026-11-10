@@ -276,7 +276,7 @@ export function moveDetailsReceivedEmail({ booking, details, files, resubmitted,
     } (${move}).</p>
     <p style="margin:0 0 24px;font-size:14px;color:#4b5563;line-height:1.5;">${
       hasPdf
-        ? "The attached PDF has the full move and these answers without the customer's phone or email, ready to pass on."
+        ? "The attached PDF has the full move and these answers without the customer's name, phone or email, ready to pass on."
         : "The customer's phone and email are in the admin."
     }</p>
 

@@ -111,8 +111,8 @@ export async function emailMoveDetailsLink(bookingId) {
 
 /**
  * The booking's move details as a PDF, for the admin to download and pass on:
- * the same PDF the office email carries, with the customer's name, the move
- * and their answers so far, and without their phone or email. Sent back as
+ * the same PDF the office email carries, with the move and the customer's
+ * answers so far, and without their name, phone or email. Sent back as
  * base64 with its file name, for the browser to save.
  */
 export async function downloadMoveDetailsPdf(bookingId) {
