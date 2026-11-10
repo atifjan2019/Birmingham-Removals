@@ -1,8 +1,8 @@
 "use client";
 
 import { Component, useEffect, useId, useRef, useState } from "react";
-import { Check, ClipboardList, Copy, FileText, ImageIcon, Loader2, Mail, RefreshCw } from "lucide-react";
-import { loadBookingMoveDetails, openBookingFile, emailMoveDetailsLink } from "@/app/actions/moveDetailsAdmin";
+import { Check, ClipboardList, Copy, Download, FileText, ImageIcon, Loader2, Mail, RefreshCw } from "lucide-react";
+import { loadBookingMoveDetails, openBookingFile, emailMoveDetailsLink, downloadMoveDetailsPdf } from "@/app/actions/moveDetailsAdmin";
 import { describeDetails } from "@/lib/moveDetails";
 
 const LOAD_FAILED = "The move details could not be loaded.";
@@ -212,6 +212,62 @@ export function EmailLinkButton({ bookingId, email, sentBefore }) {
           {message}
         </span>
       ) : null}
+    </div>
+  );
+}
+
+/**
+ * Downloads the move details as a PDF to pass on: the customer's name, the
+ * move and their answers so far, without their phone or email.
+ */
+export function DownloadPdfButton({ bookingId }) {
+  const [busy, setBusy] = useState(false);
+  const [error, setError] = useState("");
+
+  const download = async () => {
+    setBusy(true);
+    setError("");
+    try {
+      const result = await downloadMoveDetailsPdf(bookingId);
+      if (!result?.success) {
+        setError(explain(result?.error, "The PDF could not be made. Try again in a moment."));
+        return;
+      }
+      const bytes = Uint8Array.from(atob(result.pdf), (char) => char.charCodeAt(0));
+      const url = URL.createObjectURL(new Blob([bytes], { type: "application/pdf" }));
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = result.name;
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      // Safari needs the address to outlive the click.
+      setTimeout(() => URL.revokeObjectURL(url), 10000);
+    } catch {
+      setError("The PDF could not be made. Try again in a moment.");
+    } finally {
+      setBusy(false);
+    }
+  };
+
+  return (
+    <div className="flex flex-wrap items-center gap-2 text-sm">
+      <button
+        type="button"
+        onClick={download}
+        disabled={busy}
+        className="inline-flex items-center gap-2 rounded-lg border border-gray-300 bg-white px-3 py-1.5 font-semibold text-gray-800 hover:bg-gray-50 disabled:opacity-60"
+      >
+        {busy ? <Loader2 aria-hidden="true" className="w-4 h-4 animate-spin" /> : <Download aria-hidden="true" className="w-4 h-4" />}
+        {busy ? "Making the PDF" : "Download PDF for the office"}
+      </button>
+      {error ? (
+        <span role="status" className="font-medium text-red-600">
+          {error}
+        </span>
+      ) : (
+        <span className="text-gray-500">No phone or email in it.</span>
+      )}
     </div>
   );
 }

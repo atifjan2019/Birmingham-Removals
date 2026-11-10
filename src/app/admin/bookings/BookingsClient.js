@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { Search, Filter, MoreVertical, CheckCircle2, Clock, CalendarDays, Trash2, ChevronRight, Mail, RefreshCw } from "lucide-react";
 import { updateBookingDetails, updateBookingStatus, deleteBooking, updateBookingFinancials, resendBookingEmails } from "@/app/actions/booking";
 import { PoundSterling } from "lucide-react";
-import MoveDetailsPanel, { CustomerLink, EmailLinkButton } from "./MoveDetailsPanel";
+import MoveDetailsPanel, { CustomerLink, DownloadPdfButton, EmailLinkButton } from "./MoveDetailsPanel";
 
 // Tabs shown on the list. "All" is a virtual tab that shows only the active
 // pipeline (New + Upcoming); finished/dead jobs live under their own tab.
@@ -368,6 +368,7 @@ function BookingDetailsModal({ booking, emailStatus, linkEmails, onEmailStatusCh
               <>
                 <CustomerLink link={detailsLink} />
                 <EmailLinkButton bookingId={booking.id} email={booking.customer?.email} sentBefore={linkEmails} />
+                <DownloadPdfButton bookingId={booking.id} />
               </>
             ) : booking.status === "Abandoned" ? (
               <p className="text-sm text-gray-500">

@@ -4,6 +4,7 @@ import { cookies } from "next/headers";
 import { decrypt } from "@/lib/session";
 import { getBookingMoveDetails, createWorkerFileLink, getWorkerBooking, recordWorkerActivity } from "@/lib/workerApi";
 import { sendMoveDetailsLink } from "@/lib/email";
+import { moveDetailsPdf, moveDetailsPdfName } from "@/lib/moveDetailsPdf";
 import { BUSINESS } from "@/config/business";
 
 // A server action can be called by anyone who can reach the site, from any
@@ -105,6 +106,34 @@ export async function emailMoveDetailsLink(bookingId) {
   } catch (error) {
     console.error("Failed emailing the move details link:", error?.message);
     return { success: false, error: plainMessage(error) };
+  }
+}
+
+/**
+ * The booking's move details as a PDF, for the admin to download and pass on:
+ * the same PDF the office email carries, with the customer's name, the move
+ * and their answers so far, and without their phone or email. Sent back as
+ * base64 with its file name, for the browser to save.
+ */
+export async function downloadMoveDetailsPdf(bookingId) {
+  try {
+    await requireAdmin();
+  } catch {
+    return { success: false, error: "Unauthorized" };
+  }
+
+  try {
+    const id = cleanId(bookingId);
+    if (!id) return { success: false, error: "Booking not found" };
+
+    const [booking, data] = await Promise.all([getWorkerBooking(id), getBookingMoveDetails(id)]);
+    if (!booking) return { success: false, error: "Booking not found" };
+
+    const pdf = await moveDetailsPdf({ booking, details: data?.details, files: data?.files, resubmitted: false });
+    return { success: true, name: moveDetailsPdfName(booking), pdf: Buffer.from(pdf).toString("base64") };
+  } catch (error) {
+    console.error("Failed making the move details PDF:", error?.message);
+    return { success: false, error: error?.status ? plainMessage(error) : "The PDF could not be made. Try again in a moment." };
   }
 }
 
