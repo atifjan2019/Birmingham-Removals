@@ -220,7 +220,7 @@ export function EmailLinkButton({ bookingId, email, sentBefore }) {
  * Downloads the move details as a PDF to pass on: the move and the
  * customer's answers so far, without their name, phone or email.
  */
-export function DownloadPdfButton({ bookingId }) {
+export function DownloadPdfButton({ bookingId, compact = false }) {
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
 
@@ -249,6 +249,28 @@ export function DownloadPdfButton({ bookingId }) {
       setBusy(false);
     }
   };
+
+  // In the bookings list: the icon alone, on a row that itself opens the
+  // booking when pressed, so the press must not reach the row.
+  if (compact) {
+    return (
+      <button
+        type="button"
+        onClick={(event) => {
+          event.stopPropagation();
+          download();
+        }}
+        disabled={busy}
+        title={error || "Download the move details PDF (no name, phone or email in it)"}
+        aria-label="Download the move details PDF"
+        className={`inline-flex h-8 w-8 items-center justify-center rounded-lg border bg-white hover:bg-gray-50 disabled:opacity-60 ${
+          error ? "border-red-300 text-red-600" : "border-gray-200 text-gray-600 hover:text-gray-900"
+        }`}
+      >
+        {busy ? <Loader2 aria-hidden="true" className="w-4 h-4 animate-spin" /> : <Download aria-hidden="true" className="w-4 h-4" />}
+      </button>
+    );
+  }
 
   return (
     <div className="flex flex-wrap items-center gap-2 text-sm">

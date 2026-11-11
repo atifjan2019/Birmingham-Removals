@@ -773,6 +773,7 @@ export default function BookingsClient({ initialBookings, initialEmailStatusByBo
                       <span className={`inline-flex items-center px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider border ${statusBadgeClass(displayStatus(booking))}`}>
                         {displayStatus(booking)}
                       </span>
+                      <DownloadPdfButton bookingId={booking.id} compact />
                     </div>
                   </div>
 
