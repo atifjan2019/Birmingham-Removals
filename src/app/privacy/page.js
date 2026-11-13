@@ -68,7 +68,7 @@ export default async function PrivacyPage() {
           "Vercel, which hosts this website.",
           "Cloudflare, which runs our enquiry database and stores uploaded files.",
           "Our email providers, which send and receive the emails about your enquiry, including Google.",
-          "Google, whose maps service helps you find an address or postcode on our forms.",
+          "Postcodes.io, a postcode lookup service that suggests postcodes as you type one into our quote form. It is sent only the letters you type into the postcode box.",
           "Google Analytics and Smartlook, only if you accept analytics cookies. Neither is ever used on your private move details page.",
         ]}
       />

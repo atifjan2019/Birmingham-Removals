@@ -1,25 +1,18 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useId, useRef, useState } from "react";
 import { MapPin } from "lucide-react";
-import { loadGoogleMaps } from "@/lib/googleMaps";
+
+// postcodes.io: a free, open UK postcode service that needs no key. It is
+// sent only the letters typed into this box, and answers with postcodes that
+// start with them.
+const LOOKUP = "https://api.postcodes.io/postcodes";
 
 /**
- * A styled postcode input backed by Google Places Autocomplete.
- *
- * Restricted to UK (country: "gb"). As the user types an address or postcode,
- * Google renders its own suggestion dropdown; picking one pulls the postcode
- * out of the result and reports it via onChange.
- *
- * The input is UNCONTROLLED (defaultValue, not value). Google Autocomplete
- * writes directly to the input's DOM value, and a React-controlled value fights
- * that — it suppresses the prediction dropdown. Keeping it uncontrolled lets
- * Google work while onChange still keeps the parent's state in sync for
- * validation and the next step.
- *
- * Attachment polls until both the input and the Places library are ready, which
- * avoids load/mount ordering races (and React StrictMode's double-invoke in
- * dev) that could otherwise leave the widget unattached.
+ * A postcode box that suggests UK postcodes as the customer types. The
+ * suggestions are a help, not a gate: if the lookup is slow, down or blocked,
+ * the box is still an ordinary text field and the form checks the postcode's
+ * shape itself.
  */
 export default function PostcodeAutocomplete({
   value,
@@ -27,77 +20,127 @@ export default function PostcodeAutocomplete({
   placeholder = "e.g. B15 3DH",
   autoFocus = false,
 }) {
-  const inputRef = useRef(null);
-  const onChangeRef = useRef(onChange);
+  const listId = useId();
+  const [text, setText] = useState(value || "");
+  const [options, setOptions] = useState([]);
+  const [open, setOpen] = useState(false);
+  const [active, setActive] = useState(-1);
+  const picked = useRef("");
 
+  // Suggestions for what is typed, a moment after the typing stops. An answer
+  // that arrives after more typing is dropped.
   useEffect(() => {
-    onChangeRef.current = onChange;
-  }, [onChange]);
-
-  useEffect(() => {
-    const node = inputRef.current;
-    let cancelled = false;
-    let listener;
-    let pollTimer;
-    let tries = 0;
-
-    const attach = () => {
-      if (cancelled) return;
-      const el = inputRef.current;
-      const places = window.google?.maps?.places;
-      if (!el || !places) {
-        if (tries++ < 100) pollTimer = setTimeout(attach, 100);
-        return;
+    const query = text.trim();
+    // Too short to look up, or just picked from the list: nothing to fetch.
+    // (The list itself is cleared where the typing or the pick happens.)
+    if (query.length < 2 || query === picked.current) return undefined;
+    const controller = new AbortController();
+    const timer = setTimeout(async () => {
+      try {
+        const response = await fetch(`${LOOKUP}/${encodeURIComponent(query)}/autocomplete?limit=6`, {
+          signal: controller.signal,
+        });
+        const data = response.ok ? await response.json() : null;
+        const found = Array.isArray(data?.result) ? data.result : [];
+        setOptions(found);
+        setActive(-1);
+      } catch {
+        // No suggestions this time: the box still works as a plain field.
       }
-      if (el.dataset.acReady === "1") return;
-      el.dataset.acReady = "1";
-
-      const autocomplete = new places.Autocomplete(el, {
-        componentRestrictions: { country: "gb" },
-        fields: ["address_components", "formatted_address"],
-        types: ["geocode"],
-      });
-
-      listener = autocomplete.addListener("place_changed", () => {
-        const place = autocomplete.getPlace();
-        const postcode = place?.address_components?.find((c) =>
-          c.types.includes("postal_code")
-        )?.long_name;
-        const next = (
-          postcode ||
-          place?.formatted_address ||
-          el.value ||
-          ""
-        ).toUpperCase();
-        el.value = next;
-        onChangeRef.current(next);
-      });
-    };
-
-    // Kick off the script load, then poll for readiness regardless of how the
-    // promise settles (a resolved-but-already-loaded script never re-fires).
-    loadGoogleMaps().finally(attach);
-
+    }, 200);
     return () => {
-      cancelled = true;
-      if (pollTimer) clearTimeout(pollTimer);
-      if (listener) listener.remove();
-      if (node) delete node.dataset.acReady;
+      clearTimeout(timer);
+      controller.abort();
     };
-  }, []);
+  }, [text]);
+
+  const update = (next) => {
+    const upper = next.toUpperCase();
+    setText(upper);
+    onChange(upper);
+  };
+
+  const choose = (postcode) => {
+    picked.current = postcode;
+    setOptions([]);
+    setOpen(false);
+    update(postcode);
+  };
+
+  const onKeyDown = (event) => {
+    if (!open || !options.length) return;
+    if (event.key === "ArrowDown") {
+      event.preventDefault();
+      setActive((index) => (index + 1) % options.length);
+    } else if (event.key === "ArrowUp") {
+      event.preventDefault();
+      setActive((index) => (index <= 0 ? options.length - 1 : index - 1));
+    } else if (event.key === "Enter" && active >= 0) {
+      event.preventDefault();
+      choose(options[active]);
+    } else if (event.key === "Escape") {
+      setOpen(false);
+    }
+  };
+
+  // Nothing to offer once the only suggestion is exactly what has been typed:
+  // the list would just sit over the Continue button.
+  const showing = open && options.length > 0 && !(options.length === 1 && options[0] === text.trim());
 
   return (
     <div className="relative">
-      <MapPin className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted z-10" />
+      <MapPin aria-hidden="true" className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted z-10" />
       <input
-        ref={inputRef}
         type="text"
+        role="combobox"
+        aria-expanded={showing}
+        aria-controls={listId}
+        aria-autocomplete="list"
+        aria-activedescendant={showing && active >= 0 ? `${listId}-${active}` : undefined}
+        aria-label="Postcode"
+        autoComplete="postal-code"
+        autoCapitalize="characters"
+        spellCheck={false}
         placeholder={placeholder}
-        defaultValue={value}
+        value={text}
         autoFocus={autoFocus}
-        onChange={(e) => onChange(e.target.value.toUpperCase())}
+        onChange={(event) => {
+          picked.current = "";
+          setOpen(true);
+          if (event.target.value.trim().length < 2) setOptions([]);
+          update(event.target.value);
+        }}
+        onFocus={() => setOpen(true)}
+        // Late enough for a press on a suggestion to land first.
+        onBlur={() => setTimeout(() => setOpen(false), 150)}
+        onKeyDown={onKeyDown}
         className="w-full bg-gray-50 border border-gray-200 rounded-xl py-4 pl-12 pr-4 text-gray-900 text-lg placeholder:text-gray-400 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary/30 transition-all"
       />
+      {showing && (
+        <ul
+          id={listId}
+          role="listbox"
+          className="absolute left-0 right-0 top-full z-20 mt-2 overflow-hidden rounded-xl border border-gray-200 bg-white shadow-lg"
+        >
+          {options.map((postcode, index) => (
+            <li
+              key={postcode}
+              id={`${listId}-${index}`}
+              role="option"
+              aria-selected={index === active}
+              // Before the box loses focus, so the press is not lost.
+              onMouseDown={(event) => {
+                event.preventDefault();
+                choose(postcode);
+              }}
+              onMouseEnter={() => setActive(index)}
+              className={`cursor-pointer px-4 py-3 text-base text-gray-900 ${index === active ? "bg-primary/10" : "hover:bg-gray-50"}`}
+            >
+              {postcode}
+            </li>
+          ))}
+        </ul>
+      )}
     </div>
   );
 }
